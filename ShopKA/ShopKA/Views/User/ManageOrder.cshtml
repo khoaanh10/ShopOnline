@@ -1,0 +1,506 @@
+﻿
+@{
+    ViewBag.Title = "ManageOrder";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+    string ship = ViewBag.ShipAddress;
+    string shipphone = ViewBag.ShipPhone;
+    string shipname = ViewBag.ShipName;
+    string billname = ViewBag.BillName;
+    string bill = ViewBag.BillAddress;
+    string billphone = ViewBag.BillPhone;
+    Order order = ViewBag.Orther;
+    int Money = ViewBag.Money;
+}
+
+@model List<DataBase.ProductOrder>
+@using DataBase
+@using ShopKA.Models
+
+<div class="app-content">
+
+    <!--====== Section 1 ======-->
+    <div class="u-s-p-y-60">
+
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="breadcrumb">
+                    <div class="breadcrumb__wrap">
+                        <ul class="breadcrumb__list">
+                            <li class="has-separator">
+
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li class="is-marked">
+
+                                <a href="dash-manage-order.html">My Account</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====== End - Section 1 ======-->
+    <!--====== Section 2 ======-->
+    <div class="u-s-p-b-60">
+
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="dash">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-12">
+
+                            <!--====== Dashboard Features ======-->
+                            <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
+                                <div class="dash__pad-1">
+
+                                    <span class="dash__text u-s-m-b-16">Xin chào, @{string name = ((UserLogin)Session["SS"]).UserName;}@name</span>
+                                    <ul class="dash__f-list">
+                                        <li>
+
+                                            <a href=@Url.Action("ManagerAcc","User")>Quản lý tài khoản của tôi</a>
+                                        </li>
+                                        <li>
+
+                                            <a class="dash-active" href=@Url.Action("Profile","User")>Hồ sơ của tôi</a>
+                                        </li>
+                                        <li>
+
+                                            <a href=@Url.Action("Address","User")>Địa chỉ</a>
+                                        </li>
+
+                                        <li>
+
+                                            <a href=@Url.Action("Order","User")>Đơn hàng của tôi</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="dash__box dash__box--bg-white dash__box--shadow dash__box--w">
+                                <div class="dash__pad-1">
+                                    <ul class="dash__w-list">
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-1"><i class="fas fa-cart-arrow-down"></i></span>
+
+                                                <span class="dash__w-text">@DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count(i => i.Status == 4)</span>
+
+                                                <span class="dash__w-name">Đơn hàng thành công</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-2"><i class="fas fa-times"></i></span>
+
+                                                <span class="dash__w-text">@DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count(i => i.Status == 5)</span>
+
+                                                <span class="dash__w-name">Đơn hàng đã hủy</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-3"><i class="far fa-heart"></i></span>
+
+                                                <span class="dash__w-text">0</span>
+
+                                                <span class="dash__w-name">Yêu thích</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--====== End - Dashboard Features ======-->
+                        </div>
+                        <div class="col-lg-9 col-md-12">
+                            <h1 class="dash__h1 u-s-m-b-30">Chi tiết đơn hàng</h1>
+                            <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                                <div class="dash__pad-2">
+                                    <div class="dash-l-r">
+                                        <div>
+                                            <div class="manage-o__text-2 u-c-secondary">Đơn hàng #@order.ID</div>
+                                            <div class="manage-o__text u-c-silver">Đặt hàng lúc @String.Format("{0:dd/MM/yyyy H:mm:ss}", order.CreatDate)</div>
+                                        </div>
+                                        <div>
+                                            <div class="manage-o__text-2 u-c-silver">
+                                                Tổng tiền: 
+
+                                                <span class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", Money+100000) đ</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                                <div class="dash__pad-2">
+                                    <div class="manage-o">
+                                        <div class="manage-o__header u-s-m-b-30">
+                                            <div class="manage-o__icon">
+                                                <i class="fas fa-box u-s-m-r-5"></i>
+
+                                                <span class="manage-o__text">Gói hàng</span>
+                                            </div>
+                                        </div>
+                                        <div class="dash-l-r">
+                                            <div class="manage-o__text u-c-secondary">Dự kiến giao hàng sau 7 ngày</div>
+                                            <div class="manage-o__icon">
+                                                <i class="fas fa-truck u-s-m-r-5"></i>
+
+                                                <span class="manage-o__text">GHTK</span>
+                                            </div>
+                                        </div>
+                                        <div class="manage-o__timeline">
+                                            <div class="timeline-row">
+                                                @if (order.Status == 0)
+                                                {
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i ">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Đã xác nhận</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Bắt đầu vận chuyển</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Shipper đi giao hàng</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Đã giao hàng</span>
+                                                        </div>
+                                                    </div>}
+                                                else if (order.Status == 1)
+                                                {
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i timeline-l-i--finish">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Đã xác nhận</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Bắt đầu vận chuyển</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Shipper đi giao hàng</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Đã giao hàng</span>
+                                                        </div>
+                                                    </div>}
+                                                else if (order.Status == 2)
+                                                {
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i timeline-l-i--finish">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Đã xác nhận</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i timeline-l-i--finish">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Bắt đầu vận chuyển</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Shipper đi giao hàng</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Đã giao hàng</span>
+                                                        </div>
+                                                    </div>}
+                                                else if (order.Status == 3)
+                                                {
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i timeline-l-i--finish">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Đã xác nhận</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i timeline-l-i--finish">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Bắt đầu vận chuyển</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i timeline-l-i--finish">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Shipper đi giao hàng</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 u-s-m-b-23">
+                                                        <div class="timeline-step">
+                                                            <div class="timeline-l-i">
+
+                                                                <span class="timeline-circle"></span>
+                                                            </div>
+
+                                                            <span class="timeline-text">Đã giao hàng</span>
+                                                        </div>
+                                                    </div>}
+                                                else if (order.Status == 4) {
+                                                <div class="col-lg-3 u-s-m-b-23">
+                                                    <div class="timeline-step ">
+                                                        <div class="timeline-l-i timeline-l-i--finish">
+
+                                                            <span class="timeline-circle"></span>
+                                                        </div>
+
+                                                        <span class="timeline-text">Đã xác nhận</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 u-s-m-b-23">
+                                                    <div class="timeline-step">
+                                                        <div class="timeline-l-i timeline-l-i--finish">
+
+                                                            <span class="timeline-circle"></span>
+                                                        </div>
+
+                                                        <span class="timeline-text">Bắt đầu vận chuyển</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 u-s-m-b-23">
+                                                    <div class="timeline-step">
+                                                        <div class="timeline-l-i timeline-l-i--finish">
+
+                                                            <span class="timeline-circle"></span>
+                                                        </div>
+
+                                                        <span class="timeline-text">Shipper đi giao hàng</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 u-s-m-b-23">
+                                                    <div class="timeline-step">
+                                                        <div class="timeline-l-i timeline-l-i--finish">
+
+                                                            <span class="timeline-circle"></span>
+                                                        </div>
+
+                                                        <span class="timeline-text">Đã giao hàng</span>
+                                                    </div>
+                                                </div>}
+                                                else if (order.Status == 5) {
+                                                <div class="col-lg-3 u-s-m-b-23">
+                                                    <div class="timeline-step ">
+                                                        <div class="timeline-l-i timeline-l-i--finish">
+
+                                                            <span class="timeline-circle"></span>
+                                                        </div>
+
+                                                        <span class="timeline-text">Đã xác nhận</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 u-s-m-b-23">
+                                                    <div class="timeline-step">
+                                                        <div class="timeline-l-i timeline-l-i--finish">
+
+                                                            <span class="timeline-circle"></span>
+                                                        </div>
+
+                                                        <span class="timeline-text">Bắt đầu vận chuyển</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 u-s-m-b-23">
+                                                    <div class="timeline-step">
+                                                        <div class="timeline-l-i timeline-l-i--finish">
+
+                                                            <span class="timeline-circle"></span>
+                                                        </div>
+
+                                                        <span class="timeline-text">Shipper đi giao hàng</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 u-s-m-b-23">
+                                                    <div class="timeline-step">
+                                                        <div class="timeline-l-i timeline-l-i--finish">
+
+                                                            <span class="timeline-circle"></span>
+                                                        </div>
+
+                                                        <span class="timeline-text">Đã hủy</span>
+                                                    </div>
+                                                </div>}
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="o-summary__item-wrap gl-scroll">
+                                                @foreach (var item2 in Model)
+                                                {
+                                                    var r = DBIO.getProduct_ProductOrder(item2).Price * DBIO.getProduct_ProductOrder(item2).Sale;
+                                                    int b = (int)(DBIO.getProduct_ProductOrder(item2).Price - r);
+                                                    int g = b * item2.Quantity;
+
+                                                    <div class="o-card">
+                                                        <div class="description__container">
+                                                            <div class="description__img-wrap">
+
+                                                                <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt="">
+                                                            </div>
+                                                            <div class="description-title">@DBIO.getProduct_ProductOrder(item2).ProductName</div><span class="mini-product__quantity">&nbsp;&nbsp;&nbsp;@DBIO.getColor_ProductOrder(item2).ColorName</span>
+                                                        </div>
+                                                        <div class="description__info-wrap">
+
+                                                            <div>
+
+                                                                <span class="manage-o__text-2 u-c-silver">
+                                                                    Số lượng
+
+                                                                    <span class="manage-o__text-2 u-c-secondary">@item2.Quantity</span>
+                                                                </span>
+                                                            </div>
+                                                            <div>
+
+                                                                <span class="manage-o__text-2 u-c-silver">
+                                                                    Giá
+
+                                                                    <span class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", @g) đ</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*<hr width="100%" align="center" />*@}
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
+                                        <div class="dash__pad-3">
+                                            <h2 class="dash__h2 u-s-m-b-8">Địa chỉ giao hàng</h2>
+                                            <h2 class="dash__h2 u-s-m-b-8">@shipname</h2>
+
+                                            <span class="dash__text-2">@ship</span>
+
+                                            <span class="dash__text-2">@shipphone</span>
+                                        </div>
+                                    </div>
+                                    <div class="dash__box dash__box--bg-white dash__box--shadow dash__box--w">
+                                        <div class="dash__pad-3">
+                                            <h2 class="dash__h2 u-s-m-b-8">Địa chỉ thanh toán</h2>
+                                            <h2 class="dash__h2 u-s-m-b-8">@billname</h2>
+
+                                            <span class="dash__text-2">@bill</span>
+
+                                            <span class="dash__text-2">@billphone</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="dash__box dash__box--bg-white dash__box--shadow u-h-100">
+                                        <div class="dash__pad-3">
+                                            <h2 class="dash__h2 u-s-m-b-8">Tổng cộng</h2>
+                                            <div class="dash-l-r u-s-m-b-8">
+                                                <div class="manage-o__text-2 u-c-secondary">Tiền hàng</div>
+                                                <div class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", Money) đ</div>
+                                            </div>
+                                            <div class="dash-l-r u-s-m-b-8">
+                                                <div class="manage-o__text-2 u-c-secondary">Phí vận chuyển</div>
+                                                <div class="manage-o__text-2 u-c-secondary">100,000 đ</div>
+                                            </div>
+                                            <div class="dash-l-r u-s-m-b-8">
+                                                <div class="manage-o__text-2 u-c-secondary">Thành tiền</div>
+                                                <div class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", Money+100000) đ</div>
+                                            </div>
+
+                                            <span class="dash__text-2">Hình thức thanh toán:</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Content ======-->
+    </div>
+    <!--====== End - Section 2 ======-->
+</div>

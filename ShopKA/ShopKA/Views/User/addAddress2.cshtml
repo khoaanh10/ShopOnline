@@ -1,0 +1,109 @@
+﻿@model DataBase.AddressDTO
+@using ShopKA.Models
+@if (ViewBag.tb == null)
+{
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="checkout-modal1">
+                    @using (Ajax.BeginForm("addAddress2", "User", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "add-ship-address", InsertionMode = InsertionMode.Replace }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="checkout-modal1__form">
+                            <div class="u-s-m-b-30">
+                                <h1 class="gl-modal-h1">Thêm địa chỉ mới</h1>
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger", @style = "color:red;" })
+                            <div class="gl-inline">
+                                <div class="u-s-m-b-30">
+
+                                    @Html.LabelFor(model => model.Fullname, htmlAttributes: new { @class = "gl-label" })
+
+                                    @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                    @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger", @style = "color:red;" })
+
+                                </div>
+                                <div class="u-s-m-b-30">
+                                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "gl-label" })
+
+                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @type = "number" } })
+                                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger", @style = "color:red;" })
+                                </div>
+                            </div>
+                            <div class="gl-inline">
+                                <div class="u-s-m-b-30">
+
+                                    <!--====== Select Box ======-->
+
+                                    <label class="gl-label" for="address-country">Tỉnh/TP</label><select class="select-box select-box--primary-style" id="province" name="ProvinceID">
+                                        <option selected value="">Chọn tỉnh</option>
+
+                                        @foreach (var item in DBIO.getallProvince())
+                                        {
+
+
+                                            <option value=@item.ID>@item.Name</option>
+                                        }
+
+                                    </select>
+                                    <!--====== End - Select Box ======-->
+                                </div>
+                                <div class="u-s-m-b-30">
+
+                                    <!--====== Select Box ======-->
+
+                                    <label class="gl-label" for="address-state">Quận/Huyện/Thị trấn</label><select class="select-box select-box--primary-style" id="district" name="DistrictID">
+                                    </select>
+                                    <!--====== End - Select Box ======-->
+                                </div>
+                            </div>
+                            <div class="gl-inline">
+                                <div class="u-s-m-b-30">
+                                    @Html.LabelFor(model => model.Ward, htmlAttributes: new { @class = "gl-label" })
+
+                                    @Html.EditorFor(model => model.Ward, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                    @Html.ValidationMessageFor(model => model.Ward, "", new { @class = "text-danger", @style = "color:red;" })
+                                </div>
+                                <div class="u-s-m-b-30">
+                                    @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "gl-label" })
+
+                                    @Html.EditorFor(model => model.Detail, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                    @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger", @style = "color:red;" })
+                                </div>
+                            </div>
+
+                            <div class="gl-modal-btn-group">
+
+                                <button class="btn btn--e-brand-b-2" type="submit">LƯU</button>
+
+                                <button class="btn btn--e-grey-b-2" type="button" data-dismiss="modal">THOÁT</button>
+                            </div>
+
+                        </div>}
+                </div>
+            </div>
+        </div>
+    </div>}
+else
+{
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="checkout-modal1">
+                    <div class="u-s-m-b-30">
+                        <div class="text-danger" style="color:green;font-size:180%;"><p style="text-align:center;">Đã thêm địa chỉ</p></div>
+                    </div>
+                    <div class="col-lg-12 ">
+                        <div class="load-more">
+
+                            <button class="btn btn--e-brand" onclick="window.location.href='/User/checkoutCart'"> Quay lại</button>
+                        </div>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

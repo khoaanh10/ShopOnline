@@ -1,0 +1,290 @@
+﻿@model PagedList.PagedList<DataBase.Product>
+@using ShopKA.Models
+@using DataBase
+<script src="~/Asset/js/app.js"></script>
+<div id="ProducerID" data_value=@ViewBag.ProducerID></div>
+<div id="Type" data_value=@ViewBag.Type></div>
+<div id="pagenumber" data_value=@ViewBag.number></div>
+<div id="ProductTID" data_value=@ViewBag.ProductTID></div>
+@if (ViewBag.Type == "Grid")
+{
+    <div class="row is-grid-active">
+        @foreach (var item in Model)
+        {
+            string time = ((int)(item.SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+            var r = item.Price * item.Sale;
+            int b = (int)(item.Price - r);
+            int Sale = (int)(item.Sale * 100);
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="product-m">
+                    <div class="product-m__thumb">
+
+                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>
+
+                            <img class="aspect__img" src='data:image/png;base64,@item.Image' alt="">
+                        </a>
+                        <div class="product-m__quick-look">
+
+                            <a class="fas fa-search" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Quick Look"></a>
+                        </div>
+                        @if ((UserLogin)(Session["SS"]) != null)
+                        {
+                            <div class="product-m__add-cart">
+
+                                <a class="btn--e-brand addcartindex" data_value=@item.ID data_value2=@DBIO.get1ColorFirst(item.ID).ID data-modal="modal" data-modal-id="#add-to-cart-@item.ID">Thêm vào giỏ hàng</a>
+                            </div>}
+                        else
+                        { <div class="product-m__add-cart">
+                            <a class="btn--e-brand" href="/User/Login">Đăng nhập để mua hàng</a>
+                        </div>
+                        }
+                    </div>
+                    <div class="product-m__content">
+                        <span class="product-o__category">
+
+                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
+                            {<i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green">@time</i> </i>}
+                        </span>
+                        <div class="product-m__name">
+
+                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a>
+                        </div>
+                        <div class="product-m__rating gl-rating-style">
+                            @{
+                                var Review = DBIO.AVGRatingReview(item.ID);
+
+                            }
+                            @for (int i = 0; i < (int)Review; i++)
+                            {
+                                <i class="fas fa-star"></i>
+                            }
+                            @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
+                            {
+                                <i class="fas fa-star-half-alt"></i>
+                            }
+                            @if (Review - (int)Review >= 0.75)
+                            {
+                                <i class="fas fa-star"></i>
+                            }
+                            @if (Review - (int)Review <= 0.25)
+                            {
+                                for (int i = 0; i < (5 - ((int)Review)); i++)
+                                {
+                                    <i class="far fa-star"></i>
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < (5 - ((int)Review + 1)); i++)
+                                {
+                                    <i class="far fa-star"></i>
+                                }
+                            }
+
+                        <span class="product-m__review">(@DBIO.CountProductofColor(item.ID))</span>
+                        </div>
+                        <span class="product-o__price">
+                            @String.Format("{0:0,0}", @b) đ
+
+                            @if (Sale != 0)
+                            {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
+                        </span>
+                        <div class="product-m__hover">
+                            <div class="product-m__preview-description">
+
+                                <span>@item.Note</span>
+                            </div>
+                            <div class="product-m__wishlist">
+
+                                <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>}
+else
+{
+    <div class="row is-list-active">
+        @foreach (var item in Model)
+        {
+            string time = ((int)(item.SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+            var r = item.Price * item.Sale;
+            int b = (int)(item.Price - r);
+            int Sale = (int)(item.Sale * 100);
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="product-m">
+                    <div class="product-m__thumb">
+
+                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>
+
+                            <img class="aspect__img" src='data:image/png;base64,@item.Image' alt="">
+                        </a>
+                        <div class="product-m__quick-look">
+
+                            <a class="fas fa-search" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Quick Look"></a>
+                        </div>
+                        @if ((UserLogin)(Session["SS"]) != null)
+                        {
+                            <div class="product-m__add-cart">
+
+                                <a class="btn--e-brand addcartindex" data_value=@item.ID data_value2=@DBIO.get1ColorFirst(item.ID).ID data-modal="modal" data-modal-id="#add-to-cart-@item.ID">Thêm vào giỏ hàng</a>
+                            </div>}
+                        else
+                        { <div class="product-m__add-cart">
+                                <a class="btn--e-brand" href="/User/Login">Đăng nhập để mua hàng</a>
+                            </div>
+                        }
+                    </div>
+                    <div class="product-m__content">
+                        <span class="product-o__category">
+
+                            <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
+                            {<i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green">@time</i> </i>}
+                        </span>
+                        <div class="product-m__name">
+
+                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a>
+                        </div>
+                        <div class="product-m__rating gl-rating-style">
+                            @{
+                                var Review = DBIO.AVGRatingReview(item.ID);
+
+                            }
+                            @for (int i = 0; i < (int)Review; i++)
+                            {
+                                <i class="fas fa-star"></i>
+                            }
+                            @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
+                            {
+                                <i class="fas fa-star-half-alt"></i>
+                            }
+                            @if (Review - (int)Review >= 0.75)
+                            {
+                                <i class="fas fa-star"></i>
+                            }
+                            @if (Review - (int)Review <= 0.25)
+                            {
+                                for (int i = 0; i < (5 - ((int)Review)); i++)
+                                {
+                                    <i class="far fa-star"></i>
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < (5 - ((int)Review + 1)); i++)
+                                {
+                                    <i class="far fa-star"></i>
+                                }
+                            }
+
+                        <span class="product-m__review">(@DBIO.CountProductofColor(item.ID))</span>
+                        </div>
+                        <span class="product-o__price">
+                            @String.Format("{0:0,0}", @b) đ
+
+                            @if (Sale != 0)
+                            {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
+                        </span>
+                        <div class="product-m__hover">
+                            <div class="product-m__preview-description">
+
+                                <span>@item.Note</span>
+                            </div>
+                            <div class="product-m__wishlist">
+
+                                <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+<div class="u-s-p-y-60">
+
+    <!--====== Pagination ======-->
+    <ul class="shop-p__pagination">
+        @for (int item = 1; item < ViewBag.page + 1; item++)
+        {
+            if (ViewBag.number == item)
+            {
+                <li class="is-active">
+
+                    <a>@item</a>
+                </li>
+            }
+            else
+            {
+                <li>
+
+                    <a class="page" data_value=@item>@item</a>
+                </li>
+            }
+
+        }
+        <a class="fas fa-angle-right" href="shop-side-version-2.html"></a>
+        </li>
+    </ul>
+    <!--====== End - Pagination ======-->
+</div>
+<script>
+    $('.page').on('click', function () {
+        var b = document.getElementById("show").value;
+        var c = document.getElementById("sort").value;
+        var a = $('#ProducerID').attr('data_value');
+        var d = $(this).attr('data_value');
+        var max = $('#max').value;
+        var min = $('#min').value;
+        var type = $('#Type').attr('data_value');
+        var e = $('#ProductTID').attr('data_value');
+
+        $.ajax({
+            type: 'POST',
+            data: { ProducerID: a, Sort: c, page: d, b: b, max: max, min: min, type: type,ProductTID:e },
+            url: '/Home/Product1',
+            success: function (ketqua) {
+                $('#ketqua').html(ketqua);
+            }
+        })
+
+
+    });
+    $('.addcartindex').on('click', function () {
+
+        var color = parseInt($(this).attr('data_value2'));
+        var a = { ColorID: color, Quantity: 1 };
+        var b = $(this).attr('data_value');
+        $.ajax({
+            type: 'POST',
+            data: { a: a },
+            url: '/Home/AddCart',
+            success: function (ketqua) {
+                $('#cartmini').html(ketqua);
+
+            }
+        })
+
+        $.ajax({
+            type: 'POST',
+            data: {},
+            url: '/Home/TB',
+            success: function (ketqua) {
+                $('#tbb-' + b).html(ketqua);
+
+            }
+        })
+        $.ajax({
+            type: 'POST',
+            data: { ID: color },
+            url: '/Home/CountCart2',
+            success: function (ketqua) {
+                $('#countcart').html(ketqua);
+
+            }
+        })
+
+    });
+</script>

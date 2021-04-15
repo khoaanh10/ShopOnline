@@ -1,0 +1,187 @@
+﻿@using ShopKA.Models
+@model PagedList.PagedList<DataBase.Product>
+@using PagedList.Mvc
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+
+
+    *
+
+
+
+    ul li.pageNumber {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+    }
+
+    ul li a {
+        display: block;
+        text-decoration: none;
+        color: #383838;
+        font-weight: 600;
+        border-radius: 50%;
+    }
+
+    ul li.pageNumber:hover a,
+    ul li.pageNumber.active a {
+        background: #383838;
+        color: #0000FF;
+    }
+</style>
+<div id="page" data_value=@ViewBag.a></div>
+<table id="a3" class="table table-striped">
+<thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Tên SP</th>
+        <th scope="col">NSX</th>
+        <th scope="col">Loại SP</th>
+        <th scope="col">Tổng SL</th>
+        <th scope="col">Launch</th>
+        <th scope="col">Tình Trạng</th>
+        <th scope="col">Sale</th>
+
+        <th scope="col">                      </th>
+</thead>
+<tbody>
+    @if (Model!=null)
+    {
+        foreach (var item in Model)
+        {
+            string a = DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName;
+            string b = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID).ProducTName;
+            var c = DBIO.getallColor(item.ID);
+            int s = 0;
+            if (c != null)
+            {
+                foreach (var item2 in c)
+                {
+                    s = s + item2.Quantity;
+                }
+            }
+            string t;
+            string p;
+            if (@item.Status == true)
+            { t = "Đang Hiện"; }
+            else
+            { t = "Đang Ẩn"; }
+            if (@item.Launch == true)
+            { p = "Đã ra mắt"; }
+            else
+            { p = "Sắp ra mắt"; }
+
+
+        <tr>
+            <th scope="row">@item.ID</th>
+            <td>@item.ProductName</td>
+            <td>@a</td>
+            <td>@b</td>
+            <td>@s</td>
+            @{string idd = 'a' + item.ID.ToString();}
+            @if (item.Launch == false)
+            {
+                <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
+            }
+            else
+            {
+                <td>@p</td>
+            }
+
+
+            <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+            @{if (item.Sale == 0)
+                {
+                    <td>Không</td>
+
+
+
+
+                    <td>
+                        <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
+                        <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                        <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
+                        <a class="btn btn-primary addSale" role="button">Thêm Sale</a>
+
+                    </td>
+                }
+                else
+                {
+                    <td>Đang Sale: @item.Sale</td>
+
+
+
+
+                    <td>
+                        <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
+                        <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                        <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
+                        <a class="btn btn-primary deleteSale" role="button">Xóa Sale</a>
+                        <a class="btn btn-primary editSale" role="button">Sửa Sale</a>
+                    </td>
+                }
+            }
+
+
+        </tr>
+                    }
+                }
+
+</tbody>
+
+
+    </table>
+@if (ViewBag.page != 1)
+{
+<ul class="pagination">
+
+    @for (int d = 1; d <= ViewBag.page; d++)
+    {
+        if (ViewBag.a == d)
+        {
+            <li class="pageNumber active">@d</li>
+        }
+        else
+        {
+            <li class="pageNumber" data-id=@d><a href="#">@d</a></li>
+        }
+    }
+
+</ul>}
+<script>
+    $('.pageNumber').on('click', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+        var sort = document.getElementById("sortPD").value;
+        var page = $(this).attr('data-id');
+        $.ajax({
+            type: 'POST',
+            data: { status: status, sell: sell, sort: sort, page: page },
+            url: '/Admin/Index1',
+            success: function (ketqua) {
+                $('#product').html(ketqua);
+            }
+        })
+
+
+    });
+    $('.addeletePD').on('click', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+        var sort = document.getElementById("sortPD").value;
+        var page = $('page').attr('data_value');
+        var id = $(this).attr('data_value')
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này')) {
+            $.ajax({
+                type: 'POST',
+                data: { status: status, sell: sell, sort: sort, page: page, id: id },
+                url: '/Admin/Index1',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                }
+            })
+        }
+
+    });
+</script>

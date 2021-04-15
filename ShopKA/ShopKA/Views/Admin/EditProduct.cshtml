@@ -1,0 +1,163 @@
+﻿@model DataBase.Product
+@using DataBase
+@using ShopKA.Models
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+    ProductT PT = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(Model.ProducerID).ProductTID);
+    Producer PR1 = DBIO.get1Producer_ProducerID(Model.ProducerID);
+    int test = 0;
+    
+    }
+<head>
+    ID: @Model.ID
+</head>
+
+<div class="form-group">
+    <div class="control-label col-md-10">
+        Loại SP  :
+        @*@using (Ajax.BeginForm("Creat1", "Admin", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "kqq", InsertionMode = InsertionMode.Replace }))
+            {*@
+
+        <select name="ProductTID" class="col-md-5" aria-label=".form-select-sm example" id="productOption">
+            <option value="-1">Chọn Loại SP</option>
+            @foreach (var item in ViewBag.TT)
+            {
+                if (PT.ID == item.ID)
+                {
+                    test = item.ID;
+                    <option id="@item.ID" selected value="@item.ID">@item.ProducTName</option>
+                }
+                else
+                {
+                <option id="@item.ID" value="@item.ID">@item.ProducTName</option>}
+
+            }
+        </select>
+
+
+
+    </div>
+</div>
+@using (Html.BeginForm("EditProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <div class="control-label col-md-10">
+            Nhà SX :
+            <select name="ProducerID" id="kqq" class="col-md-3" value="" aria-label=".form-select-sm example">
+
+                @{var PR = DBIO.getallProducer_ProductT(test); }
+                @foreach (var itemm in PR)
+                {
+                    if (itemm.ID == PR1.ID)
+                    {
+                        <option selected value="@itemm.ID">@itemm.ProducerName</option>
+                    }
+                    else
+                    {
+                        <option value="@itemm.ID">@itemm.ProducerName</option>
+                    }
+
+                }
+            </select>
+            @Html.ValidationMessageFor(model => model.ProducerID, "", new { @class = "text-danger" })
+        </div>
+
+
+    </div>
+    <div class="form-group">
+        <div class="control-label col-md-10">
+            Tình trạng :
+
+
+            <select name="Launch" id="kqq" class="col-md-3" value="" aria-label=".form-select-sm example">
+                <option selected value=True>Ra mắt chính thức</option>
+                <option value=False>Sắp Ra Mắt</option>
+            </select>
+
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", @Value = @Model.ProductName } })
+            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Configuration, htmlAttributes: new { @class = "control-label col-md-2", @Value = Model.Configuration })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Configuration, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Configuration, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @Value = @Model.Price } })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+   
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control", @Value = Model.Note } })
+            @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="file1" class="form-group" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Image2, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="file2" class="form-group" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Image3, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="file3" class="form-group" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Image4, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="file4" class="form-group" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Image5, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="file5" class="form-group" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}

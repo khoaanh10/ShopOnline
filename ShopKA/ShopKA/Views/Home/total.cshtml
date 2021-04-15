@@ -1,0 +1,5 @@
+﻿@model int
+@{ int Money = Model;}
+<span class="subtotal-text">TỔNG CỘNG</span>
+
+<span class="subtotal-value">@String.Format("{0:0,0}", @Money) đ</span>

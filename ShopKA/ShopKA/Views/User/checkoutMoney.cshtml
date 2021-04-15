@@ -1,0 +1,15 @@
+﻿@model int
+    @{ int Money = Model;}
+<tr>
+    <td>Tiền vận chuyển</td>
+    <td>100,000 đ</td>
+</tr>
+
+<tr>
+    <td>Tổng tiền SP</td>
+    <td>@String.Format("{0:0,0}", Money) đ</td>
+</tr>
+<tr>
+    <td>Tổng cộng</td>
+    <td>@String.Format("{0:0,0}", (Money + 100000)) đ</td>
+</tr>

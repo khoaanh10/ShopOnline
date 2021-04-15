@@ -1,0 +1,169 @@
+﻿@using ShopKA.Models
+@using DataBase
+@if (DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count() == 0)
+{ <div class="u-s-p-y-60">
+
+    <!--====== Section Content ======-->
+    <div class="section__content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 u-s-m-b-30">
+                    <div class="empty">
+                        <div class="empty__wrap">
+
+                            <span class="empty__big-text">TRỐNG</span>
+
+                            <span class="empty__text-1">Không có sản phẩm nào trong giỏ hàng</span>
+
+                            <a class="empty__redirect-link btn--e-brand" href="/Home/Cart">Xem giỏ hàng</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====== End - Section Content ======-->
+</div>}
+else
+{
+<div class="mini-product-container gl-scroll u-s-m-b-15">
+    @{ int Money = 0;}
+    @foreach (var item in DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID))
+    {
+        var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
+        int b = (int)(DBIO.getProduct_Cart(item).Price - r);
+        int Sale = (int)(DBIO.getProduct_Cart(item).Sale * 100);
+        if (item.checkSTT == true)
+        { Money = Money + b * item.Quantity; }<!--====== Card for mini cart ======-->
+                        <div class="card-mini-product">
+                            <div class="mini-product">
+                                <div class="form-check">
+                                @if (item.checkSTT == true)
+                                {<input class="checkSTT2" type="checkbox" data_value=@item.ID id="check" checked>}
+                                else
+                                { <input class="checkSTT2" type="checkbox" data_value=@item.ID id="check">}
+                                <label class="form-check-label" for="check">
+                                    &nbsp;&nbsp;&nbsp;
+                                </label>
+                            </div>
+                                <div class="mini-product__image-wrapper">
+
+                                    <a class="mini-product__link" href="product-detail.html">
+
+                                        <img class="u-img-fluid" src='data:image/png;base64,@DBIO.getProduct_Cart(item).Image' alt="">
+                                    </a>
+                                </div>
+                                <div class="mini-product__info-wrapper">
+
+
+
+                                    <span class="mini-product__name">
+
+                                        <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@DBIO.getProduct_Cart(item).ProductName</a><span class="mini-product__quantity">  @DBIO.getColor_Cart(item).ColorName</span>
+                                    </span>
+
+                                    <span class="mini-product__quantity">@item.Quantity x</span>
+
+                                    <span class="mini-product__price">@String.Format("{0:0,0}", @b) đ</span>
+                                </div>
+                            </div>
+
+                            <a class="Deletecartmini far fa-trash-alt" data_value=@item.ID></a>
+                        </div>}
+    <!--====== End - Card for mini cart ======-->
+    <!--====== Card for mini cart ======-->
+    <!--====== End - Card for mini cart ======-->
+</div>
+<!--====== End - Mini Product Container ======-->
+<!--====== Mini Product Statistics ======-->
+<div class="mini-product-stat">
+    <div class="mini-total" id="total">
+
+        <span class="subtotal-text">TỔNG CỘNG</span>
+
+        <span class="subtotal-value">@String.Format("{0:0,0}", @Money) đ</span>
+    </div>
+    @if (DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count() > 0)
+    {<div class="mini-action">
+
+            <a class="mini-link btn--e-brand-b-2" href=@Url.Action("checkoutCart", "User")>ĐI THANH TOÁN</a>
+
+            <a class="mini-link btn--e-transparent-secondary-b-2" href=@Url.Action("Cart", "Home")>XEM GIỎ HÀNG</a>
+        </div>}
+</div>}
+<script>
+    $('.Deletecartmini').on('click', function () {
+        var d = $(this).attr('data_value');
+
+        $.ajax({
+            type: 'POST',
+            data: { ID: d },
+            url: '/Home/DeleteCartmini',
+            success: function (ketqua) {
+                $('#cartmini').html(ketqua);
+                
+
+            }
+        })
+
+        $.ajax({
+            type: 'POST',
+            data: {},
+            url: '/Home/CountCart',
+            success: function (ketqua) {
+                $('#countcart').html(ketqua);
+
+
+            }
+        })
+
+
+
+
+
+    });
+
+    $('.checkSTT2').on('click', function () {
+
+        if ($(this).is(':checked')) {
+            var check = true;
+        }
+        else { var check = false; }
+        var ID = $(this).attr('data_value');
+        $.ajax({
+            type: 'POST',
+            data: { check: check, ID: ID },
+            url: '/Home/changecheck',
+            success: function (ketqua) {
+                $('#Pricetotal').html(ketqua);
+
+
+            }
+        })
+        $.ajax({
+            type: 'POST',
+            data: {},
+            url: '/Home/total',
+            success: function (ketqua) {
+                $('#total').html(ketqua);
+
+
+            }
+        })
+        $.ajax({
+            type: 'POST',
+            data: {},
+            url: '/Home/Cart1',
+            success: function (ketqua) {
+                $('#Cartpage').html(ketqua);
+
+
+            }
+        })
+
+
+
+
+
+    });
+</script>

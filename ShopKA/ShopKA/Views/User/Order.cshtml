@@ -1,0 +1,272 @@
+﻿@model List<DataBase.Order>
+@using ShopKA.Models
+@using DataBase
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="app-content">
+
+    <!--====== Section 1 ======-->
+    <div class="u-s-p-y-60">
+
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="breadcrumb">
+                    <div class="breadcrumb__wrap">
+                        <ul class="breadcrumb__list">
+                            <li class="has-separator">
+
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li class="is-marked">
+
+                                <a href="dash-my-order.html">My Account</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====== End - Section 1 ======-->
+    <!--====== Section 2 ======-->
+    <div class="u-s-p-b-60">
+
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="dash">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-12">
+
+                            <!--====== Dashboard Features ======-->
+                            <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
+                                <div class="dash__pad-1">
+
+                                    <span class="dash__text u-s-m-b-16">Xin chào, @{string name = ((UserLogin)Session["SS"]).UserName;}@name</span>
+                                    <ul class="dash__f-list">
+                                        <li>
+
+                                            <a href=@Url.Action("ManagerAcc","User")>Quản lý tài khoản của tôi</a>
+                                        </li>
+                                        <li>
+
+                                            <a href=@Url.Action("Profile","User")>Hồ sơ của tôi</a>
+                                        </li>
+                                        <li>
+
+                                            <a href=@Url.Action("Address","User")>Địa chỉ</a>
+                                        </li>
+
+                                        <li>
+
+                                            <a class="dash-active" href=@Url.Action("Order","User")>Đơn hàng của tôi</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="dash__box dash__box--bg-white dash__box--shadow dash__box--w">
+                                <div class="dash__pad-1">
+                                    <ul class="dash__w-list">
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-1"><i class="fas fa-cart-arrow-down"></i></span>
+
+                                                <span class="dash__w-text">@DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count(i => i.Status == 4)</span>
+
+                                                <span class="dash__w-name">Đơn hàng thành công</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-2"><i class="fas fa-times"></i></span>
+
+                                                <span class="dash__w-text">@DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count(i => i.Status == 5)</span>
+
+                                                <span class="dash__w-name">Đơn hàng đã hủy</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-3"><i class="far fa-heart"></i></span>
+
+                                                <span class="dash__w-text">0</span>
+
+                                                <span class="dash__w-name">Yêu thích</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--====== End - Dashboard Features ======-->
+                        </div>
+                        <div class="col-lg-9 col-md-12">
+                            <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                                <div class="dash__pad-2">
+                                    <h1 class="dash__h1 u-s-m-b-14">Đơn hàng của tôi</h1>
+
+                                    <span class="dash__text u-s-m-b-30">Tất cả sản phẩm bạn đạt mua đều ở đây</span>
+                                    <form class="m-order u-s-m-b-30">
+                                        <div class="m-order__select-wrapper">
+
+                                            <label class="u-s-m-r-8" for="my-order-sort">Show:</label><select class="select-box select-box--primary-style" id="my-order-sort">
+                                                <option selected value=0>Tất cả đơn hàng</option>
+                                            <option value=1>Đơn hàng chưa giao</option>
+                                                <option value=4>Đơn hàng thành công</option>
+                                                <option value=5>Đơn hàng bị hủy</option>
+                                                
+                                                
+                                            </select>
+                                        </div>
+                                    </form>
+                                    <div class="m-order__list" id="displayorder">
+                                        @foreach (var item in Model)
+                                        {
+                                            int Money = 0;
+                                            foreach (var item2 in DBIO.getallPDOrder(item.ID)) {
+                                                var r = DBIO.getProduct_ProductOrder(item2).Price * DBIO.getProduct_ProductOrder(item2).Sale;
+                                                int b = (int)(DBIO.getProduct_ProductOrder(item2).Price - r);
+                                                int g = b * item2.Quantity;
+                                                Money = Money + g * item2.Quantity;
+                                            }
+                                            Money = Money + 100000;
+                                                <div class="m-order__get">
+                                                    <div class="manage-o__header u-s-m-b-30">
+                                                        <div class="dash-l-r">
+                                                            <div>
+                                                                <div class="manage-o__text-2 u-c-secondary">Đơn hàng #@item.ID</div>
+                                                                <div class="manage-o__text u-c-silver">Ngày đặt hàng: @String.Format("{0:dd/MM/yyyy H:mm:ss}", @item.CreatDate)</div>
+                                                            </div>
+                                                            <div>
+
+                                                                <span class="manage-o__text-2 u-c-silver">
+                                                                    Tổng giá:
+
+                                                                    <span class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", Money) đ</span>
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                @if (item.Status == 0)
+                                                                {<span class="manage-o__badge badge--processing">Chờ xác nhận</span>}
+                                                                else if (item.Status == 1)
+                                                                {<span class="manage-o__badge badge--processing">Đang chuẩn bị hàng</span>}
+                                                                else if (item.Status == 2)
+                                                                {<span class="manage-o__badge badge--shipped">Đang vận chuyển</span>}
+                                                                else if (item.Status == 3)
+                                                                {<span class="manage-o__badge badge--delivered">Đang giao hàng</span>}
+                                                                else if (item.Status == 4)
+                                                                {<span class="manage-o__badge badge--success">Đã giao thành công</span>}
+                                                                else if (item.Status == 5)
+                                                                {<span class="manage-o__badge badge--cancel">Đơn hàng bị hủy</span>}
+                                                            </div>
+                                                            @if (item.Status < 2)
+                                                            {
+                                                                <div>
+
+                                                                    <div class="dash__link dash__link--brand">
+
+
+                                                                        <a class="deleteorder" data_value=@item.ID>Hủy</a>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            <div>
+
+                                                                <div class="dash__link dash__link--brand">
+
+
+                                                                    <a href=@Url.Action("ManageOrder","User",new { ID=item.ID })>Quản lý</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="o-summary__item-wrap gl-scroll">
+                                                        @foreach (var item2 in DBIO.getallPDOrder(item.ID))
+                                                        {
+                                                            var r = DBIO.getProduct_ProductOrder(item2).Price * DBIO.getProduct_ProductOrder(item2).Sale;
+                                                            int b = (int)(DBIO.getProduct_ProductOrder(item2).Price - r);
+                                                            int g = b * item2.Quantity;
+
+                                                            <div class="o-card">
+                                                                <div class="description__container">
+                                                                    <div class="description__img-wrap">
+
+                                                                        <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt="">
+                                                                    </div>
+                                                                    <div class="description-title">@DBIO.getProduct_ProductOrder(item2).ProductName</div><span class="mini-product__quantity">&nbsp;&nbsp;&nbsp;@DBIO.getColor_ProductOrder(item2).ColorName</span>
+                                                                </div>
+                                                                <div class="description__info-wrap">
+
+                                                                    <div>
+
+                                                                        <span class="manage-o__text-2 u-c-silver">
+                                                                            Số lượng
+
+                                                                            <span class="manage-o__text-2 u-c-secondary">@item2.Quantity</span>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div>
+
+                                                                        <span class="manage-o__text-2 u-c-silver">
+                                                                            Giá
+
+                                                                            <span class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", @g) đ</span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @*<hr width="100%" align="center" />*@}
+                                                    </div>
+                                                </div>}
+                                    </div>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Content ======-->
+    </div>
+    <!--====== End - Section 2 ======-->
+</div>
+
+<script>
+    $('.deleteorder').on('click', function () {
+
+        if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này')) {
+            var ID = $(this).attr('data_value');
+            $.ajax({
+                type: 'POST',
+                data: { ID: ID },
+                url: '/User/DeleteOrder',
+                success: function (ketqua) {
+                    $('#displayorder').html(ketqua);
+                }
+            })
+        }
+
+
+    });
+    $('#my-order-sort').on('change', function () {
+        var b = document.getElementById("my-order-sort").value;
+       
+        $.ajax({
+            type: 'POST',
+            data: {ID:b},
+            url: '/User/SortOrder',
+            success: function (ketqua) {
+                $('#displayorder').html(ketqua);
+            }
+        })
+    });
+</script>
