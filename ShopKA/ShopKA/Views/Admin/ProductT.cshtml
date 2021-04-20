@@ -8,51 +8,58 @@
 }
 
 
+<h1 class="h3 mb-2 text-gray-800">Danh Sách Loại SP</h1>
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Loại SP</h1>
-    <a href="@Url.Action("CreatProductT","Admin")" ," class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-download fa-sm text-white-50"></i> Thêm SP
-    </a>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        
+        <a href="/Admin/CreatProductT" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" >
+            <i class="fas fa-download fa-sm text-white-50"></i> Thêm Loại SP
+        </a>
+    </div>
+    
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên Loại SP</th>
+                        <th scope="col">Số NSX</th>
+                        <th scope="col">Tổng số SP</th>
+
+                        <th scope="col">                      </th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        int a = DBIO.Count_Producer_ProductT(item.ID);
+                        int b = DBIO.Count_Product_ProductT(item.ID);
+
+
+
+                        <tr>
+                            <th scope="row">@item.ID</th>
+                            <td>@item.ProducTName</td>
+                            <td>@a</td>
+                            <td>@b</td>
+
+
+                            <td>
+                                <a class="btn btn-primary" href="@Url.Action("DeleteProductT","Admin",new { ID = @item.ID })" role="button">Xóa</a>
+                                <a class="btn btn-primary" href="@Url.Action("EditProductT","Admin",new { ID = @item.ID })" role="button">Sửa</a>
+                                <a class="btn btn-primary" href="@Url.Action("Producer","Admin",new { ID = @item.ID })" role="button">Xem NSX</a>
+
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Tên Loại SP</th>
-            <th scope="col">Số NSX</th>
-            <th scope="col">Tổng số SP</th>
-            
-            <th scope="col">                      </th>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            int a = DBIO.Count_Producer_ProductT(item.ID);
-            int b = DBIO.Count_Product_ProductT(item.ID);
 
-
-
-            <tr>
-                <th scope="row">@item.ID</th>
-                <td>@item.ProducTName</td>
-                <td>@a</td>
-                <td>@b</td>
-                
-                
-                <td>
-                    <a class="btn btn-primary" href="@Url.Action("DeleteProductT","Admin",new { ID = @item.ID })" role="button">Xóa</a>
-                    <a class="btn btn-primary" href="@Url.Action("EditProductT","Admin",new { ID = @item.ID })" role="button">Sửa</a>
-                    <a class="btn btn-primary" href="@Url.Action("Producer","Admin",new { ID = @item.ID })" role="button">Xem NSX</a>
-                   
-
-                </td>
-            </tr>
-        }
-
-    </tbody>
-
-</table>
-<div class="col-md-12" style="text-align:center">
-
-</div>

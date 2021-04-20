@@ -3,48 +3,55 @@
     ViewBag.Title = "Color";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
 }
+
+
 <h6>Tên SP: @ViewBag.TT.ProductName</h6>
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Tất cả SP</h1>
-    <a href="@Url.Action("addColor","Admin",new { ID2 = ViewBag.TT.ID })" ," class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-download fa-sm text-white-50"></i> Thêm Màu
-    </a>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <a href="@Url.Action("addColor","Admin",new { ID2 = ViewBag.TT.ID })" ," class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-download fa-sm text-white-50"></i> Thêm Màu - Cấu hình
+        </a>
+    </div>
+
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên Màu</th>
+
+
+                        <th scope="col">SL</th>
+
+                        <th scope="col">                      </th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <th scope="row">@item.ID</th>
+                            <td>@item.ColorName</td>
+                            <td>@item.Quantity</td>
+
+                            <td>
+                                <a class="btn btn-primary" href="@Url.Action("deleteColor","Admin",new { ID = @item.ID,ID2 = @ViewBag.TT.ID })" role="button">Xóa</a>
+                                <a class="btn btn-primary" href="@Url.Action("editColor","Admin",new { ID = @item.ID,ID2 = @ViewBag.TT.ID  })" role="button">Sửa</a>
+
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
 </div>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Tên Màu</th>
-            
-            
-            <th scope="col">SL</th>
-            
-            <th scope="col">                      </th>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-           
-        <tr>
-            <th scope="row">@item.ID</th>
-            <td>@item.ColorName</td>
-            <td>@item.Quantity</td>
-
-            <td>
-                <a class="btn btn-primary" href="@Url.Action("deleteColor","Admin",new { ID = @item.ID,ID2 = @ViewBag.TT.ID })" role="button">Xóa</a>
-                <a class="btn btn-primary" href="@Url.Action("editColor","Admin",new { ID = @item.ID,ID2 = @ViewBag.TT.ID  })" role="button">Sửa</a>
-
-
-            </td>
-        </tr>
-        }
-
-    </tbody>
-
-</table>
-<div class="col-md-12" style="text-align:center">
-
-</div>
-
 

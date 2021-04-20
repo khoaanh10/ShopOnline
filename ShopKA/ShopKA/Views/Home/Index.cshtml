@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
-    
+    List<SaleProduct> PD = ViewBag.SalePD;
 
 
 }
@@ -184,7 +184,7 @@
                                 <div class="filter-category-container">
                                     <div class="filter__category-wrapper">
                                         
-                                        <button  class="btn filter__btn filter__btn--style-1 js-checked" type="button" data-filter=".all" id="load">ALL</button>
+                                        <button  class="btn filter__btn filter__btn--style-1 js-checked" type="button" data-filter=".all" id="load">TẤT CẢ</button>
                                     </div>
                                     @foreach (var item in Model)
                                     {
@@ -198,10 +198,10 @@
                                         @foreach (var item in DBIO.getall8ProductLasted())
                                         {
                                             string h = "#q" + item.ID.ToString();
-                                            var a = item.Price * item.Sale;
+                                            float a = (float)(item.Price * item.Sale);
                                             int b = (int)(item.Price - a);
-                                            int Sale = (int)(item.Sale * 100);
-                                            
+                                            float Sale = (item.Sale * 100);
+
                                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item all">
                                                 <div class="product-o product-o--hover-on product-o--radius">
                                                     <div class="product-o__wrap">
@@ -236,8 +236,10 @@
 
                                                     <span class="product-o__category">
 
-                                                        <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
-                                                        {<i style="color:red;"> Sale @Sale %</i><i > &nbsp;&nbsp; Còn <i style="color:green"></i> </i>}
+                                                        <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
+                                                        {
+                                                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                            <i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green">@time</i> </i>}
                                                     </span>
 
                                                     <span class="product-o__name">
@@ -302,10 +304,10 @@
 
                                             foreach (var item2 in db)
                                             {
-                                                var a = item2.Price * item2.Sale;
+                                                float a = (float)(item2.Price * item2.Sale);
                                                 int b = (int)(item2.Price - a);
-                                                int Sale = (int)(item2.Sale * 100);
-                                                
+                                                float Sale = (item2.Sale * 100);
+
                                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item @item.ID">
                                                     <div class="product-o product-o--hover-on product-o--radius">
                                                         <div class="product-o__wrap">
@@ -340,8 +342,10 @@
 
                                                         <span class="product-o__category">
 
-                                                            <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a> @if (Sale != 0)
-                                                            {<i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green"></i> </i>}
+                                                            <a href=@Url.Action("Product","Home",new {ProducerID=item2.ProducerID })>@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a> @if (Sale != 0)
+                                                            {
+                                                                string time = ((int)(DBIO.get1SaleProduct(item2.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                                <i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green"> @time</i> </i>}
                                                         </span>
 
                                                         <span class="product-o__name">
@@ -411,7 +415,7 @@
             </div>
             <!--====== End - Section 2 ======-->
             <!--====== Section 3 ======-->
-            @if (DBIO.get2Sale().Count() != 0)
+            @if (PD.Count() != 0)
             {
             <div class="u-s-p-b-60">
 
@@ -436,34 +440,35 @@
                 <div class="section__content">
                     <div class="container">
                         <div class="row">
-                            @foreach (var item in DBIO.get2Sale())
+                            @foreach (var item in PD)
                             {
-                                var a = item.Price * item.Sale;
-                                int b = (int)(item.Price - a);
-                                int Sale = (int)(item.Sale * 100);
+                                var item2 = DBIO.get1Product(item.ProductID);
+                                float a = (float)(item2.Price * item2.Sale);
+                                int b = (int)(item2.Price - a);
+                                float Sale = (item2.Sale * 100);
 
                             <div class="col-lg-6 col-md-6 u-s-m-b-30">
                                 <div class="product-o product-o--radius product-o--hover-off u-h-100">
                                     <div class="product-o__wrap">
 
-                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=@item.ID } )>
+                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=@item2.ID } )>
 
-                                            <img class="aspect__img" src='data:image/png;base64,@item.Image ' alt="">
+                                            <img class="aspect__img" src='data:image/png;base64,@item2.Image ' alt="">
                                         </a>
                                         <div class="product-o__special-count-wrap">
-                                            <div class="countdown countdown--style-special" data-countdown=@String.Format("{0:yyyy/MM/dd}", @item.SaleTimeEnd)></div>
+                                            <div class="countdown countdown--style-special" data-countdown=@String.Format("{0:yyyy/MM/dd}", item.SaleTimeEnd)></div>
                                         </div>
                                         <div class="product-o__action-wrap">
                                             <ul class="product-o__action-list">
                                                 <li>
 
-                                                    <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a>
+                                                    <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item2.ID" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a>
                                                 </li>
                                                 @if ((UserLogin)(Session["SS"]) != null)
                                                 {
                                                     <li>
 
-                                                        <a data-modal="modal" class="addcartindex" data_value="" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a>
+                                                        <a data-modal="modal" class="addcartindex" data_value=@item2.ID data_value2=@DBIO.get1ColorFirst(item2.ID).ID data-modal-id="#add-to-cart-@item2.ID" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a>
                                                     </li>}
                                                     <li>
 
@@ -479,17 +484,17 @@
 
                                     <span class="product-o__category">
 
-                                        <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
-                                        {<i style="color:red;"> Sale @Sale %</i>}
+                                        <a href=@Url.Action("Product","Home",new {ProducerID=item2.ProducerID })>@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a> 
+                                        <i style="color:red;"> Sale @Sale %</i>
                                     </span>
 
                                     <span class="product-o__name">
 
-                                        <a href=@Url.Action("ProductDetail","Home",new {ID=@item.ID } )>@item.ProductName</a>
+                                        <a href=@Url.Action("ProductDetail","Home",new {ID=@item2.ID } )>@item2.ProductName</a>
                                     </span>
                                     <div class="product-o__rating gl-rating-style">
                                         @{
-                                            var Review = DBIO.AVGRatingReview(item.ID);
+                                            var Review = DBIO.AVGRatingReview(item2.ID);
 
                                         }
                                         @for (int i = 0; i < (int)Review; i++)
@@ -519,14 +524,14 @@
                                             }
                                         }
 
-                                        <span class="product-o__review">(@DBIO.CountProductofColor(item.ID))</span>
+                                        <span class="product-o__review">(@DBIO.CountProductofColor(item2.ID))</span>
                                     </div>
 
                                     <span class="product-o__price">
                                         @String.Format("{0:0,0}", @b) đ
 
                                         @if (Sale != 0)
-                                        {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
+                                        {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
                                     </span>
                                 </div>
                             </div>}
@@ -564,8 +569,8 @@
                             {
                                 float a = (item.Price * item.Sale);
                                 int b = (int)(item.Price - a);
-                                int Sale = (int)(item.Sale * 100);
-                                string time = ((int)(item.SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                float Sale = (item.Sale * 100);
+                                string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
 
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 ">
                                     <div class="product-o product-o--hover-on product-o--radius">
@@ -601,8 +606,8 @@
 
                                         <span class="product-o__category">
 
-                                            <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>@if (Sale != 0)
-                                            {<i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green"></i> </i>}
+                                            <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>@if (Sale != 0)
+                                            {<i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green">@time</i> </i>}
                                         </span>
 
                                         <span class="product-o__name">
@@ -735,7 +740,7 @@
                                 string h = "#quick-look" + item.ID.ToString();
                                 float a = item.Price * item.Sale;
                                 int b = (int)(item.Price - a);
-                                int Sale = (int)(item.Sale * 100);
+                                float Sale = (item.Sale * 100);
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
                                     <div class="product-o product-o--hover-on u-h-100">
                                         <div class="product-o__wrap">
@@ -765,7 +770,7 @@
 
                                         <span class="product-o__category">
 
-                                            <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>@if (Sale != 0)
+                                            <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>@if (Sale != 0)
                                             {<i style="color:red;"> Sale @Sale %</i>}
                                         </span>
 

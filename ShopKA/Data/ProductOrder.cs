@@ -16,11 +16,20 @@ namespace DataBase
         [Display(Name = "ID đơn hàng")]
         [Required]
         public int OrderID { get; set; }
-        [Display(Name = "ID SP")]
+        [Display(Name = "ID sản phẩm")]
         [Required]
         public int ColorID { get; set; }
+        [Display(Name = "Tên SP")]
+        [Required]
+        public string PDName { get; set; }
         [Display(Name = "SL")]
         [Required]
         public int Quantity { get; set; }
+        [Display(Name = "Giá")]
+        [Required]
+
+        public int Price { get; set; }
+        [Display(Name = "Hình ảnh chính")]
+        public string Image { get; set; }
     }
 }

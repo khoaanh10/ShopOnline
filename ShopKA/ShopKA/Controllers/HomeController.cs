@@ -18,6 +18,7 @@ namespace ShopKA.Controllers
 
             ViewBag.Sale = DBIO.get8ProductSale().Where(i => i.Launch == true);
             ViewBag.Feature = DBIO.GetProductLaunch().Take(8);
+            ViewBag.SalePD = DBIO.get2ProductSale(DateTime.Now);
             return View(a);
         }
 
@@ -60,7 +61,9 @@ namespace ShopKA.Controllers
 
         public ActionResult ProductDetail(int ID, int page = 1, int b = 5, string Sort = "ID")
         {
+           
             var a = DBIO.get1ProductHome(ID);
+            
             ViewBag.ProductID = ID;
             ViewBag.Review = DBIO.getallReview_Product(ID, Sort).ToPagedList(page, b);
             int count1 = DBIO.getallReview_Product(ID, Sort).Count();

@@ -23,31 +23,45 @@
     <!--====== App ======-->
     <link rel="stylesheet" href="~/Asset/css/app.css">
 </head>
-@*@{ var PD = DBIO.getallProduct();
-    MyDB DB = new MyDB();
-    foreach (var ii in PD)
-    {
-        if ((ii.SaleTimeStart > DateTime.Now) | (DateTime.Now >= ii.SaleTimeEnd ))
+
+<body class="config">
+    @{ var PD = DBIO.getallProduct();
+        MyDB DB = new MyDB();
+        foreach (var ii in PD)
         {
-            var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
-            PD1.Sale = 0;
-            DB.SaveChanges();
-            if ((DateTime.Now >= ii.SaleTimeEnd))
-            { PD1.Sale2 = 0;
+            if (DB.SaleProducts.Count(i => i.ProductID == ii.ID) > 0)
+            {
+                var iii = DB.SaleProducts.FirstOrDefault(i => i.ProductID == ii.ID);
+                if ((iii.SaleTimeStart > DateTime.Now) | (DateTime.Now >= iii.SaleTimeEnd))
+                {
+                    var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
+                    PD1.Sale = 0;
+                    DB.SaveChanges();
+                    if ((DateTime.Now >= iii.SaleTimeEnd))
+                    {
+                        DB.SaleProducts.Remove(iii);
+
+                        DB.SaveChanges();
+                    }
+
+
+                }
+                else if (iii.SaleTimeStart <= DateTime.Now & DateTime.Now < iii.SaleTimeEnd & ii.Sale != iii.Sale)
+                {
+                    var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
+                    PD1.Sale = iii.Sale;
+                    DB.SaveChanges();
+                }
+
+            }
+            else if (ii.Sale != 0)
+            {
+                var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
+                PD1.Sale = 0;
                 DB.SaveChanges();
             }
+        } }
 
-
-        }
-        else if (ii.SaleTimeStart <= DateTime.Now & DateTime.Now < ii.SaleTimeEnd & ii.Sale != ii.Sale2)
-        {
-            var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
-            PD1.Sale = PD1.Sale2;
-            DB.SaveChanges();
-        }
-
-    } }*@
-<body class="config">
     <div class="preloader is-active">
         <div class="preloader__wrap">
 
@@ -120,17 +134,17 @@
                                                         <span>Cá nhân</span>
                                                     </a>
                                                 </li>
-}
+                                            }
                                             @if (ss == null)
                                             {
-                                <li>
+                                                <li>
 
-                                    <a href=@Url.Action("Register", "User")>
-                                        <i class="fas fa-user-plus u-s-m-r-6"></i>
+                                                    <a href=@Url.Action("Register", "User")>
+                                                        <i class="fas fa-user-plus u-s-m-r-6"></i>
 
-                                        <span>Đăng ký</span>
-                                    </a>
-                                </li>
+                                                        <span>Đăng ký</span>
+                                                    </a>
+                                                </li>
                                                 <li>
 
                                                     <a href=@Url.Action("Login", "User")>
@@ -139,17 +153,18 @@
                                                         <span>Đăng nhập</span>
                                                     </a>
                                                 </li>
- }
+                                            }
                                             else
                                             {
-                                <li>
+                                                <li>
 
-                                    <a href=@Url.Action("Logout","User")>
-                                        <i class="fas fa-lock-open u-s-m-r-6"></i>
+                                                    <a href=@Url.Action("Logout","User")>
+                                                        <i class="fas fa-lock-open u-s-m-r-6"></i>
 
-                                        <span>Đăng xuất</span>
-                                    </a>
-                                </li>}
+                                                        <span>Đăng xuất</span>
+                                                    </a>
+                                                </li>
+}
                                         </ul>
                                         <!--====== End - Dropdown ======-->
                                     </li>
@@ -270,7 +285,7 @@
                                                         {
                                                             if (dem == 0)
                                                             {
-                                                                                    dem = 1;
+                                                                dem = 1;
                                                                 <li class="js-active">
 
                                                                     <a href=@Url.Action("Product","Home",new { ProductTID = item.ID })>
@@ -281,7 +296,7 @@
 
                                                                     <span class="js-menu-toggle js-toggle-mark"></span>
                                                                 </li>
- }
+                                                            }
                                                             else
                                                             {
                                                                 <li>
@@ -293,8 +308,9 @@
                                                                     </a>
 
                                                                     <span class="js-menu-toggle"></span>
-                                                                </li>}
-                                                                            }
+                                                                </li>
+}
+                                                        }
                                                     </ul>
                                                 </div>
                                                 @{ int dem2 = 0;}
@@ -302,137 +318,138 @@
                                                 @foreach (var item in a)
                                                 {
                                                     var b = DBIO.getallProducer_ProductT(item.ID);
-                                                    
+
                                                     if (dem2 == 0)
                                                     {
                                                         dem2 = 1;
-                                                <div class="mega-menu-content js-active">
+                                                        <div class="mega-menu-content js-active">
 
-                                                    <!--====== Mega Menu Row ======-->
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <ul>
+                                                            <!--====== Mega Menu Row ======-->
+                                                            <div class="row">
+                                                                <div class="col-lg-3">
+                                                                    <ul>
 
-                                                                <li class="mega-list-title">
+                                                                        <li class="mega-list-title">
 
-                                                                    <a href="shop-side-version-2.html">Danh Sách NSX</a>
-                                                                </li>
-                                                                @foreach (var item2 in b)
-                                                                {
-                                                                <li>
+                                                                            <a href="shop-side-version-2.html">Danh Sách NSX</a>
+                                                                        </li>
+                                                                        @foreach (var item2 in b)
+                                                                        {
+                                                                            <li>
 
-                                                                    <a href="@Url.Action("Product","Home", new { ProducerID = item2.ID })">@item2.ProducerName</a>
-                                                                </li>}
-                                                            </ul>
-                                                        </div>
-
-
-
-                                                        <!--====== End - Mega Menu Row ======-->
-                                                        <!--====== Mega Menu Row ======-->
-
-                                                        <div class="col-lg-3">
-                                                            <ul>
-                                                                <li class="mega-list-title">
-
-                                                                    <a href="shop-side-version-2.html">DANH MỤC</a>
-                                                                </li>
-                                                                <li>
-
-                                                                    <a href="shop-side-version-2.html">Sản phẩm mới</a>
-                                                                </li>
-                                                                <li>
-
-                                                                    <a href="shop-side-version-2.html">Giảm giá mạnh</a>
-                                                                </li>
-                                                                <li>
-
-                                                                    <a href="shop-side-version-2.html">Sản phẩm HOT</a>
-                                                                </li>
-
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <br>
-                                                    <div class="row">
-
-                                                        <div class="col-lg-9 mega-image">
-                                                            <div class="mega-banner">
-
-                                                                <a class="u-d-block" href="shop-side-version-2.html">
-
-                                                                    <img class="u-img-fluid u-d-block" src="~/Asset/images/banners/banner-mega-0.jpg" alt="">
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--====== End - Mega Menu Row ======-->
-                                                </div>}
-                                else
-                                {
-                <div class="mega-menu-content">
-
-                    <!--====== Mega Menu Row ======-->
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <ul>
-
-                                <li class="mega-list-title">
-
-                                    <a >Danh Sách NSX</a>
-                                </li>
-                                @foreach (var item2 in b)
-                                {
-            <li>
-
-                <a hrer=@Url.Action("Product","Home",new {ProducerID=item2.ID })>@item2.ProducerName</a>
-            </li>
+                                                                                <a href="@Url.Action("Product","Home", new { ProducerID = item2.ID })">@item2.ProducerName</a>
+                                                                            </li>
 }
-                            </ul>
-                        </div>
-                        <div class="col-lg-3">
-                            <ul>
-                                <li class="mega-list-title">
-
-                                    <a href="shop-side-version-2.html">DANH MỤC</a>
-                                </li>
-                                <li>
-
-                                    <a href="shop-side-version-2.html">Sản phẩm mới</a>
-                                </li>
-                                <li>
-
-                                    <a href="shop-side-version-2.html">Giảm giá mạnh</a>
-                                </li>
-                                <li>
-
-                                    <a href="shop-side-version-2.html">Sản phẩm HOT</a>
-                                </li>
-
-                            </ul>
-                        </div>
-
-                    </div>
-                    <!--====== End - Mega Menu Row ======-->
-
-                    <br>
-                    <!--====== Mega Menu Row ======-->
-                    <div class="row">
+                                                                    </ul>
+                                                                </div>
 
 
-                        <div class="col-lg-9 mega-image">
-                            <div class="mega-banner">
 
-                                <a class="u-d-block" href="shop-side-version-2.html">
+                                                                <!--====== End - Mega Menu Row ======-->
+                                                                <!--====== Mega Menu Row ======-->
 
-                                    <img class="u-img-fluid u-d-block" src="~/Asset/images/banners/banner-mega-0.jpg" alt="">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--====== End - Mega Menu Row ======-->
-                </div>}
-        }
+                                                                <div class="col-lg-3">
+                                                                    <ul>
+                                                                        <li class="mega-list-title">
+
+                                                                            <a href="shop-side-version-2.html">DANH MỤC</a>
+                                                                        </li>
+                                                                        <li>
+
+                                                                            <a href="shop-side-version-2.html">Sản phẩm mới</a>
+                                                                        </li>
+                                                                        <li>
+
+                                                                            <a href="shop-side-version-2.html">Giảm giá mạnh</a>
+                                                                        </li>
+                                                                        <li>
+
+                                                                            <a href="shop-side-version-2.html">Sản phẩm HOT</a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <div class="row">
+
+                                                                <div class="col-lg-9 mega-image">
+                                                                    <div class="mega-banner">
+
+                                                                        <a class="u-d-block" href="shop-side-version-2.html">
+
+                                                                            <img class="u-img-fluid u-d-block" src="~/Asset/images/banners/banner-mega-0.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--====== End - Mega Menu Row ======-->
+                                                        </div>}
+                                                    else
+                                                    {
+                                                        <div class="mega-menu-content">
+
+                                                            <!--====== Mega Menu Row ======-->
+                                                            <div class="row">
+                                                                <div class="col-lg-3">
+                                                                    <ul>
+
+                                                                        <li class="mega-list-title">
+
+                                                                            <a>Danh Sách NSX</a>
+                                                                        </li>
+                                                                        @foreach (var item2 in b)
+                                                                        {
+                                                                            <li>
+
+                                                                                <a hrer=@Url.Action("Product","Home",new {ProducerID=item2.ID })>@item2.ProducerName</a>
+                                                                            </li>
+                                                                        }
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <ul>
+                                                                        <li class="mega-list-title">
+
+                                                                            <a href="shop-side-version-2.html">DANH MỤC</a>
+                                                                        </li>
+                                                                        <li>
+
+                                                                            <a href="shop-side-version-2.html">Sản phẩm mới</a>
+                                                                        </li>
+                                                                        <li>
+
+                                                                            <a href="shop-side-version-2.html">Giảm giá mạnh</a>
+                                                                        </li>
+                                                                        <li>
+
+                                                                            <a href="shop-side-version-2.html">Sản phẩm HOT</a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+
+                                                            </div>
+                                                            <!--====== End - Mega Menu Row ======-->
+
+                                                            <br>
+                                                            <!--====== Mega Menu Row ======-->
+                                                            <div class="row">
+
+
+                                                                <div class="col-lg-9 mega-image">
+                                                                    <div class="mega-banner">
+
+                                                                        <a class="u-d-block" href="shop-side-version-2.html">
+
+                                                                            <img class="u-img-fluid u-d-block" src="~/Asset/images/banners/banner-mega-0.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--====== End - Mega Menu Row ======-->
+                                                        </div>}
+                                                }
                                                 <!--====== End - Electronics ======-->
                                                 <!--====== Women ======-->
                                                 <!--====== End - Women ======-->
@@ -499,7 +516,7 @@
                                             </li>
                                             <li>
 
-                                                <a href="/Home/Product?Sort=View" >SẢN PHẨM HOT NHẤT</a>
+                                                <a href="/Home/Product?Sort=View">SẢN PHẨM HOT NHẤT</a>
 
                                                 <!--====== Dropdown ======-->
                                                 <!--====== End - Dropdown ======-->
@@ -514,26 +531,28 @@
 
                                         <span class="js-menu-toggle"></span>
                                         <ul style="width:170px">
-                                           @foreach(var item in DBIO.getallProductT()) { 
-                                            <li class="has-dropdown has-dropdown--ul-left-100">
+                                            @foreach (var item in DBIO.getallProductT())
+                                            {
+                                                <li class="has-dropdown has-dropdown--ul-left-100">
 
-                                                <a href=@Url.Action("Product","Home",new {ProductTID=item.ID })>@item.ProducTName<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
+                                                    <a href=@Url.Action("Product","Home",new {ProductTID=item.ID })>@item.ProducTName<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
-                                                <!--====== Dropdown ======-->
+                                                    <!--====== Dropdown ======-->
 
-                                                <span class="js-menu-toggle"></span>
-                                                <ul style="width:200px">
-                                                    @foreach (var item2 in DBIO.getallProducer_ProductT(item.ID)) {
-                                                    <li>
+                                                    <span class="js-menu-toggle"></span>
+                                                    <ul style="width:200px">
+                                                        @foreach (var item2 in DBIO.getallProducer_ProductT(item.ID))
+                                                        {
+                                                            <li>
 
-                                                        <a href=@Url.Action("Product","Home",new {ProducerID=item2.ID })>@item2.ProducerName</a>
-                                                    </li>
+                                                                <a href=@Url.Action("Product","Home",new {ProducerID=item2.ID })>@item2.ProducerName</a>
+                                                            </li>
                                                         }
-                                                </ul>
-                                                <!--====== End - Dropdown ======-->
-                                            </li>
-                                           }
-                                               
+                                                    </ul>
+                                                    <!--====== End - Dropdown ======-->
+                                                </li>
+                                            }
+
                                         </ul>
                                     </li>
                                     <li class="has-dropdown">
@@ -548,121 +567,122 @@
                                             {
                                                 if (DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).Permission == 0)
                                                 {
-                                            <li>
-
-                                                <a href=@Url.Action("Index", "Admin")>ADMIN</a>
-
-                                                <!--====== Dropdown ======-->
-                                                <!--====== End - Dropdown ======-->
-                                            </li>}
-                                            <li class="has-dropdown has-dropdown--ul-left-100">
-
-                                                <a @Url.Action("Profile", "User")>Tài khoản<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
-
-                                                <!--====== Dropdown ======-->
-
-                                                <span class="js-menu-toggle"></span>
-                                                <ul style="width:200px">
                                                     <li>
 
-                                                        <a href=@Url.Action("Register", "User")>Đăng ký / Chưa có tài khoản</a>
-                                                    </li>
-                                                    <li>
-
-                                                        <a href=@Url.Action("Login", "User")>Đăng nhập / Đã có tài khoản</a>
-                                                    </li>
-                                                    <li>
-
-                                                        <a href=@Url.Action("ForgetPass", "User")>Quên mật khẩu</a>
-                                                    </li>
-                                                </ul>
-                                                <!--====== End - Dropdown ======-->
-                                            </li>
-                                            <li class="has-dropdown has-dropdown--ul-left-100">
-
-                                                <a>Cá nhân<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
-
-                                                <!--====== Dropdown ======-->
-
-                                                <span class="js-menu-toggle"></span>
-                                                <ul style="width:200px">
-                                                    <li class="has-dropdown has-dropdown--ul-left-100">
-
-                                                        <a href=@Url.Action("ManagerAcc", "User")>Quản lý tài khoản<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
+                                                        <a href=@Url.Action("Index", "Admin")>ADMIN</a>
 
                                                         <!--====== Dropdown ======-->
-
-                                                        <span class="js-menu-toggle"></span>
-                                                        <ul style="width:180px">
-                                                            <li>
-
-                                                                <a href=@Url.Action("EditProfile", "User")>Chỉnh sửa hồ sơ</a>
-                                                            </li>
-
-                                                            <li>
-
-                                                                <a href=@Url.Action("Order", "User")>Quản lý đơn hàng</a>
-                                                            </li>
-                                                        </ul>
                                                         <!--====== End - Dropdown ======-->
                                                     </li>
-                                                    <li>
+}
+                                                <li class="has-dropdown has-dropdown--ul-left-100">
 
-                                                        <a href=@Url.Action("Profile", "User")>Hồ sơ của tôi</a>
-                                                    </li>
-                                                    <li class="has-dropdown has-dropdown--ul-left-100">
+                                                    <a @Url.Action("Profile", "User")>Tài khoản<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
-                                                        <a>Địa chỉ<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
+                                                    <!--====== Dropdown ======-->
 
-                                                        <!--====== Dropdown ======-->
+                                                    <span class="js-menu-toggle"></span>
+                                                    <ul style="width:200px">
+                                                        <li>
 
-                                                        <span class="js-menu-toggle"></span>
-                                                        <ul style="width:180px">
-                                                            <li>
+                                                            <a href=@Url.Action("Register", "User")>Đăng ký / Chưa có tài khoản</a>
+                                                        </li>
+                                                        <li>
 
-                                                                <a href=@Url.Action("Address", "User")>Danh sách địa chỉ</a>
-                                                            </li>
-                                                            <li>
+                                                            <a href=@Url.Action("Login", "User")>Đăng nhập / Đã có tài khoản</a>
+                                                        </li>
+                                                        <li>
 
-                                                                <a href=@Url.Action("MakedefaultSTT", "User")>Chỉnh sửa địa chỉ mặc định</a>
-                                                            </li>
-                                                            <li>
+                                                            <a href=@Url.Action("ForgetPass", "User")>Quên mật khẩu</a>
+                                                        </li>
+                                                    </ul>
+                                                    <!--====== End - Dropdown ======-->
+                                                </li>
+                                                <li class="has-dropdown has-dropdown--ul-left-100">
 
-                                                                <a href=@Url.Action("addAddress", "User")>Thêm địa chỉ mới</a>
-                                                            </li>
+                                                    <a>Cá nhân<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
-                                                        </ul>
-                                                        <!--====== End - Dropdown ======-->
-                                                    </li>
+                                                    <!--====== Dropdown ======-->
 
-                                                    <li>
+                                                    <span class="js-menu-toggle"></span>
+                                                    <ul style="width:200px">
+                                                        <li class="has-dropdown has-dropdown--ul-left-100">
 
-                                                        <a href=@Url.Action("Order", "User")>Đơn hàng của tôi</a>
-                                                    </li>
-                                                    <li>
+                                                            <a href=@Url.Action("ManagerAcc", "User")>Quản lý tài khoản<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
-                                                        <a href="dash-payment-option.html">Thanh toán của tôi</a>
-                                                    </li>
+                                                            <!--====== Dropdown ======-->
 
-                                                </ul>
-                                                <!--====== End - Dropdown ======-->
-                                            </li>
+                                                            <span class="js-menu-toggle"></span>
+                                                            <ul style="width:180px">
+                                                                <li>
+
+                                                                    <a href=@Url.Action("EditProfile", "User")>Chỉnh sửa hồ sơ</a>
+                                                                </li>
+
+                                                                <li>
+
+                                                                    <a href=@Url.Action("Order", "User")>Quản lý đơn hàng</a>
+                                                                </li>
+                                                            </ul>
+                                                            <!--====== End - Dropdown ======-->
+                                                        </li>
+                                                        <li>
+
+                                                            <a href=@Url.Action("Profile", "User")>Hồ sơ của tôi</a>
+                                                        </li>
+                                                        <li class="has-dropdown has-dropdown--ul-left-100">
+
+                                                            <a>Địa chỉ<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
+
+                                                            <!--====== Dropdown ======-->
+
+                                                            <span class="js-menu-toggle"></span>
+                                                            <ul style="width:180px">
+                                                                <li>
+
+                                                                    <a href=@Url.Action("Address", "User")>Danh sách địa chỉ</a>
+                                                                </li>
+                                                                <li>
+
+                                                                    <a href=@Url.Action("MakedefaultSTT", "User")>Chỉnh sửa địa chỉ mặc định</a>
+                                                                </li>
+                                                                <li>
+
+                                                                    <a href=@Url.Action("addAddress", "User")>Thêm địa chỉ mới</a>
+                                                                </li>
+
+                                                            </ul>
+                                                            <!--====== End - Dropdown ======-->
+                                                        </li>
+
+                                                        <li>
+
+                                                            <a href=@Url.Action("Order", "User")>Đơn hàng của tôi</a>
+                                                        </li>
+                                                        <li>
+
+                                                            <a href="dash-payment-option.html">Thanh toán của tôi</a>
+                                                        </li>
+
+                                                    </ul>
+                                                    <!--====== End - Dropdown ======-->
+                                                </li>
 
 
 
 
-                                            <li>
+                                                <li>
 
-                                                <a href=@Url.Action("Cart", "Home")>Giỏ hàng</a>
-                                            </li>
-                                            <li>
+                                                    <a href=@Url.Action("Cart", "Home")>Giỏ hàng</a>
+                                                </li>
+                                                <li>
 
-                                                <a href=@Url.Action("Whitelist", "User")>Yêu thích</a>
-                                            </li>
-                                            <li>
+                                                    <a href=@Url.Action("Whitelist", "User")>Yêu thích</a>
+                                                </li>
+                                                <li>
 
-                                                <a href="checkout.html">Thanh toán</a>
-                                            </li>
+                                                    <a href="checkout.html">Thanh toán</a>
+                                                </li>
                                             }
                                             <li>
 
@@ -683,161 +703,161 @@
                                         <a href="shop-side-version-2.html">MÃ GIẢM GIÁ</a>
                                     </li>
                                 </ul>
-                                        <!--====== End - List ======-->
-</div>
+                                <!--====== End - List ======-->
+                            </div>
                             <!--====== End - Menu ======-->
                         </div>
                         <!--====== End - Dropdown Main plugin ======-->
                         <!--====== Dropdown Main plugin ======-->
-                       
-
-            <div class="menu-init" id="navigation3">
-
-                <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
-
-                <span class="total-item-round">5</span>
-
-                <!--====== Menu ======-->
-                <div class="ah-lg-mode">
-
-                    <span class="ah-close">✕ Close</span>
-
-                    <!--====== List ======-->
-                    <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
-                        <li>
-
-                            <a href="index.html"><i class="fas fa-home u-c-brand"></i></a>
-                        </li>
-                        @if (ss != null)
-                        {
-                            DBIO.checkcart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID);
-                            var Cart = DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID);
-                            int Money = 0;
-                    <li>
-
-                        <a href="wishlist.html"><i class="far fa-heart"></i></a>
-                    </li>
-
-                                    <li class="has-dropdown">
-
-                                        <a class="mini-cart-shop-link">
-                                            <i class="fas fa-shopping-bag"></i>
-
-                                            <span class="total-item-round" id="countcart">@DBIO.CountCart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID)</span>
-                                        </a>
-
-                                        <!--====== Dropdown ======-->
-
-                                        <span class="js-menu-toggle"></span>
-                                        @if (Cart.Count() == 0)
-                                        {
-
-                        <div class="mini-cart" id="cartmini">
-                            <!--====== Section 1 ======-->
-                            <div class="u-s-p-y-60">
-
-                                <!--====== Section Content ======-->
-                                <div class="section__content">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12 u-s-m-b-30">
-                                                <div class="empty">
-                                                    <div class="empty__wrap">
-
-                                                        <span class="empty__big-text">TRỐNG</span>
-
-                                                        <span class="empty__text-1">Không có sản phẩm nào trong giỏ hàng</span>
-
-                                                        <a class="empty__redirect-link btn--e-brand" href="/Home/Cart">Xem giỏ hàng</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--====== End - Section Content ======-->
-                            </div>
-                        </div> <!--====== End - Section 1 ======--> }
-                    else
-                    {
-                    <div class="mini-cart" id="cartmini">
 
 
-                        <!--====== Mini Product Container ======-->
-                        <div class="mini-product-container gl-scroll u-s-m-b-15">
-                            @foreach (var item in Cart)
-                            {
-                                var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
-                                int b = (int)(DBIO.getProduct_Cart(item).Price - r);
-                                int Sale = (int)(DBIO.getProduct_Cart(item).Sale * 100);
-                                if (item.checkSTT == true)
-                                { Money = Money + b * item.Quantity; }<!--====== Card for mini cart ======-->
-                                                        <div class="card-mini-product">
-                                                            <div class="mini-product">
-                                                                <div class="form-check">
-                                                                    @if (item.checkSTT == true)
-                                                                    {<input class="checkSTT2" type="checkbox" data_value=@item.ID id="check" checked>}
-                                                                    else
-                                                                    { <input class="checkSTT2" type="checkbox" data_value=@item.ID id="check">}
-                                                                    <label class="form-check-label" for="check">
-                                                                        &nbsp;&nbsp;&nbsp;
-                                                                    </label>
-                                                                </div>
-                                                                <div class="mini-product__image-wrapper">
+                        <div class="menu-init" id="navigation3">
 
-                                                                    <a class="mini-product__link" href="product-detail.html">
+                            <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
 
-                                                                        <img class="u-img-fluid" src="~/Asset/images/product/electronic/product3.jpg" alt="">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="mini-product__info-wrapper">
+                            <span class="total-item-round">5</span>
 
+                            <!--====== Menu ======-->
+                            <div class="ah-lg-mode">
 
+                                <span class="ah-close">✕ Close</span>
 
-                                                                    <span class="mini-product__name">
+                                <!--====== List ======-->
+                                <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
+                                    <li>
 
-                                                                        <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><span class="mini-product__quantity">  @DBIO.getColor_Cart(item).ColorName</span>
-                                                                    </span>
+                                        <a href="index.html"><i class="fas fa-home u-c-brand"></i></a>
+                                    </li>
+                                    @if (ss != null)
+                                    {
+                                        DBIO.checkcart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID);
+                                        var Cart = DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID);
+                                        int Money = 0;
+                                        <li>
 
-                                                                    <span class="mini-product__quantity">@item.Quantity x</span>
+                                            <a href="wishlist.html"><i class="far fa-heart"></i></a>
+                                        </li>
 
-                                                                    <span class="mini-product__price">@String.Format("{0:0,0}", @b) đ</span>
+                                        <li class="has-dropdown">
+
+                                            <a class="mini-cart-shop-link">
+                                                <i class="fas fa-shopping-bag"></i>
+
+                                                <span class="total-item-round" id="countcart">@DBIO.CountCart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID)</span>
+                                            </a>
+
+                                            <!--====== Dropdown ======-->
+
+                                            <span class="js-menu-toggle"></span>
+                                            @if (Cart.Count() == 0)
+                                            {
+
+                                                <div class="mini-cart" id="cartmini">
+                                                    <!--====== Section 1 ======-->
+                                                    <div class="u-s-p-y-60">
+
+                                                        <!--====== Section Content ======-->
+                                                        <div class="section__content">
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12 col-md-12 u-s-m-b-30">
+                                                                        <div class="empty">
+                                                                            <div class="empty__wrap">
+
+                                                                                <span class="empty__big-text">TRỐNG</span>
+
+                                                                                <span class="empty__text-1">Không có sản phẩm nào trong giỏ hàng</span>
+
+                                                                                <a class="empty__redirect-link btn--e-brand" href="/Home/Cart">Xem giỏ hàng</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <!--====== End - Section Content ======-->
+                                                    </div>
+                                                </div> <!--====== End - Section 1 ======--> }
+                                            else
+                                            {
+                                                <div class="mini-cart" id="cartmini">
 
-                                                            <a class="Deletecartmini far fa-trash-alt" data_value=@item.ID></a>
-                                                        </div>}
-                            <!--====== End - Card for mini cart ======-->
-                            <!--====== Card for mini cart ======-->
-                            <!--====== End - Card for mini cart ======-->
-                        </div>
-                        <!--====== End - Mini Product Container ======-->
-                        <!--====== Mini Product Statistics ======-->
-                        <div class="mini-product-stat">
-                            <div class="mini-total" id="total">
 
-                                <span class="subtotal-text">TỔNG CỘNG</span>
+                                                    <!--====== Mini Product Container ======-->
+                                                    <div class="mini-product-container gl-scroll u-s-m-b-15">
+                                                        @foreach (var item in Cart)
+                                                        {
+                                                            var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
+                                                            int b = (int)(DBIO.getProduct_Cart(item).Price - r);
+                                                            float Sale = (DBIO.getProduct_Cart(item).Sale * 100);
+                                                            if (item.checkSTT == true)
+                                                            { Money = Money + b * item.Quantity; }<!--====== Card for mini cart ======-->
+                                                            <div class="card-mini-product">
+                                                                <div class="mini-product">
+                                                                    <div class="form-check">
+                                                                        @if (item.checkSTT == true)
+                                                                        {<input class="checkSTT2" type="checkbox" data_value=@item.ID id="check" checked>}
+                                                                        else
+                                                                        { <input class="checkSTT2" type="checkbox" data_value=@item.ID id="check">}
+                                                                        <label class="form-check-label" for="check">
+                                                                            &nbsp;&nbsp;&nbsp;
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="mini-product__image-wrapper">
 
-                                <span class="subtotal-value">@String.Format("{0:0,0}", @Money) đ</span>
+                                                                        <a class="mini-product__link" href="product-detail.html">
+
+                                                                            <img class="u-img-fluid" src='data:image/png;base64,@DBIO.getProduct_Cart(item).Image ' alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="mini-product__info-wrapper">
+
+
+
+                                                                        <span class="mini-product__name">
+
+                                                                            <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><span class="mini-product__quantity">  @DBIO.getColor_Cart(item).ColorName</span>
+                                                                        </span>
+
+                                                                        <span class="mini-product__quantity">@item.Quantity x</span>
+
+                                                                        <span class="mini-product__price">@String.Format("{0:0,0}", @b) đ</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <a class="Deletecartmini far fa-trash-alt" data_value=@item.ID></a>
+                                                            </div>}
+                                                        <!--====== End - Card for mini cart ======-->
+                                                        <!--====== Card for mini cart ======-->
+                                                        <!--====== End - Card for mini cart ======-->
+                                                    </div>
+                                                    <!--====== End - Mini Product Container ======-->
+                                                    <!--====== Mini Product Statistics ======-->
+                                                    <div class="mini-product-stat">
+                                                        <div class="mini-total" id="total">
+
+                                                            <span class="subtotal-text">TỔNG CỘNG</span>
+
+                                                            <span class="subtotal-value">@String.Format("{0:0,0}", @Money) đ</span>
+                                                        </div>
+                                                        @if (Cart.Count() > 0)
+                                                        {<div class="mini-action">
+
+                                                                <a class="mini-link btn--e-brand-b-2" href=@Url.Action("checkoutCart", "User")>ĐI THANH TOÁN</a>
+
+                                                                <a class="mini-link btn--e-transparent-secondary-b-2" href=@Url.Action("Cart", "Home")>XEM GIỎ HÀNG</a>
+                                                            </div>}
+                                                    </div>
+                                                    <!--====== End - Mini Product Statistics ======-->
+                                                </div>}
+                                            <!--====== End - Dropdown ======-->
+                                        </li>
+                                    }
+                                </ul>
+                                <!--====== End - List ======-->
                             </div>
-                            @if (Cart.Count() > 0)
-                            {<div class="mini-action">
-
-                                    <a class="mini-link btn--e-brand-b-2" href=@Url.Action("checkoutCart", "User")>ĐI THANH TOÁN</a>
-
-                                    <a class="mini-link btn--e-transparent-secondary-b-2" href=@Url.Action("Cart", "Home")>XEM GIỎ HÀNG</a>
-                                </div>}
+                            <!--====== End - Menu ======-->
                         </div>
-                        <!--====== End - Mini Product Statistics ======-->
-                    </div>}
-                                        <!--====== End - Dropdown ======-->
-                                    </li>
-}
-                    </ul>
-                    <!--====== End - List ======-->
-                </div>
-                <!--====== End - Menu ======-->
-            </div>
                         <!--====== End - Dropdown Main plugin ======-->
                     </div>
                     <!--====== End - Secondary Nav ======-->
@@ -915,7 +935,7 @@
 
                                                     <a href="dashboard.html">Tài khoản</a>
                                                 </li>
-                                              
+
                                                 <li>
 
                                                     <a href="dash-payment-option.html">Finance</a>
@@ -1031,145 +1051,145 @@
 
         <!--====== Modal Section ======-->
         <!--====== Quick Look Modal ======-->
-        @foreach (var item in DBIO.getallProduct())
+        @foreach (var item in DBIO.getallProduct().Where(i => i.Status == true))
         {
             var LSP = @DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID);
             var NSX = @DBIO.get1Producer_ProducerID(item.ProducerID);
             float d = (float)(item.Price * item.Sale);
             int b = (int)(item.Price - d);
-            int Sale = (int)(item.Sale * 100);
+            float Sale = (item.Sale * 100);
 
-        <div class="modal fade1" id="pd-@item.ID">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content modal--shadow">
+            <div class="modal fade1" id="pd-@item.ID">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal--shadow">
 
-                    <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
-                    <div class="modal-body" id="look">
-                        <div class="row">
-                            <div class="col-lg-5">
+                        <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+                        <div class="modal-body" id="look">
+                            <div class="row">
+                                <div class="col-lg-5">
 
-                                <!--====== Product Breadcrumb ======-->
-                                <div class="pd-breadcrumb u-s-m-b-30">
-                                    <ul class="pd-breadcrumb__list">
-                                        <li class="has-separator">
+                                    <!--====== Product Breadcrumb ======-->
+                                    <div class="pd-breadcrumb u-s-m-b-30">
+                                        <ul class="pd-breadcrumb__list">
+                                            <li class="has-separator">
 
-                                            <a href="index.hml">Home</a>
-                                        </li>
-                                        <li class="has-separator">
+                                                <a href="index.hml">Home</a>
+                                            </li>
+                                            <li class="has-separator">
 
-                                            <a href="shop-side-version-2.html">Electronics</a>
-                                        </li>
-                                        <li class="has-separator">
+                                                <a href="shop-side-version-2.html">Electronics</a>
+                                            </li>
+                                            <li class="has-separator">
 
-                                            <a href="shop-side-version-2.html">DSLR Cameras</a>
-                                        </li>
-                                        <li class="is-marked">
+                                                <a href="shop-side-version-2.html">DSLR Cameras</a>
+                                            </li>
+                                            <li class="is-marked">
 
-                                            <a href="shop-side-version-2.html">Nikon Cameras</a>
-                                        </li>
-                                    </ul>
+                                                <a href="shop-side-version-2.html">Nikon Cameras</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!--====== End - Product Breadcrumb ======-->
+                                    <!--====== Product Detail ======-->
+                                    <div class="pd u-s-m-b-30">
+                                        <div class="pd-wrap">
+                                            <div class="js-product-detail-modal">
+                                                <div>
+
+                                                    <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
+                                                </div>
+                                                @*<div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image2 ' alt="">
+                                                            </div>
+                                                            <div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image3' alt="">
+                                                            </div>
+                                                            <div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image4' alt="">
+                                                            </div>
+                                                            <div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image5 ' alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="u-s-m-t-15">
+                                                        <div id="js-product-detail-modal-thumbnail">
+                                                            <div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
+                                                            </div>
+                                                            <div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image2 ' alt="">
+                                                            </div>
+                                                            <div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image3 ' alt="">
+                                                            </div>
+                                                            <div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image4 ' alt="">
+                                                            </div>
+                                                            <div>
+
+                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image5 ' alt="">
+                                                            </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--====== End - Product Detail ======-->
                                 </div>
-                                <!--====== End - Product Breadcrumb ======-->
-                                <!--====== Product Detail ======-->
-                                <div class="pd u-s-m-b-30">
-                                    <div class="pd-wrap">
-                                        <div class="js-product-detail-modal">
-                                            <div>
+                                <div class="col-lg-7">
 
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
-                                            </div>
-                                            @*<div>
+                                    <!--====== Product Right Side Details ======-->
+                                    <div class="pd-detail">
+                                        <div>
 
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image2 ' alt="">
-                                            </div>
-                                            <div>
+                                            <span class="pd-detail__name">@item.ProductName</span>
+                                        </div>
+                                        <div>
+                                            <div class="pd-detail__inline">
 
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image3' alt="">
-                                            </div>
-                                            <div>
+                                                <span class="pd-detail__price"> @String.Format("{0:0,0}", @b) đ</span>
+                                                @if (Sale != 0)
 
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image4' alt="">
-                                            </div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image5 ' alt="">
+                                                {<span class="pd-detail__discount">(@Sale  % OFF)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @item.Price) đ</del>}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="u-s-m-t-15">
-                                        <div id="js-product-detail-modal-thumbnail">
-                                            <div>
-
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
-                                            </div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image2 ' alt="">
-                                            </div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image3 ' alt="">
-                                            </div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image4 ' alt="">
-                                            </div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image5 ' alt="">
-                                            </div>*@
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--====== End - Product Detail ======-->
-                            </div>
-                            <div class="col-lg-7">
-
-                                <!--====== Product Right Side Details ======-->
-                                <div class="pd-detail">
-                                    <div>
-
-                                        <span class="pd-detail__name">@item.ProductName</span>
-                                    </div>
-                                    <div>
-                                        <div class="pd-detail__inline">
-
-                                            <span class="pd-detail__price"> @String.Format("{0:0,0}", @b) đ</span>
-                                            @if (Sale != 0)
-
-                                            {<span class="pd-detail__discount">(@Sale  % OFF)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @item.Price) đ</del>}
-                                        </div>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-                                        <div class="pd-detail__rating gl-rating-style">
-                                            @{ var Review = DBIO.AVGRatingReview(item.ID); }
-                                            @for (int i = 0; i < (int)Review; i++)
-                                            {
-                                <i class="fas fa-star"></i>}
-                                            @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
-                                            {
-                                <i class="fas fa-star-half-alt"></i>}
-                                            @if (Review - (int)Review >= 0.75)
-                                            {
-                                <i class="fas fa-star"></i>}
-                                            @if (Review - (int)Review <= 0.25)
-                                            {
-                                                for (int i = 0; i < (5 - ((int)Review)); i++)
+                                        <div class="u-s-m-b-15">
+                                            <div class="pd-detail__rating gl-rating-style">
+                                                @{ var Review = DBIO.AVGRatingReview(item.ID); }
+                                                @for (int i = 0; i < (int)Review; i++)
                                                 {
-                                <i class="far fa-star"></i> }
-                                            }
-                                            else
-                                            {
-                                                for (int i = 0; i < (5 - ((int)Review + 1)); i++)
+                                                    <i class="fas fa-star"></i>}
+                                                @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
                                                 {
-                                <i class="far fa-star"></i>}
-                                            }
+                                                    <i class="fas fa-star-half-alt"></i>}
+                                                @if (Review - (int)Review >= 0.75)
+                                                {
+                                                    <i class="fas fa-star"></i>}
+                                                @if (Review - (int)Review <= 0.25)
+                                                {
+                                                    for (int i = 0; i < (5 - ((int)Review)); i++)
+                                                    {
+                                                        <i class="far fa-star"></i> }
+                                                }
+                                                else
+                                                {
+                                                    for (int i = 0; i < (5 - ((int)Review + 1)); i++)
+                                                    {
+                                                        <i class="far fa-star"></i>}
+                                                }
 
-                                            <span class="pd-detail__review u-s-m-l-4">
+                                                <span class="pd-detail__review u-s-m-l-4">
 
-                                                <a data-click-scroll="#view-review">@DBIO.getallReview_Product(item.ID, "ID").Count() đánh giá</a>
-                                            </span>
-                                        </div>
+                                                    <a data-click-scroll="#view-review">@DBIO.getallReview_Product(item.ID, "ID").Count() đánh giá</a>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="u-s-m-b-15">
                                             <div class="pd-detail__inline">
@@ -1237,52 +1257,54 @@
                                         <div class="pd-detail__form">
                                             @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
                                             {
-                                <div class="u-s-m-b-15">
+                                                <div class="u-s-m-b-15">
 
-                                    <span class="pd-detail__label u-s-m-b-8">Cấu hình:</span>
-                                    <div class="pd-detail__size">
-                                        @{int dem1 = 0;}
-                                        @foreach (var item2 in DBIO.getallColor(item.ID))
-                                        {
+                                                    <span class="pd-detail__label u-s-m-b-8">Cấu hình:</span>
+                                                    <div class="pd-detail__size">
+                                                        @{int dem1 = 0;}
+                                                        @foreach (var item2 in DBIO.getallColor(item.ID))
+                                                        {
 
-                                <div class="size__radio">
-                                    @if (dem1 == 0)
-                                    {
-                                <input class="colorP-@item.ID colorP2" type="radio" data_value=@item.ID  name="ColorID" checked value=@item2.ID> dem1 = 1;
-                                    }
-                                    else
-                                    {
-                                <input class="colorP-@item.ID colorP2" type="radio" data_value=@item.ID  name="ColorID" value=@item2.ID>}
+                                                            <div class="size__radio">
+                                                                @if (dem1 == 0)
+                                                                {
+                                                                    <input class="colorP-@item.ID colorP2" type="radio" data_value=@item.ID name="ColorID" checked value=@item2.ID> dem1 = 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input class="colorP-@item.ID colorP2" type="radio" data_value=@item.ID name="ColorID" value=@item2.ID>}
 
-                                    <label class="size__radio-label" for="xs">@item2.ColorName</label>
-                                </div>}
-                                    </div>
-                                </div>
-                                                    <div class="pd-detail-inline-2">
-                                                        <div class="u-s-m-b-15">
+                                                                <label class="size__radio-label" for="xs">@item2.ColorName</label>
+                                                            </div>}
+                                                    </div>
+                                                </div>
+                                                <div class="pd-detail-inline-2">
+                                                    <div class="u-s-m-b-15">
 
-                                                            <!--====== Input Counter ======-->
-                                                            <div class="input-counter">
+                                                        <!--====== Input Counter ======-->
+                                                        <div class="input-counter">
 
-                                                                <span class="input-counter__minus fas fa-minus"></span>
+                                                            <span class="input-counter__minus fas fa-minus"></span>
 
-                                                                <input class="input-counter__text input-counter--text-primary-style" type="text" name="Quantity" value="1" data-min="1" data-max="10">
+                                                            <input class="input-counter__text input-counter--text-primary-style" type="text" name="Quantity" value="1" data-min="1" data-max="10">
 
-                                                                <span class="input-counter__plus fas fa-plus"></span>
-                                                            </div>
-                                                            <!--====== End - Input Counter ======-->
+                                                            <span class="input-counter__plus fas fa-plus"></span>
                                                         </div>
-                                            @if ((UserLogin)(Session["SS"]) != null) {
+                                                        <!--====== End - Input Counter ======-->
+                                                    </div>
+                                                    @if ((UserLogin)(Session["SS"]) != null)
+                                                    {
                                                         <div class="u-s-m-b-15">
 
                                                             <button class="btn btn--e-brand-b-2 ok3" type="submit" data_value="@item.ID">Thêm vào giỏ hàng</button>
                                                         </div>}
-                                            else {
-                                                <div class="u-s-m-b-15">
+                                                    else
+                                                    {
+                                                        <div class="u-s-m-b-15">
 
                                                             <button class="btn btn--e-brand-b-2" type="button" onclick="window.location.href='/User/Login'">Đăng nhập để mua hàng</button>
                                                         </div>}
-                                                    </div>}
+                                                </div>}
                                         </div>
                                     </div>
                                     <div class="u-s-m-b-15">
@@ -1316,55 +1338,56 @@
 
 
 
-        <!--====== End - Quick Look Modal ======-->
-        <!--====== Add to Cart Modal ======-->
-        <div class="modal fade" id="add-to-cart-@item.ID">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content modal-radius modal-shadow">
+            <!--====== End - Quick Look Modal ======-->
+            <!--====== Add to Cart Modal ======-->
+            <div class="modal fade" id="add-to-cart-@item.ID">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-radius modal-shadow">
 
-                    <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12">
-                                <div class="success u-s-m-b-30">
-                                    <div class="success__text-wrap">
-                                        <i class="fas fa-check"></i>
+                        <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="success u-s-m-b-30">
+                                        <div class="success__text-wrap">
+                                            <i class="fas fa-check"></i>
 
-                                        <span>Sản phẩm đã được thêm thành công!</span>
-                                    </div>
-                                    <div class="success__img-wrap">
+                                            <span>Sản phẩm đã được thêm thành công!</span>
+                                        </div>
+                                        <div class="success__img-wrap">
 
-                                        <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
-                                    </div>
-                                    <div class="success__info-wrap">
+                                            <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
+                                        </div>
+                                        <div>&nbsp;</div>
+                                        <div class="success__info-wrap">
 
-                                        <span class="success__name">@item.ProductName - @DBIO.getallColor(item.ID).First().ColorName</span>
+                                            <span class="success__name">@item.ProductName - @DBIO.getallColor(item.ID).First().ColorName</span>
 
-                                        <span class="success__quantity">Số lượng: 1</span>
+                                            <span class="success__quantity">Số lượng: 1</span>
 
-                                        <span class="success__price">@String.Format("{0:0,0}", @b) đ</span>
+                                            <span class="success__price">@String.Format("{0:0,0}", @b) đ</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="s-option">
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="s-option">
 
-                                    <span class="s-option__text" id="tbb-@item.ID"></span>
-                                    <div class="s-option__link-box">
+                                        <span class="s-option__text" id="tbb-@item.ID"></span>
+                                        <div class="s-option__link-box">
 
-                                        <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Index","Home")>TIẾP TỤC MUA SẮM</a>
+                                            <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Index","Home")>TIẾP TỤC MUA SẮM</a>
 
-                                        <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Cart","Home")>XEM GIỎ HÀNG</a>
+                                            <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Cart","Home")>XEM GIỎ HÀNG</a>
 
-                                        <a class="s-option__link btn--e-brand-shadow" href=@Url.Action("checkoutart","User")>ĐẾN TRANG THANH TOÁN</a>
+                                            <a class="s-option__link btn--e-brand-shadow" href=@Url.Action("checkoutCart","User")>ĐẾN TRANG THANH TOÁN</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>}
+            </div>}
         <!--====== End - Add to Cart Modal ======-->
         <!--====== Newsletter Subscribe Modal ======-->
         <div class="modal fade new-l" id="newsletter-modal">

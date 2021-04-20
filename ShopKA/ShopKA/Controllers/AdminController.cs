@@ -14,17 +14,12 @@ namespace ShopKA.Controllers
     public class AdminController : Controller
     { MyDB DB = new MyDB();
         // GET: Admin
-        public ActionResult Index(int page =1,int b=20)
+        public ActionResult Index()
         {
             var C = DBIO.getallProduct().OrderByDescending(i => i.ID).ToList();
-            var A = DBIO.getallProduct().OrderByDescending(i => i.ID).ToPagedList(page, b);
-            int B = C.Count();
-            if (B % b == 0)
-            { ViewBag.page = B / b; }
-            else { ViewBag.page = B / b + 1; }
-            ViewBag.a = page;
+           
             
-            return View(A);
+            return View(C);
         }
         //Tạo SP
         public ActionResult CreatProduct()
@@ -87,15 +82,16 @@ namespace ShopKA.Controllers
             return RedirectToAction("Index", "Admin");
         }
         //Sủa SP
-        public ActionResult EditProduct(int ID)
+        public ActionResult EditProduct(int ID,int PCID=-1)
         {
+            ViewBag.ID = PCID;
             ViewBag.TT = DBIO.getallProductT();
             var A = DBIO.get1Product(ID);
             return View(A);
         }
         [HttpPost]
 
-        public ActionResult EditProduct(Product a, HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5)
+        public ActionResult EditProduct(Product a, HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5, int PCID)
         {
             if (ModelState.IsValid & a.ProducerID != 0)
             {
@@ -105,8 +101,14 @@ namespace ShopKA.Controllers
                 a.Image4 = file4 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file4.InputStream, true, true)) : null;
                 a.Image5 = file5 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file5.InputStream, true, true)) : null;
                 DBIO.EditProduct(a);
-               
-                return RedirectToAction("Index", "Admin");
+                if (PCID == -1)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("DetailNSX", "Admin",new { ID=PCID});
+                }
             }
             else
             {
@@ -356,10 +358,10 @@ namespace ShopKA.Controllers
             return RedirectToAction("Producer", "Admin",new { ID = ID1 });
         }
 
-        public ActionResult DetailNSX(int ID,int page=1,int b=10)
+        public ActionResult DetailNSX(int ID)
         {
             ViewBag.ID = ID;
-            var A = DBIO.getallProduct_ProducerID(ID).ToPagedList(page,b);
+            var A = DBIO.getallProduct_ProducerID(ID);
             return View(A);
         }
         //Thay doi stt Product
@@ -387,84 +389,108 @@ namespace ShopKA.Controllers
             return Content("Không");
         }
 
-        public ActionResult Index1(string status="true",int sell=1,string sort="ID DESC",int page = 1, int b = 10,int id=-1)
+        public ActionResult Index1(string status="true",int sell=1,int page = 1, int b = 10,int id=-1,int id2=-1,int ProducerID=-1)
         {
             if(id!=-1)
             {
                 DBIO.DeleteProduct(id);
+            }
+            else if(id2!=-1)
+            {
+                var a = DBIO.get1SaleProduct(id2);
+                var d = DB.Products.FirstOrDefault(i => i.ID == id2);
+                d.Sale = 0;
+                var c = DB.SaleProducts.FirstOrDefault(i => i.ID == a.ID);
+                DB.SaleProducts.Remove(c);
+                DB.SaveChanges();
             }    
             List<Product> A = new List<Product>();
-            if(status=="true")
+            if (ProducerID == -1)
             {
-                if (sell == 1)
+                if (status == "true")
                 {
-                    A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' ORDER BY " + sort + " ").ToList();
+                    if (sell == 1)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE'").ToList();
+                    }
+                    else if (sell == 2)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND SALE>0").ToList();
+                    }
+                    else
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND SALE=0").ToList();
+                    }
+
                 }
-                else if (sell == 2)
+                else if (status == "false")
                 {
-                    A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND SALE>0  ORDER BY " + sort + " ").ToList();
+                    if (sell == 1)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' ").ToList();
+                    }
+                    else if (sell == 2)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE>0 ").ToList();
+                    }
+                    else
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE=0  ").ToList();
+                    }
                 }
                 else
                 {
-                    A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND SALE=0  ORDER BY " + sort + " ").ToList();
-                } 
-                    
+                    A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE LAUNCH='FALSE' ORDER BY ID DESC").ToList();
+                }
             }
-            else if(status=="false")
-            {
-                if (sell == 1)
-                {
-                    A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' ORDER BY " + sort + " ").ToList();
-                }
-                else if (sell == 2)
-                {
-                    A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE>0  ORDER BY " + sort + " ").ToList();
-                }
-                else
-                {
-                    A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE=0  ORDER BY " + sort + " ").ToList();
-                }
-            }    
             else
             {
-                A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE LAUNCH='FALSE' ORDER BY ID DESC").ToList();
+                if (status == "true")
+                {
+                    if (sell == 1)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND PRODUCERID='"+ProducerID+"'").ToList();
+                    }
+                    else if (sell == 2)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND SALE>0 AND PRODUCERID='" + ProducerID + "'").ToList();
+                    }
+                    else
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND SALE=0 AND PRODUCERID='" + ProducerID + "'").ToList();
+                    }
+
+                }
+                else if (status == "false")
+                {
+                    if (sell == 1)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND PRODUCERID='" + ProducerID + "' ").ToList();
+                    }
+                    else if (sell == 2)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE>0 AND PRODUCERID='" + ProducerID + "' ").ToList();
+                    }
+                    else
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE=0 AND PRODUCERID='" + ProducerID + "' ").ToList();
+                    }
+                }
+                else
+                {
+                    A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE LAUNCH='FALSE' AND PRODUCERID='" + ProducerID + "' ORDER BY ID DESC").ToList();
+                }
             }    
 
-
-            var C= A;
-            var D = A.ToPagedList(page,b);
-            int B = C.Count();
-            if (B%b==0)
-            { ViewBag.page = B / b; }
-            else { ViewBag.page = B / b + 1; }
-            ViewBag.a = page;
-            return View(D);
-        }
-
-        public ActionResult Index2(int page = 1, int b = 20)
-        {
-            MyDB kk = new MyDB();
-            var A = DBIO.getallProduct().ToPagedList(page, b);
             
-            int B = kk.Products.Count();
-            if (B % b == 0)
-            { ViewBag.page = B / b; }
-            else { ViewBag.page = B / b + 1; }
-            ViewBag.a = page;
+           
+            
+           
             return View(A);
         }
 
-        public ActionResult DetailNSX1(int ID, int page = 1, int b = 10)
-        {
-            var A = DBIO.getallProduct_ProducerID(ID).Where(i=>i.Sale!=0).ToPagedList(page, b);
-            return View(A);
-        }
-
-        public ActionResult DetailNSX2(int ID, int page = 1, int b = 10)
-        {
-            var A = DBIO.getallProduct_ProducerID(ID).ToPagedList(page, b);
-            return View(A);
-        }
+        
+       
 
 
         public ActionResult CreatProduct2(int ID)
@@ -509,6 +535,95 @@ namespace ShopKA.Controllers
             DBIO.ChangeLaunch(ID);
             var a = DBIO.get1Product(ID);
             return View(a);
+        }
+
+        //Thêm Sale
+        public ActionResult AddSale(int ID)
+        {
+            ViewBag.ID = ID;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult addSale(SaleProduct a)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+                if (DB.SaleProducts.Count(i => i.ProductID == a.ProductID) == 0)
+                {
+                    if(a.SaleTimeEnd<=a.SaleTimeStart)
+                    {
+                        ModelState.AddModelError("", "Ngày không hợp lệ");
+                        ViewBag.ID = a.ProductID;
+                        return View(a);
+                    }
+                    a.Sale = a.Sale / 100;
+                    DB.SaleProducts.Add(a);
+                    DB.SaveChanges();
+                    return RedirectToAction("Index", "Admin");
+                } }
+            ViewBag.ID = a.ProductID;
+            return View(a);
+        }
+
+        //Sửa Sale
+        public ActionResult EditSale(int ID,int PCID=-1)
+        {
+            ViewBag.ID = PCID;
+            var a = DBIO.get1SaleProduct(ID);
+            return View(a);
+        }
+        [HttpPost]
+        public ActionResult EditSale(SaleProduct a,int PCID)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+               
+                    if (a.SaleTimeEnd <= a.SaleTimeStart)
+                    {
+                        ModelState.AddModelError("", "Ngày không hợp lệ");
+                        ViewBag.ID = a.ProductID;
+                        return View(a);
+                    }
+                    a.Sale = a.Sale / 100;
+                    var b=DB.SaleProducts.FirstOrDefault(i => i.ID == a.ID);
+                    b.Sale = a.Sale;
+                    b.SaleTimeEnd = a.SaleTimeEnd;
+                    b.SaleTimeStart = a.SaleTimeStart;
+                    DB.SaveChanges();
+                if (PCID == -1)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("DetailNSX", "Admin",new { ID=PCID });
+                }
+
+            }
+            
+            return View(a);
+        }
+
+        public ActionResult User()
+        {
+            var A = DBIO.getallUser();
+            return View(A);
+
+        }
+
+        public ActionResult ChangeSTTUser(int ID)
+        {
+
+            var A = DB.Users.SingleOrDefault(i=>i.ID==ID);
+            A.Status = !A.Status;
+            DB.SaveChanges();
+            
+            return View(A);
+
         }
     }
 }

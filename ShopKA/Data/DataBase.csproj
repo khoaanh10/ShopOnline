@@ -173,6 +173,18 @@
     <Compile Include="Migrations\202104140902016_edit table Product 2222.Designer.cs">
       <DependentUpon>202104140902016_edit table Product 2222.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104201112232_edit PDorder.cs" />
+    <Compile Include="Migrations\202104201112232_edit PDorder.Designer.cs">
+      <DependentUpon>202104201112232_edit PDorder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104201127228_edit PDorder2.cs" />
+    <Compile Include="Migrations\202104201127228_edit PDorder2.Designer.cs">
+      <DependentUpon>202104201127228_edit PDorder2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104201132588_edit PDorder3.cs" />
+    <Compile Include="Migrations\202104201132588_edit PDorder3.Designer.cs">
+      <DependentUpon>202104201132588_edit PDorder3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs" />
     <Compile Include="ProductOrder.cs" />
     <Compile Include="Province.cs" />
@@ -331,6 +343,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104140902016_edit table Product 2222.resx">
       <DependentUpon>202104140902016_edit table Product 2222.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104201112232_edit PDorder.resx">
+      <DependentUpon>202104201112232_edit PDorder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104201127228_edit PDorder2.resx">
+      <DependentUpon>202104201127228_edit PDorder2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104201132588_edit PDorder3.resx">
+      <DependentUpon>202104201132588_edit PDorder3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

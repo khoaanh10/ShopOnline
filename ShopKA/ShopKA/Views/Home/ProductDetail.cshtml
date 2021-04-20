@@ -28,7 +28,7 @@
                                     var NSX = @DBIO.get1Producer_ProducerID(Model.ProducerID);
                                     float a = (float)(Model.Price * Model.Sale);
                                     int b = (int)(Model.Price - a);
-                                    int Sale = (int)(Model.Sale * 100.0);}
+                                    float Sale = (Model.Sale * 100);}
                                 <a href=@Url.Action("Product", "Home", new { ProductTID = LSP.ID })> @LSP.ProducTName</a>
                             </li>
                             <li class="has-separator">
@@ -668,12 +668,15 @@
                                         <ul class="product-o__action-list">
                                             <li>
 
-                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a>
+                                                <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a>
                                             </li>
-                                            <li>
+                                            @if ((UserLogin)(Session["SS"]) != null)
+                                            {
+                                                <li>
 
-                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a>
-                                            </li>
+                                                    <a data-modal="modal" class="addcartindex" data_value=@item.ID data_value2=@DBIO.get1ColorFirst(item.ID).ID data-modal-id="#add-to-cart-@item.ID" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a>
+                                                </li>
+}
                                             <li>
 
                                                 <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a>

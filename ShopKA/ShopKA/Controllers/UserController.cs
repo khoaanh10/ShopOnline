@@ -449,8 +449,10 @@ namespace ShopKA.Controllers
                     ProductOrder b = new ProductOrder();
                     b.OrderID = e.ID;
                     b.ColorID = item.ColorID;
+                    b.Image = DBIO.getProduct_Cart(item).Image;
+                    b.PDName = DBIO.getProduct_Cart(item).ProductName + " - " + DBIO.getColor_Cart(item).ColorName;
                     b.Quantity = item.Quantity;
-
+                    b.Price = (int)(DBIO.getProduct_Cart(item).Price - (float)(DBIO.getProduct_Cart(item).Sale * DBIO.getProduct_Cart(item).Price));
                     DB.ProductOrders.Add(b);
                     DB.SaveChanges();
                     var c = DB.Carts.FirstOrDefault(i => i.ID == item.ID);
@@ -532,9 +534,9 @@ namespace ShopKA.Controllers
             int Money = 0;
             foreach(var item in a)
             {
-                var r = DBIO.getProduct_ProductOrder(item).Price * DBIO.getProduct_ProductOrder(item).Sale;
-                int b = (int)(DBIO.getProduct_ProductOrder(item).Price - r);
-                Money = Money + b * item.Quantity;
+
+                int b = item.Price;
+                Money = Money + b ;
             }
             ViewBag.Money = Money;
            

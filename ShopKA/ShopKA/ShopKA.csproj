@@ -2349,6 +2349,11 @@
     <Content Include="Views\User\ManageOrder.cshtml" />
     <Content Include="Views\Admin\DeleteSale.cshtml" />
     <Content Include="Views\Home\ClearCart.cshtml" />
+    <Content Include="Views\Admin\addSale.cshtml" />
+    <Content Include="Views\Admin\EditSale.cshtml" />
+    <Content Include="Views\Admin\Test.cshtml" />
+    <Content Include="Views\Admin\User.cshtml" />
+    <Content Include="Views\Admin\ChangeSTTUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

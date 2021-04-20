@@ -340,6 +340,7 @@
                                             <select class="select-box select-box--transparent-b-2" id="sort">
 
                                                 <option selected value="ID">Sắp xếp: Mới Nhất</option>
+                                                <option value="View1">Sắp xếp: Lượt xem </option>
                                                 <option value="Sale">Sắp xếp: Giảm giá sâu nhất</option>
                                                 <option value="Price">Sắp xếp: Giá cao đến thấp </option>
                                                 <option value="Price2">Sắp xếp: Giá thấp đến cao </option>
@@ -359,7 +360,7 @@
                                     
                                     var r = item.Price * item.Sale;
                                     int b = (int)(item.Price - r);
-                                    int Sale = (int)(item.Sale * 100);
+                                    float Sale = (item.Sale * 100);
                                     <div class="col-lg-4 col-md-6 col-sm-6">
                                         <div class="product-m">
                                             <div class="product-m__thumb">
@@ -388,8 +389,10 @@
                                                 <span class="product-o__category">
 
                                                     <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID})>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
-                                                    {<i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green">@time</i> </i>}
-                                                    </span>
+                                                    {
+                                                        string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                        <i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green"> @time</i> </i>}
+                                                </span>
                                                 <div class="product-m__name">
 
                                                     <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID }) >@item.ProductName</a>

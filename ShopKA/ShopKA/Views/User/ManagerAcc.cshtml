@@ -182,10 +182,10 @@
                                                 int Money = 0;
                                                 foreach (var item2 in DBIO.getallPDOrder(item.ID))
                                                 {
-                                                    var r = DBIO.getProduct_ProductOrder(item2).Price * DBIO.getProduct_ProductOrder(item2).Sale;
-                                                    int b = (int)(DBIO.getProduct_ProductOrder(item2).Price - r);
+
+                                                    int b = item2.Price;
                                                     int g = b * item2.Quantity;
-                                                    Money = Money + g * item2.Quantity;
+                                                    Money = Money + g;
                                                 }
                                                 Money = Money + 100000;
                                             <tr>

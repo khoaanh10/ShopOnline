@@ -101,7 +101,7 @@ else {
                                         string name = 'c' + item.ID.ToString();
                                         var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
                                         int b = (int)(DBIO.getProduct_Cart(item).Price - r);
-                                        int Sale = (int)(DBIO.getProduct_Cart(item).Sale * 100);
+                                        float Sale = (DBIO.getProduct_Cart(item).Sale * 100);
                                         if (item.checkSTT == true)
                                         { Money = Money + b * item.Quantity; }
                                         <!--====== Row ======-->

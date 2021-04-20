@@ -9,13 +9,13 @@
 
         var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
         int b = (int)(DBIO.getProduct_Cart(item).Price - r);
-        int Sale = (int)(DBIO.getProduct_Cart(item).Sale * 100);
+        float Sale = (DBIO.getProduct_Cart(item).Sale * 100);
         
         <div class="o-card">
             <div class="o-card__flex">
                 <div class="o-card__img-wrap">
 
-                    <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt="">
+                    <img class="u-img-fluid" src='data:image/png;base64,@DBIO.getProduct_Cart(item).Image ' alt="">
                 </div>
                 <div class="o-card__info-wrap">
 
