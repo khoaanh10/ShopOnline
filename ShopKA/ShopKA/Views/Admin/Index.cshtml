@@ -51,6 +51,7 @@
                         <th>NSX</th>
                         <th>Loại SP</th>
                         <th>Tổng SL</th>
+                        <th>Đã bán</th>
                         <th>Launch</th>
                         <th>Tình Trạng</th>
                         <th>Sale</th>
@@ -91,6 +92,7 @@
                             <td>@a</td>
                             <td>@b</td>
                             <td>@s</td>
+                            <td>@DBIO.SumsellPD(item.ID)</td>
                             @{string idd = 'a' + item.ID.ToString();}
                             @if (item.Launch == false)
                             {

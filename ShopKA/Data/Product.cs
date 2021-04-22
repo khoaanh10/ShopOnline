@@ -91,7 +91,7 @@ namespace DataBase
 
 
         public int View1 { get; set; }
-        public int SellQuantity { get; set; }
+       
 
         public bool Launch { get; set; }
         

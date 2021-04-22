@@ -29,6 +29,8 @@ namespace DataBase
         public DbSet<Province> Provinces { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<SaleProduct> SaleProducts { get; set; }
+        public DbSet<SellProduct> SellProducts { get; set; }
+        public DbSet<SellDate> SellDates { get; set; }
 
     }
 }

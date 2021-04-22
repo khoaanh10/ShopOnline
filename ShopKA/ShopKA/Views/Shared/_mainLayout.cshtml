@@ -1073,20 +1073,17 @@
                                         <ul class="pd-breadcrumb__list">
                                             <li class="has-separator">
 
-                                                <a href="index.hml">Home</a>
+                                                <a href=@Url.Action("Index", "Home")>Home</a>
                                             </li>
                                             <li class="has-separator">
 
-                                                <a href="shop-side-version-2.html">Electronics</a>
+                                                <a href=@Url.Action("Product", "Home", new { ProductTID = LSP.ID })> @LSP.ProducTName</a>
                                             </li>
                                             <li class="has-separator">
 
-                                                <a href="shop-side-version-2.html">DSLR Cameras</a>
+                                                <a href=@Url.Action("Product", "Home", new { ProducerID = NSX.ID })>@NSX.ProducerName</a>
                                             </li>
-                                            <li class="is-marked">
-
-                                                <a href="shop-side-version-2.html">Nikon Cameras</a>
-                                            </li>
+                                            
                                         </ul>
                                     </div>
                                     <!--====== End - Product Breadcrumb ======-->
@@ -1196,7 +1193,7 @@
 
                                                 <span class="pd-detail__stock" id="quantity-@item.ID">@DBIO.get1Color_ProductID(@item.ID).Quantity trong kho</span>
 
-                                                <span class="pd-detail__left">Đã bán: </span>
+                                                <span class="pd-detail__left">Đã bán: @DBIO.SumsellPD(item.ID)</span>
                                             </div>
                                         </div>
                                         <div class="u-s-m-b-15">
@@ -1209,7 +1206,7 @@
                                                 <span class="pd-detail__click-wrap">
                                                     <i class="far fa-heart u-s-m-r-6"></i>
 
-                                                    <a href="signin.html">Thêm vào yêu thíc</a>
+                                                    <a href="signin.html">Thêm vào yêu thích</a>
 
                                                     <span class="pd-detail__click-count">(222)</span>
                                                 </span>
@@ -1309,22 +1306,22 @@
                                     </div>
                                     <div class="u-s-m-b-15">
 
-                                        <span class="pd-detail__label u-s-m-b-8">Product Policy:</span>
+                                        <span class="pd-detail__label u-s-m-b-8">Chính Sách Sản Phẩm:</span>
                                         <ul class="pd-detail__policy-list">
                                             <li>
                                                 <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                                <span>Buyer Protection.</span>
+                                                <span>Bảo vệ người mua.</span>
                                             </li>
                                             <li>
                                                 <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                                <span>Full Refund if you don't receive your order.</span>
+                                                <span>Hoàn trả đầy đủ nếu bạn không nhận được đơn hàng.</span>
                                             </li>
                                             <li>
                                                 <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                                <span>Returns accepted if product not as described.</span>
+                                                <span>Trả hàng được chấp nhận nếu như sản phẩm không giống như mô tả.</span>
                                             </li>
                                         </ul>
                                     </div>

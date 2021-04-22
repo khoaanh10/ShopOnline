@@ -445,16 +445,60 @@ namespace ShopKA.Controllers
                 var e = DB.Orders.OrderByDescending(i => i.ID).FirstOrDefault(i => i.UserID == ID);
 
                 foreach (var item in DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Where(i => i.checkSTT == true).ToList())
-                {
-                    ProductOrder b = new ProductOrder();
+            {
+                var d = DB.Colors.Single(i => i.ID == item.ColorID);
+                ProductOrder b = new ProductOrder();
                     b.OrderID = e.ID;
                     b.ColorID = item.ColorID;
                     b.Image = DBIO.getProduct_Cart(item).Image;
                     b.PDName = DBIO.getProduct_Cart(item).ProductName + " - " + DBIO.getColor_Cart(item).ColorName;
+                if (d.Quantity == 0)
+                {
+                    return RedirectToAction("Cart", "Home");
+                }
+                else if (d.Quantity > item.Quantity)
+                {
                     b.Quantity = item.Quantity;
+                    d.Quantity = d.Quantity - item.Quantity;
+                    DB.SaveChanges();
+                    var h = DB.Carts.Where(i => i.ColorID == d.ID &i.Quantity>d.Quantity & i.UserID != ID).ToList();
+                    if (h.Count > 0) { 
+                    foreach (var item2 in h)
+                    {
+                        var cart = DB.Carts.Single(i => i.ID == item2.ID);
+                        cart.Quantity = d.Quantity;
+                        DB.SaveChanges();
+                    } }
+                }
+                else if(d.Quantity<=item.Quantity)
+                {
+                    b.Quantity = d.Quantity;
+                    d.Quantity = 0;
+                    DB.SaveChanges();
+                    var h = DB.Carts.Where(i => i.ColorID == d.ID &i.UserID!=ID).ToList();
+                    if (h.Count() > 0)
+                    {
+                        foreach (var item2 in h)
+                        {
+                            var cart = DB.Carts.Single(i => i.ID == item2.ID);
+                            DB.Carts.Remove(cart);
+                            DB.SaveChanges();
+                        }
+                    }
+                }    
                     b.Price = (int)(DBIO.getProduct_Cart(item).Price - (float)(DBIO.getProduct_Cart(item).Sale * DBIO.getProduct_Cart(item).Price));
                     DB.ProductOrders.Add(b);
                     DB.SaveChanges();
+                   
+                
+               
+                    
+                    
+                    if (DBIO.CountProductofColor(d.ProductID) == 0)
+                    {
+                        DB.Products.Single(i => i.ID == d.ProductID).Status = false;
+                        DB.SaveChanges();
+                    }
                     var c = DB.Carts.FirstOrDefault(i => i.ID == item.ID);
                     DB.Carts.Remove(c);
                     DB.SaveChanges();
@@ -474,7 +518,23 @@ namespace ShopKA.Controllers
         }
 
         public ActionResult DeleteOrder(int ID)
-        {
+        { MyDB DB = new MyDB();
+
+            var c = DBIO.getallPDOrder(ID);
+            foreach(var item in c)
+            {
+                var d = DB.Colors.Single(i=>i.ID==item.ColorID);
+                if(d!=null)
+                {
+                    d.Quantity = item.Quantity + d.Quantity;
+                    DB.SaveChanges();
+                }
+                if (DBIO.CountProductofColor(d.ProductID) > 0)
+                {
+                    DB.Products.Single(i => i.ID == d.ProductID).Status = true;
+                    DB.SaveChanges();
+                }
+            }
             
             DBIO.deleteorder(ID);
             var a = DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
@@ -508,7 +568,7 @@ namespace ShopKA.Controllers
             }
             else if (ID == 5)
             {
-                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID==id&i.Status == 5).ToList();
+                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID==id&i.Status >= 5).ToList();
                 
             }
             else
@@ -536,7 +596,7 @@ namespace ShopKA.Controllers
             {
 
                 int b = item.Price;
-                Money = Money + b ;
+                Money = Money + b*item.Quantity ;
             }
             ViewBag.Money = Money;
            

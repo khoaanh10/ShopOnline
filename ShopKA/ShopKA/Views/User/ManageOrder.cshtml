@@ -155,7 +155,7 @@
                                             { <div class="manage-o__text u-c-secondary">Đang chờ vận chuyển</div>}
                                             else if (order.Status >= 2 & order.Status < 4)
                                             { <div class="manage-o__text u-c-secondary">Dự kiến giao hàng trong 7 ngày</div>}
-                                            else if (order.Status >= 4)
+                                            else if (order.Status == 4)
                                             { <div class="manage-o__text u-c-secondary">Đã nhận hàng</div>}
                                             else
                                             { <div class="manage-o__text u-c-secondary">Đã hủy</div>}
@@ -376,7 +376,7 @@
                                                         <span class="timeline-text">Đã giao hàng</span>
                                                     </div>
                                                 </div>}
-                                                else if (order.Status == 5) {
+                                                else if (order.Status >4) {
                                                 <div class="col-lg-3 u-s-m-b-23">
                                                     <div class="timeline-step ">
                                                         <div class="timeline-l-i timeline-l-i--finish">

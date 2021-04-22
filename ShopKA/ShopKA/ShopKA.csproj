@@ -178,6 +178,7 @@
     <Content Include="Asset\images\banners\banner-mega-7.jpg" />
     <Content Include="Asset\images\banners\banner-mega-8.jpg" />
     <Content Include="Asset\images\banners\banner-mega-9.jpg" />
+    <Content Include="Asset\images\slider\banner.jpg" />
     <Content Include="Asset\images\banners\i3-banner-1.jpg" />
     <Content Include="Asset\images\banners\i3-banner-2.jpg" />
     <Content Include="Asset\images\blog\avatar-2.jpg" />
@@ -2354,6 +2355,12 @@
     <Content Include="Views\Admin\Test.cshtml" />
     <Content Include="Views\Admin\User.cshtml" />
     <Content Include="Views\Admin\ChangeSTTUser.cshtml" />
+    <Content Include="Views\Admin\OrderAdmin.cshtml" />
+    <Content Include="Views\Admin\changeOrderSTT.cshtml" />
+    <Content Include="Views\Admin\OrderAdmin1.cshtml" />
+    <Content Include="Views\Admin\SellProduct.cshtml" />
+    <Content Include="Views\Admin\AdOrderDetail.cshtml" />
+    <Content Include="Views\Admin\SellDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

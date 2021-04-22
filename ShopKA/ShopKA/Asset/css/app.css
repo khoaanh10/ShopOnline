@@ -6068,12 +6068,12 @@ o-summary__item-wrap1 {
 
 .hero-slide {
   background: center center/cover no-repeat; }
-  .hero-slide--1 {
-    background-image: url(../images/slider/slide-1.jpg); }
-  .hero-slide--2 {
-    background-image: url(../images/slider/slide-2.jpg); }
-  .hero-slide--3 {
-    background-image: url(../images/slider/slide-3.jpg); }
+  /*.hero-slide--1 {
+    background-image: url(../images/slider/banner.jpg); }*/
+ /* .hero-slide--2 {
+    background-image: url(../images/slider/slide-2.jpg); }*/
+ /* .hero-slide--3 {
+    background-image: url(../images/slider/slide-3.jpg); }*/
   .hero-slide--4 {
     background-image: url(../images/slider/slide-4.jpg); }
   .hero-slide--5 {

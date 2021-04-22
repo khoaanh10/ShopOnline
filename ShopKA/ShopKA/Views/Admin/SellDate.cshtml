@@ -1,0 +1,59 @@
+﻿@model List<DataBase.SellDate>
+@using ShopKA.Models
+@using DataBase
+
+@{
+    ViewBag.Title = "SellProduct";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Sản phẩm đã bán</h6>
+    </div>
+
+
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên người mua</th>
+
+
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Giá</th>
+                        <th scope="col">Ngày mua</th>
+
+                        <th scope="col">                      </th>
+</thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <th scope="row">@item.ID</th>
+                            <td>@item.BuyName</td>
+                            <td>@item.Quantity</td>
+                            <td>@String.Format("{00:0,0}",item.Price) đ</td>
+
+                            <td>
+
+
+                                @String.Format("{0:dd/MM/yyyy H:mm:ss}", @item.DateSell)
+
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>

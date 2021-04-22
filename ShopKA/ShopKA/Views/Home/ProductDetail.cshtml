@@ -155,9 +155,9 @@
                         <div class="u-s-m-b-15">
                             <div class="pd-detail__inline">
 
-                                <span class="pd-detail__stock" id="quantity">@ViewBag.Quantity trong kho</span>
+                                <span class="pd-detail__stock" id="quantity" >@ViewBag.Quantity trong kho</span>
 
-                                <span class="pd-detail__left">Đã bán: </span>
+                                <span class="pd-detail__left">Đã bán: @DBIO.SumsellPD(Model.ID)</span>
                             </div>
                         </div>
                         <div class="u-s-m-b-15">
@@ -222,7 +222,7 @@
                                     <span class="pd-detail__label u-s-m-b-8">Cấu hình:</span>
                                     <div class="pd-detail__size">
                                         @{int dem = 0;}
-                                        @foreach (var item in DBIO.getallColor(Model.ID))
+                                        @foreach (var item in DBIO.getallColor(Model.ID).Where(i=>i.Quantity>0).ToList())
                                         {
 
                                         <div class="size__radio">
@@ -267,22 +267,22 @@
                         </div>
                         <div class="u-s-m-b-15">
 
-                            <span class="pd-detail__label u-s-m-b-8">Product Policy:</span>
+                            <span class="pd-detail__label u-s-m-b-8">Chính Sách Sản Phẩm:</span>
                             <ul class="pd-detail__policy-list">
                                 <li>
                                     <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                    <span>Buyer Protection.</span>
+                                    <span>Bảo vệ người mua.</span>
                                 </li>
                                 <li>
                                     <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                    <span>Full Refund if you don't receive your order.</span>
+                                    <span>Hoàn trả đầy đủ nếu bạn không nhận được đơn hàng.</span>
                                 </li>
                                 <li>
                                     <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                    <span>Returns accepted if product not as described.</span>
+                                    <span>Trả hàng được chấp nhận nếu như sản phẩm không giống như mô tả.</span>
                                 </li>
                             </ul>
                         </div>
@@ -662,7 +662,7 @@
 
                                     <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>
 
-                                        <img class="aspect__img" src="~/Asset/images/product/electronic/product1.jpg" alt="">
+                                        <img class="aspect__img" src='data:image/png;base64,@item.Image ' alt="">
                                     </a>
                                     <div class="product-o__action-wrap">
                                         <ul class="product-o__action-list">

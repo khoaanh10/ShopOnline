@@ -97,3 +97,6 @@ D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.edittableProd
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editPDorder.resources
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editPDorder2.resources
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editPDorder3.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\DataBase.csprojAssemblyReference.cache
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editcolor.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.addtableSell.resources

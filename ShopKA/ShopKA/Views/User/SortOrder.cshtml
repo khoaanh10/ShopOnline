@@ -39,7 +39,7 @@
                     {<span class="manage-o__badge badge--delivered">Đang giao hàng</span>}
                     else if (item.Status == 4)
                     {<span class="manage-o__badge badge--success">Đã giao thành công</span>}
-                    else if (item.Status == 5)
+                    else if (item.Status > 4)
                     {<span class="manage-o__badge badge--cancel">Đơn hàng bị hủy</span>}
                 </div>
                 @if (item.Status < 2)

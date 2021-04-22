@@ -1,0 +1,58 @@
+﻿@model List<DataBase.SellProduct>
+@using ShopKA.Models
+@using DataBase
+
+@{
+    ViewBag.Title = "SellProduct";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+    
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Sản phẩm đã bán</h6>
+    </div>
+
+
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên Sp</th>
+
+
+                        <th scope="col">Tổng SL đã bán</th>
+                        <th scope="col">Tổng tiền thu được</th>
+
+                        <th scope="col">                      </th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <th scope="row">@item.ID</th>
+                            <td>@item.PDName</td>
+                            <td>@DBIO.CountSellPD(item.ID)</td>
+                            <td>@String.Format("{00:0,0}",DBIO.CountSellPDprice(item.ID)) đ</td>
+
+                            <td>
+
+                                
+                                <a class="btn btn-primary" href=@Url.Action("SellDate","Admin",new { ID=item.ID}) role="button">Xem chi tiết </a>
+
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,7 @@
         <th scope="col">NSX</th>
         <th scope="col">Loại SP</th>
         <th scope="col">Tổng SL</th>
+        <th scope="col">SL đã bán</th>
         <th scope="col">Launch</th>
         <th scope="col">Tình Trạng</th>
         <th scope="col">Sale</th>
@@ -43,6 +44,7 @@
         <td>@a</td>
         <td>@b</td>
         <td>@s</td>
+        <td>@DBIO.SumsellPD(item.ID)</td>
         <td>@p</td>
         <td>@t</td>
         @{if (item.Sale == 0.0)

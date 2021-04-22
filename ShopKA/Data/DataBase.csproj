@@ -185,11 +185,21 @@
     <Compile Include="Migrations\202104201132588_edit PDorder3.Designer.cs">
       <DependentUpon>202104201132588_edit PDorder3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104211028099_edit color.cs" />
+    <Compile Include="Migrations\202104211028099_edit color.Designer.cs">
+      <DependentUpon>202104211028099_edit color.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104220200354_add table Sell.cs" />
+    <Compile Include="Migrations\202104220200354_add table Sell.Designer.cs">
+      <DependentUpon>202104220200354_add table Sell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs" />
     <Compile Include="ProductOrder.cs" />
     <Compile Include="Province.cs" />
     <Compile Include="Review.cs" />
     <Compile Include="SaleProduct.cs" />
+    <Compile Include="SellDate.cs" />
+    <Compile Include="SellProduct.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Migrations\202103220241053_taobang.cs" />
@@ -352,6 +362,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104201132588_edit PDorder3.resx">
       <DependentUpon>202104201132588_edit PDorder3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104211028099_edit color.resx">
+      <DependentUpon>202104211028099_edit color.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104220200354_add table Sell.resx">
+      <DependentUpon>202104220200354_add table Sell.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

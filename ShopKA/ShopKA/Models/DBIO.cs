@@ -862,7 +862,61 @@ namespace ShopKA.Models
             return DB.Users.ToList();
         }
 
-      
+        public static List<Order> getallOrderadmin()
+        {
+            MyDB DB = new MyDB();
+            return DB.Orders.ToList();
+        }
+
+        //Tong sp da ban
+        public static int SumsellPD(int ID)
+        {
+            int a = 0;
+            foreach(var item in DBIO.getallColor(ID))
+            {
+                a = a + item.SellQuantity;
+            }
+            return a;
+        }
+
+        //Lây danh sach SP da ban
+        public static List<SellProduct> getallSellPD()
+        {
+            MyDB DB = new MyDB();
+            return DB.SellProducts.ToList();
+        }
+        //
+        //Lay danh sach chi tiet cua 1 SP da ban
+        public static List<SellDate> getallSellDate(int ID)
+        {
+            MyDB DB = new MyDB();
+            return DB.SellDates.Where(i=>i.SellPDID==ID).ToList();
+        }
+        //Dem tong gia SP da ban
+        public static int CountSellPDprice(int ID)
+        {
+            MyDB DB = new MyDB();
+            var A = DB.SellDates.Where(i => i.SellPDID == ID);
+            int s = 0;
+            foreach(var item in A)
+            {
+                s = s + (item.Price * item.Quantity);
+            }
+            return s;
+        }
+        //Dem tong SP da ban
+        public static int CountSellPD(int ID)
+        {
+            MyDB DB = new MyDB();
+            var A = DB.SellDates.Where(i => i.SellPDID == ID);
+            int s = 0;
+            foreach (var item in A)
+            {
+                s = s + item.Quantity;
+            }
+            return s;
+        }
+
 
 
     }

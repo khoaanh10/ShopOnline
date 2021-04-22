@@ -625,5 +625,120 @@ namespace ShopKA.Controllers
             return View(A);
 
         }
+
+        public ActionResult OrderAdmin()
+        {
+            var A = DBIO.getallOrderadmin();
+            return View(A);
+        }
+
+        public ActionResult OrderAdmin1(int status)
+        {
+            if (status == -1)
+            {
+                var A = DBIO.getallOrderadmin();
+                return View(A);
+            }
+            else
+            {
+                var A = DB.Orders.Where(i => i.Status == status).ToList();
+                return View(A);
+            }    
+            
+        }
+
+        public ActionResult changeOrderSTT(int ID, int ID2 = -1)
+        {
+            if (ID2 == -1)
+            {
+                
+                var A = DB.Orders.Single(i => i.ID == ID);
+                
+                if(A.Status==5)
+                {
+                    foreach (var item in DBIO.getallPDOrder(A.ID))
+                    {
+                        var C = DB.Colors.Single(i => i.ID == item.ColorID);
+                        if (C != null)
+                        {
+                            C.Quantity = C.Quantity + item.Quantity;
+                            DB.Products.Single(i => i.ID == C.ProductID).Status = true;
+                            DB.SaveChanges();
+                        }
+                    }
+                }    
+                A.Status = A.Status + 1;
+                DB.SaveChanges();
+            }
+            else
+            {
+                var A = DB.Orders.Single(i => i.ID == ID);
+                if(ID2==4)
+                {
+                    foreach (var item in DBIO.getallPDOrder(A.ID))
+                    {
+                        var C = DB.Colors.Single(i => i.ID == item.ColorID);
+                        
+                       
+                        if (C != null)
+                        {
+                            SellProduct F =null;
+                            C.SellQuantity = C.SellQuantity + item.Quantity;
+                            DB.SaveChanges();
+                            if (DB.SellProducts.Any(i => i.ColorID == C.ID))
+                            {
+                                F = DB.SellProducts.Single(i => i.ColorID == C.ID);
+
+                            }
+                            else
+                            {
+                                SellProduct D = new SellProduct();
+                                D.ColorID = C.ID;
+                                D.PDName = item.PDName;
+                                DB.SellProducts.Add(D);
+                                DB.SaveChanges();
+                                F = DB.SellProducts.Single(i=>i.ColorID==C.ID);
+                            }
+                            SellDate E = new SellDate();
+                            E.BuyName = DBIO.get1User_ID(A.UserID).Username;
+                            E.DateSell = DateTime.Now;
+                            E.Price = item.Price;
+                            E.Quantity = item.Quantity;
+                            E.SellPDID = F.ID;
+                            DB.SellDates.Add(E);
+                            DB.SaveChanges();
+                        }
+                    }
+
+                }
+               
+                A.Status = ID2;
+                DB.SaveChanges();
+            }
+            var B = DB.Orders.Single(i => i.ID == ID);
+            return View(B);
+        }
+
+        public ActionResult AdOrderDetail(int ID)
+        {
+            ViewBag.Order = DBIO.Get1Orders(ID);
+            var A = DBIO.getallPDOrder(ID);
+            return View(A);
+        }    
+
+        public ActionResult SellProduct()
+        {
+            var A = DBIO.getallSellPD();
+            
+            return View(A);
+        }
+
+        public ActionResult SellDate(int ID)
+        {
+            var A = DBIO.getallSellDate(ID);
+
+            return View(A);
+        }
+
     }
 }

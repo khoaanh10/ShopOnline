@@ -1,0 +1,66 @@
+﻿@model List<DataBase.ProductOrder>
+@using ShopKA.Models
+@using DataBase
+
+@{
+    ViewBag.Title = "SellProduct";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+    Order a = ViewBag.Order;
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Chi tiết đơn hàng</h6>
+    </div>
+    <div class="card-header py-3">
+        <div>Tên người nhận: @a.ShipName</div>
+        <div>Địa chỉ nhận hàng: @a.ShipAddress</div>
+        <div>SDT người nhận: @a.ShipPhone</div>
+    </div>
+    <div class="card-header py-3">
+        <div>Tên người thanh toán: @a.BillName</div>
+        <div>Địa chỉ thanh toán: @a.BillAddress</div>
+        <div>SDT người thanh toán: @a.BillPhone</div>
+    </div>
+    <div class="card-header py-3">
+        <div>Tổng giá SP: @String.Format("{00:0,0}", @Model.Sum(i => i.Price * i.Quantity)) đ</div>
+        <div>Tiền ship: 100,000 đ</div>
+        <div>Tổng cộng: @String.Format("{00:0,0}", @Model.Sum(i => i.Price * i.Quantity + 100000)) đ</div>
+    </div>
+
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên Sp</th>
+
+
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Giá</th>
+
+
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <th scope="row">@item.ID</th>
+                            <td>@item.PDName</td>
+                            <td>@item.Quantity</td>
+                            <td>@String.Format("{00:0,0}", item.Price) đ</td>
+
+
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>

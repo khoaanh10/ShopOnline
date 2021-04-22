@@ -1,0 +1,202 @@
+﻿@model List<DataBase.Order>
+@using ShopKA.Models
+@using PagedList.Mvc
+@using DataBase
+
+@{
+    ViewBag.Title = "Test";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+    MyDB DB = new MyDB();
+    
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<h1 class="h3 mb-2 text-gray-800">Đơn hàng</h1>
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h6>
+        <hr />
+        <select class="select-box select-box--transparent-b-2" id="type1order">
+            <option selected value=-1>Tất cả</option>
+
+            <option value=0>Đơn hàng chờ xác nhận</option>
+            <option value=1>Đơn hàng đã xác nhận - chờ vận chuyển</option>
+            <option value=2>Đơn hàng đang vận chuyển</option>
+            <option value=3>Đơn hàng đang giao</option>
+            <option value=4>Đơn hàng đã giao thành công</option>
+            <option value=5>Đơn hàng thất bại - Đang trả hàng</option>
+            <option value=6>Đơn hàng thất bại - Đã trả hàng</option>
+
+        </select>
+
+
+        
+       
+    </div>
+
+    <div id="order1">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Người đặt hàng</th>
+                            <th>Loại SP</th>
+                            
+                            <th>Tổng giá</th>
+                            <th>Trạng thái</th>
+
+                            <th>                      </th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            string t="";
+                            switch (item.Status)
+                            {
+                                case 0:
+                                    t = "Chờ xác nhận";
+                                    break;
+                                case 1:
+                                    t = "Đã chuẩn bị hàng";
+                                    break;
+                                case 2:
+                                    t = "Đang vận chuyển";
+                                    break;
+                                case 4:
+                                    t = "Thành công";
+                                    break;
+                                case 6:
+                                    t = "Đã trả hàng";
+                                    break;
+                            }
+
+
+                            <tr>
+                                <th scope="row">#@item.ID</th>
+                                <td>@DBIO.get1User_ID(item.UserID).Username</td>
+                                <td>@DB.ProductOrders.Count(i=>i.OrderID==item.ID)</td>
+                                <td>@(DB.ProductOrders.Where(i=>i.OrderID==item.ID).Sum(i=>i.Price*i.Quantity)+100000) đ</td>
+                                @if (item.Status < 3)
+                                        {
+                                <td id="orderSTT-@item.ID">@Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>}
+                                else if (item.Status == 3)
+                                    {
+                            <td id="orderSTT-@item.ID">Đang giao hàng - @Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                                }
+                                    else if (item.Status==5)
+                                    {<td id="orderSTT-@item.ID">Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </td> }
+                                    else {
+                                <td>@t</td>
+                                    }
+
+
+                                        <td>
+                                            <a class="btn btn-primary addeleteOrder" data_value=@item.ID role="button">Xóa đơn hàng</a>
+                                            
+                                            <a class="btn btn-primary" href="@Url.Action("AdOrderDetail", "Admin", new { ID = @item.ID })" role="button">Chi tiết đơn hàng</a>
+                                           
+                                        </td>
+                                
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('body').on('change', '#type1order', function () {
+                            var status = document.getElementById("type1order").value;
+                           
+
+
+        $.ajax({
+                            type: 'POST',
+            data: { status: status},
+            url: '/Admin/OrderAdmin1',
+            success: function (ketqua) {
+                $('#order1').html(ketqua);
+                                }
+                            })
+    });
+    
+    //$('body').on('change', '#sortPD', function () {
+    //    var status = document.getElementById("type1PD").value;
+    //    var sell = document.getElementById("SellPD").value;
+    //    var sort = document.getElementById("sortPD").value;
+
+    //    $.ajax({
+    //        type: 'POST',
+    //        data: { status: status, sell: sell, sort: sort },
+    //        url: '/Admin/Index1',
+    //        success: function (ketqua) {
+    //            $('#product').html(ketqua);
+    //        }
+    //    })
+    //});
+    //$('.pageNumber').on('click', function () {
+    //    var status = document.getElementById("type1PD").value;
+    //    var sell = document.getElementById("SellPD").value;
+    //    var sort = document.getElementById("sortPD").value;
+    //    var page = $(this).attr('data-id');
+    //    $.ajax({
+    //        type: 'POST',
+    //        data: { status: status, sell: sell, sort: sort,page:page },
+    //        url: '/Admin/Index1',
+    //        success: function (ketqua) {
+    //            $('#product').html(ketqua);
+    //        }
+    //    })
+
+
+    //});
+    $('.addeletePD').on('click', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+
+
+        var id = $(this).attr('data_value')
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này')) {
+            $.ajax({
+                type: 'POST',
+                data: { status: status, sell: sell, id: id },
+                url: '/Admin/Index1',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                }
+            })
+        }
+
+
+    });
+    $('.deleteSale').on('click', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+
+
+
+        var id2 = $(this).attr('data_value');
+        if (confirm('Bạn có chắc chắn muốn xóa Sale của sản phẩm này')) {
+            $.ajax({
+                type: 'POST',
+                data: { status: status, sell: sell, id2: id2 },
+                url: '/Admin/Index1',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                }
+            })
+        }
+
+
+    });
+</script>

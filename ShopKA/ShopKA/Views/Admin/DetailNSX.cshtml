@@ -51,11 +51,12 @@
                         <th scope="col">NSX</th>
                         <th scope="col">Loại SP</th>
                         <th scope="col">Tổng SL</th>
+                        <th scope="col">SL đã bán</th>
                         <th scope="col">Launch</th>
                         <th scope="col">Tình Trạng</th>
                         <th scope="col">Sale</th>
                         <th scope="col">                      </th>
-                </thead>
+</thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
@@ -81,68 +82,69 @@
                         else
                         { p = "Sắp ra mắt"; }
 
-                        <tr>
-                            <th scope="row">@item.ID</th>
-                            <td>@item.ProductName</td>
-                            <td>@a</td>
-                            <td>@b</td>
-                            <td>@s</td>
-                            @{string idd = 'a' + item.ID.ToString();}
-                            @if (item.Launch == false)
+                    <tr>
+                        <th scope="row">@item.ID</th>
+                        <td>@item.ProductName</td>
+                        <td>@a</td>
+                        <td>@b</td>
+                        <td>@s</td>
+                        <td>@DBIO.SumsellPD(item.ID)</td>
+                        @{string idd = 'a' + item.ID.ToString();}
+                        @if (item.Launch == false)
+                        {
+                            <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
+                        }
+                        else
+                        {
+                            <td>@p</td>
+                        }
+
+
+                        <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
                             {
-                                <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
+                                <td>Không</td>
+
+
+
+
+                                <td>
+                                    <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
+                                    <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
+                                    <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
+                                    <a class="btn btn-primary addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID,PCID=IDD}) role="button">Thêm Sale</a>
+
+                                </td>
                             }
                             else
                             {
-                                <td>@p</td>
-                            }
-
-
-                            <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
-                            @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
+                                float ss = (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).Sale * 100);
+                                if (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart > DateTime.Now)
                                 {
-                                    <td>Không</td>
 
-
-
-
-                                    <td>
-                                        <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
-                                        <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
-                                        <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
-                                        <a class="btn btn-primary addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID,PCID=IDD}) role="button">Thêm Sale</a>
-
-                                    </td>
+                                    <td>Sắp Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
                                 }
                                 else
                                 {
-                                    float ss = (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).Sale * 100);
-                                    if (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart > DateTime.Now)
                                     {
-
-                                        <td>Sắp Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                        <td>Đang Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
                                     }
-                                    else
-                                    {
-                                        {
-                                            <td>Đang Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
-                                        }
-                                    }
-
-
-
-                                    <td>
-                                        <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
-                                        <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
-                                        <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
-                                        <a class="btn btn-primary deleteSale" data_value=@item.ID role="button">Xóa Sale</a>
-                                        <a class="btn btn-primary" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID,PCID=IDD }) role="button">Sửa Sale</a>
-                                    </td>
                                 }
+
+
+
+                                <td>
+                                    <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
+                                    <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
+                                    <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
+                                    <a class="btn btn-primary deleteSale" data_value=@item.ID role="button">Xóa Sale</a>
+                                    <a class="btn btn-primary" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID,PCID=IDD }) role="button">Sửa Sale</a>
+                                </td>
                             }
+                        }
 
 
-                        </tr>
+                    </tr>
                     }
 
                 </tbody>

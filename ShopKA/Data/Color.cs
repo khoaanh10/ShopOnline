@@ -24,5 +24,6 @@ namespace DataBase
 
         [Required]
         public bool Status { get; set; }
+        public int SellQuantity { get; set; }
     }
 }
