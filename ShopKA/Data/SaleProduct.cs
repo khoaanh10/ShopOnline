@@ -16,12 +16,12 @@ namespace DataBase
         [Required(ErrorMessage = "ID SP")]
         public int ProductID { get; set; }
         [Display(Name = "% Sale")]
-
+        [Required(ErrorMessage ="Vui long nhập % Sale")]
 
 
 
         public float Sale { get; set; }
-
+        [Required(ErrorMessage = "Vui long nhập ngày")]
         [Display(Name = "Ngày bắt đầu Sale")]
 
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
@@ -31,7 +31,7 @@ namespace DataBase
         public DateTime SaleTimeStart { get; set; }
 
         [Display(Name = "Ngày kết thúc Sale")]
-
+        [Required(ErrorMessage = "Vui long nhập ngày")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
 
 

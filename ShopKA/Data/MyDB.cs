@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace DataBase
 {
-    public class MyDB: DbContext
+    public class MyDB : DbContext
     {
-        public MyDB(): base("name=Haha")
+        public MyDB() : base("name=Haha")
         {
 
         }
 
-       
+
         public DbSet<ProductT> ProductTs { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Review> Reviews { get; set; }
@@ -31,6 +31,10 @@ namespace DataBase
         public DbSet<SaleProduct> SaleProducts { get; set; }
         public DbSet<SellProduct> SellProducts { get; set; }
         public DbSet<SellDate> SellDates { get; set; }
+        public DbSet<ProductTSale> ProductTSales { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
+
+
 
     }
 }

@@ -193,8 +193,29 @@
     <Compile Include="Migrations\202104220200354_add table Sell.Designer.cs">
       <DependentUpon>202104220200354_add table Sell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104230234567_add ProductTSale.cs" />
+    <Compile Include="Migrations\202104230234567_add ProductTSale.Designer.cs">
+      <DependentUpon>202104230234567_add ProductTSale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104230247365_edit ProductTSale.cs" />
+    <Compile Include="Migrations\202104230247365_edit ProductTSale.Designer.cs">
+      <DependentUpon>202104230247365_edit ProductTSale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104230301398_edit ProductTSale2.cs" />
+    <Compile Include="Migrations\202104230301398_edit ProductTSale2.Designer.cs">
+      <DependentUpon>202104230301398_edit ProductTSale2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104230408489_edit ProductTSale3.cs" />
+    <Compile Include="Migrations\202104230408489_edit ProductTSale3.Designer.cs">
+      <DependentUpon>202104230408489_edit ProductTSale3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104250655044_add WishList.cs" />
+    <Compile Include="Migrations\202104250655044_add WishList.Designer.cs">
+      <DependentUpon>202104250655044_add WishList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs" />
     <Compile Include="ProductOrder.cs" />
+    <Compile Include="ProductTSale.cs" />
     <Compile Include="Province.cs" />
     <Compile Include="Review.cs" />
     <Compile Include="SaleProduct.cs" />
@@ -237,6 +258,7 @@
     <Compile Include="MyDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserLogin.cs" />
+    <Compile Include="WishList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -368,6 +390,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104220200354_add table Sell.resx">
       <DependentUpon>202104220200354_add table Sell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104230234567_add ProductTSale.resx">
+      <DependentUpon>202104230234567_add ProductTSale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104230247365_edit ProductTSale.resx">
+      <DependentUpon>202104230247365_edit ProductTSale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104230301398_edit ProductTSale2.resx">
+      <DependentUpon>202104230301398_edit ProductTSale2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104230408489_edit ProductTSale3.resx">
+      <DependentUpon>202104230408489_edit ProductTSale3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104250655044_add WishList.resx">
+      <DependentUpon>202104250655044_add WishList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

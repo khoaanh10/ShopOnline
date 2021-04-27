@@ -12,13 +12,14 @@ using Color = DataBase.Color;
 namespace ShopKA.Controllers
 {
     public class AdminController : Controller
-    { MyDB DB = new MyDB();
+    {
+        MyDB DB = new MyDB();
         // GET: Admin
         public ActionResult Index()
         {
             var C = DBIO.getallProduct().OrderByDescending(i => i.ID).ToList();
-           
-            
+
+
             return View(C);
         }
         //Tạo SP
@@ -28,11 +29,11 @@ namespace ShopKA.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult CreatProduct(Product a,HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5)
+        public ActionResult CreatProduct(Product a, HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5)
         {
-            if (ModelState.IsValid & a.ProducerID!=0)
+            if (ModelState.IsValid & a.ProducerID != 0)
             {
-                
+
                 MyDB b = new MyDB();
                 a.Image = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
                 a.Image2 = file2 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file2.InputStream, true, true)) : null;
@@ -42,17 +43,18 @@ namespace ShopKA.Controllers
                 a.Sale = (a.Sale) / 100;
                 b.Products.Add(a);
                 b.SaveChanges();
-                return RedirectToAction("Index","Admin"); }
+                return RedirectToAction("Index", "Admin");
+            }
             else
             {
                 ViewBag.TT = DBIO.getallProductT();
-                if (a.ProducerID==0)
+                if (a.ProducerID == 0)
                 {
-                   
+
                     ModelState.AddModelError("", "Vui lòng chọn NSX");
-                }    
-            
-               
+                }
+
+
                 return View(a);
             }
         }
@@ -82,7 +84,7 @@ namespace ShopKA.Controllers
             return RedirectToAction("Index", "Admin");
         }
         //Sủa SP
-        public ActionResult EditProduct(int ID,int PCID=-1)
+        public ActionResult EditProduct(int ID, int PCID = -1)
         {
             ViewBag.ID = PCID;
             ViewBag.TT = DBIO.getallProductT();
@@ -107,7 +109,7 @@ namespace ShopKA.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("DetailNSX", "Admin",new { ID=PCID});
+                    return RedirectToAction("DetailNSX", "Admin", new { ID = PCID });
                 }
             }
             else
@@ -126,7 +128,7 @@ namespace ShopKA.Controllers
         //Màu của SP
         public ActionResult Color(int ID)
         {
-            var a =DBIO.getallColor(ID);
+            var a = DBIO.getallColor(ID);
             ViewBag.TT = DBIO.get1Product(ID);
             return View(a);
         }
@@ -138,7 +140,7 @@ namespace ShopKA.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult addColor(Color a,int ID2)
+        public ActionResult addColor(Color a, int ID2)
         {
             if (ModelState.IsValid)
             {
@@ -151,7 +153,7 @@ namespace ShopKA.Controllers
             {
                 ViewBag.TT = DBIO.get1Product(ID2);
                 return View();
-            }    
+            }
 
         }
         //SỦa Màu
@@ -164,11 +166,11 @@ namespace ShopKA.Controllers
 
         }
         [HttpPost]
-        public ActionResult editColor(Color a,int ID2,int ID3)
+        public ActionResult editColor(Color a, int ID2, int ID3)
         {
             if (ModelState.IsValid)
             {
-                
+
                 DBIO.editColor(a);
 
                 return RedirectToAction("Color", new { ID = ID2 });
@@ -182,7 +184,7 @@ namespace ShopKA.Controllers
 
         }
         //Xóa màu
-        public ActionResult deleteColor(int ID,int ID2)
+        public ActionResult deleteColor(int ID, int ID2)
         {
             DBIO.deleteColor(ID);
 
@@ -198,13 +200,13 @@ namespace ShopKA.Controllers
 
         public ActionResult CreatProductT()
         {
-            
+
             return View();
         }
         [HttpPost]
         public ActionResult CreatProductT(ProductT a)
         {
-            if (ModelState.IsValid )
+            if (ModelState.IsValid)
             {
                 DBIO.addProductT(a);
                 return RedirectToAction("ProductT", "Admin");
@@ -212,7 +214,7 @@ namespace ShopKA.Controllers
             else
             {
                 ViewBag.TT = DBIO.getallProductT();
-               
+
 
 
                 return View(a);
@@ -251,15 +253,15 @@ namespace ShopKA.Controllers
         //Sủa Loại SP
         public ActionResult EditProductT(int ID)
         {
-            
+
             var A = DBIO.get1ProductT_ProductTID(ID);
             return View(A);
         }
         [HttpPost]
 
-        public ActionResult EditProductT(ProductT a,int ID2)
+        public ActionResult EditProductT(ProductT a, int ID2)
         {
-            if (ModelState.IsValid )
+            if (ModelState.IsValid)
             {
 
                 DBIO.editProductT(a);
@@ -268,15 +270,15 @@ namespace ShopKA.Controllers
             }
             else
             {
-                
-               
+
+
 
 
                 return View(a);
             }
         }
         //Giao diện NSX
-         public ActionResult Producer(int ID)
+        public ActionResult Producer(int ID)
         {
             var A = DBIO.getallProducer_ProductT(ID);
             ViewBag.TT = DBIO.get1ProductT_ProductTID(ID);
@@ -284,19 +286,19 @@ namespace ShopKA.Controllers
         }
 
         //Thêm NSX
-        public ActionResult CreatProducer(int ID )
+        public ActionResult CreatProducer(int ID)
         {
             ViewBag.TT = DBIO.get1ProductT_ProductTID(ID);
             return View();
         }
         [HttpPost]
-        public ActionResult CreatProducer(Producer a,int ID)
+        public ActionResult CreatProducer(Producer a, int ID)
         {
             if (ModelState.IsValid)
             {
                 a.ProductTID = ID;
                 DBIO.addProducer(a);
-                return RedirectToAction("Producer", "Admin",new { ID = ID });
+                return RedirectToAction("Producer", "Admin", new { ID = ID });
             }
             else
             {
@@ -308,7 +310,7 @@ namespace ShopKA.Controllers
             }
         }
         //Sủa NSX
-       
+
         public ActionResult EditProducer(int ID)
         {
 
@@ -317,14 +319,14 @@ namespace ShopKA.Controllers
         }
         [HttpPost]
 
-        public ActionResult EditProducer(Producer a, int ID1,int ID2)
+        public ActionResult EditProducer(Producer a, int ID1, int ID2)
         {
             if (ModelState.IsValid)
             {
-                
+
                 DBIO.editProducer(a);
 
-                return RedirectToAction("Producer", "Admin",new { ID = ID2 });
+                return RedirectToAction("Producer", "Admin", new { ID = ID2 });
             }
             else
             {
@@ -337,25 +339,25 @@ namespace ShopKA.Controllers
         }
 
         //Xóa NSX
-        public ActionResult DeleteProducer(int ID,int ID1)
+        public ActionResult DeleteProducer(int ID, int ID1)
         {
             List<Product> a = DBIO.getallProduct_ProducerID(ID);
             MyDB DB = new MyDB();
-            foreach(var item in a)
+            foreach (var item in a)
             {
                 Product b = DB.Products.FirstOrDefault(x => x.ID == item.ID);
                 DB.Products.Remove(b);
                 DB.SaveChanges();
                 List<Color> c = DBIO.getallColor(item.ID);
-                foreach(var item2 in c)
+                foreach (var item2 in c)
                 {
                     Color d = DB.Colors.FirstOrDefault(x => x.ID == item2.ID);
                     DB.Colors.Remove(d);
                     DB.SaveChanges();
-                }    
-            }    
+                }
+            }
             DBIO.deleteProducer(ID);
-            return RedirectToAction("Producer", "Admin",new { ID = ID1 });
+            return RedirectToAction("Producer", "Admin", new { ID = ID1 });
         }
 
         public ActionResult DetailNSX(int ID)
@@ -367,13 +369,13 @@ namespace ShopKA.Controllers
         //Thay doi stt Product
         public ActionResult ChangeSTT(int ID)
         {
-            if (DBIO.CountProductofColor(ID) != 0 | DBIO.get1Product(ID).Status==true)
+            if (DBIO.CountProductofColor(ID) != 0 | DBIO.get1Product(ID).Status == true)
             {
                 DBIO.ChangeSTT(ID);
-               
+
             }
             else
-            { ViewBag.TB = "Không có hàng"; }    
+            { ViewBag.TB = "Không có hàng"; }
             var a = DBIO.get1Product(ID);
             return View(a);
 
@@ -384,18 +386,18 @@ namespace ShopKA.Controllers
             MyDB a = new MyDB();
             Product b = a.Products.FirstOrDefault(i => i.ID == ID);
             b.Sale = 0;
-            
+
             a.SaveChanges();
             return Content("Không");
         }
 
-        public ActionResult Index1(string status="true",int sell=1,int page = 1, int b = 10,int id=-1,int id2=-1,int ProducerID=-1)
+        public ActionResult Index1(string status = "true", int sell = 1, int page = 1, int b = 10, int id = -1, int id2 = -1, int ProducerID = -1)
         {
-            if(id!=-1)
+            if (id != -1)
             {
                 DBIO.DeleteProduct(id);
             }
-            else if(id2!=-1)
+            else if (id2 != -1)
             {
                 var a = DBIO.get1SaleProduct(id2);
                 var d = DB.Products.FirstOrDefault(i => i.ID == id2);
@@ -403,7 +405,7 @@ namespace ShopKA.Controllers
                 var c = DB.SaleProducts.FirstOrDefault(i => i.ID == a.ID);
                 DB.SaleProducts.Remove(c);
                 DB.SaveChanges();
-            }    
+            }
             List<Product> A = new List<Product>();
             if (ProducerID == -1)
             {
@@ -449,7 +451,7 @@ namespace ShopKA.Controllers
                 {
                     if (sell == 1)
                     {
-                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND PRODUCERID='"+ProducerID+"'").ToList();
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='TRUE' AND LAUNCH='TRUE' AND PRODUCERID='" + ProducerID + "'").ToList();
                     }
                     else if (sell == 2)
                     {
@@ -480,17 +482,17 @@ namespace ShopKA.Controllers
                 {
                     A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE LAUNCH='FALSE' AND PRODUCERID='" + ProducerID + "' ORDER BY ID DESC").ToList();
                 }
-            }    
+            }
 
-            
-           
-            
-           
+
+
+
+
             return View(A);
         }
 
-        
-       
+
+
 
 
         public ActionResult CreatProduct2(int ID)
@@ -500,7 +502,7 @@ namespace ShopKA.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult CreatProduct2(Product a,int ID, HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5)
+        public ActionResult CreatProduct2(Product a, int ID, HttpPostedFileBase file1, HttpPostedFileBase file2, HttpPostedFileBase file3, HttpPostedFileBase file4, HttpPostedFileBase file5)
         {
             if (ModelState.IsValid & a.ProducerID != 0)
             {
@@ -520,7 +522,7 @@ namespace ShopKA.Controllers
                 ViewBag.TT = DBIO.getallProductT();
                 if (a.ProducerID == 0)
                 {
-                    
+
                     ModelState.AddModelError("", "Vui lòng chọn NSX");
                 }
 
@@ -552,7 +554,7 @@ namespace ShopKA.Controllers
 
                 if (DB.SaleProducts.Count(i => i.ProductID == a.ProductID) == 0)
                 {
-                    if(a.SaleTimeEnd<=a.SaleTimeStart)
+                    if (a.SaleTimeEnd <= a.SaleTimeStart)
                     {
                         ModelState.AddModelError("", "Ngày không hợp lệ");
                         ViewBag.ID = a.ProductID;
@@ -562,49 +564,50 @@ namespace ShopKA.Controllers
                     DB.SaleProducts.Add(a);
                     DB.SaveChanges();
                     return RedirectToAction("Index", "Admin");
-                } }
+                }
+            }
             ViewBag.ID = a.ProductID;
             return View(a);
         }
 
         //Sửa Sale
-        public ActionResult EditSale(int ID,int PCID=-1)
+        public ActionResult EditSale(int ID, int PCID = -1)
         {
             ViewBag.ID = PCID;
             var a = DBIO.get1SaleProduct(ID);
             return View(a);
         }
         [HttpPost]
-        public ActionResult EditSale(SaleProduct a,int PCID)
+        public ActionResult EditSale(SaleProduct a, int PCID)
         {
             if (ModelState.IsValid)
             {
 
 
-               
-                    if (a.SaleTimeEnd <= a.SaleTimeStart)
-                    {
-                        ModelState.AddModelError("", "Ngày không hợp lệ");
-                        ViewBag.ID = a.ProductID;
-                        return View(a);
-                    }
-                    a.Sale = a.Sale / 100;
-                    var b=DB.SaleProducts.FirstOrDefault(i => i.ID == a.ID);
-                    b.Sale = a.Sale;
-                    b.SaleTimeEnd = a.SaleTimeEnd;
-                    b.SaleTimeStart = a.SaleTimeStart;
-                    DB.SaveChanges();
+
+                if (a.SaleTimeEnd <= a.SaleTimeStart)
+                {
+                    ModelState.AddModelError("", "Ngày không hợp lệ");
+                    ViewBag.ID = a.ProductID;
+                    return View(a);
+                }
+                a.Sale = a.Sale / 100;
+                var b = DB.SaleProducts.FirstOrDefault(i => i.ID == a.ID);
+                b.Sale = a.Sale;
+                b.SaleTimeEnd = a.SaleTimeEnd;
+                b.SaleTimeStart = a.SaleTimeStart;
+                DB.SaveChanges();
                 if (PCID == -1)
                 {
                     return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
-                    return RedirectToAction("DetailNSX", "Admin",new { ID=PCID });
+                    return RedirectToAction("DetailNSX", "Admin", new { ID = PCID });
                 }
 
             }
-            
+
             return View(a);
         }
 
@@ -618,10 +621,10 @@ namespace ShopKA.Controllers
         public ActionResult ChangeSTTUser(int ID)
         {
 
-            var A = DB.Users.SingleOrDefault(i=>i.ID==ID);
+            var A = DB.Users.SingleOrDefault(i => i.ID == ID);
             A.Status = !A.Status;
             DB.SaveChanges();
-            
+
             return View(A);
 
         }
@@ -643,18 +646,18 @@ namespace ShopKA.Controllers
             {
                 var A = DB.Orders.Where(i => i.Status == status).ToList();
                 return View(A);
-            }    
-            
+            }
+
         }
 
         public ActionResult changeOrderSTT(int ID, int ID2 = -1)
         {
             if (ID2 == -1)
             {
-                
+
                 var A = DB.Orders.Single(i => i.ID == ID);
-                
-                if(A.Status==5)
+
+                if (A.Status == 5)
                 {
                     foreach (var item in DBIO.getallPDOrder(A.ID))
                     {
@@ -666,23 +669,23 @@ namespace ShopKA.Controllers
                             DB.SaveChanges();
                         }
                     }
-                }    
+                }
                 A.Status = A.Status + 1;
                 DB.SaveChanges();
             }
             else
             {
                 var A = DB.Orders.Single(i => i.ID == ID);
-                if(ID2==4)
+                if (ID2 == 4)
                 {
                     foreach (var item in DBIO.getallPDOrder(A.ID))
                     {
                         var C = DB.Colors.Single(i => i.ID == item.ColorID);
-                        
-                       
+
+
                         if (C != null)
                         {
-                            SellProduct F =null;
+                            SellProduct F = null;
                             C.SellQuantity = C.SellQuantity + item.Quantity;
                             DB.SaveChanges();
                             if (DB.SellProducts.Any(i => i.ColorID == C.ID))
@@ -697,7 +700,7 @@ namespace ShopKA.Controllers
                                 D.PDName = item.PDName;
                                 DB.SellProducts.Add(D);
                                 DB.SaveChanges();
-                                F = DB.SellProducts.Single(i=>i.ColorID==C.ID);
+                                F = DB.SellProducts.Single(i => i.ColorID == C.ID);
                             }
                             SellDate E = new SellDate();
                             E.BuyName = DBIO.get1User_ID(A.UserID).Username;
@@ -711,7 +714,7 @@ namespace ShopKA.Controllers
                     }
 
                 }
-               
+
                 A.Status = ID2;
                 DB.SaveChanges();
             }
@@ -724,12 +727,12 @@ namespace ShopKA.Controllers
             ViewBag.Order = DBIO.Get1Orders(ID);
             var A = DBIO.getallPDOrder(ID);
             return View(A);
-        }    
+        }
 
         public ActionResult SellProduct()
         {
             var A = DBIO.getallSellPD();
-            
+
             return View(A);
         }
 
@@ -740,5 +743,156 @@ namespace ShopKA.Controllers
             return View(A);
         }
 
+        public ActionResult addProductTSale(int ID)
+        {
+            ViewBag.ProductT = DBIO.get1ProductT_ProductTID(ID);
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult addProductTSale(ProductTSale a, HttpPostedFileBase file1)
+        {
+            if (ModelState.IsValid)
+            {
+                MyDB DB = new MyDB();
+                if (DB.ProductTSales.Any(i => i.ProductTID == a.ProductTID) == false)
+                {
+                    if (a.SaleTimeEnd <= a.SaleTimeStart)
+                    {
+                        ModelState.AddModelError("", "Ngày không hợp lệ");
+                        ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID); 
+                        return View(a);
+                    }
+                    a.Banner = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
+                    a.Sale = a.Sale / 100;
+                    DB.ProductTSales.Add(a);
+                    DB.SaveChanges();
+
+
+                    var b = DBIO.getallProducer_ProductT(a.ProductTID);
+                    foreach (var item in b)
+                    {
+                        var c = DBIO.getallProduct_ProducerID(item.ID);
+                        foreach (var item2 in c)
+                        {
+                            if (DB.SaleProducts.Any(i => i.ProductID == item2.ID))
+                            {
+                                var d = DB.SaleProducts.Single(i => i.ProductID == item2.ID);
+                                DB.SaleProducts.Remove(d);
+                                DB.SaveChanges();
+
+                            }
+                            SaleProduct e = new SaleProduct();
+                            e.ProductID = item2.ID;
+                            e.Sale = a.Sale;
+                            e.SaleTimeEnd = a.SaleTimeEnd;
+                            e.SaleTimeStart = a.SaleTimeStart;
+                            DB.SaleProducts.Add(e);
+                            DB.SaveChanges();
+                        }
+
+                    }
+                }
+                return RedirectToAction("ProductT", "Admin");
+
+            }
+            else
+            {
+                ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID);
+
+                return View(a);
+            }
+
+        }
+
+        public ActionResult EditProductTSale(int ID)
+        {
+            ViewBag.ProductT = DBIO.get1ProductT_ProductTID(ID);
+            ViewBag.Sale = DB.ProductTSales.Single(i => i.ProductTID == ID);
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EditProductTSale(ProductTSale a, HttpPostedFileBase file1)
+        {
+            if (ModelState.IsValid)
+            {
+                MyDB DB = new MyDB();
+                if (a.SaleTimeEnd <= a.SaleTimeStart)
+                {
+                    ModelState.AddModelError("", "Ngày không hợp lệ");
+                    ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID);
+                    ViewBag.Sale = DB.ProductTSales.Single(i => i.ProductTID == a.ProductTID);
+                    return View(a);
+                }
+                
+                var b = DB.ProductTSales.Single(i => i.ID == a.ID);
+                b.Sale = a.Sale / 100;
+                b.SaleTimeEnd = a.SaleTimeEnd;
+                b.SaleTimeStart = a.SaleTimeStart;
+                b.Title = a.Title;
+                b.Content = a.Content;
+                b.Banner = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : b.Banner;
+                DB.SaveChanges();
+
+                var f = DBIO.getallProducer_ProductT(a.ProductTID);
+                foreach (var item in f)
+                {
+                    var c = DBIO.getallProduct_ProducerID(item.ID);
+                    foreach (var item2 in c)
+                    {
+
+                        if (DB.SaleProducts.Any(i => i.ProductID == item2.ID))
+                        {
+                            var d = DB.SaleProducts.Single(i => i.ProductID == item2.ID);
+
+                            DB.SaleProducts.Remove(d);
+                            DB.SaveChanges();
+
+                        }
+                        SaleProduct e = new SaleProduct();
+                        e.ProductID = item2.ID;
+                        e.Sale = a.Sale / 100;
+                        e.SaleTimeEnd = a.SaleTimeEnd;
+                        e.SaleTimeStart = a.SaleTimeStart;
+                        DB.SaleProducts.Add(e);
+                        DB.SaveChanges();
+                    }
+
+                }
+                return RedirectToAction("ProductT", "Admin");
+            }
+            else
+            {
+                ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID);
+                ViewBag.Sale = DB.ProductTSales.Single(i => i.ProductTID == a.ProductTID);
+                return View(a);
+            }
+        }
+
+        public ActionResult DeleteProductTSale(int ID)
+        {
+            var f = DBIO.getallProducer_ProductT(ID);
+            foreach (var item in f)
+            {
+                var c = DBIO.getallProduct_ProducerID(item.ID);
+                foreach (var item2 in c)
+                {
+
+                    if (DB.SaleProducts.Any(i => i.ProductID == item2.ID))
+                    {
+                        var d = DB.SaleProducts.Single(i => i.ProductID == item2.ID);
+
+                        DB.SaleProducts.Remove(d);
+                        DB.SaveChanges();
+
+                    }
+                }
+            }
+            var a = DB.ProductTSales.Single(i => i.ProductTID == ID);
+            DB.ProductTSales.Remove(a);
+            DB.SaveChanges();
+            var E = DBIO.getallProductT();
+            return View(E);
+        }
     }
 }

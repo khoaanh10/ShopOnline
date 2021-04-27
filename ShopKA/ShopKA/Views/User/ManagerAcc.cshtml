@@ -141,10 +141,13 @@
 
                                                     <span class="dash__text-2 u-s-m-b-8">Địa chỉ nhận hàng mặc định</span>
                                                    
-
+                                                    @if(ship != null)
+                                                    { 
                                                     <span class="dash__text">@ship.Detail - @ship.Ward - @DBIO.get1District(ship.DistrictID).Name - @DBIO.get1Province(ship.ProvinceID).Name</span>
 
-                                                    <span class="dash__text">@ship.Phone</span>
+                                                    <span class="dash__text">@ship.Phone</span>}
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -154,10 +157,12 @@
                                                     <h2 class="dash__h2 u-s-m-b-8">ĐỊA CHỈ</h2>
 
                                                     <span class="dash__text-2 u-s-m-b-8">Địa chỉ thanh toán mặc định</span>
+                                                    @if (bill != null)
+                                                    {
 
                                                     <span class="dash__text">@bill.Detail - @bill.Ward - @DBIO.get1District(bill.DistrictID).Name - @DBIO.get1Province(bill.ProvinceID).Name</span>
 
-                                                    <span class="dash__text">@bill.Phone</span>
+                                                    <span class="dash__text">@bill.Phone</span>}
                                                 </div>
                                             </div>
                                         </div>

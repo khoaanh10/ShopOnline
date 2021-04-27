@@ -25,8 +25,23 @@
 </head>
 
 <body class="config">
-    @{ var PD = DBIO.getallProduct();
+    @{ var PT = DBIO.getallProductT();
+        var PD = DBIO.getallProduct();
         MyDB DB = new MyDB();
+        foreach (var tt in PT)
+        {
+            if (DB.ProductTSales.Count(i => i.ProductTID == tt.ID) > 0)
+            {
+                var ttt = DB.ProductTSales.Single(i => i.ProductTID == tt.ID);
+                if ((DateTime.Now >= ttt.SaleTimeEnd))
+                {
+                    DB.ProductTSales.Remove(ttt);
+
+                    DB.SaveChanges();
+                }
+            }
+        }
+
         foreach (var ii in PD)
         {
             if (DB.SaleProducts.Count(i => i.ProductID == ii.ID) > 0)
@@ -90,14 +105,15 @@
                         </a>
                         <!--====== End - Main Logo ======-->
                         <!--====== Search Form ======-->
-                        <form class="main-form">
+                        
+                        <div class="main-form">
 
                             <label for="main-search"></label>
 
-                            <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Search">
+                            <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Tìm kiếm">
 
-                            <button class="btn btn--icon fas fa-search main-search-button" type="submit"></button>
-                        </form>
+                            <button class="btn btn--icon fas fa-search main-search-button" onclick="Search()" type="button"></button>
+                        </div>
                         <!--====== End - Search Form ======-->
                         <!--====== Dropdown Main plugin ======-->
                         <div class="menu-init" id="navigation">
@@ -164,7 +180,7 @@
                                                         <span>Đăng xuất</span>
                                                     </a>
                                                 </li>
-}
+                                            }
                                         </ul>
                                         <!--====== End - Dropdown ======-->
                                     </li>
@@ -183,7 +199,7 @@
                                                 <!--====== Dropdown ======-->
 
                                                 <span class="js-menu-toggle"></span>
-                                                <ul style="width:120px">
+                                                <ul style="width:200px">
                                                     <li>
 
                                                         <a class="u-c-brand">Tiếng Việt</a>
@@ -210,7 +226,7 @@
                                                 <!--====== Dropdown ======-->
 
                                                 <span class="js-menu-toggle"></span>
-                                                <ul style="width:225px">
+                                                <ul style="width:200px">
                                                     <li>
 
                                                         <a class="u-c-brand">$ - Đô la Mỹ</a>
@@ -231,11 +247,11 @@
                                     </li>
                                     <li data-tooltip="tooltip" data-placement="left" title="Contact">
 
-                                        <a href="tel:+0900901904"><i class="fas fa-phone-volume"></i></a>
+                                        <a href="tel:+84373425125"><i class="fas fa-phone-volume"></i></a>
                                     </li>
                                     <li data-tooltip="tooltip" data-placement="left" title="Mail">
 
-                                        <a href="mailto:contact@domain.com"><i class="far fa-envelope"></i></a>
+                                        <a href="mailto:khoaanh15111997@gmail.com"><i class="far fa-envelope"></i></a>
                                     </li>
                                 </ul>
                                 <!--====== End - List ======-->
@@ -309,7 +325,7 @@
 
                                                                     <span class="js-menu-toggle"></span>
                                                                 </li>
-}
+                                                            }
                                                         }
                                                     </ul>
                                                 </div>
@@ -339,7 +355,7 @@
 
                                                                                 <a href="@Url.Action("Product","Home", new { ProducerID = item2.ID })">@item2.ProducerName</a>
                                                                             </li>
-}
+                                                                        }
                                                                     </ul>
                                                                 </div>
 
@@ -574,7 +590,7 @@
                                                         <!--====== Dropdown ======-->
                                                         <!--====== End - Dropdown ======-->
                                                     </li>
-}
+                                                }
                                                 <li class="has-dropdown has-dropdown--ul-left-100">
 
                                                     <a @Url.Action("Profile", "User")>Tài khoản<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
@@ -735,7 +751,7 @@
                                         int Money = 0;
                                         <li>
 
-                                            <a href="wishlist.html"><i class="far fa-heart"></i></a>
+                                            <a href="/Home/WishList"><i class="far fa-heart"></i></a>
                                         </li>
 
                                         <li class="has-dropdown">
@@ -881,7 +897,7 @@
                                 <div class="outer-footer__text-wrap">
                                     <i class="fas fa-home"></i>
 
-                                    <span>37/10 - Phường Linh Đông - Thành Phố Thủ Đức</span>
+                                    <span>37/10 - Khu Phố 6 - Phường Linh Đông - Thành Phố Thủ Đức</span>
                                 </div>
                                 <div class="outer-footer__text-wrap">
                                     <i class="fas fa-phone-volume"></i>
@@ -956,12 +972,9 @@
                                             <ul>
                                                 <li>
 
-                                                    <a href="about.html">Thông tin ADMIN</a>
+                                                    <a href="/Home/About">Thông tin ADMIN - Liên Hệ</a>
                                                 </li>
-                                                <li>
-
-                                                    <a href="contact.html">Liên hệ Shop</a>
-                                                </li>
+                                                
                                                 <li>
 
                                                     <a href="index.html">Sitemap</a>
@@ -1083,7 +1096,7 @@
 
                                                 <a href=@Url.Action("Product", "Home", new { ProducerID = NSX.ID })>@NSX.ProducerName</a>
                                             </li>
-                                            
+
                                         </ul>
                                     </div>
                                     <!--====== End - Product Breadcrumb ======-->
@@ -1289,7 +1302,13 @@
                                                         </div>
                                                         <!--====== End - Input Counter ======-->
                                                     </div>
-                                                    @if ((UserLogin)(Session["SS"]) != null)
+                                                    @if (item.Launch == false)
+                                                    {
+                                                        <div class="u-s-m-b-15">
+
+                                                            <button class="btn btn--e-brand-b-2" type="button" data_value="@item.ID">Sắp ra mắt</button>
+                                                        </div>}
+                                                    else if ((UserLogin)(Session["SS"]) != null)
                                                     {
                                                         <div class="u-s-m-b-15">
 
@@ -1448,6 +1467,7 @@
         ga('create', 'UA-XXXXX-Y', 'auto');
         ga('send', 'pageview')</script>
     <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-MO9uPLS-ApTqYs0FpYdVG8cFwdq6apw"></script>
 
     <!--====== Vendor Js ======-->
     <script src="/Asset/js/vendor.js"></script>
@@ -1455,7 +1475,10 @@
     <!--====== jQuery Shopnav plugin ======-->
     <script src="/Asset/js/jquery.shopnav.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/Asset/js/map-init.js"></script>
 
+    <!--====== jQuery Shopnav plugin ======-->
+    <script src="/Asset/js/jquery.shopnav.js"></script>
     <!--====== App ======-->
     <script src="/Asset/js/app.js"></script>
     <script src="/Scripts/App.js"></script>

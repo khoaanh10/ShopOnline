@@ -167,6 +167,7 @@
     <Content Include="Asset\images\about\test-2.jpg" />
     <Content Include="Asset\images\about\test-3.jpg" />
     <Content Include="Asset\images\about\test-4.jpg" />
+    <Content Include="Asset\images\avt.jpg" />
     <Content Include="Asset\images\banners\banner-bg.jpg" />
     <Content Include="Asset\images\banners\banner-mega-0.jpg" />
     <Content Include="Asset\images\banners\banner-mega-1.jpg" />
@@ -2361,6 +2362,12 @@
     <Content Include="Views\Admin\SellProduct.cshtml" />
     <Content Include="Views\Admin\AdOrderDetail.cshtml" />
     <Content Include="Views\Admin\SellDate.cshtml" />
+    <Content Include="Views\Admin\addProductTSale.cshtml" />
+    <Content Include="Views\Admin\EditProductTSale.cshtml" />
+    <Content Include="Views\Admin\DeleteProductTSale.cshtml" />
+    <Content Include="Views\Home\WishList.cshtml" />
+    <Content Include="Views\Home\deleteWish.cshtml" />
+    <Content Include="Views\Home\clearWish.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

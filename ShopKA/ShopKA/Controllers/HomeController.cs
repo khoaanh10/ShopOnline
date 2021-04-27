@@ -16,39 +16,60 @@ namespace ShopKA.Controllers
         {
             var a = DBIO.getallProductT();
 
-            ViewBag.Sale = DBIO.get8ProductSale().Where(i => i.Launch == true);
+            
             ViewBag.Feature = DBIO.GetProductLaunch().Take(8);
             ViewBag.SalePD = DBIO.get2ProductSale(DateTime.Now);
             return View(a);
         }
 
-        public ActionResult Product(int ProducerID = -1, string Sort = "ID", int page = 1, int b = 12, int max = 0, int min = 0, int ProductTID = -1)
+        public ActionResult Product(string key="",int ProducerID = -1, string Sort = "ID", int page = 1, int b = 12, int max = 0, int min = 0, int ProductTID = -1)
         {
             ViewBag.ProducerID = ProducerID;
             List<Product> tam = new List<Product>();
-            if (ProductTID == -1)
-            { tam = DBIO.GetProduct_home(ProducerID, Sort, max, min); }
+            if (key == "")
+            {
+                if (ProductTID == -1)
+                { tam = DBIO.GetProduct_home(ProducerID, Sort, max, min); }
+                else
+                { tam = DBIO.getProduct_ProductT_home(Sort, max, min, ProductTID); }
+            }
             else
-            { tam = DBIO.getProduct_ProductT_home(Sort, max, min, ProductTID); }
+            {
+                if (ProductTID == -1)
+                { tam = DBIO.GetProduct_home(ProducerID, Sort, max, min).Where(i => i.ProductName.ToLower().Contains(key.ToLower())).ToList(); }
+                else
+                { tam = DBIO.getProduct_ProductT_home(Sort, max, min, ProductTID).Where(i => i.ProductName.ToLower().Contains(key.ToLower())).ToList(); }
+            }    
             var a = tam.ToPagedList(page, b);
+            ViewBag.result = tam.Count();
             int count = tam.Count();
             if (count % b == 0)
             { ViewBag.page = count / b; }
             else { ViewBag.page = count / b + 1; }
             ViewBag.number = page;
             ViewBag.ProductTID = ProductTID;
+            ViewBag.key = key;
             return View(a);
         }
-        public ActionResult Product1(int ProducerID = -1, string Sort = "ID", int page = 1, int b = 12, int max = 0, int min = 0, string type = "Grid", int ProductTID = -1)
+        public ActionResult Product1(string key ="",int ProducerID = -1, string Sort = "ID", int page = 1, int b = 12, int max = 0, int min = 0, string type = "Grid", int ProductTID = -1)
         {
             ViewBag.ProducerID = ProducerID;
             ViewBag.Type = type;
             List<Product> tam = new List<Product>();
-            if (ProductTID == -1)
-            { tam = DBIO.GetProduct_home(ProducerID, Sort, max, min); }
+            if (key == "")
+            {
+                if (ProductTID == -1)
+                { tam = DBIO.GetProduct_home(ProducerID, Sort, max, min); }
+                else
+                { tam = DBIO.getProduct_ProductT_home(Sort, max, min, ProductTID); }
+            }
             else
-            { tam = DBIO.getProduct_ProductT_home(Sort, max, min, ProductTID); }
-
+            {
+                if (ProductTID == -1)
+                { tam = DBIO.GetProduct_home(ProducerID, Sort, max, min).Where(i => i.ProductName.ToLower().Contains(key.ToLower())).ToList(); }
+                else
+                { tam = DBIO.getProduct_ProductT_home(Sort, max, min, ProductTID).Where(i => i.ProductName.ToLower().Contains(key.ToLower())).ToList(); }
+            }
             var a = tam.ToPagedList(page, b);
             int count = tam.Count();
             if (count % b == 0)
@@ -56,6 +77,7 @@ namespace ShopKA.Controllers
             else { ViewBag.page = count / b + 1; }
             ViewBag.number = page;
             ViewBag.ProductTID = ProductTID;
+           
             return View(a);
         }
 
@@ -317,10 +339,59 @@ namespace ShopKA.Controllers
 
         }
 
+        public ActionResult addWishList(int ID)
+        {
+            int id = DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID;
+            MyDB DB = new MyDB();
+            if(DB.WishLists.Any(i=>i.UserID==id&i.ProductID==ID)==false)
+            {
+                WishList L = new WishList();
+                L.UserID = id;
+                L.ProductID = ID;
+                DB.WishLists.Add(L);
+                DB.SaveChanges();
+            }
+            return null;
+        }
+        public ActionResult WishList()
+        {
+            
+            int id = DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID;
+            DBIO.checkWish(id);
+            var a = DBIO.getallWishList(id);
+            
+            return View(a);
+                
+        }
+        public ActionResult deleteWish(int ID)
+        {
+            MyDB DB = new MyDB();
+            var a = DB.WishLists.Single(i => i.ID == ID);
+            DB.WishLists.Remove(a);
+            DB.SaveChanges();
+            int id = DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID;
+            var b = DBIO.getallWishList(id);
+            return View(b);
+        }
+
+        public ActionResult clearWish()
+        {
+            int id = DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID;
+            MyDB DB = new MyDB();
+            DB.WishLists.RemoveRange(DB.WishLists.Where(i=>i.UserID==id).ToList());
+            DB.SaveChanges();
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            return View();
+        }
 
 
 
 
 
-    }
+
+        }
 }

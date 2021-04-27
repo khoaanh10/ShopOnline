@@ -305,35 +305,35 @@
                 <div class="col-lg-9 col-md-12" >
                     <div class="shop-p">
                         <div class="shop-p__toolbar u-s-m-b-30">
+                            @if (ViewBag.key != "")
+                            {
                             <div class="shop-p__meta-wrap u-s-m-b-60">
 
-                                <span class="shop-p__meta-text-1">FOUND 18 RESULTS</span>
+                                <span class="shop-p__meta-text-1">TÌM THẤY @ViewBag.result KẾT QUẢ </span>
                                 <div class="shop-p__meta-text-2">
 
-                                    <span>Related Searches:</span>
+                                    <span>TỪ KHÓA:</span>
 
-                                    <a class="gl-tag btn--e-brand-shadow" href="#">men's clothing</a>
+                                    <a class="gl-tag btn--e-brand-shadow" href="#">@ViewBag.key</a>
 
-                                    <a class="gl-tag btn--e-brand-shadow" href="#">mobiles & tablets</a>
-
-                                    <a class="gl-tag btn--e-brand-shadow" href="#">books & audible</a>
+                                   
                                 </div>
-                            </div>
+                            </div>}
                             <div class="shop-p__tool-style">
                                 <div class="tool-style__group u-s-m-b-8">
 
-                                    <span id="Grid" class="js-shop-grid-target is-active">Grid</span>
+                                    <span id="Grid" class="js-shop-grid-target is-active">Lưới</span>
 
-                                    <span id="List" class="js-shop-list-target">List</span>
+                                    <span id="List" class="js-shop-list-target">Danh Sách</span>
                                 </div>
                                 <form>
                                     <div class="tool-style__form-wrap">
                                         <div class="u-s-m-b-8">
                                             <select class="select-box select-box--transparent-b-2" id="show">
-                                                <option value=9>Show: 9</option>
-                                                <option selected value=12>Show: 12</option>
-                                                <option value=18>Show: 18</option>
-                                                <option value=24>Show: 24</option>
+                                                <option value=9>Hiển thị: 9</option>
+                                                <option selected value=12>Hiển thị: 12</option>
+                                                <option value=18>Hiển thị: 18</option>
+                                                <option value=24>Hiển thị: 24</option>
                                             </select>
                                         </div>
                                         <div class="u-s-m-b-8">
@@ -341,6 +341,7 @@
 
                                                 <option selected value="ID">Sắp xếp: Mới Nhất</option>
                                                 <option value="View1">Sắp xếp: Lượt xem </option>
+                                                <option value="Sell">Sắp xếp: Bán chạy nhât</option>
                                                 <option value="Sale">Sắp xếp: Giảm giá sâu nhất</option>
                                                 <option value="Price">Sắp xếp: Giá cao đến thấp </option>
                                                 <option value="Price2">Sắp xếp: Giá thấp đến cao </option>
@@ -351,6 +352,7 @@
                                 </form>
                             </div>
                         </div>
+                        <div id="key" data_value=@ViewBag.key></div>
                         <div class="shop-p__collection" id="ketqua">
                             <div id="ProducerID" data_value=@ViewBag.ProducerID></div>
                             <div id="ProductTID" data_value=@ViewBag.ProductTID></div>
@@ -391,11 +393,12 @@
                                                     <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID})>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
                                                     {
                                                         string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                                        <i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green"> @time</i> </i>}
+                                                        <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%"> Còn <i style="color:green"> @time</i> </i>}
                                                 </span>
                                                 <div class="product-m__name">
 
-                                                    <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID }) >@item.ProductName</a>
+                                                    <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+
                                                 </div>
                                                 <div class="product-m__rating gl-rating-style">
                                                     @{
@@ -433,7 +436,7 @@
 
 
 
-                                                    <span class="product-m__review">(@DBIO.CountProductofColor(item.ID))</span>
+                                                <span class="product-m__review">(👁️‍🗨️ @item.View1)</span>
                                                 </div>
                                                 <span class="product-o__price">
                                                     @String.Format("{0:0,0}", @b) đ
@@ -446,10 +449,12 @@
 
                                                         <span>@item.Note</span>
                                                     </div>
+                                                    @if (Session["SS"]!= null)
+                                                    {
                                                     <div class="product-m__wishlist">
 
-                                                        <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a>
-                                                    </div>
+                                                        <a class="far fa-heart addWishList" data_value=@item.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"></a>
+                                                    </div>}
                                                 </div>
                                             </div>
                                         </div>

@@ -6,6 +6,7 @@
 <div id="Type" data_value=@ViewBag.Type></div>
 <div id="pagenumber" data_value=@ViewBag.number></div>
 <div id="ProductTID" data_value=@ViewBag.ProductTID></div>
+
 @if (ViewBag.Type == "Grid")
 {
     <div class="row is-grid-active">
@@ -25,7 +26,7 @@
                         </a>
                         <div class="product-m__quick-look">
 
-                            <a class="fas fa-search" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Quick Look"></a>
+                            <a class="fas fa-search" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"></a>
                         </div>
                         @if ((UserLogin)(Session["SS"]) != null)
                         {
@@ -45,11 +46,12 @@
                             <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
                             {
                                 string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                <i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green"> @time</i> </i>}
+                                <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%"> Còn <i style="color:green"> @time</i> </i>}
                         </span>
                         <div class="product-m__name">
 
-                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a>
+                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+
                         </div>
                         <div class="product-m__rating gl-rating-style">
                             @{
@@ -83,7 +85,7 @@
                                 }
                             }
 
-                        <span class="product-m__review">(@DBIO.CountProductofColor(item.ID))</span>
+                        <span class="product-m__review">(👁️‍🗨️ @item.View1)</span>
                         </div>
                         <span class="product-o__price">
                             @String.Format("{0:0,0}", @b) đ
@@ -96,10 +98,12 @@
 
                                 <span>@item.Note</span>
                             </div>
-                            <div class="product-m__wishlist">
+                            @if (Session["SS"]!= null)
+                            {
+                                <div class="product-m__wishlist">
 
-                                <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a>
-                            </div>
+                                    <a class="far fa-heart addWishList" data_value=@item.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"></a>
+                                </div>}
                         </div>
                     </div>
                 </div>
@@ -125,7 +129,7 @@ else
                         </a>
                         <div class="product-m__quick-look">
 
-                            <a class="fas fa-search" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Quick Look"></a>
+                            <a class="fas fa-search" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"></a>
                         </div>
                         @if ((UserLogin)(Session["SS"]) != null)
                         {
@@ -145,11 +149,12 @@ else
                             <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
                             {
                                 string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                <i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green"> @time</i> </i>}
+                                <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%">Còn <i style="color:green"> @time</i> </i>}
                         </span>
                         <div class="product-m__name">
 
-                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a>
+                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+
                         </div>
                         <div class="product-m__rating gl-rating-style">
                             @{
@@ -183,7 +188,7 @@ else
                                 }
                             }
 
-                        <span class="product-m__review">(@DBIO.CountProductofColor(item.ID))</span>
+                        <span class="product-m__review">(👁️‍🗨️ @item.View1)</span>
                         </div>
                         <span class="product-o__price">
                             @String.Format("{0:0,0}", @b) đ
@@ -196,10 +201,12 @@ else
 
                                 <span>@item.Note</span>
                             </div>
-                            <div class="product-m__wishlist">
+                            @if (Session["SS"]!= null)
+                            {
+                                <div class="product-m__wishlist">
 
-                                <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a>
-                            </div>
+                                    <a class="far fa-heart addWishList" data_value=@item.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"></a>
+                                </div>}
                         </div>
                     </div>
                 </div>
@@ -290,5 +297,21 @@ else
             }
         })
 
+    });
+
+    $('.addWishList').on('click', function () {
+
+
+
+        var ID = $(this).attr('data_value');
+        $.ajax({
+            type: 'POST',
+            data: { ID: ID },
+            url: '/Home/addWishList',
+            success: function (ketqua) {
+                alert("Đã thêm vào yêu thích");
+
+            }
+        })
     });
 </script>
