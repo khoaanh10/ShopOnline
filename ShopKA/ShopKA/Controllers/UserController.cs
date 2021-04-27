@@ -604,6 +604,84 @@ namespace ShopKA.Controllers
             return View(a);
         }
 
+        public ActionResult EditPassWord()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EditPassWord(EditPassWord a)
+        {
+            if(ModelState.IsValid)
+            {
+                ViewBag.TB = false;
+                MyDB DB = new MyDB();
+                var c = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]);
+                var b = DB.Users.Single(i => i.ID == c.ID);
+                if(DBIO.MD5(a.Oldpass)!=b.Password1)
+                {
+                    ModelState.AddModelError("", "Mật khẩu không đúng");
+                    return View(a);
+                }
+                else
+                {
+                    b.Password1 = DBIO.MD5(a.Newpass1);
+                    b.Password2 = DBIO.MD5(a.Newpass2);
+                    DB.SaveChanges();
+                    ViewBag.TB = true;
+                    return View(a);
+                }
+            } 
+            else
+            {
+                return View(a);
+            }    
+        }
+        
+        public ActionResult ForgetPassWord()
+        {
+            ViewBag.TB = null;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ForgetPassWord(FormCollection f)
+        {
+            MyDB DB = new MyDB();
+            var username = f["username"];
+            var email = f["email"];
+            ViewBag.TB2 = null;
+            ViewBag.TB = null;
+            if(DB.Users.Any(i=>i.Username.ToLower()==username.ToLower())==false)
+            {
+                ViewBag.TB2 = "Tên tài khoản không tồn tại";
+                return View(f);
+            }
+            else 
+            {
+                var a = DB.Users.Single(i => i.Username.ToLower() == username.ToLower());
+                if (DBIO.isEmail(email) == false)
+                {
+                    ViewBag.TB2 = "Email không đúng định dạng";
+                    return View(f);
+                }
+                else {
+                    if (a.Email.ToLower() != email.ToLower())
+                    {
+                        ViewBag.TB2 = "Email không đúng";
+                        return View(f);
+                    }
+                    else
+                    {
+                        string random = DBIO.RandomString(6);
+                        a.Password1 = DBIO.MD5(random);
+                        a.Password2 = DBIO.MD5(random);
+                        DB.SaveChanges();
+                        DBIO.SendEmail(email, "Lấy lại mật khẩu", "Mật khẩu mới của bạn là " + random);
+                        ViewBag.TB = "Mật khẩu mới đã được gửi đến email " + email;
+                        return View(f);
+                    } }   
+            }
+        }
+
 
 
 

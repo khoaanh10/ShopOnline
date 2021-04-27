@@ -146,6 +146,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AssetAdmin\css\app.color2.css" />
     <Content Include="Asset\audio\1.mp3" />
     <Content Include="Asset\css\app.color10.css" />
     <Content Include="Asset\css\app.color2.css" />
@@ -2368,6 +2369,8 @@
     <Content Include="Views\Home\WishList.cshtml" />
     <Content Include="Views\Home\deleteWish.cshtml" />
     <Content Include="Views\Home\clearWish.cshtml" />
+    <Content Include="Views\User\EditPassWord.cshtml" />
+    <Content Include="Views\User\ForgetPassWord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

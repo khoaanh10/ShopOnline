@@ -5,41 +5,79 @@
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
 }
 
-<h2>Màu cho @ViewBag.TT.ProductName</h2>
+<div class="app-content">
 
-@using (Html.BeginForm("addColor","Admin",new { ID2 = @ViewBag.TT.ID }))
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Color</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.ColorName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ColorName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ColorName, "", new { @class = "text-danger" })
+    <!--====== Section 1 ======-->
+
+
+    <div class="u-s-p-b-60">
+
+        <!--====== Section Intro ======-->
+        <div class="section__intro u-s-m-b-60" style="margin-bottom:1.875rem;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section__text-wrap">
+                            <h1 class="section__heading u-c-secondary">Thêm cấu hình - Màu sắc - @ViewBag.TT.ProductName</h1>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <!--====== End - Section Intro ======-->
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="row row--center">
+                    <div class="col-lg-12 col-md-8 u-s-m-b-30">
+                        <div class="l-f-o">
+                            <div class="l-f-o__pad-box">
+                                
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                
+                                
+                                
+
+                                
+                                @using (Html.BeginForm("addColor", "Admin", new { ID2 = @ViewBag.TT.ID }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger", @style = "color:red;" })
+
+
+
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.ColorName, htmlAttributes: new { @class = "gl-label" })
+                                        
+                                            @Html.EditorFor(model => model.ColorName, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                            @Html.ValidationMessageFor(model => model.ColorName, "", new { @class = "text-danger" })
+                                        
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="gl-inline">
+                                        <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+
+                                            <button class="btn btn--e-transparent-brand-b-2" type="submit">TẠO</button>
+                                        </div>
+                                       
+                                    </div>
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+        <!--====== End - Section Content ======-->
     </div>
-}
+    <!--====== End - Section 2 ======-->
+</div>
 

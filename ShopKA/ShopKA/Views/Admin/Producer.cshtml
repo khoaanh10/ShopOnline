@@ -8,13 +8,14 @@
 }
 
 
-<h1 class="h3 mb-2 text-gray-800">Danh Sách NSX Của @ViewBag.TT.ProducTName</h1>
+
 
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-
+        <h6 class="m-0 font-weight-bold text-primary">Danh Sách NSX Của @ViewBag.TT.ProducTName</h6>
+        <hr />
         <a href=@Url.Action("CreatProducer","Admin",new { ID = @ViewBag.TT.ID }) class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
             <i class="fas fa-download fa-sm text-white-50"></i> Thêm NSX
         </a>

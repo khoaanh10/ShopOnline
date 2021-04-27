@@ -886,6 +886,9 @@ namespace ShopKA.Controllers
                         DB.SaveChanges();
 
                     }
+                    var e = DB.Products.Single(i => i.ID == item2.ID);
+                    e.Sale = 0;
+                    DB.SaveChanges();
                 }
             }
             var a = DB.ProductTSales.Single(i => i.ProductTID == ID);

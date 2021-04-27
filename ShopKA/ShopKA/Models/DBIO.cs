@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using DataBase;
 using PagedList;
@@ -997,7 +1000,49 @@ namespace ShopKA.Models
                 }
             }    
         }
+        public static void SendEmail(string address, string subject, string message)
+        {
+            string email = "anhk9046@gmail.com";
+            string password = "thptnd6039262";
 
-        
+            var loginInfo = new NetworkCredential(email, password);
+            var msg = new MailMessage();
+            var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+
+            msg.From = new MailAddress(email);
+            msg.To.Add(new MailAddress(address));
+            msg.Subject = subject;
+            msg.Body = message;
+            msg.IsBodyHtml = true;
+
+            smtpClient.EnableSsl = true;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = loginInfo;
+            smtpClient.Send(msg);
+        }
+        public static bool isEmail(string inputEmail)
+        {
+            inputEmail = inputEmail ?? string.Empty;
+            string strRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+                  @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+                  @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+            Regex re = new Regex(strRegex);
+            if (re.IsMatch(inputEmail))
+                return (true);
+            else
+                return (false);
+        }
+        public static string RandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+
+
+
     }
+
 }

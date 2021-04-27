@@ -105,3 +105,4 @@ D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editProductTS
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editProductTSale2.resources
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editProductTSale3.resources
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.addWishList.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.addVoucher.resources

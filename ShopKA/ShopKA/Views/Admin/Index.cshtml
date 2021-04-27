@@ -9,7 +9,6 @@
     MyDB DB = new MyDB();
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<h1 class="h3 mb-2 text-gray-800">Sản phẩm</h1>
 
 
 <!-- DataTales Example -->
@@ -17,7 +16,8 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h6>
         <hr />
-            <select class="select-box select-box--transparent-b-2" id="type1PD">
+        <div div class="gl-inline" >
+            <select class="select-box select-box--primary-style u-w-30" id="type1PD">
                 <option selected value="true">Còn hàng</option>
 
                 <option value="false">Hết hàng</option>
@@ -25,9 +25,9 @@
 
 
             </select>
-       
 
-            <select class="select-box select-box--transparent-b-2" id="SellPD">
+            <p>&nbsp;&nbsp;&nbsp;</p>
+            <select class="select-box select-box--primary-style u-w-30" id="SellPD">
                 <option value=1 selected>Tất cả SP</option>
 
                 <option value=2>SP đang Sale</option>
@@ -35,128 +35,132 @@
 
 
             </select>
+            <p>&nbsp;&nbsp;&nbsp;</p>
             <a href="/Admin/CreatProduct" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                 <i class="fas fa-download fa-sm text-white-50"></i> Thêm SP
             </a>
-    </div>
-    
-    <div  id="product">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên SP</th>
-                        <th>NSX</th>
-                        <th>Loại SP</th>
-                        <th>Tổng SL</th>
-                        <th>Đã bán</th>
-                        <th>Launch</th>
-                        <th>Tình Trạng</th>
-                        <th>Sale</th>
+        </div>
 
-                        <th>                      </th>
-                    </tr>
-                </thead>
-               
+           
+        </div>
 
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        string a = DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName;
-                        string b = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID).ProducTName;
-                        var c = DBIO.getallColor(item.ID);
-                        int s = 0;
-                        if (c != null)
-                        {
-                            foreach (var item2 in c)
+        <div id="product">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên SP</th>
+                                <th>NSX</th>
+                                <th>Loại SP</th>
+                                <th>SL</th>
+                                <th>Đã bán</th>
+                                <th>Launch</th>
+                                <th>Tình Trạng</th>
+                                <th>Sale</th>
+
+                                <th>                      </th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            @foreach (var item in Model)
                             {
-                                s = s + item2.Quantity;
-                            }
-                        }
-                        string t;
-                        string p;
-                        if (@item.Status == true)
-                        { t = "Đang Hiện"; }
-                        else
-                        { t = "Đang Ẩn"; }
-                        if (@item.Launch == true)
-                        { p = "Đã ra mắt"; }
-                        else
-                        { p = "Sắp ra mắt"; }
-
-                        <tr>
-                            <th scope="row">@item.ID</th>
-                            <td>@item.ProductName</td>
-                            <td>@a</td>
-                            <td>@b</td>
-                            <td>@s</td>
-                            <td>@DBIO.SumsellPD(item.ID)</td>
-                            @{string idd = 'a' + item.ID.ToString();}
-                            @if (item.Launch == false)
-                            {
-                                <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
-                            }
-                            else
-                            {
-                                <td>@p</td>
-                            }
-
-
-                            <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
-                            @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
+                                string a = DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName;
+                                string b = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID).ProducTName;
+                                var c = DBIO.getallColor(item.ID);
+                                int s = 0;
+                                if (c != null)
                                 {
-                                    <td>Không</td>
-
-
-
-
-                                    <td>
-                                        <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
-                                        <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
-                                        <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
-                                        <a class="btn btn-primary addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID}) role="button">Thêm Sale</a>
-
-                                    </td>
-                                }
-                                else
-                                {
-                                    float ss = (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).Sale * 100);
-                                    if (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart > DateTime.Now)
+                                    foreach (var item2 in c)
                                     {
+                                        s = s + item2.Quantity;
+                                    }
+                                }
+                                string t;
+                                string p;
+                                if (@item.Status == true)
+                                { t = "Đang Hiện"; }
+                                else
+                                { t = "Đang Ẩn"; }
+                                if (@item.Launch == true)
+                                { p = "Đã ra mắt"; }
+                                else
+                                { p = "Sắp ra mắt"; }
 
-                                        <td>Sắp Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                <tr>
+                                    <th scope="row">@item.ID</th>
+                                    <td>@item.ProductName</td>
+                                    <td>@a</td>
+                                    <td>@b</td>
+                                    <td>@s</td>
+                                    <td>@DBIO.SumsellPD(item.ID)</td>
+                                    @{string idd = 'a' + item.ID.ToString();}
+                                    @if (item.Launch == false)
+                                    {
+                                        <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
                                     }
                                     else
                                     {
+                                        <td>@p</td>
+                                    }
+
+
+                                    <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                                    @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
                                         {
-                                            <td>Đang Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                            <td>Không</td>
+
+
+
+
+                                            <td>
+                                                <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
+                                                <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                                                <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
+                                                <a class="btn btn-primary addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID}) role="button">Thêm Sale</a>
+
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            float ss = (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).Sale * 100);
+                                            if (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart > DateTime.Now)
+                                            {
+
+                                                <td>Sắp Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                            }
+                                            else
+                                            {
+                                                {
+                                                    <td>Đang Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                                }
+                                            }
+
+
+
+                                            <td>
+                                                <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
+                                                <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                                                <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
+                                                <a class="btn btn-primary deleteSale" data_value=@item.ID role="button">Xóa Sale</a>
+                                                <a class="btn btn-primary" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
+                                            </td>
                                         }
                                     }
 
 
-
-                                    <td>
-                                        <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
-                                        <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
-                                        <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
-                                        <a class="btn btn-primary deleteSale" data_value=@item.ID role="button">Xóa Sale</a>
-                                        <a class="btn btn-primary" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
-                                    </td>
-                                }
+                                </tr>
                             }
 
-
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-        </div>
-</div>
 <script>
     $('body').on('change', '#type1PD', function () {
         var status = document.getElementById("type1PD").value;

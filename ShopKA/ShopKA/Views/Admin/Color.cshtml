@@ -5,12 +5,14 @@
 }
 
 
-<h6>Tên SP: @ViewBag.TT.ProductName</h6>
+
 
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tên SP: @ViewBag.TT.ProductName</h6>
+        <hr />
         <a href="@Url.Action("addColor","Admin",new { ID2 = ViewBag.TT.ID })" ," class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
             <i class="fas fa-download fa-sm text-white-50"></i> Thêm Màu - Cấu hình
         </a>
@@ -22,7 +24,7 @@
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Tên Màu</th>
+                        <th scope="col">Tên Màu/Cấu hình</th>
 
 
                         <th scope="col">SL</th>

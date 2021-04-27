@@ -33,6 +33,7 @@ namespace DataBase
         public DbSet<SellDate> SellDates { get; set; }
         public DbSet<ProductTSale> ProductTSales { get; set; }
         public DbSet<WishList> WishLists { get; set; }
+        public DbSet<Voucher> Vouchers { get; set; }
 
 
 
