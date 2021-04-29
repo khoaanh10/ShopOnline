@@ -327,14 +327,17 @@ namespace ShopKA.Models
             var a = DB.Products.First(i => i.ID == ID).ProducerID;
             return DB.Database.SqlQuery<Product>("SELECT TOP 4 * FROM PRODUCTS WHERE STATUS = 'TRUE' AND LAUNCH ='TRUE' AND PRODUCERID='" + a + "' AND ID != '" + ID + "' ORDER BY ID DESC").ToList();
         }
+
+        
         //Lay ra 2 sản phẩm sale sắp hết hạn
+
 
         public static List<SaleProduct> get2ProductSale(DateTime A)
         {
             MyDB DB = new MyDB();
-            var a = DB.Database.SqlQuery<SaleProduct>("SELECT TOP 2 * FROM SALEPRODUCTS WHERE SALETIMESTART<='" + A + "' AND '" + A + "'<SALETIMEEND ORDER BY SALETIMEEND").ToList();
-
-            return a;
+            var a = DB.Database.SqlQuery<SaleProduct>("SELECT * FROM SALEPRODUCTS WHERE SALETIMESTART<='" + A + "' AND '" + A + "'<SALETIMEEND ORDER BY SALETIMEEND").ToList();
+            var b = a.Where(i=>DBIO.get1Product(i.ProductID)!=null& DBIO.get1Product(i.ProductID).Status==true).Take(2).ToList();
+            return b;
 
         }
         //Lay ra Sale Product tuong ung vs Product
@@ -1039,6 +1042,8 @@ namespace ShopKA.Models
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+
+       
 
 
 

@@ -218,6 +218,42 @@
     <Compile Include="Migrations\202104271130173_add Voucher.Designer.cs">
       <DependentUpon>202104271130173_add Voucher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104280410079_addVoucherlog2.cs" />
+    <Compile Include="Migrations\202104280410079_addVoucherlog2.Designer.cs">
+      <DependentUpon>202104280410079_addVoucherlog2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104280419194_test1.cs" />
+    <Compile Include="Migrations\202104280419194_test1.Designer.cs">
+      <DependentUpon>202104280419194_test1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104280426093_test2.cs" />
+    <Compile Include="Migrations\202104280426093_test2.Designer.cs">
+      <DependentUpon>202104280426093_test2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104280428491_addVoucher2.cs" />
+    <Compile Include="Migrations\202104280428491_addVoucher2.Designer.cs">
+      <DependentUpon>202104280428491_addVoucher2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104280429273_addVoucherlog21.cs" />
+    <Compile Include="Migrations\202104280429273_addVoucherlog21.Designer.cs">
+      <DependentUpon>202104280429273_addVoucherlog21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104280436254_editVoucher.cs" />
+    <Compile Include="Migrations\202104280436254_editVoucher.Designer.cs">
+      <DependentUpon>202104280436254_editVoucher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104280438207_editorder.cs" />
+    <Compile Include="Migrations\202104280438207_editorder.Designer.cs">
+      <DependentUpon>202104280438207_editorder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104280454562_editVoucher3.cs" />
+    <Compile Include="Migrations\202104280454562_editVoucher3.Designer.cs">
+      <DependentUpon>202104280454562_editVoucher3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104280715570_editVoucher4.cs" />
+    <Compile Include="Migrations\202104280715570_editVoucher4.Designer.cs">
+      <DependentUpon>202104280715570_editVoucher4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs" />
     <Compile Include="ProductOrder.cs" />
     <Compile Include="ProductTSale.cs" />
@@ -264,6 +300,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserLogin.cs" />
     <Compile Include="Voucher.cs" />
+    <Compile Include="Voucherlog.cs" />
     <Compile Include="WishList.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -414,6 +451,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104271130173_add Voucher.resx">
       <DependentUpon>202104271130173_add Voucher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280410079_addVoucherlog2.resx">
+      <DependentUpon>202104280410079_addVoucherlog2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280419194_test1.resx">
+      <DependentUpon>202104280419194_test1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280426093_test2.resx">
+      <DependentUpon>202104280426093_test2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280428491_addVoucher2.resx">
+      <DependentUpon>202104280428491_addVoucher2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280429273_addVoucherlog21.resx">
+      <DependentUpon>202104280429273_addVoucherlog21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280436254_editVoucher.resx">
+      <DependentUpon>202104280436254_editVoucher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280438207_editorder.resx">
+      <DependentUpon>202104280438207_editorder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280454562_editVoucher3.resx">
+      <DependentUpon>202104280454562_editVoucher3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280715570_editVoucher4.resx">
+      <DependentUpon>202104280715570_editVoucher4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

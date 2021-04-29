@@ -43,10 +43,23 @@ namespace DataBase
         [Display(Name = "Hình thức thanh toán")]
         [Required]
         public int payment { get; set; }
+        [Display(Name = "Giảm phí ship")]
+        [Required]
+        public int SaleShip { get; set; }
+        [Display(Name = "Giảm giá đơn hàng")]
+        [Required]
+        public int SalePrice { get; set; }
+        [Display(Name = "Giảm phí ship")]
+        [Required]
+        public int Maximum { get; set; }
+
         public DateTime CreatDate { get; set; }
         public Order()
         {
             CreatDate = DateTime.Now;
+            SaleShip = 0;
+            SalePrice = 0;
+            Maximum = 0;
         }
 
     }

@@ -106,3 +106,12 @@ D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editProductTS
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editProductTSale3.resources
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.addWishList.resources
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.addVoucher.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.addVoucherlog2.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.test1.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.test2.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.addVoucher2.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.addVoucherlog21.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editVoucher.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editorder.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editVoucher3.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editVoucher4.resources

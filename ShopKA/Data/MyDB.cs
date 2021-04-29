@@ -34,6 +34,7 @@ namespace DataBase
         public DbSet<ProductTSale> ProductTSales { get; set; }
         public DbSet<WishList> WishLists { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
+        public DbSet<Voucherlog> Voucherlogs { get; set; }
 
 
 

@@ -47,8 +47,8 @@
                     <div class="col-lg-12">
                         <div id="checkout-msg-group">
 
-                            <div class="msg">
-
+                            <div class="msg" id="kqVoucher">
+                                <div id="checkV" data_value=-1></div>
                                 <span class="msg__text">
                                     Mã giảm giá?
 
@@ -64,11 +64,11 @@
 
                                                     <label for="coupon"></label>
 
-                                                    <input class="input-text input-text--primary-style" type="text" id="coupon" placeholder="Coupon Code">
+                                                    <input class="input-text input-text--primary-style" type="text" id="code" placeholder="Mã khuyến mãi">
                                                 </div>
                                                 <div class="u-s-m-b-15">
 
-                                                    <button class="btn btn--e-transparent-brand-b-2" type="submit">Áp dụng</button>
+                                                    <button class="btn btn--e-transparent-brand-b-2" type="button" id="buttonvc">Áp dụng</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -99,7 +99,7 @@
                             <div class="o-summary" id="listpd">
                                 <div class="o-summary__section u-s-m-b-30">
                                     <div class="o-summary__item-wrap gl-scroll" id="checkoutPD">
-                                       
+                                       <div id="SLSP" data_value=@cart.Count()></div>
                                         @{int dem = 0;}
                                         @foreach (var item in cart)
                                         {
@@ -180,14 +180,15 @@
                                         <h1 class="checkout-f__h1">GIÁ TRỊ ĐƠN HÀNG</h1>
                                         <table class="o-summary__table">
                                             <tbody id="money">
+                                                
                                                 <tr>
                                                     <td>Tiền vận chuyển</td>
                                                     <td>100,000 đ</td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td>Tổng tiền SP</td>
-                                                    <td>@String.Format("{0:0,0}", Money) đ</td>
+                                                    <td id="tien" data_value=@Money>Tổng tiền SP</td>
+                                                    <td >@String.Format("{0:0,0}", Money) đ</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Tổng cộng</td>
@@ -615,6 +616,37 @@
         alert("Đã thay đổi địa chỉ thanh toán");
 
 
+
+
+    });
+    $('#buttonvc').on('click', function () {
+        var code = $("#code").val();
+        var SLSP = $("#SLSP").attr('data_value');
+        var money = $("#tien").attr('data_value');
+        $.ajax({
+            type: 'POST',
+            data: {code:code,SLSP:SLSP,money:money},
+            url: '/User/checkVoucher',
+            success: function (ketqua) {
+                $('#kqVoucher').html(ketqua);
+
+
+            }
+            
+        })
+        
+            $.ajax({
+                type: 'POST',
+                data: { code: code, SLSP: SLSP, money: money },
+                url: '/User/MoneyVoucher',
+                success: function (ketqua) {
+                    $('#money').html(ketqua);
+
+
+                }
+
+            })
+        
 
 
     });

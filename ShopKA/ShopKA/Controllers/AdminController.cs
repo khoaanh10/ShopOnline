@@ -487,7 +487,7 @@ namespace ShopKA.Controllers
 
 
 
-
+            ViewBag.ProducerID = ProducerID;
             return View(A);
         }
 
@@ -896,6 +896,61 @@ namespace ShopKA.Controllers
             DB.SaveChanges();
             var E = DBIO.getallProductT();
             return View(E);
+        }
+
+        public ActionResult Voucher()
+        {
+            var A = DB.Vouchers.ToList();
+            return View(A);
+        }
+        public ActionResult AddVoucher()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddVoucher(Voucher a, FormCollection f)
+        {
+            
+            if(ModelState.IsValid)
+            {
+                if(a.End<=DateTime.Now)
+                {
+                    ModelState.AddModelError("", "Ngày không hợp lệ");
+                    return View(a);
+                }
+                if(a.Quantity<=0)
+                {
+                    ModelState.AddModelError("", "Số lượng không hợp lệ");
+                    return View(a);
+                }
+                if (int.Parse(f["Sale"]) < 0 | int.Parse(f["Sale"]) > 100)
+                {
+                    ModelState.AddModelError("", "% giảm giá phải từ 0 - 100%");
+                    return View(a);
+                }
+                //    string c = f["Type"];
+                //a.Type = f["Type"] == "true" ? true : false;  
+                if(a.Type==true)
+                {
+                    a.OrderSale = float.Parse(f["Sale"])/100;
+                   
+                }
+                else
+                {
+                    a.ShipSale= float.Parse(f["Sale"])/100;
+                }
+                a.Code = DBIO.RandomString(6);
+                while (DB.Vouchers.Any(i=>i.Code==a.Code))
+                { a.Code = DBIO.RandomString(6); ; }    
+                
+                DB.Vouchers.Add(a);
+                DB.SaveChanges();
+                return RedirectToAction("Voucher", "Admin");
+            }   
+            else
+            {
+                return View(a);
+            }    
         }
     }
 }

@@ -13,7 +13,7 @@
 
 <!-- Custom styles for this page -->
 <link href="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+<div id="pdid" data_value=@ViewBag.ProducerID></div>>
 <div class="card-body">
     <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -143,32 +143,16 @@
 <!-- Page level custom scripts -->
 <script src="/AssetAdmin/js/demo/datatables-demo.js"></script>
 <script>
-    $('.pageNumber').on('click', function () {
-        var status = document.getElementById("type1PD").value;
-        var sell = document.getElementById("SellPD").value;
-        var sort = document.getElementById("sortPD").value;
-        var page = $(this).attr('data-id');
-        $.ajax({
-            type: 'POST',
-            data: { status: status, sell: sell, sort: sort, page: page },
-            url: '/Admin/Index1',
-            success: function (ketqua) {
-                $('#product').html(ketqua);
-            }
-        })
-
-
-    });
+   
     $('.addeletePD').on('click', function () {
         var status = document.getElementById("type1PD").value;
         var sell = document.getElementById("SellPD").value;
-        var sort = document.getElementById("sortPD").value;
-        var page = $('page').attr('data_value');
+        var ProducerID = $('#pdid').attr("data_value");
         var id = $(this).attr('data_value')
         if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này')) {
             $.ajax({
                 type: 'POST',
-                data: { status: status, sell: sell, sort: sort, page: page, id: id },
+                data: { status: status, sell: sell, id: id ,ProducerID:ProducerID},
                 url: '/Admin/Index1',
                 success: function (ketqua) {
                     $('#product').html(ketqua);
@@ -180,14 +164,13 @@
     $('.deleteSale').on('click', function () {
         var status = document.getElementById("type1PD").value;
         var sell = document.getElementById("SellPD").value;
-        var sort = document.getElementById("sortPD").value;
-        var page = $('page').attr('data_value');
+        var ProducerID = $('#pdid').attr("data_value");
 
         var id2 = $(this).attr('data_value');
         if (confirm('Bạn có chắc chắn muốn xóa Sale của sản phẩm này')) {
             $.ajax({
                 type: 'POST',
-                data: { status: status, sell: sell, sort: sort, page: page, id2: id2 },
+                data: { status: status, sell: sell, id2: id2, ProducerID: ProducerID },
                 url: '/Admin/Index1',
                 success: function (ketqua) {
                     $('#product').html(ketqua);

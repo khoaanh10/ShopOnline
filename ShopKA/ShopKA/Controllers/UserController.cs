@@ -103,18 +103,18 @@ namespace ShopKA.Controllers
         {
             UserLogin UserL = (UserLogin)(Session["SS"]);
             User User1 = DBIO.getUser_fromUserLogin(UserL);
-            
+
             if (ModelState.IsValid)
             {
                 MyDB DB = new MyDB();
-              
-                if (DB.Users.Any(i=>i.Email==a.Email)&a.Email!=User1.Email)
+
+                if (DB.Users.Any(i => i.Email == a.Email) & a.Email != User1.Email)
                 {
                     ModelState.AddModelError("", "Email đã tồn tại");
                     ViewBag.User = User1;
                     return View(a);
                 }
-               
+
                 a.Birthday = f["day"].ToString() + '-' + f["month"].ToString() + '-' + f["year"].ToString();
                 DBIO.EditProfile(User1, a);
                 return RedirectToAction("Profile", "User");
@@ -124,7 +124,7 @@ namespace ShopKA.Controllers
             return View(a);
         }
 
-       
+
 
         public ActionResult addAddress()
         {
@@ -135,7 +135,7 @@ namespace ShopKA.Controllers
         {
             if (ModelState.IsValid)
             {
-               if (DBIO.checkAddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false)
+                if (DBIO.checkAddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false)
                 {
                     ModelState.AddModelError("", "Tối đa được thêm 4 địa chỉ");
                     return View(a);
@@ -150,22 +150,22 @@ namespace ShopKA.Controllers
                     b.Phone = a.Phone;
                     b.ProvinceID = a.ProvinceID;
                     b.Ward = a.Ward;
-                    if(DBIO.checkShipSTTaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) ==false|DBIO.getshipaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID)==null)
+                    if (DBIO.checkShipSTTaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false | DBIO.getshipaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == null)
                     {
                         b.ShipStatus = true;
                     }
-                    if (DBIO.checkBillSTTaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false|DBIO.getbilladdress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == null)
+                    if (DBIO.checkBillSTTaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false | DBIO.getbilladdress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == null)
                     {
                         b.BillStatus = true;
                     }
                     DBIO.addAddress(b);
-                    return RedirectToAction("Address","User");
+                    return RedirectToAction("Address", "User");
                 }
             }
-            if(a.ProvinceID==null)
+            if (a.ProvinceID == null)
             {
                 ModelState.AddModelError("", "Vui lòng chọn tỉnh");
-            }    
+            }
             return View(a);
         }
 
@@ -191,14 +191,14 @@ namespace ShopKA.Controllers
             return View(a);
         }
         [HttpPost]
-        public ActionResult MakedefaultSTT(int ID,FormCollection f)
+        public ActionResult MakedefaultSTT(int ID, FormCollection f)
         {
             MyDB DB = new MyDB();
             UserLogin UserL = (UserLogin)(Session["SS"]);
             User User1 = DBIO.getUser_fromUserLogin(UserL);
-            if (ID==0)
+            if (ID == 0)
             {
-                var a = DB.Addresss.FirstOrDefault(i => i.ShipStatus == true & i.UserID== User1.ID);
+                var a = DB.Addresss.FirstOrDefault(i => i.ShipStatus == true & i.UserID == User1.ID);
                 if (a != null)
                 {
                     a.ShipStatus = false;
@@ -212,7 +212,7 @@ namespace ShopKA.Controllers
             }
             else
             {
-                var a = DB.Addresss.FirstOrDefault(i => i.BillStatus == true & i.UserID==User1.ID);
+                var a = DB.Addresss.FirstOrDefault(i => i.BillStatus == true & i.UserID == User1.ID);
                 if (a != null)
                 {
                     a.BillStatus = false;
@@ -225,7 +225,7 @@ namespace ShopKA.Controllers
             }
 
 
-            return RedirectToAction("Address", "User") ;
+            return RedirectToAction("Address", "User");
         }
 
         public ActionResult DeleteAddress(int ID)
@@ -243,7 +243,7 @@ namespace ShopKA.Controllers
                 }
 
             }
-            else if(DBIO.get1address(ID).BillStatus == true | DBIO.get1address(ID).ShipStatus == true)
+            else if (DBIO.get1address(ID).BillStatus == true | DBIO.get1address(ID).ShipStatus == true)
             {
                 if (DBIO.get1address(ID).BillStatus == true)
                 {
@@ -280,30 +280,30 @@ namespace ShopKA.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult editAddress(AddressDTO a,int ID)
+        public ActionResult editAddress(AddressDTO a, int ID)
         {
             if (ModelState.IsValid)
             {
 
-                    MyDB DB = new MyDB();
-                    var b = DB.Addresss.FirstOrDefault(i => i.ID == ID);
-                    b.Detail = a.Detail;
-                    b.DistrictID = a.DistrictID;
-                    b.Fullname = a.Fullname;
-                    b.Phone = a.Phone;
-                    b.ProvinceID = a.ProvinceID;
-                    b.Ward = a.Ward;
-                    if (DBIO.checkShipSTTaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false)
-                    {
-                        b.ShipStatus = true;
-                    }
-                    if (DBIO.checkBillSTTaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false)
-                    {
-                        b.BillStatus = true;
-                    }
-                    DB.SaveChanges();
-                    return RedirectToAction("Address", "User");
-                
+                MyDB DB = new MyDB();
+                var b = DB.Addresss.FirstOrDefault(i => i.ID == ID);
+                b.Detail = a.Detail;
+                b.DistrictID = a.DistrictID;
+                b.Fullname = a.Fullname;
+                b.Phone = a.Phone;
+                b.ProvinceID = a.ProvinceID;
+                b.Ward = a.Ward;
+                if (DBIO.checkShipSTTaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false)
+                {
+                    b.ShipStatus = true;
+                }
+                if (DBIO.checkBillSTTaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID) == false)
+                {
+                    b.BillStatus = true;
+                }
+                DB.SaveChanges();
+                return RedirectToAction("Address", "User");
+
             }
             if (a.ProvinceID == null)
             {
@@ -314,26 +314,26 @@ namespace ShopKA.Controllers
 
         public ActionResult checkoutCart()
         {
-            ViewBag.Cart = DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Where(i=>i.checkSTT==true).ToList();
-            
-                ViewBag.ShipAddress = DBIO.getshipaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
-                
-            
-            
+            ViewBag.Cart = DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Where(i => i.checkSTT == true).ToList();
+
+            ViewBag.ShipAddress = DBIO.getshipaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
+
+
+
             ViewBag.Address = DBIO.getallAddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
-            
-          
-                ViewBag.BillAddress = DBIO.getbilladdress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
+
+
+            ViewBag.BillAddress = DBIO.getbilladdress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
 
             ViewBag.NumOrder = DBIO.GetallOrders((DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID)).Count();
             return View();
         }
         [HttpPost]
-        public ActionResult checkoutshipaddress(FormCollection f,int ID,string type)
+        public ActionResult checkoutshipaddress(FormCollection f, int ID, string type)
         {
             int ID1;
             int ID2;
-            if(type=="ship")
+            if (type == "ship")
             {
                 ID1 = int.Parse(f["checkship"]);
                 ID2 = ID;
@@ -398,7 +398,8 @@ namespace ShopKA.Controllers
         }
 
         public ActionResult checkoutPD(int ID)
-        { MyDB DB = new MyDB();
+        {
+            MyDB DB = new MyDB();
 
             var a = DB.Carts.FirstOrDefault(i => i.ID == ID);
             a.checkSTT = false;
@@ -410,48 +411,49 @@ namespace ShopKA.Controllers
 
         public ActionResult checkoutMoney()
         {
-            
+
             int Money = 0;
             foreach (var item in DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Where(i => i.checkSTT == true).ToList())
             {
                 var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
                 int b = (int)(DBIO.getProduct_Cart(item).Price - r);
-                Money = Money + b * item.Quantity; }
-            
+                Money = Money + b * item.Quantity;
+            }
+
             return View(Money);
 
         }
 
-        public ActionResult addOrder(int payment,int shipID, int billID)
+        public ActionResult addOrder(int payment, int shipID, int billID)
         {
             MyDB DB = new MyDB();
             Order order = new Order();
             int ID = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
-           
-                order.UserID = ID;
+
+            order.UserID = ID;
             order.payment = payment;
             Address ship = DBIO.get1address(shipID);
-            order.ShipAddress = ship.Detail + " - " + ship.Ward + " - " + DBIO.get1District(ship.DistrictID).Name + " - "  + DBIO.get1Province(ship.ProvinceID).Name;
+            order.ShipAddress = ship.Detail + " - " + ship.Ward + " - " + DBIO.get1District(ship.DistrictID).Name + " - " + DBIO.get1Province(ship.ProvinceID).Name;
             order.ShipPhone = ship.Phone;
             order.ShipName = ship.Fullname;
             Address bill = DBIO.get1address(billID);
-            order.BillAddress = bill.Detail + " - "  + bill.Ward + " - "  + DBIO.get1District(bill.DistrictID).Name + " - " + DBIO.get1Province(bill.ProvinceID).Name;
+            order.BillAddress = bill.Detail + " - " + bill.Ward + " - " + DBIO.get1District(bill.DistrictID).Name + " - " + DBIO.get1Province(bill.ProvinceID).Name;
             order.BillPhone = bill.Phone;
             order.BillName = bill.Fullname;
 
 
 
             DBIO.addOrder(order);
-                var e = DB.Orders.OrderByDescending(i => i.ID).FirstOrDefault(i => i.UserID == ID);
+            var e = DB.Orders.OrderByDescending(i => i.ID).FirstOrDefault(i => i.UserID == ID);
 
-                foreach (var item in DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Where(i => i.checkSTT == true).ToList())
+            foreach (var item in DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Where(i => i.checkSTT == true).ToList())
             {
                 var d = DB.Colors.Single(i => i.ID == item.ColorID);
                 ProductOrder b = new ProductOrder();
-                    b.OrderID = e.ID;
-                    b.ColorID = item.ColorID;
-                    b.Image = DBIO.getProduct_Cart(item).Image;
-                    b.PDName = DBIO.getProduct_Cart(item).ProductName + " - " + DBIO.getColor_Cart(item).ColorName;
+                b.OrderID = e.ID;
+                b.ColorID = item.ColorID;
+                b.Image = DBIO.getProduct_Cart(item).Image;
+                b.PDName = DBIO.getProduct_Cart(item).ProductName + " - " + DBIO.getColor_Cart(item).ColorName;
                 if (d.Quantity == 0)
                 {
                     return RedirectToAction("Cart", "Home");
@@ -461,21 +463,23 @@ namespace ShopKA.Controllers
                     b.Quantity = item.Quantity;
                     d.Quantity = d.Quantity - item.Quantity;
                     DB.SaveChanges();
-                    var h = DB.Carts.Where(i => i.ColorID == d.ID &i.Quantity>d.Quantity & i.UserID != ID).ToList();
-                    if (h.Count > 0) { 
-                    foreach (var item2 in h)
+                    var h = DB.Carts.Where(i => i.ColorID == d.ID & i.Quantity > d.Quantity & i.UserID != ID).ToList();
+                    if (h.Count > 0)
                     {
-                        var cart = DB.Carts.Single(i => i.ID == item2.ID);
-                        cart.Quantity = d.Quantity;
-                        DB.SaveChanges();
-                    } }
+                        foreach (var item2 in h)
+                        {
+                            var cart = DB.Carts.Single(i => i.ID == item2.ID);
+                            cart.Quantity = d.Quantity;
+                            DB.SaveChanges();
+                        }
+                    }
                 }
-                else if(d.Quantity<=item.Quantity)
+                else if (d.Quantity <= item.Quantity)
                 {
                     b.Quantity = d.Quantity;
                     d.Quantity = 0;
                     DB.SaveChanges();
-                    var h = DB.Carts.Where(i => i.ColorID == d.ID &i.UserID!=ID).ToList();
+                    var h = DB.Carts.Where(i => i.ColorID == d.ID & i.UserID != ID).ToList();
                     if (h.Count() > 0)
                     {
                         foreach (var item2 in h)
@@ -485,30 +489,30 @@ namespace ShopKA.Controllers
                             DB.SaveChanges();
                         }
                     }
-                }    
-                    b.Price = (int)(DBIO.getProduct_Cart(item).Price - (float)(DBIO.getProduct_Cart(item).Sale * DBIO.getProduct_Cart(item).Price));
-                    DB.ProductOrders.Add(b);
-                    DB.SaveChanges();
-                   
-                
-               
-                    
-                    
-                    if (DBIO.CountProductofColor(d.ProductID) == 0)
-                    {
-                        DB.Products.Single(i => i.ID == d.ProductID).Status = false;
-                        DB.SaveChanges();
-                    }
-                    var c = DB.Carts.FirstOrDefault(i => i.ID == item.ID);
-                    DB.Carts.Remove(c);
-                    DB.SaveChanges();
-
-
-
                 }
+                b.Price = (int)(DBIO.getProduct_Cart(item).Price - (float)(DBIO.getProduct_Cart(item).Sale * DBIO.getProduct_Cart(item).Price));
+                DB.ProductOrders.Add(b);
+                DB.SaveChanges();
 
-                return RedirectToAction("Order", "User");
-            
+
+
+
+
+                if (DBIO.CountProductofColor(d.ProductID) == 0)
+                {
+                    DB.Products.Single(i => i.ID == d.ProductID).Status = false;
+                    DB.SaveChanges();
+                }
+                var c = DB.Carts.FirstOrDefault(i => i.ID == item.ID);
+                DB.Carts.Remove(c);
+                DB.SaveChanges();
+
+
+
+            }
+
+            return RedirectToAction("Order", "User");
+
         }
 
         public ActionResult Order()
@@ -518,13 +522,14 @@ namespace ShopKA.Controllers
         }
 
         public ActionResult DeleteOrder(int ID)
-        { MyDB DB = new MyDB();
+        {
+            MyDB DB = new MyDB();
 
             var c = DBIO.getallPDOrder(ID);
-            foreach(var item in c)
+            foreach (var item in c)
             {
-                var d = DB.Colors.Single(i=>i.ID==item.ColorID);
-                if(d!=null)
+                var d = DB.Colors.Single(i => i.ID == item.ColorID);
+                if (d != null)
                 {
                     d.Quantity = item.Quantity + d.Quantity;
                     DB.SaveChanges();
@@ -535,7 +540,7 @@ namespace ShopKA.Controllers
                     DB.SaveChanges();
                 }
             }
-            
+
             DBIO.deleteorder(ID);
             var a = DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
             return View(a);
@@ -545,8 +550,8 @@ namespace ShopKA.Controllers
         {
             int ID = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
             var a = DBIO.GetallOrders(ID).Take(5).ToList();
-            ViewBag.ShipAddress= DBIO.getshipaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
-            ViewBag.BillAddress= DBIO.getbilladdress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
+            ViewBag.ShipAddress = DBIO.getshipaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
+            ViewBag.BillAddress = DBIO.getbilladdress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
             ViewBag.User = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]);
             return View(a);
         }
@@ -555,26 +560,26 @@ namespace ShopKA.Controllers
         {
             int id = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
             MyDB DB = new MyDB();
-            List<Order> a= new List<Order>();
-            if(ID==1)
+            List<Order> a = new List<Order>();
+            if (ID == 1)
             {
-                a = DB.Orders.OrderByDescending(i=>i.ID).Where(i =>i.UserID==id & i.Status < 4).ToList();
-                
+                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID == id & i.Status < 4).ToList();
+
             }
             else if (ID == 4)
             {
-                a = DB.Orders.OrderByDescending(i => i.ID).Where(i =>i.UserID==id& i.Status == 4).ToList();
-                
+                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID == id & i.Status == 4).ToList();
+
             }
             else if (ID == 5)
             {
-                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID==id&i.Status >= 5).ToList();
-                
+                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID == id & i.Status >= 5).ToList();
+
             }
             else
             {
                 a = DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
-                
+
             }
             return View(a);
 
@@ -592,15 +597,15 @@ namespace ShopKA.Controllers
             ViewBag.BillName = order.BillName;
             ViewBag.Orther = order;
             int Money = 0;
-            foreach(var item in a)
+            foreach (var item in a)
             {
 
                 int b = item.Price;
-                Money = Money + b*item.Quantity ;
+                Money = Money + b * item.Quantity;
             }
             ViewBag.Money = Money;
-           
-            
+
+
             return View(a);
         }
 
@@ -611,13 +616,13 @@ namespace ShopKA.Controllers
         [HttpPost]
         public ActionResult EditPassWord(EditPassWord a)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 ViewBag.TB = false;
                 MyDB DB = new MyDB();
                 var c = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]);
                 var b = DB.Users.Single(i => i.ID == c.ID);
-                if(DBIO.MD5(a.Oldpass)!=b.Password1)
+                if (DBIO.MD5(a.Oldpass) != b.Password1)
                 {
                     ModelState.AddModelError("", "Mật khẩu không đúng");
                     return View(a);
@@ -630,13 +635,13 @@ namespace ShopKA.Controllers
                     ViewBag.TB = true;
                     return View(a);
                 }
-            } 
+            }
             else
             {
                 return View(a);
-            }    
+            }
         }
-        
+
         public ActionResult ForgetPassWord()
         {
             ViewBag.TB = null;
@@ -650,12 +655,12 @@ namespace ShopKA.Controllers
             var email = f["email"];
             ViewBag.TB2 = null;
             ViewBag.TB = null;
-            if(DB.Users.Any(i=>i.Username.ToLower()==username.ToLower())==false)
+            if (DB.Users.Any(i => i.Username.ToLower() == username.ToLower()) == false)
             {
                 ViewBag.TB2 = "Tên tài khoản không tồn tại";
                 return View(f);
             }
-            else 
+            else
             {
                 var a = DB.Users.Single(i => i.Username.ToLower() == username.ToLower());
                 if (DBIO.isEmail(email) == false)
@@ -663,7 +668,8 @@ namespace ShopKA.Controllers
                     ViewBag.TB2 = "Email không đúng định dạng";
                     return View(f);
                 }
-                else {
+                else
+                {
                     if (a.Email.ToLower() != email.ToLower())
                     {
                         ViewBag.TB2 = "Email không đúng";
@@ -678,13 +684,121 @@ namespace ShopKA.Controllers
                         DBIO.SendEmail(email, "Lấy lại mật khẩu", "Mật khẩu mới của bạn là " + random);
                         ViewBag.TB = "Mật khẩu mới đã được gửi đến email " + email;
                         return View(f);
-                    } }   
+                    }
+                }
             }
         }
 
+        public ActionResult CheckVoucher(string code, int SLSP, int money)
+        {
+            MyDB DB = new MyDB();
+            if (DB.Vouchers.Any(i => i.Code == code & i.Status == true) == false)
+            {
+                ViewBag.check = 1;
+                return View();
+            }
+            else
+            {
+                var a = DB.Vouchers.FirstOrDefault(i => i.Code == code);
+                var id = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
+                if (DB.Voucherlogs.Any(i => i.Code == a.Code & i.UserID == id))
+                {
+                    ViewBag.check = 3;
+
+                    return View();
+                }
+                else if ((SLSP >= a.QuantityCondition & money >= a.PriceOrderCondition) == false)
+                {
+                    ViewBag.check = 3;
+
+                    return View();
+                }
+                else
+                {
+                    ViewBag.type = false;
+                    if (a.Type == true)
+                    {
+                        ViewBag.type = true;
+                    }
+                    ViewBag.voucher = a;
+                    ViewBag.check = 4;
+                    return View();
+                }
+            }
+        }
+
+        public ActionResult MoneyVoucher(string code,int SLSP,int money)
+        {
+            MyDB DB = new MyDB();
+            int Money = 0;
+            
+           
+            
+            
+
+            foreach (var item in DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Where(i => i.checkSTT == true).ToList())
+            {
+                var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
+                int b = (int)(DBIO.getProduct_Cart(item).Price - r);
+                Money = Money + b * item.Quantity;
+            }
+
+            if (DB.Vouchers.Any(i => i.Code == code & i.Status == true) == false)
+            {
+                ViewBag.Money = Money;
+                ViewBag.ship = 100000;
+                ViewBag.voucher = null;
+                return View();
+            }
+            else
+            {
+                var a = DB.Vouchers.FirstOrDefault(i => i.Code == code);
+                var id = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
+                if (DB.Voucherlogs.Any(i => i.Code == a.Code & i.UserID == id))
+                {
+                    ViewBag.Money=Money;
+                    ViewBag.ship = 100000;
+                    ViewBag.voucher = null;
+                    return View();
+                }
+                else if ((SLSP >= a.QuantityCondition & money >= a.PriceOrderCondition) == false)
+                {
+                    ViewBag.Money = Money;
+                    ViewBag.ship = 100000;
+                    ViewBag.voucher = null;
+                    return View();
+                }
+                else
+                {
+                    ViewBag.voucher=a;
+                    if (a.Type == true)
+                    {
+                        if (Money * a.OrderSale > a.Maximum)
+                        {
+
+                            ViewBag.Money = Money - a.Maximum;
+                        }
+                        else
+                        {
+                            ViewBag.Money = Money - Money * a.OrderSale;
+                        }
+                        ViewBag.ship = 100000;
+                    }
+                    else
+                    {
+                        ViewBag.ship = 100000 - 100000 * a.ShipSale;
+                        ViewBag.Money = Money;
+                    }
+                    return View();
+                    
+                }
+            }
+
+            
 
 
 
 
+        }
     }
 }
