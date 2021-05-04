@@ -48,7 +48,7 @@
                         <div id="checkout-msg-group">
 
                             <div class="msg" id="kqVoucher">
-                                <div id="checkV" data_value=-1></div>
+                                <div id="Vouchercode" data_value=null ></div>
                                 <span class="msg__text">
                                     Mã giảm giá?
 
@@ -569,38 +569,49 @@
     $('.deletePD1').on('click', function () {
         var ID = $(this).attr('data_value');
         
-        alert("Đã xóa");
-        $.ajax({
-            type: 'POST',
-            data: { ID: ID},
-            url: '/User/checkoutPD',
-            success: function (ketqua) {
-                $('#checkoutPD').html(ketqua);
+        if (confirm('Xóa sản phẩm sẽ làm mã voucher hết hiệu lực, bạn có muốn xóa không?')) {
+            $.ajax({
+                type: 'POST',
+                data: { ID: ID },
+                url: '/User/checkoutPD',
+                success: function (ketqua) {
+                    $('#checkoutPD').html(ketqua);
 
 
-            }
-        })
-        $.ajax({
-            type: 'POST',
-            data: { ID: ID},
-            url: '/User/checkoutMoney',
-            success: function (ketqua) {
-                $('#money').html(ketqua);
+                }
+            })
+            $.ajax({
+                type: 'POST',
+                data: {test:0,code:"0",SLSP:0,money:0},
+                url: '/User/checkVoucher',
+                success: function (ketqua) {
+                    $('#kqVoucher').html(ketqua);
 
 
-            }
-        })
-        $.ajax({
-            type: 'POST',
-            data: {},
-            url: '/Home/DeleteCart2',
-            success: function (ketqua) {
-                $('#cartmini').html(ketqua);
+                }
+            })
+
+            $.ajax({
+                type: 'POST',
+                data: { ID: ID },
+                url: '/User/checkoutMoney',
+                success: function (ketqua) {
+                    $('#money').html(ketqua);
 
 
-            }
-        })
+                }
+            })
+            $.ajax({
+                type: 'POST',
+                data: {},
+                url: '/Home/DeleteCart2',
+                success: function (ketqua) {
+                    $('#cartmini').html(ketqua);
 
+
+                }
+            })
+        }
 
 
     });

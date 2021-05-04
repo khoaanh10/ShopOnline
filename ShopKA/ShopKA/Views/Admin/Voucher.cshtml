@@ -7,6 +7,8 @@
 }
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 
 
@@ -38,26 +40,29 @@
                         <th scope="col">Điều kiện số lượng </th>
                         <th scope="col">Tình trạng</th>
                         <th scope="col">Thời gian hết hạn</th>
+                        <th scope="col"></th>
 
 
-</thead>
+                </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
 
-                    <tr>
-                        <th scope="row">@item.ID</th>
+                        <tr>
+                            <th scope="row">@item.ID</th>
 
-                        <td>@item.Code</td>
-                        <td>@(item.Type==true?"Giảm giá đơn hàng "+item.OrderSale*100 +" %, tối đa: " + item.Maximum +" đ":"Giảm giá ship "+item.ShipSale*100 +" %")</td>
-                        <td>@item.Quantity</td>
-                        <td>Giá >= @item.PriceOrderCondition</td>
-                        <td>SL SP >= @item.QuantityCondition</td>
-                        <td>@(item.Status==true?"Còn":"Hết")</td>
-                        <td>@String.Format("{0:dd/MM/yyyy}", @item.End)</td>
+                            <td>@item.Code</td>
+                            <td>@(item.Type==true?"Giảm giá đơn hàng "+item.OrderSale*100 +" %, tối đa: " + item.Maximum +" đ":"Giảm giá ship "+item.ShipSale*100 +" %")</td>
+                            <td>@item.Quantity</td>
+                            <td>Giá >= @item.PriceOrderCondition</td>
+                            <td>SL SP >= @item.QuantityCondition</td>
+                            <td>@(item.Status==true?"Còn":"Hết")</td>
+                            <td>@String.Format("{0:dd/MM/yyyy}", @item.End)</td>
 
-                       
-                    </tr>
+                            <td>
+                                <a class="btn btn-primary addeletevc" data_value=@item.ID role="button">Xóa Voucher</a>
+                            </td>
+                        </tr>
                     }
 
                 </tbody>
@@ -67,5 +72,26 @@
         </div>
     </div>
 </div>
+<script>
+    $('.addeletevc').on('click', function () {
+        var id = $(this).attr('data_value');
+
+
+
+        var id2 = $(this).attr('data_value');
+        if (confirm('Bạn có chắc chắn muốn xóa Voucher này')) {
+            $.ajax({
+                type: 'POST',
+                data: { id: id },
+                url: '/Admin/deleteVoucher',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                }
+            })
+        }
+
+
+    });
+</script>
 
 

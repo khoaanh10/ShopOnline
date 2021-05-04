@@ -1,6 +1,37 @@
 ﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-@if (ViewBag.check == 1)
+@if (ViewBag.check == 0)
 {
+    <div id="Vouchercode" data_value=null></div>
+
+
+    <span class="msg__text">
+        Mã giảm giá?
+
+        <a class="gl-link" href="#have-coupon" data-toggle="collapse">Bấm vào đây để nhập mã giảm giá</a>
+    </span>
+    <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
+        <div class="c-f u-s-m-b-16">
+
+            <span class="gl-text u-s-m-b-16">Nhập mã ngay</span>
+            <form class="c-f__form">
+                <div class="u-s-m-b-16">
+                    <div class="u-s-m-b-15">
+
+                        <label for="coupon"></label>
+
+                        <input class="input-text input-text--primary-style" type="text" id="code" placeholder="Mã khuyến mãi">
+                    </div>
+                    <div class="u-s-m-b-15">
+
+                        <button class="btn btn--e-transparent-brand-b-2" type="button" id="buttonvc">Áp dụng</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else if (ViewBag.check == 1)
+{<div id="Vouchercode" data_value=null></div>
     <span class="msg__text">
         Mã giảm giá?
 
@@ -27,7 +58,7 @@
         </div>
     </div>}
 else if (ViewBag.check == 2)
-{
+{<div id="Vouchercode" data_value=null></div>
     <span class="msg__text">
         Mã giảm giá?
 
@@ -55,7 +86,7 @@ else if (ViewBag.check == 2)
     </div>
 }
 else if (ViewBag.check == 3)
-{
+{<div id="Vouchercode" data_value=null></div>
     <span class="msg__text">
         Mã giảm giá?
 
@@ -84,6 +115,7 @@ else if (ViewBag.check == 3)
 }
 else
 {
+    <div id="Vouchercode" data_value=@ViewBag.voucher.Code></div>
     <span class="msg__text">
 
 

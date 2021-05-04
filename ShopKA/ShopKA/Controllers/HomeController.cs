@@ -366,7 +366,7 @@ namespace ShopKA.Controllers
         public ActionResult deleteWish(int ID)
         {
             MyDB DB = new MyDB();
-            var a = DB.WishLists.Single(i => i.ID == ID);
+            var a = DB.WishLists.SingleOrDefault(i => i.ID == ID);
             DB.WishLists.Remove(a);
             DB.SaveChanges();
             int id = DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID;

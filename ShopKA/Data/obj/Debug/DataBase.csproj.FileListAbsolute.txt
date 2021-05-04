@@ -115,3 +115,6 @@ D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editVoucher.r
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editorder.resources
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editVoucher3.resources
 D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editVoucher4.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editordertabl.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editordertab2.resources
+D:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editordertab3.resources

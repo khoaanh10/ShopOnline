@@ -29,11 +29,11 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a>
+                                <a href="/">Trang chủ</a>
                             </li>
                             <li class="is-marked">
 
-                                <a href="dash-manage-order.html">My Account</a>
+                                <a >Đơn hàng</a>
                             </li>
                         </ul>
                     </div>
@@ -97,7 +97,7 @@
 
                                                 <span class="dash__w-icon dash__w-icon-style-2"><i class="fas fa-times"></i></span>
 
-                                                <span class="dash__w-text">@DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count(i => i.Status == 5)</span>
+                                                <span class="dash__w-text">@DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count(i => i.Status == 6)</span>
 
                                                 <span class="dash__w-name">Đơn hàng đã hủy</span>
                                             </div>
@@ -130,7 +130,7 @@
                                             <div class="manage-o__text-2 u-c-silver">
                                                 Tổng tiền: 
 
-                                                <span class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", Money+100000) đ</span>
+                                                <span class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", (int)(Money - (order.Maximum >= Money * order.SalePrice ? Money*order.SalePrice : order.Maximum)) + (int)(100000 - 100000 * order.SaleShip)) đ</span>
                                             </div>
                                         </div>
                                     </div>
@@ -489,16 +489,16 @@
                                         <div class="dash__pad-3">
                                             <h2 class="dash__h2 u-s-m-b-8">Tổng cộng</h2>
                                             <div class="dash-l-r u-s-m-b-8">
-                                                <div class="manage-o__text-2 u-c-secondary">Tiền hàng</div>
-                                                <div class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", Money) đ</div>
+                                                <div class="manage-o__text-2 u-c-secondary">Tiền hàng @(order.SalePrice>0?"(Giảm " + order.SalePrice*100 +"%)":"")</div>
+                                                <div class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}",(int)(Money - (order.Maximum >= Money * order.SalePrice ? Money*order.SalePrice : order.Maximum)) ) đ</div>
                                             </div>
                                             <div class="dash-l-r u-s-m-b-8">
-                                                <div class="manage-o__text-2 u-c-secondary">Phí vận chuyển</div>
-                                                <div class="manage-o__text-2 u-c-secondary">100,000 đ</div>
+                                                <div class="manage-o__text-2 u-c-secondary">Phí vận chuyển @(order.SaleShip>0?"(Giảm " + order.SaleShip*100 +"%)":"")</div>
+                                                <div class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}",(int)(100000-100000*order.SaleShip))</div>
                                             </div>
                                             <div class="dash-l-r u-s-m-b-8">
                                                 <div class="manage-o__text-2 u-c-secondary">Thành tiền</div>
-                                                <div class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", Money+100000) đ</div>
+                                                <div class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", (int)(Money - (order.Maximum >= Money * order.SalePrice ? Money*order.SalePrice : order.Maximum)) + (int)(100000 - 100000 * order.SaleShip)) đ</div>
                                             </div>
 
                                             <span class="dash__text-2">Hình thức thanh toán:</span>

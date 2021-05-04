@@ -655,32 +655,35 @@ namespace ShopKA.Controllers
             if (ID2 == -1)
             {
 
-                var A = DB.Orders.Single(i => i.ID == ID);
+                var A = DB.Orders.SingleOrDefault(i => i.ID == ID);
 
                 if (A.Status == 5)
                 {
                     foreach (var item in DBIO.getallPDOrder(A.ID))
                     {
-                        var C = DB.Colors.Single(i => i.ID == item.ColorID);
+                        var C = DB.Colors.SingleOrDefault(i => i.ID == item.ColorID);
                         if (C != null)
                         {
                             C.Quantity = C.Quantity + item.Quantity;
-                            DB.Products.Single(i => i.ID == C.ProductID).Status = true;
+                            DB.Products.SingleOrDefault(i => i.ID == C.ProductID).Status = true;
                             DB.SaveChanges();
                         }
                     }
                 }
-                A.Status = A.Status + 1;
+                if (A.Status <= 5)
+                {
+                    A.Status = A.Status + 1;
+                }
                 DB.SaveChanges();
             }
             else
             {
-                var A = DB.Orders.Single(i => i.ID == ID);
+                var A = DB.Orders.SingleOrDefault(i => i.ID == ID);
                 if (ID2 == 4)
                 {
                     foreach (var item in DBIO.getallPDOrder(A.ID))
                     {
-                        var C = DB.Colors.Single(i => i.ID == item.ColorID);
+                        var C = DB.Colors.SingleOrDefault(i => i.ID == item.ColorID);
 
 
                         if (C != null)
@@ -690,7 +693,7 @@ namespace ShopKA.Controllers
                             DB.SaveChanges();
                             if (DB.SellProducts.Any(i => i.ColorID == C.ID))
                             {
-                                F = DB.SellProducts.Single(i => i.ColorID == C.ID);
+                                F = DB.SellProducts.SingleOrDefault(i => i.ColorID == C.ID);
 
                             }
                             else
@@ -700,12 +703,12 @@ namespace ShopKA.Controllers
                                 D.PDName = item.PDName;
                                 DB.SellProducts.Add(D);
                                 DB.SaveChanges();
-                                F = DB.SellProducts.Single(i => i.ColorID == C.ID);
+                                F = DB.SellProducts.SingleOrDefault(i => i.ColorID == C.ID);
                             }
                             SellDate E = new SellDate();
                             E.BuyName = DBIO.get1User_ID(A.UserID).Username;
                             E.DateSell = DateTime.Now;
-                            E.Price = item.Price;
+                            E.Price = item.Price - (int)(A.Maximum >= item.Price * A.SalePrice ? item.Price * A.SalePrice : (A.Maximum / DBIO.getallPDOrder(A.ID).Sum(i => i.Quantity)));
                             E.Quantity = item.Quantity;
                             E.SellPDID = F.ID;
                             DB.SellDates.Add(E);
@@ -718,7 +721,7 @@ namespace ShopKA.Controllers
                 A.Status = ID2;
                 DB.SaveChanges();
             }
-            var B = DB.Orders.Single(i => i.ID == ID);
+            var B = DB.Orders.SingleOrDefault(i => i.ID == ID);
             return View(B);
         }
 
@@ -760,7 +763,7 @@ namespace ShopKA.Controllers
                     if (a.SaleTimeEnd <= a.SaleTimeStart)
                     {
                         ModelState.AddModelError("", "Ngày không hợp lệ");
-                        ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID); 
+                        ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID);
                         return View(a);
                     }
                     a.Banner = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
@@ -777,7 +780,7 @@ namespace ShopKA.Controllers
                         {
                             if (DB.SaleProducts.Any(i => i.ProductID == item2.ID))
                             {
-                                var d = DB.SaleProducts.Single(i => i.ProductID == item2.ID);
+                                var d = DB.SaleProducts.SingleOrDefault(i => i.ProductID == item2.ID);
                                 DB.SaleProducts.Remove(d);
                                 DB.SaveChanges();
 
@@ -808,7 +811,7 @@ namespace ShopKA.Controllers
         public ActionResult EditProductTSale(int ID)
         {
             ViewBag.ProductT = DBIO.get1ProductT_ProductTID(ID);
-            ViewBag.Sale = DB.ProductTSales.Single(i => i.ProductTID == ID);
+            ViewBag.Sale = DB.ProductTSales.SingleOrDefault(i => i.ProductTID == ID);
             return View();
         }
         [HttpPost]
@@ -821,11 +824,11 @@ namespace ShopKA.Controllers
                 {
                     ModelState.AddModelError("", "Ngày không hợp lệ");
                     ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID);
-                    ViewBag.Sale = DB.ProductTSales.Single(i => i.ProductTID == a.ProductTID);
+                    ViewBag.Sale = DB.ProductTSales.SingleOrDefault(i => i.ProductTID == a.ProductTID);
                     return View(a);
                 }
-                
-                var b = DB.ProductTSales.Single(i => i.ID == a.ID);
+
+                var b = DB.ProductTSales.SingleOrDefault(i => i.ID == a.ID);
                 b.Sale = a.Sale / 100;
                 b.SaleTimeEnd = a.SaleTimeEnd;
                 b.SaleTimeStart = a.SaleTimeStart;
@@ -843,7 +846,7 @@ namespace ShopKA.Controllers
 
                         if (DB.SaleProducts.Any(i => i.ProductID == item2.ID))
                         {
-                            var d = DB.SaleProducts.Single(i => i.ProductID == item2.ID);
+                            var d = DB.SaleProducts.SingleOrDefault(i => i.ProductID == item2.ID);
 
                             DB.SaleProducts.Remove(d);
                             DB.SaveChanges();
@@ -864,7 +867,7 @@ namespace ShopKA.Controllers
             else
             {
                 ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID);
-                ViewBag.Sale = DB.ProductTSales.Single(i => i.ProductTID == a.ProductTID);
+                ViewBag.Sale = DB.ProductTSales.SingleOrDefault(i => i.ProductTID == a.ProductTID);
                 return View(a);
             }
         }
@@ -880,18 +883,18 @@ namespace ShopKA.Controllers
 
                     if (DB.SaleProducts.Any(i => i.ProductID == item2.ID))
                     {
-                        var d = DB.SaleProducts.Single(i => i.ProductID == item2.ID);
+                        var d = DB.SaleProducts.SingleOrDefault(i => i.ProductID == item2.ID);
 
                         DB.SaleProducts.Remove(d);
                         DB.SaveChanges();
 
                     }
-                    var e = DB.Products.Single(i => i.ID == item2.ID);
+                    var e = DB.Products.SingleOrDefault(i => i.ID == item2.ID);
                     e.Sale = 0;
                     DB.SaveChanges();
                 }
             }
-            var a = DB.ProductTSales.Single(i => i.ProductTID == ID);
+            var a = DB.ProductTSales.SingleOrDefault(i => i.ProductTID == ID);
             DB.ProductTSales.Remove(a);
             DB.SaveChanges();
             var E = DBIO.getallProductT();
@@ -910,15 +913,15 @@ namespace ShopKA.Controllers
         [HttpPost]
         public ActionResult AddVoucher(Voucher a, FormCollection f)
         {
-            
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
-                if(a.End<=DateTime.Now)
+                if (a.End <= DateTime.Now)
                 {
                     ModelState.AddModelError("", "Ngày không hợp lệ");
                     return View(a);
                 }
-                if(a.Quantity<=0)
+                if (a.Quantity <= 0)
                 {
                     ModelState.AddModelError("", "Số lượng không hợp lệ");
                     return View(a);
@@ -930,27 +933,36 @@ namespace ShopKA.Controllers
                 }
                 //    string c = f["Type"];
                 //a.Type = f["Type"] == "true" ? true : false;  
-                if(a.Type==true)
+                if (a.Type == true)
                 {
-                    a.OrderSale = float.Parse(f["Sale"])/100;
-                   
+                    a.OrderSale = float.Parse(f["Sale"]) / 100;
+
                 }
                 else
                 {
-                    a.ShipSale= float.Parse(f["Sale"])/100;
+                    a.ShipSale = float.Parse(f["Sale"]) / 100;
                 }
                 a.Code = DBIO.RandomString(6);
-                while (DB.Vouchers.Any(i=>i.Code==a.Code))
-                { a.Code = DBIO.RandomString(6); ; }    
-                
+                while (DB.Vouchers.Any(i => i.Code == a.Code))
+                { a.Code = DBIO.RandomString(6); ; }
+
                 DB.Vouchers.Add(a);
                 DB.SaveChanges();
                 return RedirectToAction("Voucher", "Admin");
-            }   
+            }
             else
             {
                 return View(a);
-            }    
+            }
+        }
+        public ActionResult deleteVoucher(int id)
+        {
+            var a = DB.Vouchers.SingleOrDefault(i => i.ID == id);
+            DB.Vouchers.Remove(a);
+            DB.SaveChanges();
+            var A = DB.Vouchers.ToList();
+            return View(A);
+                
         }
     }
-}
+    }

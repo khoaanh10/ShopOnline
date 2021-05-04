@@ -254,6 +254,19 @@
     <Compile Include="Migrations\202104280715570_editVoucher4.Designer.cs">
       <DependentUpon>202104280715570_editVoucher4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104290353192_edit order table 29\4.cs" />
+    <Compile Include="Migrations\202104290353415_edit ordertabl.cs" />
+    <Compile Include="Migrations\202104290353415_edit ordertabl.Designer.cs">
+      <DependentUpon>202104290353415_edit ordertabl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104290406488_edit ordertab2.cs" />
+    <Compile Include="Migrations\202104290406488_edit ordertab2.Designer.cs">
+      <DependentUpon>202104290406488_edit ordertab2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104290407202_edit ordertab3.cs" />
+    <Compile Include="Migrations\202104290407202_edit ordertab3.Designer.cs">
+      <DependentUpon>202104290407202_edit ordertab3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs" />
     <Compile Include="ProductOrder.cs" />
     <Compile Include="ProductTSale.cs" />
@@ -478,6 +491,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104280715570_editVoucher4.resx">
       <DependentUpon>202104280715570_editVoucher4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104290353415_edit ordertabl.resx">
+      <DependentUpon>202104290353415_edit ordertabl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104290406488_edit ordertab2.resx">
+      <DependentUpon>202104290406488_edit ordertab2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104290407202_edit ordertab3.resx">
+      <DependentUpon>202104290407202_edit ordertab3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

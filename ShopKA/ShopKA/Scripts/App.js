@@ -277,7 +277,7 @@ $('#ok2').on('click', function () {
        
         $.ajax({
             type: 'POST',
-            data: { payment: $('input[name=payment]:checked').val(), shipID: $('#shipid').attr('data_value'), billID: $('#billid').attr('data_value')  },
+            data: { payment: $('input[name=payment]:checked').val(), shipID: $('#shipid').attr('data_value'), billID: $('#billid').attr('data_value'), Code: $('#Vouchercode').attr('data_value')},
             url: '/User/addOrder',
             success: function (ketqua) {
 

@@ -43,13 +43,16 @@ namespace DataBase
         [Display(Name = "Hình thức thanh toán")]
         [Required]
         public int payment { get; set; }
+        [Display(Name = "Mã giảm giá nếu có")]
+        
+        public string Voucher { get; set; }
         [Display(Name = "Giảm phí ship")]
         [Required]
-        public int SaleShip { get; set; }
+        public float SaleShip { get; set; }
         [Display(Name = "Giảm giá đơn hàng")]
         [Required]
-        public int SalePrice { get; set; }
-        [Display(Name = "Giảm phí ship")]
+        public float SalePrice { get; set; }
+        [Display(Name = "Max")]
         [Required]
         public int Maximum { get; set; }
 
@@ -60,6 +63,7 @@ namespace DataBase
             SaleShip = 0;
             SalePrice = 0;
             Maximum = 0;
+            Voucher = null;
         }
 
     }

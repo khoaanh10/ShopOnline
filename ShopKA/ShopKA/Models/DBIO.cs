@@ -49,7 +49,7 @@ namespace ShopKA.Models
         {
             MyDB DB = new MyDB();
 
-            var a = DB.Products.Single(x => x.ID == ID);
+            var a = DB.Products.SingleOrDefault(x => x.ID == ID);
 
             return a;
         }
@@ -567,7 +567,7 @@ namespace ShopKA.Models
         public static Product get1ProductHome(int ID)
         {
             MyDB DB = new MyDB();
-            var a = DB.Products.Single(i => i.ID == ID & i.Status == true);
+            var a = DB.Products.SingleOrDefault(i => i.ID == ID & i.Status == true);
             a.View1 = a.View1 + 1;
             DB.SaveChanges();
             return a;
@@ -991,13 +991,13 @@ namespace ShopKA.Models
                 var b = DBIO.get1Product(item.ProductID);
                 if(b==null)
                 {
-                    var c = DB.WishLists.Single(i => i.ID == item.ID);
+                    var c = DB.WishLists.SingleOrDefault(i => i.ID == item.ID);
                     DB.WishLists.Remove(c);
                     DB.SaveChanges();
                 } 
                 else
                 {
-                    var c = DB.WishLists.Single(i => i.ID == item.ID);
+                    var c = DB.WishLists.SingleOrDefault(i => i.ID == item.ID);
                     c.Status = b.Status;
                     DB.SaveChanges();
                 }

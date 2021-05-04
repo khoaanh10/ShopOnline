@@ -7,12 +7,12 @@
     int Money = 0;
     foreach (var item2 in DBIO.getallPDOrder(item.ID))
     {
-        
+
         int b = item2.Price;
         int g = b * item2.Quantity;
         Money = Money + g ;
     }
-    Money = Money + 100000;
+    Money = (int)(Money - item.Maximum >= Money * item.SalePrice ? item.SalePrice : item.Maximum) + (int)(100000 - 100000 * item.SaleShip);
     <div class="m-order__get">
         <div class="manage-o__header u-s-m-b-30">
             <div class="dash-l-r">
@@ -76,7 +76,7 @@
 
                             <img class="u-img-fluid" src='data:image/png;base64,@item2.Image ' alt="">
                         </div>
-                        <div class="description-title">@DBIO.getProduct_ProductOrder(item2).ProductName</div><span class="mini-product__quantity">&nbsp;&nbsp;&nbsp;@DBIO.getColor_ProductOrder(item2).ColorName</span>
+                        <div class="description-title">@item2.PDName</div>
                     </div>
                     <div class="description__info-wrap">
 

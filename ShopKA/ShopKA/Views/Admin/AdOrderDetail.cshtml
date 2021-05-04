@@ -6,6 +6,9 @@
     ViewBag.Title = "SellProduct";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
     Order a = ViewBag.Order;
+    var gia = @Model.Sum(i => i.Price * i.Quantity);
+    int gia1 = (int)(gia - (a.Maximum >= gia * a.SalePrice ? gia * a.SalePrice : a.Maximum));
+    int ship = 100000 - (int)(100000 * a.SaleShip);
 }
 
 
@@ -24,9 +27,9 @@
         <div>SDT người thanh toán: @a.BillPhone</div>
     </div>
     <div class="card-header py-3">
-        <div>Tổng giá SP: @String.Format("{00:0,0}", @Model.Sum(i => i.Price * i.Quantity)) đ</div>
-        <div>Tiền ship: 100,000 đ</div>
-        <div>Tổng cộng: @String.Format("{00:0,0}", @Model.Sum(i => i.Price * i.Quantity + 100000)) đ</div>
+        <div>Tổng giá SP: @String.Format("{00:0,0}", @gia1) đ @(a.SalePrice > 0?"(Voucher Giảm " + @a.SalePrice * 100 + "% giá trị đơn hàng)":""  )</div>
+        <div>Tiền ship: @String.Format("{00:0,0}", @ship) đ @(a.SaleShip > 0?"(Voucher Giảm " + @a.SaleShip * 100 + "% phí vận chuyển)":""  )</div>
+        <div>Tổng cộng: @String.Format("{00:0,0}", gia1+ship) đ</div>
     </div>
 
     <div class="card-body" id="product">

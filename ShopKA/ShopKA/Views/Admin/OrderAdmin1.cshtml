@@ -46,23 +46,36 @@
                     <th scope="row">@item.ID</th>
                     <td>@DBIO.get1User_ID(item.UserID).Username</td>
                     <td>@DB.ProductOrders.Count(i => i.OrderID == item.ID)</td>
-                    <td>@(DB.ProductOrders.Where(i=>i.OrderID==item.ID).Sum(i=>i.Price*i.Quantity)+100000) đ</td>
+                    @{int gia = DB.ProductOrders.Where(i => i.OrderID == item.ID).Sum(i => i.Price * i.Quantity);
+                        int gia1 = (int)(gia - (item.Maximum >= gia * item.SalePrice ? gia * item.SalePrice : item.Maximum));
+                        int ship = 100000 - (int)(100000 * item.SaleShip);
+                        string bonus = "";
+                        if (item.SalePrice > 0)
+                        {
+                            bonus = "(Voucher Giảm " + item.SalePrice * 100 + "% giá trị đơn hàng)";
+                        }
+                        else if (item.SaleShip > 0)
+                        {
+                            bonus = "(Voucher giảm " + item.SaleShip * 100 + "% tiền ship)";
+                        }
+                    }
+                    <td>@(gia1 +ship) đ @bonus</td>
                     @if (item.Status < 3)
                     {
                         <td id="orderSTT-@item.ID">@Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                     }
                     else if (item.Status == 3)
                     {
-                        <td id="orderSTT-@item.ID">Đang giao hàng - @Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 5 }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        <td id="orderSTT-@item.ID">Đang giao hàng - @Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID,ID2=5}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                     }
                     else if (item.Status == 5)
                     {
                         <td id="orderSTT-@item.ID">Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </td>
- }
+                    }
 
                     else
                     {
-                        <td>@t</td>
+                        <td id="orderSTT-@item.ID">@t</td>
                     }
 
 
