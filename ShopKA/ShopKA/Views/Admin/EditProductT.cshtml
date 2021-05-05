@@ -39,7 +39,7 @@
 
 
 
-                                @using (Html.BeginForm("EditProductT", "Admin", new { ID2 = Model.ID }))
+                                @using (Html.BeginForm("EditProductT", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {
                                     @Html.AntiForgeryToken()
 
@@ -47,13 +47,20 @@
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger", @style = "color:red;" })
 
 
-
+                                    @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @type="hidden", @value = Model.ID } })
 
                                     <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
                                         @Html.LabelFor(model => model.ProducTName, htmlAttributes: new { @class = "gl-label" })
 
                                         @Html.EditorFor(model => model.ProducTName, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @value = Model.ProducTName } })
                                         @Html.ValidationMessageFor(model => model.ProducTName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "gl-label" })
+                                        <div class="col-md-15">
+                                            <input type="file" name="file1" />
+                                        </div>
 
                                     </div>
 

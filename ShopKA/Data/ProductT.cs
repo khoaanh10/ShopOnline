@@ -17,5 +17,9 @@ namespace DataBase
         [Required(ErrorMessage = "Bạn chưa nhập tên loại SP")]
         
         public string ProducTName { get; set; }
+        [Display(Name = "Hình ảnh")]
+        
+
+        public string Image { get; set; }
     }
 }

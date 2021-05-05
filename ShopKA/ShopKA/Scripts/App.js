@@ -56,9 +56,10 @@ $('body').on('change', '#show', function () {
     var min = document.getElementById("min").value;
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
     $.ajax({
         type: 'POST',
-        data: {key:key, ProducerID: a,Sort :c,b:b,type:type,max:max,min:min ,ProductTID:e},
+        data: {key:key, ProducerID: a,Sort :c,b:b,type:type,max:max,min:min ,ProductTID:e,rate:rate},
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
@@ -75,9 +76,10 @@ $('body').on('change', '#sort', function () {
     var min = document.getElementById("min").value;
     var e = $('#ProductTID').attr('data_value'); 
     var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
     $.ajax({
         type: 'POST',
-        data: {key:key, ProducerID: a, Sort: c, b: b, type: type,max:max,min:min,ProductTID:e},
+        data: {key:key, ProducerID: a, Sort: c, b: b, type: type,max:max,min:min,ProductTID:e,rate:rate},
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
@@ -93,9 +95,10 @@ $('.Producer').on('click', function () {
     var max = document.getElementById("max").value;
     var min = document.getElementById("min").value;
     var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
     $.ajax({
         type: 'POST',
-        data: {key:key, ProducerID: a, Sort: c, b: b, type: type, max:max,min:min },
+        data: {key:key, ProducerID: a, Sort: c, b: b, type: type, max:max,min:min,rate:rate },
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
@@ -116,9 +119,32 @@ $('#price').on('click', function () {
     var type = $('#Type').attr('data_value');
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
     $.ajax({
         type: 'POST',
-        data: {key:key, ProducerID: a, Sort: c, b: b, max: max, min: min, type: type, ProductTID:e },
+        data: {key:key, ProducerID: a, Sort: c, b: b, max: max, min: min, type: type, ProductTID:e,rate:rate },
+        url: '/Home/Product1',
+        success: function (ketqua) {
+            $('#ketqua').html(ketqua);
+        }
+    })
+
+
+});
+//Xếp theo rate
+$('.rating__check').on('click', function () {
+    var b = document.getElementById("show").value;
+    var c = document.getElementById("sort").value;
+    var a = $('#ProducerID').attr('data_value');
+    var max = document.getElementById("max").value;
+    var min = document.getElementById("min").value;
+    var type = $('#Type').attr('data_value');
+    var e = $('#ProductTID').attr('data_value');
+    var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
+    $.ajax({
+        type: 'POST',
+        data: { key: key, ProducerID: a, Sort: c, b: b, max: max, min: min, type: type, ProductTID: e, rate: rate },
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
@@ -138,9 +164,10 @@ $('#Grid').on('click', function () {
     var page = $('#pagenumber').attr('data_value');
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
     $.ajax({
         type: 'POST',
-        data: {key: key, ProducerID: a, Sort: c, b: b, page: page, max: max, min: min,type:type,ProductTID:e },
+        data: {key: key, ProducerID: a, Sort: c, b: b, page: page, max: max, min: min,type:type,ProductTID:e ,rate:rate},
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
@@ -160,9 +187,10 @@ $('#List').on('click', function () {
     var page = $('#pagenumber').attr('data_value');
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
     $.ajax({
         type: 'POST',
-        data: { key:key,ProducerID: a, Sort: c, b: b, page: page, max: max, min: min, type: type, ProductTID:e },
+        data: { key:key,ProducerID: a, Sort: c, b: b, page: page, max: max, min: min, type: type, ProductTID:e,rate:rate },
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
@@ -181,9 +209,10 @@ $('.ProductTID').on('click', function () {
     var min = document.getElementById("min").value;
     var a = $(this).attr('data_value');
     var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
     $.ajax({
         type: 'POST',
-        data: {key:key, ProductTID: a, Sort: c, b: b, type: type, max: max, min: min },
+        data: {key:key, ProductTID: a, Sort: c, b: b, type: type, max: max, min: min,rate:rate },
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
@@ -203,9 +232,10 @@ $('.page').on('click', function () {
     var type = $('#Type').attr('data_value');
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
+    var rate = $('input[name=rate1]:checked').val();
     $.ajax({
         type: 'POST',
-        data: { key:key,ProducerID: a, Sort: c, page: d, b: b, max: max, min: min, type: type, ProductTID: e },
+        data: { key:key,ProducerID: a, Sort: c, page: d, b: b, max: max, min: min, type: type, ProductTID: e ,rate:rate},
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);

@@ -204,10 +204,11 @@ namespace ShopKA.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult CreatProductT(ProductT a)
+        public ActionResult CreatProductT(ProductT a, HttpPostedFileBase file1)
         {
             if (ModelState.IsValid)
             {
+                a.Image =( file1 != null) ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
                 DBIO.addProductT(a);
                 return RedirectToAction("ProductT", "Admin");
             }
@@ -259,11 +260,11 @@ namespace ShopKA.Controllers
         }
         [HttpPost]
 
-        public ActionResult EditProductT(ProductT a, int ID2)
+        public ActionResult EditProductT(ProductT a, HttpPostedFileBase file1)
         {
             if (ModelState.IsValid)
             {
-
+                a.Image = (file1 != null) ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
                 DBIO.editProductT(a);
 
                 return RedirectToAction("ProductT", "Admin");
@@ -903,6 +904,7 @@ namespace ShopKA.Controllers
 
         public ActionResult Voucher()
         {
+            DBIO.checkVoucher();
             var A = DB.Vouchers.ToList();
             return View(A);
         }
@@ -958,6 +960,9 @@ namespace ShopKA.Controllers
         public ActionResult deleteVoucher(int id)
         {
             var a = DB.Vouchers.SingleOrDefault(i => i.ID == id);
+            var b = DB.Voucherlogs.Where(i => i.Code == a.Code);
+            DB.Voucherlogs.RemoveRange(b);
+            DB.SaveChanges();
             DB.Vouchers.Remove(a);
             DB.SaveChanges();
             var A = DB.Vouchers.ToList();

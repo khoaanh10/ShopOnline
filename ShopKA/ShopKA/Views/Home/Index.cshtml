@@ -6,24 +6,28 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
     List<SaleProduct> PD = ViewBag.SalePD;
-
+    List<Product> FT = ViewBag.Feature;
 
 }
 
 
 
         <!--====== App Content ======-->
-        <div class="app-content" id="kk">
+<div class="app-content" id="kk">
 
-            <!--====== Primary Slider ======-->
-            <div class="s-skeleton s-skeleton--h-600 s-skeleton--bg-grey">
-                <div class="owl-carousel primary-style-1" id="hero-slider">
-                    @{var PT = DBIO.get3ProductTSale();
+    <!--====== Primary Slider ======-->
+    @{var PT = DBIO.get3ProductTSale(); }
+    @if (PT.Count() > 0)
+    {
+        int dem = 0;
+        <div class="s-skeleton s-skeleton--h-600 s-skeleton--bg-grey">
+            <div class="owl-carousel primary-style-1" id="hero-slider">
 
-}
-                    @if (PT.Count > 0) {
-                        foreach (var item in PT) {
-                    <div class="hero-slide hero-slide--1" style="background-image: url('data:image/png;base64,@item.Banner') ">
+
+                @foreach (var item in PT)
+                {
+                    dem = dem + 1;
+                    <div class="hero-slide hero-slide--@dem" style="background-image: url('data:image/png;base64,@item.Banner') ">
                         <div class="container">
                             <div class="row">
                                 <div class="col-12">
@@ -31,7 +35,7 @@
 
                                         <span class="content-span-1 u-c-white">@item.Title</span>
 
-                                        <span class="content-span-2 u-c-white">@(item.Sale*100) % giảm giá Cho @DBIO.get1ProductT_ProductTID(item.ProductTID).ProducTName</span>
+                                        <span class="content-span-2 u-c-white">@(item.Sale * 100) % giảm giá Cho @DBIO.get1ProductT_ProductTID(item.ProductTID).ProducTName</span>
 
                                         <span class="content-span-3 u-c-white">@item.Content</span>
 
@@ -41,369 +45,372 @@
                                             <span class="u-c-brand">@String.Format("{0:dd/MM/yyyy}", @item.SaleTimeStart)</span>
                                         </span>
 
-                                        <a class="shop-now-link btn--e-brand" href=@Url.Action("Product","Home",new { ProductTID=@DBIO.get1ProductT_ProductTID(item.ProductTID).ID})>MUA NGAY BÂY GIÒ</a>
+                                        <a class="shop-now-link btn--e-brand" href=@Url.Action("Product", "Home", new { ProductTID = @DBIO.get1ProductT_ProductTID(item.ProductTID).ID })>MUA NGAY BÂY GIÒ</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>} }
+                    </div>}
+
+
+            </div>
+        </div>}
+    <!--====== End - Primary Slider ======-->
+    <!--====== Section 1 ======-->
+    @{var LSP1 = DBIO.get4imgLSP(); }
+    @if (LSP1.Count() > 0)
+    {
+        int d = 1;
+    <div class="u-s-p-y-60">
+
+        <!--====== Section Intro ======-->
+        <div class="section__intro u-s-m-b-46">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section__text-wrap">
+                            <h1 class="section__heading u-c-secondary u-s-m-b-12">Loại Sản Phẩm HOT</h1>
+
+                            <span class="section__span u-c-silver">Đừng Bỏ Lỡ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Intro ======-->
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in LSP1)
+                    {
+                        if (d ==1|d==4)
+                        {
+                            d = d+1;
+                            
+                            <div class="col-lg-5 col-md-5 u-s-m-b-30">
+
+                                <a class="collection" href="/Home/Product?ProductTID=@item.ID" style="height:350px">
+                                    <div class="aspect aspect--bg-grey aspect--square">
+
+                                        <img class="aspect__img collection__img" style="height:350px"  src='data:image/png;base64,@item.Image ' alt="">
+                                    </div>
+                                </a>
+                            </div>}
+                        else
+                        {
+                            d = d+1;
+                           
+                            <div class="col-lg-7 col-md-7 u-s-m-b-30">
+
+                                <a class="collection" href="/Home/Product?ProductTID=@item.ID" style="height:350px">
+                                    <div class="aspect aspect--bg-grey aspect--square">
+
+                                        <img class="aspect__img collection__img" style="height:350px"  src='data:image/png;base64,@item.Image ' alt="">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    }
 
                 </div>
             </div>
-            <!--====== End - Primary Slider ======-->
-            <!--====== Section 1 ======-->
-            <div class="u-s-p-y-60">
+        </div>
 
-                <!--====== Section Intro ======-->
-                <div class="section__intro u-s-m-b-46">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="section__text-wrap">
-                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">SHOP BY DEALS</h1>
+        <!--====== Section Content ======-->
+    </div>}
+    <!--====== End - Section 1 ======-->
+    <!--====== Section 2 ======-->
+    <div class="u-s-p-b-60">
 
-                                    <span class="section__span u-c-silver">BROWSE FAVOURITE DEALS</span>
-                                </div>
-                            </div>
+        <!--====== Section Intro ======-->
+        <div class="section__intro u-s-m-b-16">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section__text-wrap">
+                            <h1 class="section__heading u-c-secondary u-s-m-b-12">Sản Phẩm Mới</h1>
+
+                            <span class="section__span u-c-silver">Chọn Loại SP</span>
                         </div>
                     </div>
                 </div>
-                <!--====== End - Section Intro ======-->
-                <!--====== Section Content ======-->
-                <div class="section__content">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 u-s-m-b-30">
-
-                                <a class="collection" href="shop-side-version-2.html">
-                                    <div class="aspect aspect--bg-grey aspect--square">
-
-                                        <img class="aspect__img collection__img" src="/Asset/images/collection/coll-1.jpg" alt="">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-7 col-md-7 u-s-m-b-30">
-
-                                <a class="collection" href="shop-side-version-2.html">
-                                    <div class="aspect aspect--bg-grey aspect--1286-890">
-
-                                        <img class="aspect__img collection__img" src="/Asset/images/collection/coll-2.jpg" alt="">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-7 col-md-7 u-s-m-b-30">
-
-                                <a class="collection" href="shop-side-version-2.html">
-                                    <div class="aspect aspect--bg-grey aspect--1286-890">
-
-                                        <img class="aspect__img collection__img" src="/Asset/images/collection/coll-3.jpg" alt="">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-5 col-md-5 u-s-m-b-30">
-
-                                <a class="collection" href="shop-side-version-2.html">
-                                    <div class="aspect aspect--bg-grey aspect--square">
-
-                                        <img class="aspect__img collection__img" src="/Asset/images/collection/coll-4.jpg" alt="">
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--====== Section Content ======-->
             </div>
-            <!--====== End - Section 1 ======-->
-            <!--====== Section 2 ======-->
-            <div class="u-s-p-b-60">
+        </div>
+        <!--====== End - Section Intro ======-->
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="filter-category-container">
+                            <div class="filter__category-wrapper">
 
-                <!--====== Section Intro ======-->
-                <div class="section__intro u-s-m-b-16">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="section__text-wrap">
-                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">Sản Phẩm Mới</h1>
-
-                                    <span class="section__span u-c-silver">Chọn Loại SP</span>
-                                </div>
+                                <button class="btn filter__btn filter__btn--style-1 js-checked" type="button" data-filter=".all" id="load">TẤT CẢ</button>
                             </div>
+                            @foreach (var item in Model)
+                            {
+                                <div class="filter__category-wrapper">
+                                    <button class="btn filter__btn filter__btn--style-1" type="button" data-filter=".@item.ID">@item.ProducTName</button>
+                                </div>
+                            }
                         </div>
-                    </div>
-                </div>
-                <!--====== End - Section Intro ======-->
-                <!--====== Section Content ======-->
-                <div class="section__content">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="filter-category-container">
-                                    <div class="filter__category-wrapper">
-                                        
-                                        <button  class="btn filter__btn filter__btn--style-1 js-checked" type="button" data-filter=".all" id="load">TẤT CẢ</button>
-                                    </div>
-                                    @foreach (var item in Model)
-                                    {
-                                        <div class="filter__category-wrapper">
-                                            <button class="btn filter__btn filter__btn--style-1" type="button" data-filter=".@item.ID">@item.ProducTName</button>
+                        <div class="filter__grid-wrapper u-s-m-t-30">
+                            <div class="row">
+                                @foreach (var item in DBIO.getall8ProductLasted())
+                                {
+                                    string h = "#q" + item.ID.ToString();
+                                    float a = (float)(item.Price * item.Sale);
+                                    int b = (int)(item.Price - a);
+                                    float Sale = (item.Sale * 100);
+
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item all">
+                                        <div class="product-o product-o--hover-on product-o--radius">
+                                            <div class="product-o__wrap">
+
+                                                <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>
+
+                                                    <img class="aspect__img" src='data:image/png;base64,@item.Image ' alt="">
+                                                </a>
+                                                <div class="product-o__action-wrap">
+                                                    <ul class="product-o__action-list">
+                                                        <li>
+
+                                                            <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"><i class="fas fa-search-plus"></i></a>
+                                                        </li>
+                                                        @if ((UserLogin)(Session["SS"]) != null)
+                                                        {
+                                                            <li>
+
+                                                                <a data-modal="modal" class="addcartindex" data_value=@item.ID data_value2=@DBIO.getallColor(item.ID).First().ID data-modal-id="#add-to-cart-@item.ID" data-tooltip="tooltip" data-placement="top" title="Thêm vào giỏ hàng"><i class="fas fa-plus-circle"></i></a>
+                                                            </li>
+                                                            <li>
+
+                                                                <a class="addWishList" data_value=@item.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
+                                                            </li>
+                                                        }
+                                                        <li>
+
+                                                            <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <span class="product-o__category">
+
+                                                <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
+                                                {
+                                                    string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                    <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%;">Còn <i style="color:green">@time</i> </i>}
+                                            </span>
+
+                                            <div class="product-o__name">
+
+                                                <a href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>@item.ProductName</a><span style="float:right;font-size:80%;">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+
+                                            </div>
+                                            <div class="product-o__rating gl-rating-style">
+                                                @{
+                                                    var Review = DBIO.AVGRatingReview(item.ID);
+
+                                                }
+                                                @for (int i = 0; i < (int)Review; i++)
+                                                {
+                                                    <i class="fas fa-star"></i>
+                                                }
+                                                @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
+                                                {
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                }
+                                                @if (Review - (int)Review >= 0.75)
+                                                {
+                                                    <i class="fas fa-star"></i>
+                                                }
+                                                @if (Review - (int)Review <= 0.25)
+                                                {
+                                                    for (int i = 0; i < (5 - ((int)Review)); i++)
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    for (int i = 0; i < (5 - ((int)Review + 1)); i++)
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
+                                                }
+
+                                                <span class="product-o__review">(👁️‍🗨️ @item.View1)</span>
+                                            </div>
+
+                                            <span class="product-o__price">
+                                                @String.Format("{0:0,0}", @b) đ
+
+                                                @if (Sale != 0)
+                                                {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
+                                            </span>
                                         </div>
-                                    }
+                                    </div>
+                                }
+                                <div class="col-lg-12 filter__item all">
+                                    <div class="load-more">
+
+                                        <button class="btn btn--e-brand" onclick="window.location.href='/Home/Product?ProductTID=-1'"> XEM THÊM</button>
+                                    </div>
                                 </div>
-                                <div class="filter__grid-wrapper u-s-m-t-30">
-                                    <div class="row" >
-                                        @foreach (var item in DBIO.getall8ProductLasted())
-                                        {
-                                            string h = "#q" + item.ID.ToString();
-                                            float a = (float)(item.Price * item.Sale);
-                                            int b = (int)(item.Price - a);
-                                            float Sale = (item.Sale * 100);
 
-                                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item all">
-                                                <div class="product-o product-o--hover-on product-o--radius">
-                                                    <div class="product-o__wrap">
+                                @foreach (var item in Model)
+                                {
+                                    var db = DBIO.get8Product_ProductT(item.ID).Where(i => i.Launch == true);
 
-                                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>
-                                                          
-                                                            <img class="aspect__img" src='data:image/png;base64,@item.Image ' alt="">
-                                                        </a>
-                                                        <div class="product-o__action-wrap">
-                                                            <ul class="product-o__action-list">
+                                    foreach (var item2 in db)
+                                    {
+                                        float a = (float)(item2.Price * item2.Sale);
+                                        int b = (int)(item2.Price - a);
+                                        float Sale = (item2.Sale * 100);
+
+                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item @item.ID">
+                                            <div class="product-o product-o--hover-on product-o--radius">
+                                                <div class="product-o__wrap">
+
+                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=@item2.ID } )>
+
+                                                        <img class="aspect__img" src='data:image/png;base64,@item2.Image ' alt="">
+                                                    </a>
+                                                    <div class="product-o__action-wrap">
+                                                        <ul class="product-o__action-list">
+                                                            <li>
+
+                                                                <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item2.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"><i class="fas fa-search-plus"></i></a>
+                                                            </li>
+                                                            @if ((UserLogin)(Session["SS"]) != null)
+                                                            {
                                                                 <li>
 
-                                                                    <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"><i class="fas fa-search-plus"></i></a>
+                                                                    <a data-modal="modal" class="addcartindex" data_value=@item2.ID data_value2=@DBIO.getallColor(item2.ID).First().ID data-modal-id="#add-to-cart-@item2.ID" data-tooltip="tooltip" data-placement="top" title="Thêm vào giỏ hàng"><i class="fas fa-plus-circle"></i></a>
                                                                 </li>
-                                                                @if ((UserLogin)(Session["SS"]) != null)
-                                                                {
-                                                                    <li>
+                                                                <li>
 
-                                                                        <a data-modal="modal" class="addcartindex" data_value=@item.ID data_value2=@DBIO.getallColor(item.ID).First().ID data-modal-id="#add-to-cart-@item.ID" data-tooltip="tooltip" data-placement="top" title="Thêm vào giỏ hàng"><i class="fas fa-plus-circle"></i></a>
-                                                                    </li>
-                                                                    <li>
-
-                                                                        <a class="addWishList" data_value=@item.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
-                                                                    </li>}
-                                                                    <li>
-
-                                                                        <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a> </li>
-                                                                </ul>
-                                                        </div>
-                                                    </div>
-
-                                                    <span class="product-o__category">
-
-                                                        <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
-                                                        {
-                                                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                                            <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%;">Còn <i style="color:green">@time</i> </i>}
-                                                    </span>
-
-                                                    <div class="product-o__name">
-
-                                                        <a href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>@item.ProductName</a><span style="float:right;font-size:80%;">Đã bán: @DBIO.SumsellPD(item.ID) </span>
-
-                                                    </div>
-                                                    <div class="product-o__rating gl-rating-style">
-                                                        @{
-                                                            var Review = DBIO.AVGRatingReview(item.ID);
-
-                                                        }
-                                                        @for (int i = 0; i < (int)Review; i++)
-                                                        {
-                                                            <i class="fas fa-star"></i>
-                                                        }
-                                                        @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
-                                                        {
-                                                            <i class="fas fa-star-half-alt"></i>
-                                                        }
-                                                        @if (Review - (int)Review >= 0.75)
-                                                        {
-                                                            <i class="fas fa-star"></i>
-                                                        }
-                                                        @if (Review - (int)Review <= 0.25)
-                                                        {
-                                                            for (int i = 0; i < (5 - ((int)Review)); i++)
-                                                            {
-                                                                <i class="far fa-star"></i>
+                                                                    <a class="addWishList" data_value=@item2.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
+                                                                </li>
                                                             }
-                                                        }
-                                                        else
-                                                        {
-                                                            for (int i = 0; i < (5 - ((int)Review + 1)); i++)
-                                                            {
-                                                                <i class="far fa-star"></i>
-                                                            }
-                                                        }
+                                                            <li>
 
-                                                    <span class="product-o__review">(👁️‍🗨️ @item.View1)</span>
+                                                                <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a>
+                                                            </li>
+                                                        </ul>
                                                     </div>
-
-                                                    <span class="product-o__price">
-                                                        @String.Format("{0:0,0}", @b) đ
-
-                                                        @if (Sale != 0)
-                                                        {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
-                                                    </span>
                                                 </div>
-                                            </div>
-                                        }
-                                        <div class="col-lg-12 filter__item all">
-                                            <div class="load-more">
 
-                                                <button class="btn btn--e-brand" onclick="window.location.href='/Home/Product?ProductTID=-1'"> XEM THÊM</button>
+                                                <span class="product-o__category">
+
+                                                    <a href=@Url.Action("Product","Home",new {ProducerID=item2.ProducerID })>@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a> @if (Sale != 0)
+                                                    {
+                                                        string time = ((int)(DBIO.get1SaleProduct(item2.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                        <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%"> Còn <i style="color:green"> @time</i> </i>}
+                                                </span>
+
+                                                <span class="product-o__name">
+
+                                                    <a href=@Url.Action("ProductDetail","Home",new {ID=item2.ID } )>@item2.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item2.ID) </span>
+
+                                                </span>
+                                                <div class="product-o__rating gl-rating-style">
+                                                    @{
+                                                        var Review = DBIO.AVGRatingReview(item2.ID);
+
+                                                    }
+                                                    @for (int i = 0; i < (int)Review; i++)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
+                                                    {
+                                                        <i class="fas fa-star-half-alt"></i>
+                                                    }
+                                                    @if (Review - (int)Review >= 0.75)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    @if (Review - (int)Review <= 0.25)
+                                                    {
+                                                        for (int i = 0; i < (5 - ((int)Review)); i++)
+                                                        {
+                                                            <i class="far fa-star"></i>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        for (int i = 0; i < (5 - ((int)Review + 1)); i++)
+                                                        {
+                                                            <i class="far fa-star"></i>
+                                                        }
+                                                    }
+
+                                                    <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
+                                                </div>
+
+                                                <span class="product-o__price">
+                                                    @String.Format("{0:0,0}", @b) đ
+
+                                                    @if (Sale != 0)
+                                                    {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
+                                                </span>
                                             </div>
                                         </div>
 
-                                        @foreach (var item in Model)
-                                        {
-                                            var db = DBIO.get8Product_ProductT(item.ID).Where(i => i.Launch == true);
+                                    }
+                                    <div class="col-lg-12 filter__item @item.ID">
+                                        <div class="load-more">
 
-                                            foreach (var item2 in db)
-                                            {
-                                                float a = (float)(item2.Price * item2.Sale);
-                                                int b = (int)(item2.Price - a);
-                                                float Sale = (item2.Sale * 100);
-
-                                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item @item.ID">
-                                                    <div class="product-o product-o--hover-on product-o--radius">
-                                                        <div class="product-o__wrap">
-
-                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=@item2.ID } )>
-
-                                                                <img class="aspect__img" src='data:image/png;base64,@item2.Image ' alt="">
-                                                            </a>
-                                                            <div class="product-o__action-wrap">
-                                                                <ul class="product-o__action-list">
-                                                                    <li>
-
-                                                                        <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item2.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"><i class="fas fa-search-plus"></i></a>
-                                                                    </li>
-                                                                    @if ((UserLogin)(Session["SS"]) != null)
-                                                                    {
-                                                                        <li>
-
-                                                                            <a data-modal="modal" class="addcartindex" data_value=@item2.ID data_value2=@DBIO.getallColor(item2.ID).First().ID data-modal-id="#add-to-cart-@item2.ID" data-tooltip="tooltip" data-placement="top" title="Thêm vào giỏ hàng"><i class="fas fa-plus-circle"></i></a>
-                                                                        </li>
-                                                                        <li>
-
-                                                                            <a  class="addWishList" data_value=@item2.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
-                                                                        </li>}
-                                                                        <li>
-
-                                                                            <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a>
-                                                                        </li>
-                                                                    </ul>
-                                                            </div>
-                                                        </div>
-
-                                                        <span class="product-o__category">
-
-                                                            <a href=@Url.Action("Product","Home",new {ProducerID=item2.ProducerID })>@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a> @if (Sale != 0)
-                                                            {
-                                                                string time = ((int)(DBIO.get1SaleProduct(item2.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                                                <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%"> Còn <i style="color:green"> @time</i> </i>}
-                                                        </span>
-
-                                                        <span class="product-o__name">
-
-                                                            <a href=@Url.Action("ProductDetail","Home",new {ID=item2.ID } )>@item2.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item2.ID) </span>
-
-                                                        </span>
-                                                        <div class="product-o__rating gl-rating-style">
-                                                            @{
-                                                                var Review = DBIO.AVGRatingReview(item2.ID);
-
-                                                            }
-                                                            @for (int i = 0; i < (int)Review; i++)
-                                                            {
-                                                                <i class="fas fa-star"></i>
-                                                            }
-                                                            @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
-                                                            {
-                                                                <i class="fas fa-star-half-alt"></i>
-                                                            }
-                                                            @if (Review - (int)Review >= 0.75)
-                                                            {
-                                                                <i class="fas fa-star"></i>
-                                                            }
-                                                            @if (Review - (int)Review <= 0.25)
-                                                            {
-                                                                for (int i = 0; i < (5 - ((int)Review)); i++)
-                                                                {
-                                                                    <i class="far fa-star"></i>
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                for (int i = 0; i < (5 - ((int)Review + 1)); i++)
-                                                                {
-                                                                    <i class="far fa-star"></i>
-                                                                }
-                                                            }
-
-                                                        <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
-                                                        </div>
-
-                                                        <span class="product-o__price">
-                                                            @String.Format("{0:0,0}", @b) đ
-
-                                                            @if (Sale != 0)
-                                                            {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                            }
-                                            <div class="col-lg-12 filter__item @item.ID">
-                                                <div class="load-more">
-
-                                                    <button class="btn btn--e-brand" onclick="window.location.href='/Home/Product?ProductTID=@item.ID'"> XEM THÊM</button>
-                                                </div>
-                                            </div>
-                                        }
+                                            <button class="btn btn--e-brand" onclick="window.location.href='/Home/Product?ProductTID=@item.ID'"> XEM THÊM</button>
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             </div>
-                            
                         </div>
                     </div>
+
                 </div>
-                <!--====== End - Section Content ======-->
             </div>
-            <!--====== End - Section 2 ======-->
-            <!--====== Section 3 ======-->
-            @if (PD.Count() != 0)
-            {
-            <div class="u-s-p-b-60">
+        </div>
+        <!--====== End - Section Content ======-->
+    </div>
+    <!--====== End - Section 2 ======-->
+    <!--====== Section 3 ======-->
+    @if (PD.Count() != 0)
+    {
+        <div class="u-s-p-b-60">
 
-                <!--====== Section Intro ======-->
-                <div class="section__intro u-s-m-b-46">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="section__text-wrap">
-                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">GIẢM GIÁ SẮP KẾT THÚC</h1>
+            <!--====== Section Intro ======-->
+            <div class="section__intro u-s-m-b-46">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section__text-wrap">
+                                <h1 class="section__heading u-c-secondary u-s-m-b-12">GIẢM GIÁ SẮP KẾT THÚC</h1>
 
-                                    <span class="section__span u-c-silver">NHANH TAY MUA NGAY TRƯỚC KHI KẾT THÚC.</span>
+                                <span class="section__span u-c-silver">NHANH TAY MUA NGAY TRƯỚC KHI KẾT THÚC.</span>
 
-                                    <span class="section__span u-c-silver">THÊM NÓ VÀO GIỎ HÀNG CỦA BẠN</span>
-                                </div>
+                                <span class="section__span u-c-silver">THÊM NÓ VÀO GIỎ HÀNG CỦA BẠN</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--====== End - Section Intro ======-->
-                <!--====== Section Content ======-->
-                <div class="section__content">
-                    <div class="container">
-                        <div class="row">
-                            @foreach (var item in PD)
-                            {
-                                var item2 = DBIO.get1Product(item.ProductID);
-                                float a = (float)(item2.Price * item2.Sale);
-                                int b = (int)(item2.Price - a);
-                                float Sale = (item2.Sale * 100);
+            </div>
+            <!--====== End - Section Intro ======-->
+            <!--====== Section Content ======-->
+            <div class="section__content">
+                <div class="container">
+                    <div class="row">
+                        @foreach (var item in PD)
+                        {
+                            var item2 = DBIO.get1Product(item.ProductID);
+                            float a = (float)(item2.Price * item2.Sale);
+                            int b = (int)(item2.Price - a);
+                            float Sale = (item2.Sale * 100);
 
                             <div class="col-lg-6 col-md-6 u-s-m-b-30">
                                 <div class="product-o product-o--radius product-o--hover-off u-h-100">
@@ -431,17 +438,19 @@
                                                     <li>
 
                                                         <a class="addWishList" data_value=@item2.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
-                                                    </li>}
-                                                    <li>
+                                                    </li>
+                                                }
+                                                <li>
 
-                                                        <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a> </li>
-                                                </ul>
+                                                    <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
 
                                     <span class="product-o__category">
 
-                                        <a href=@Url.Action("Product","Home",new {ProducerID=item2.ProducerID })>@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a> 
+                                        <a href=@Url.Action("Product","Home",new {ProducerID=item2.ProducerID })>@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a>
                                         <i style="color:red;"> Sale @Sale %</i>
                                     </span>
 
@@ -482,7 +491,7 @@
                                             }
                                         }
 
-                                    <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
+                                        <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
                                     </div>
 
                                     <span class="product-o__price">
@@ -493,60 +502,63 @@
                                     </span>
                                 </div>
                             </div>}
-                           
-                        </div>
+
                     </div>
                 </div>
-                <!--====== End - Section Content ======-->
-            </div>}
-            <!--====== End - Section 3 ======-->
-            <!--====== Section 4 ======-->
-            <div class="u-s-p-b-60">
+            </div>
+            <!--====== End - Section Content ======-->
+        </div>}
+    <!--====== End - Section 3 ======-->
+    <!--====== Section 4 ======-->
+    @{ var SaleP = DBIO.get8ProductSale(); }
+    @if (SaleP.Count() > 0)
+    {
+        <div class="u-s-p-b-60">
 
-                <!--====== Section Intro ======-->
-                <div class="section__intro u-s-m-b-46">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="section__text-wrap">
-                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">GIẢM GIÁ SÂU</h1>
+            <!--====== Section Intro ======-->
+            <div class="section__intro u-s-m-b-46">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section__text-wrap">
+                                <h1 class="section__heading u-c-secondary u-s-m-b-12">GIẢM GIÁ SÂU</h1>
 
-                                    <span class="section__span u-c-silver">THA HỒ MUA SẮM</span>
+                                <span class="section__span u-c-silver">THA HỒ MUA SẮM</span>
 
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--====== End - Section Intro ======-->
-                <!--====== Section Content ======-->
-                <div class="section__content">
-                    <div class="container">
-                        <div class="row">
-                            @{var SaleP = DBIO.get8ProductSale();}
-                            @foreach (var item in SaleP)
-                            {
-                                float? a = (item.Price * item.Sale);
-                                int b = (int)(item.Price - a);
-                                float Sale = (item.Sale * 100);
-                                string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+            </div>
+            <!--====== End - Section Intro ======-->
+            <!--====== Section Content ======-->
+            <div class="section__content">
+                <div class="container">
+                    <div class="row">
 
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 ">
-                                    <div class="product-o product-o--hover-on product-o--radius">
-                                        <div class="product-o__wrap">
+                        @foreach (var item in SaleP)
+                        {
+                            float? a = (item.Price * item.Sale);
+                            int b = (int)(item.Price - a);
+                            float Sale = (item.Sale * 100);
+                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
 
-                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 ">
+                                <div class="product-o product-o--hover-on product-o--radius">
+                                    <div class="product-o__wrap">
 
-                                                <img class="aspect__img" src='data:image/png;base64,@item.Image ' alt="">
-                                            </a>
-                                            <div class="product-o__action-wrap">
-                                                <ul class="product-o__action-list">
-                                                    <li>
+                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail", "Home", new { ID = item.ID })>
 
-                                                        <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"><i class="fas fa-search-plus"></i></a>
-                                                    </li>
-                                                    @if ((UserLogin)(Session["SS"]) != null)
-                                                    {
+                                            <img class="aspect__img" src='data:image/png;base64,@item.Image ' alt="">
+                                        </a>
+                                        <div class="product-o__action-wrap">
+                                            <ul class="product-o__action-list">
+                                                <li>
+
+                                                    <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"><i class="fas fa-search-plus"></i></a>
+                                                </li>
+                                                @if ((UserLogin)(Session["SS"]) != null)
+                                                {
                                                     <li>
 
                                                         <a data-modal="modal" class="addcartindex" data_value=@item.ID data_value2=@DBIO.get1ColorFirst(item.ID).ID data-modal-id="#add-to-cart-@item.ID" data-tooltip="tooltip" data-placement="top" title="Thêm vào giỏ hàng"><i class="fas fa-plus-circle"></i></a>
@@ -554,85 +566,87 @@
                                                     <li>
 
                                                         <a class="addWishList" data_value=@item.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
-                                                    </li>}
-                                                    <li>
+                                                    </li>
+                                                }
+                                                <li>
 
-                                                        <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a> </li>
-                                                </ul>
-                                            </div>
+                                                    <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a>
+                                                </li>
+                                            </ul>
                                         </div>
+                                    </div>
 
-                                        <span class="product-o__category">
+                                    <span class="product-o__category">
 
-                                            <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>@if (Sale != 0)
-                                            {<i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%"> Còn <i style="color:green">@time</i> </i>}
-                                        </span>
+                                        <a href=@Url.Action("Product", "Home", new { ProducerID = item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>@if (Sale != 0)
+                                        {<i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%"> Còn <i style="color:green">@time</i> </i>}
+                                    </span>
 
-                                        <span class="product-o__name">
+                                    <span class="product-o__name">
 
-                                            <a href="@Url.Action("ProductDetail","Home",new {ID=item.ID } )">@item.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+                                        <a href="@Url.Action("ProductDetail", "Home", new { ID = item.ID })">@item.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
 
-                                        </span>
-                                        <div class="product-o__rating gl-rating-style">
-                                            @{
-                                                var Review = DBIO.AVGRatingReview(item.ID);
+                                    </span>
+                                    <div class="product-o__rating gl-rating-style">
+                                        @{
+                                            var Review = DBIO.AVGRatingReview(item.ID);
 
-                                            }
-                                            @for (int i = 0; i < (int)Review; i++)
+                                        }
+                                        @for (int i = 0; i < (int)Review; i++)
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                        @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
+                                        {
+                                            <i class="fas fa-star-half-alt"></i>
+                                        }
+                                        @if (Review - (int)Review >= 0.75)
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                        @if (Review - (int)Review <= 0.25)
+                                        {
+                                            for (int i = 0; i < (5 - ((int)Review)); i++)
                                             {
-                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
                                             }
-                                            @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
+                                        }
+                                        else
+                                        {
+                                            for (int i = 0; i < (5 - ((int)Review + 1)); i++)
                                             {
-                                                <i class="fas fa-star-half-alt"></i>
+                                                <i class="far fa-star"></i>
                                             }
-                                            @if (Review - (int)Review >= 0.75)
-                                            {
-                                                <i class="fas fa-star"></i>
-                                            }
-                                            @if (Review - (int)Review <= 0.25)
-                                            {
-                                                for (int i = 0; i < (5 - ((int)Review)); i++)
-                                                {
-                                                    <i class="far fa-star"></i>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                for (int i = 0; i < (5 - ((int)Review + 1)); i++)
-                                                {
-                                                    <i class="far fa-star"></i>
-                                                }
-                                            }
+                                        }
 
                                         <span class="product-o__review">(👁️‍🗨️ @item.View1)</span>
-                                        </div>
-
-                                        <span class="product-o__price">
-
-                                            @String.Format("{0:0,0}", @b) đ
-
-
-                                            @if (Sale != 0)
-                                            {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
-                                        </span>
                                     </div>
+
+                                    <span class="product-o__price">
+
+                                        @String.Format("{0:0,0}", @b) đ
+
+
+                                        @if (Sale != 0)
+                                        {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
+                                    </span>
                                 </div>
-                            }
+                            </div>
+                        }
 
 
-                        </div>
                     </div>
                 </div>
-                <div class="col-lg-12 ">
-                    <div class="load-more">
+            </div>
+            <div class="col-lg-12 ">
+                <div class="load-more">
 
-                        <button class="btn btn--e-brand" onclick="window.location.href='/Home/Product?Sort=Sale'"> XEM THÊM</button>
-                    </div>
+                    <button class="btn btn--e-brand" onclick="window.location.href='/Home/Product?Sort=Sale'"> XEM THÊM</button>
                 </div>
-                        </div>
-                    </div>
-               
+            </div>
+        </div>}
+</div>
+
                 <!--====== End - Section Content ======-->
             </div>
             <!--====== End - Section 4 ======-->
@@ -675,6 +689,9 @@
             </div>}
             <!--====== End - Section 5 ======-->
             <!--====== Section 6 ======-->
+
+@if (FT.Count()!=0)
+{
             <div class="u-s-p-y-60">
 
                 <!--====== Section Intro ======-->
@@ -706,7 +723,7 @@
                                     <div class="product-o product-o--hover-on u-h-100">
                                         <div class="product-o__wrap">
 
-                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>
+                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail", "Home", new { ID = item.ID })>
 
                                                 <img class="aspect__img" src="data:image/png;base64,@item.Image" alt="">
                                             </a>
@@ -724,10 +741,10 @@
 
                                         <span class="product-o__category">
 
-                                            <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>
-                                            @if(Sale>0)
+                                            <a href=@Url.Action("Product", "Home", new { ProducerID = item.ProducerID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>
+                                            @if (Sale > 0)
                                             {
-                                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
                                             <i style="color:red;"> Sale @Sale %</i><i style="float:right;"> &nbsp;&nbsp; Còn <i style="color:green">@time</i> </i>}
                                             else
                                             {
@@ -737,7 +754,7 @@
 
                                         <span class="product-o__name">
 
-                                            <a href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>@item.ProductName</a>
+                                            <a href=@Url.Action("ProductDetail", "Home", new { ID = item.ID })>@item.ProductName</a>
                                         </span>
                                         <div class="product-o__rating gl-rating-style">
                                             <i class="fas fa-star"></i>
@@ -765,7 +782,7 @@
                     </div>
                 </div>
                 <!--====== End - Section Content ======-->
-            </div>
+            </div>}
             <!--====== End - Section 6 ======-->
             <!--====== Section 7 ======-->
             <div class="u-s-p-b-60">
@@ -854,114 +871,22 @@
                 <div class="section__content">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                <div class="column-product">
+                            @{var SP = DBIO.get3SaleProduct();}
+                            @if (SP.Count() > 0)
+                            {
+                                <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                                    <div class="column-product">
 
-                                    <span class="column-product__title u-c-secondary u-s-m-b-25">GIẢM GIÁ SẮP KẾT THÚC</span>
-                                    <ul class="column-product__list">
-                                        @{var SP = DBIO.get3SaleProduct();}
-                                        @if (SP.Count() > 0)
-                                        {
-                                            foreach (var item in SP)
+                                        <span class="column-product__title u-c-secondary u-s-m-b-25">GIẢM GIÁ SẮP KẾT THÚC</span>
+                                        <ul class="column-product__list">
+
+                                            @foreach (var item in SP)
                                             {
                                                 var item2 = DBIO.get1Product(item.ProductID);
                                                 float? a = item2.Price * item2.Sale;
                                                 int b = (int)(item2.Price - a);
                                                 float Sale = (item2.Sale * 100);
-                                                
 
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="/Home/ProductDetail?ID=@item2.ID">
-
-                                                        <img class="aspect__img" src="data:image/png;base64,@item2.Image " alt="">
-                                                    </a>
-                                                </div>
-                                                <div class="product-l__info-wrap">
-                                                    <div class="product-o__rating gl-rating-style">
-                                                        @{
-                                                            var Review = DBIO.AVGRatingReview(item2.ID);
-
-                                                        }
-                                                        @for (int i = 0; i < (int)Review; i++)
-                                                        {
-                                                            <i class="fas fa-star"></i>
-                                                        }
-                                                        @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
-                                                        {
-                                                            <i class="fas fa-star-half-alt"></i>
-                                                        }
-                                                        @if (Review - (int)Review >= 0.75)
-                                                        {
-                                                            <i class="fas fa-star"></i>
-                                                        }
-                                                        @if (Review - (int)Review <= 0.25)
-                                                        {
-                                                            for (int i = 0; i < (5 - ((int)Review)); i++)
-                                                            {
-                                                                <i class="far fa-star"></i>
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            for (int i = 0; i < (5 - ((int)Review + 1)); i++)
-                                                            {
-                                                                <i class="far fa-star"></i>
-                                                            }
-                                                        }
-
-                                                    <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
-                                                    </div>
-                                                    <span class="product-l__category">
-
-                                                        <a href="/Home/Product?ProducerID=@DBIO.get1Producer_ProducerID(item2.ProducerID).ID">@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a>@if (Sale != 0)
-                                                        {
-                                                            string time = ((int)(DBIO.get1SaleProduct(item2.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                                            <i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green">@time</i> </i>}
-                                                        else
-                                                        {
-                                                            <i style="float:right">&nbsp;&nbsp;</i>
-                                                        }
-                                                    </span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="/Home/ProductDetail?ID=@item2.ID">@item2.ProductName</a><span style="float:right;">&nbsp;&nbsp;(Đã bán: @DBIO.SumsellPD(item2.ID)) </span>
-
-                                                    </span>
-
-                                                    <span class="product-l__price">
-                                                        @String.Format("{0:0,0}", @b) đ
-
-
-                                                    @if (Sale != 0)
-                                                    {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
-                                                </span>
-                                                </div>
-                                            </div>
-                                        </li>}
-                                        }
-
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                <div class="column-product">
-
-                                    <span class="column-product__title u-c-secondary u-s-m-b-25">LƯỢT XEM NHIỀU NHẤT</span>
-                                    <ul class="column-product__list">
-                                        @{var SP2 = DBIO.getallProduct().Where(i=>i.Status==true&i.Launch==true).OrderByDescending(i=>i.View1).Take(3).ToList();}
-                                        @if (SP2.Count() > 0)
-                                        {
-                                            foreach (var item2 in SP2)
-                                            {
-                                                
-                                                float? a = item2.Price * item2.Sale;
-                                                int b = (int)(item2.Price - a);
-                                                float Sale = (item2.Sale * 100);
-                                                
 
                                                 <li class="column-product__item">
                                                     <div class="product-l">
@@ -1005,7 +930,101 @@
                                                                     }
                                                                 }
 
-                                                            <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
+                                                                <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
+                                                            </div>
+                                                            <span class="product-l__category">
+
+                                                                <a href="/Home/Product?ProducerID=@DBIO.get1Producer_ProducerID(item2.ProducerID).ID">@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a>@if (Sale != 0)
+                                                                {
+                                                                    string time = ((int)(DBIO.get1SaleProduct(item2.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                                    <i style="color:red;"> Sale @Sale %</i><i> &nbsp;&nbsp; Còn <i style="color:green">@time</i> </i>}
+                                                                else
+                                                                {
+                                                                    <i style="float:right">&nbsp;&nbsp;</i>
+                                                                }
+                                                            </span>
+
+                                                            <span class="product-l__name">
+
+                                                                <a href="/Home/ProductDetail?ID=@item2.ID">@item2.ProductName</a><span style="float:right;">&nbsp;&nbsp;(Đã bán: @DBIO.SumsellPD(item2.ID)) </span>
+
+                                                            </span>
+
+                                                            <span class="product-l__price">
+                                                                @String.Format("{0:0,0}", @b) đ
+
+
+                                                                @if (Sale != 0)
+                                                                {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+}
+
+
+                                        </ul>
+                                    </div>
+                                </div>}
+                            <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                                <div class="column-product">
+
+                                    <span class="column-product__title u-c-secondary u-s-m-b-25">LƯỢT XEM NHIỀU NHẤT</span>
+                                    <ul class="column-product__list">
+                                        @{var SP2 = DBIO.getallProduct().Where(i => i.Status == true & i.Launch == true).OrderByDescending(i => i.View1).Take(3).ToList();}
+                                        @if (SP2.Count() > 0)
+                                        {
+                                            foreach (var item2 in SP2)
+                                            {
+
+                                                float? a = item2.Price * item2.Sale;
+                                                int b = (int)(item2.Price - a);
+                                                float Sale = (item2.Sale * 100);
+
+
+                                                <li class="column-product__item">
+                                                    <div class="product-l">
+                                                        <div class="product-l__img-wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="/Home/ProductDetail?ID=@item2.ID">
+
+                                                                <img class="aspect__img" src="data:image/png;base64,@item2.Image " alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="product-l__info-wrap">
+                                                            <div class="product-o__rating gl-rating-style">
+                                                                @{
+                                                                    var Review = DBIO.AVGRatingReview(item2.ID);
+
+                                                                }
+                                                                @for (int i = 0; i < (int)Review; i++)
+                                                                {
+                                                                    <i class="fas fa-star"></i>
+                                                                }
+                                                                @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
+                                                                {
+                                                                    <i class="fas fa-star-half-alt"></i>
+                                                                }
+                                                                @if (Review - (int)Review >= 0.75)
+                                                                {
+                                                                    <i class="fas fa-star"></i>
+                                                                }
+                                                                @if (Review - (int)Review <= 0.25)
+                                                                {
+                                                                    for (int i = 0; i < (5 - ((int)Review)); i++)
+                                                                    {
+                                                                        <i class="far fa-star"></i>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    for (int i = 0; i < (5 - ((int)Review + 1)); i++)
+                                                                    {
+                                                                        <i class="far fa-star"></i>
+                                                                    }
+                                                                }
+
+                                                                <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
                                                             </div>
                                                             <span class="product-l__category">
 
@@ -1035,7 +1054,7 @@
                                                         </div>
                                                     </div>
                                                 </li>
-}
+                                            }
                                         }
 
                                     </ul>
@@ -1046,16 +1065,16 @@
 
                                     <span class="column-product__title u-c-secondary u-s-m-b-25">SẢN PHẨM BÁN CHẠY</span>
                                     <ul class="column-product__list">
-                                        @{var SP3 = DBIO.getallProduct().Where(i=>i.Status==true&i.Launch==true).OrderByDescending(i=>DBIO.SumsellPD(i.ID)).Take(3);}
+                                        @{var SP3 = DBIO.getallProduct().Where(i => i.Status == true & i.Launch == true).OrderByDescending(i => DBIO.SumsellPD(i.ID)).Take(3);}
                                         @if (SP3.Count() > 0)
                                         {
                                             foreach (var item2 in SP3)
                                             {
-                                                
+
                                                 float? a = item2.Price * item2.Sale;
                                                 int b = (int)(item2.Price - a);
                                                 float Sale = (item2.Sale * 100);
-                                                
+
 
                                                 <li class="column-product__item">
                                                     <div class="product-l">
@@ -1099,7 +1118,7 @@
                                                                     }
                                                                 }
 
-                                                            <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
+                                                                <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
                                                             </div>
                                                             <span class="product-l__category">
 
@@ -1107,7 +1126,7 @@
                                                                 {
                                                                     string time = ((int)(DBIO.get1SaleProduct(item2.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
                                                                     <i style="color:red;"> Sale @Sale %</i><i style="float:right"> &nbsp;&nbsp; Còn <i style="color:green;">@time</i> </i>}
-                                                                
+
                                                             </span>
 
                                                             <div class="product-l__name">
@@ -1126,7 +1145,7 @@
                                                         </div>
                                                     </div>
                                                 </li>
-}
+                                            }
                                         }
 
                                     </ul>

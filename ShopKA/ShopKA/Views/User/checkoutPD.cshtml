@@ -2,7 +2,7 @@
     @using ShopKA.Models
 
     @{int dem = 0;}
-<div id="SLSP" data_value=@Model.Count()></div>
+<div id="SLSP" data_value=@Model.Sum(i=>i.Quantity)></div>
     @foreach (var item in Model)
     {
         dem = dem + 1;

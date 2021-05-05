@@ -314,6 +314,7 @@ namespace ShopKA.Controllers
 
         public ActionResult checkoutCart()
         {
+            DBIO.checkVoucher();
             ViewBag.Cart = DBIO.getCart(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Where(i => i.checkSTT == true).ToList();
 
             ViewBag.ShipAddress = DBIO.getshipaddress(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
@@ -746,13 +747,23 @@ namespace ShopKA.Controllers
                 MyDB DB = new MyDB();
                 if (DB.Vouchers.Any(i => i.Code == code & i.Status == true) == false)
                 {
-                    ViewBag.check = 1;
-                    return View();
+                    if (DB.Vouchers.Any(i => i.Status == false & i.Code == code))
+                    {
+                        ViewBag.check = 5;
+
+                        return View();
+                    }
+                    else
+                    {
+                        ViewBag.check = 1;
+                        return View();
+                    }
                 }
                 else
                 {
                     var a = DB.Vouchers.FirstOrDefault(i => i.Code == code);
                     var id = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
+                   
                     if (DB.Voucherlogs.Any(i => i.Code == a.Code & i.UserID == id))
                     {
                         ViewBag.check = 2;

@@ -204,6 +204,7 @@ namespace ShopKA.Models
             MyDB DB = new MyDB();
             var A = DB.ProductTs.FirstOrDefault(x => x.ID == a.ID);
             A.ProducTName = a.ProducTName;
+            A.Image = (a.Image == null) ? A.Image : a.Image;
 
             DB.SaveChanges();
         }
@@ -557,6 +558,8 @@ namespace ShopKA.Models
             { DS = DS.OrderByDescending(i => i.ID).ToList(); }
             else if (Sort == "Sale")
             { DS = DS.OrderByDescending(i => i.Sale).ToList(); }
+            else if (Sort == "View1")
+            { DS = DS.OrderByDescending(i => i.View1).ToList(); }
             else if(Sort=="Sell")
             {
                 DS = DS.ToList().OrderByDescending(i => DBIO.SumsellPD(i.ID)).ToList();
@@ -625,7 +628,14 @@ namespace ShopKA.Models
                 s = s + item.Rate;
             }
             float a = (float)b.Count();
-            return (float)Math.Round(s / a, 1);
+            if (a == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return (float)Math.Round(s / a, 1);
+            }
 
 
         }
@@ -1042,8 +1052,36 @@ namespace ShopKA.Models
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+        public static List<Voucher> getallVoucher()
+        {
+            MyDB DB = new MyDB();
+        return DB.Vouchers.ToList();
+        }
 
-       
+        public static void checkVoucher()
+        {
+            MyDB DB = new MyDB();
+            var a = DB.Vouchers;
+            foreach(var item in a)
+            {
+                if(item.End<DateTime.Now)
+                {
+                    var b = DB.Voucherlogs.Where(i => i.Code == item.Code);
+                    DB.Voucherlogs.RemoveRange(b);
+                    DB.SaveChanges();
+                    DB.Vouchers.Remove(item);
+                    DB.SaveChanges();
+                }    
+            }    
+            
+        }
+
+        public static List<ProductT> get4imgLSP()
+        {
+            MyDB DB = new MyDB();
+            return DB.ProductTs.Where(i => i.Image != null).Take(4).ToList();
+        }
+
 
 
 

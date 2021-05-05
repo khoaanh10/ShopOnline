@@ -17,7 +17,7 @@ namespace ShopKA.Controllers
             var a = DBIO.getallProductT();
 
             
-            ViewBag.Feature = DBIO.GetProductLaunch().Take(8);
+            ViewBag.Feature = DBIO.GetProductLaunch().Take(8).ToList();
             ViewBag.SalePD = DBIO.get2ProductSale(DateTime.Now);
             return View(a);
         }
@@ -51,7 +51,7 @@ namespace ShopKA.Controllers
             ViewBag.key = key;
             return View(a);
         }
-        public ActionResult Product1(string key ="",int ProducerID = -1, string Sort = "ID", int page = 1, int b = 12, int max = 0, int min = 0, string type = "Grid", int ProductTID = -1)
+        public ActionResult Product1(int rate,string key ="",int ProducerID = -1, string Sort = "ID", int page = 1, int b = 12, int max = 0, int min = 0, string type = "Grid", int ProductTID = -1)
         {
             ViewBag.ProducerID = ProducerID;
             ViewBag.Type = type;
@@ -70,8 +70,9 @@ namespace ShopKA.Controllers
                 else
                 { tam = DBIO.getProduct_ProductT_home(Sort, max, min, ProductTID).Where(i => i.ProductName.ToLower().Contains(key.ToLower())).ToList(); }
             }
-            var a = tam.ToPagedList(page, b);
-            int count = tam.Count();
+            var tam2 = tam.Where(i => DBIO.AVGRatingReview(i.ID) >= rate);
+            var a = tam2.ToPagedList(page, b);
+            int count = tam2.Count();
             if (count % b == 0)
             { ViewBag.page = count / b; }
             else { ViewBag.page = count / b + 1; }
@@ -387,11 +388,17 @@ namespace ShopKA.Controllers
         {
             return View();
         }
-
-
-
-
-
-
+        public ActionResult Voucher()
+        {
+            DBIO.checkVoucher();
+            var A = DBIO.getallVoucher();
+            return View(A);
         }
+
+
+
+
+
+
+    }
 }

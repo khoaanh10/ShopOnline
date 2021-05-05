@@ -267,6 +267,11 @@
     <Compile Include="Migrations\202104290407202_edit ordertab3.Designer.cs">
       <DependentUpon>202104290407202_edit ordertab3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105050754551_edit ProductT 5\5\2021.cs" />
+    <Compile Include="Migrations\202105050755070_edit ProductT.cs" />
+    <Compile Include="Migrations\202105050755070_edit ProductT.Designer.cs">
+      <DependentUpon>202105050755070_edit ProductT.cs</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs" />
     <Compile Include="ProductOrder.cs" />
     <Compile Include="ProductTSale.cs" />
@@ -500,6 +505,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104290407202_edit ordertab3.resx">
       <DependentUpon>202104290407202_edit ordertab3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105050755070_edit ProductT.resx">
+      <DependentUpon>202105050755070_edit ProductT.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

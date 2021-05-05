@@ -11,7 +11,7 @@
         int g = b * item2.Quantity;
         Money = Money + g ;
     }
-    Money = (int)(Money - item.Maximum >= Money * item.SalePrice ? item.SalePrice : item.Maximum) + (int)(100000 - 100000 * item.SaleShip);
+    Money = (int)(Money - (item.Maximum >= Money * item.SalePrice ? item.SalePrice * Money : item.Maximum)) + (int)(100000 - 100000 * item.SaleShip);
     <div class="m-order__get">
         <div class="manage-o__header u-s-m-b-30">
             <div class="dash-l-r">

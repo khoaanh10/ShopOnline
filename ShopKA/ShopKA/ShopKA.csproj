@@ -2376,6 +2376,7 @@
     <Content Include="Views\User\CheckVoucher.cshtml" />
     <Content Include="Views\User\MoneyVoucher.cshtml" />
     <Content Include="Views\Admin\deleteVoucher.cshtml" />
+    <Content Include="Views\Home\Voucher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

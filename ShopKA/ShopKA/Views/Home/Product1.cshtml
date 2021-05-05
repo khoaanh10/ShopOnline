@@ -236,8 +236,12 @@ else
             }
 
         }
-        <a class="fas fa-angle-right" href="shop-side-version-2.html"></a>
-        </li>
+        @if (ViewBag.page != 1)
+        {
+            <li>
+                <a class="fas fa-angle-right page" data_value=@(ViewBag.Number + 1)></a>
+            </li>
+}
     </ul>
     <!--====== End - Pagination ======-->
 </div>
@@ -251,10 +255,11 @@ else
         var min = $('#min').value;
         var type = $('#Type').attr('data_value');
         var e = $('#ProductTID').attr('data_value');
-
+        var key = $('#key').attr('data_value');
+        var rate = $('input[name=rate1]:checked').val();
         $.ajax({
             type: 'POST',
-            data: { ProducerID: a, Sort: c, page: d, b: b, max: max, min: min, type: type,ProductTID:e },
+            data: { ProducerID: a, Sort: c, page: d, b: b, max: max, min: min, type: type,ProductTID:e,key:key,rate:rate },
             url: '/Home/Product1',
             success: function (ketqua) {
                 $('#ketqua').html(ketqua);

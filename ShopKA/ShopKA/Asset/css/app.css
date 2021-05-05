@@ -5078,7 +5078,7 @@ o-summary__item-wrap1 {
 .rating__check {
   position: relative;
   cursor: pointer; }
-  .rating__check [type="checkbox"] {
+  .rating__check [type="radio"] {
     position: absolute;
     left: 0;
     top: 0;

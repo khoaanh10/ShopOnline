@@ -146,7 +146,7 @@
         if ($primarySlider.length) {
             $primarySlider.owlCarousel({
                 items: 1,
-                autoplayTimeout: 8000,
+                autoplayTimeout: 5000,
                 loop: true,
                 margin: -1,
                 dots: false,
@@ -634,19 +634,19 @@
         }
     };
 
-    // Show Newsletter Modal
-    //RESHOP.showNewsletterModal = function() {
-    //    if ($('#newsletter-modal').length) {
-    //        setTimeout(function () {
-    //            // Manually opens a modal
-    //            $('#newsletter-modal').modal({
-    //                backdrop: 'static',
-    //                keyboard: false,
-    //                show: true
-    //            });
-    //        }, 5000);
-    //    }
-    //};
+     //Show Newsletter Modal
+    RESHOP.showNewsletterModal = function() {
+        if ($('#newsletter-modal').length) {
+            setTimeout(function () {
+                 //Manually opens a modal
+                $('#newsletter-modal').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: false
+                });
+            }, 5000);
+        }
+    };
 
     // Check everything including DOM elements and images loaded
     $(window).on('load',function () {

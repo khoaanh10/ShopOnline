@@ -99,7 +99,7 @@
                             <div class="o-summary" id="listpd">
                                 <div class="o-summary__section u-s-m-b-30">
                                     <div class="o-summary__item-wrap gl-scroll" id="checkoutPD">
-                                       <div id="SLSP" data_value=@cart.Count()></div>
+                                       <div id="SLSP" data_value=@cart.Sum(i=>i.Quantity)></div>
                                         @{int dem = 0;}
                                         @foreach (var item in cart)
                                         {
