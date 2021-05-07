@@ -11,10 +11,13 @@ using Color = DataBase.Color;
 
 namespace ShopKA.Controllers
 {
+    [Authorize(Roles = "0")]
     public class AdminController : Controller
     {
+        
         MyDB DB = new MyDB();
         // GET: Admin
+        
         public ActionResult Index()
         {
             var C = DBIO.getallProduct().OrderByDescending(i => i.ID).ToList();

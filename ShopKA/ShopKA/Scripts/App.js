@@ -301,24 +301,27 @@ $('.Deletecartmini').on('click', function () {
 
 
 $('#ok2').on('click', function () {
-    if ($('#shipid').attr('data_value') == -1 | $('#billid').attr('data_value') == -1) { alert("Vui lòng thêm địa chỉ trước khi thanh toán"); }
-    else if ($('#num').attr('data_value') == 5) { alert("Chỉ được thêm tối đa 5 đơn hàng 1 lần");}
-    else {
-       
-        $.ajax({
-            type: 'POST',
-            data: { payment: $('input[name=payment]:checked').val(), shipID: $('#shipid').attr('data_value'), billID: $('#billid').attr('data_value'), Code: $('#Vouchercode').attr('data_value')},
-            url: '/User/addOrder',
-            success: function (ketqua) {
+    if ($('#dk').is(':checked')) {
+        if ($('#shipid').attr('data_value') == -1 | $('#billid').attr('data_value') == -1) { alert("Vui lòng thêm địa chỉ trước khi thanh toán"); }
+        else if ($('#num').attr('data_value') == 5) { alert("Chỉ được thêm tối đa 5 đơn hàng 1 lần"); }
+        else {
 
-                alert("Tạo đơn hàng thành công");
-                window.location.href = '/User/Order';
+            $.ajax({
+                type: 'POST',
+                data: { payment: $('input[name=payment]:checked').val(), shipID: $('#shipid').attr('data_value'), billID: $('#billid').attr('data_value'), Code: $('#Vouchercode').attr('data_value') },
+                url: '/User/addOrder',
+                success: function (ketqua) {
+
+                    alert("Tạo đơn hàng thành công");
+                    window.location.href = '/User/Order';
 
 
 
-            }
-        })
+                }
+            })
+        }
     }
+    else { alert("Vui long chấp nhận các điều khoản");}
 
 
 

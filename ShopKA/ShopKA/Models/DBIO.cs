@@ -1061,7 +1061,7 @@ namespace ShopKA.Models
         public static void checkVoucher()
         {
             MyDB DB = new MyDB();
-            var a = DB.Vouchers;
+            var a = DB.Vouchers.ToList();
             foreach(var item in a)
             {
                 if(item.End<DateTime.Now)
@@ -1081,8 +1081,7 @@ namespace ShopKA.Models
             MyDB DB = new MyDB();
             return DB.ProductTs.Where(i => i.Image != null).Take(4).ToList();
         }
-
-
+       
 
 
 

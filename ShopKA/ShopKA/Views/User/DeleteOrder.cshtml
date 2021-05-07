@@ -1,4 +1,4 @@
-﻿@model List<DataBase.Order>
+﻿@model PagedList.PagedList<DataBase.Order>
 @using ShopKA.Models
 @using DataBase
 @foreach (var item in Model)
@@ -101,20 +101,66 @@
                 @*<hr width="100%" align="center" />*@}
         </div>
     </div>}
+<div class="u-s-p-y-60">
+
+    <!--====== Pagination ======-->
+    <ul class="shop-p__pagination">
+        @for (int item = 1; item < ViewBag.page + 1; item++)
+        {
+            if (ViewBag.number == item)
+            {
+                <li class="is-active">
+
+                    <a>@item</a>
+                </li>
+            }
+            else
+            {
+
+                <li>
+
+                    <a class="pageo" data_value=@item>@item</a>
+                </li>
+            }
+
+        }
+
+
+    </ul>
+    <!--====== End - Pagination ======-->
+</div>
 <script>
     $('.deleteorder').on('click', function () {
 
         if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này')) {
             var ID = $(this).attr('data_value');
+            var ID2 = document.getElementById("my-order-sort").value;
             $.ajax({
                 type: 'POST',
-                data: { ID: ID },
+                data: { ID: ID,ID2:ID2 },
                 url: '/User/DeleteOrder',
                 success: function (ketqua) {
                     $('#displayorder').html(ketqua);
                 }
             })
         }
+
+
+    });
+    $('.pageo').on('click', function () {
+
+
+        var page = $(this).attr('data_value');
+        var ID2 = document.getElementById("my-order-sort").value;
+        $.ajax({
+            type: 'POST',
+            data: { ID: -1, ID2: ID2, page: page },
+            url: '/User/DeleteOrder',
+            success: function (ketqua) {
+                $('#displayorder').html(ketqua);
+            }
+        })
+
 
 
     });

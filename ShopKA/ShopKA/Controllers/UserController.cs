@@ -1,10 +1,12 @@
 ﻿using DataBase;
+using PagedList;
 using ShopKA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace ShopKA.Controllers
 {
@@ -42,7 +44,7 @@ namespace ShopKA.Controllers
                 return View(a);
             }
         }
-
+       
         public ActionResult Login(bool tb = false)
         {
             ViewBag.tb = tb;
@@ -72,6 +74,7 @@ namespace ShopKA.Controllers
                 else
                 {
                     Session.Add("SS", a);
+                    FormsAuthentication.SetAuthCookie(a.UserName, false);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -546,55 +549,90 @@ namespace ShopKA.Controllers
 
         }
 
-        public ActionResult Order()
+        public ActionResult Order(int page=1, int b=5)
         {
-            var a = DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
+            var a = DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).ToPagedList(page,b);
+            var count1 = DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count();
+            if (count1 % b == 0)
+            { ViewBag.page = count1 / b; }
+            else { ViewBag.page = count1 / b + 1; }
+            ViewBag.number = page;
             return View(a);
         }
 
-        public ActionResult DeleteOrder(int ID)
+        public ActionResult DeleteOrder(int ID,int ID2,int page=1,int b=5)
         {
             MyDB DB = new MyDB();
-
-            var c = DBIO.getallPDOrder(ID);
-            foreach (var item in c)
+            int id = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
+            if (ID != -1)
             {
-                var d = DB.Colors.SingleOrDefault(i => i.ID == item.ColorID);
-                if (d != null)
+                var c = DBIO.getallPDOrder(ID);
+                foreach (var item in c)
                 {
-                    d.Quantity = item.Quantity + d.Quantity;
-                    DB.SaveChanges();
-
-                    if (DBIO.CountProductofColor(d.ProductID) > 0 & DB.Products.SingleOrDefault(i => i.ID == d.ProductID) != null)
+                    var d = DB.Colors.SingleOrDefault(i => i.ID == item.ColorID);
+                    if (d != null)
                     {
-                        DB.Products.SingleOrDefault(i => i.ID == d.ProductID).Status = true;
+                        d.Quantity = item.Quantity + d.Quantity;
                         DB.SaveChanges();
+
+                        if (DBIO.CountProductofColor(d.ProductID) > 0 & DB.Products.SingleOrDefault(i => i.ID == d.ProductID) != null)
+                        {
+                            DB.Products.SingleOrDefault(i => i.ID == d.ProductID).Status = true;
+                            DB.SaveChanges();
+                        }
                     }
                 }
-            }
-            int id = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
-            var order = DB.Orders.SingleOrDefault(i => i.ID == ID);
-            var vc = DB.Vouchers.SingleOrDefault(i => i.Code == order.Voucher);
-            if(vc!=null)
-            {
-                vc.Quantity = vc.Quantity + 1;
-                if(vc.End>DateTime.Now)
-                {
-                    vc.Status = true;
-                    DB.SaveChanges();
-                } 
                 
-            }    
+                var order = DB.Orders.SingleOrDefault(i => i.ID == ID);
+                var vc = DB.Vouchers.SingleOrDefault(i => i.Code == order.Voucher);
+                if (vc != null)
+                {
+                    vc.Quantity = vc.Quantity + 1;
+                    if (vc.End > DateTime.Now)
+                    {
+                        vc.Status = true;
+                        DB.SaveChanges();
+                    }
+
+                }
                 var log = DB.Voucherlogs.SingleOrDefault(i => i.Code == order.Voucher & i.UserID == id);
-                if(log!=null)
-            {
-                DB.Voucherlogs.Remove(log);
-                DB.SaveChanges();
-            }    
-               
-            DBIO.deleteorder(ID);
+                if (log != null)
+                {
+                    DB.Voucherlogs.Remove(log);
+                    DB.SaveChanges();
+                }
+
+                DBIO.deleteorder(ID);
+            }
             var a = DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
-            return View(a);
+            if (ID2 == 1)
+            {
+                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID == id & i.Status < 4).ToList();
+
+            }
+            else if (ID2 == 4)
+            {
+                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID == id & i.Status == 4).ToList();
+
+            }
+            else if (ID2 == 5)
+            {
+                a = DB.Orders.OrderByDescending(i => i.ID).Where(i => i.UserID == id & i.Status >= 5).ToList();
+
+            }
+            else
+            {
+               
+
+            }
+            var count1 = a.Count();
+            if (count1 % b == 0)
+            { ViewBag.page = count1 / b; }
+            else { ViewBag.page = count1 / b + 1; }
+            ViewBag.number = page;
+            var a1 = a.ToPagedList(page, b);
+            return View(a1);
+            
         }
 
         public ActionResult ManagerAcc()
@@ -607,7 +645,7 @@ namespace ShopKA.Controllers
             return View(a);
         }
 
-        public ActionResult SortOrder(int ID)
+        public ActionResult SortOrder(int ID,int page=1,int b=5)
         {
             int id = DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID;
             MyDB DB = new MyDB();
@@ -632,7 +670,13 @@ namespace ShopKA.Controllers
                 a = DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID);
 
             }
-            return View(a);
+            var count1 = a.Count();
+            if (count1 % b == 0)
+            { ViewBag.page = count1 / b; }
+            else { ViewBag.page = count1 / b + 1; }
+            ViewBag.number = page;
+            var a1 = a.ToPagedList(page, b);
+            return View(a1);
 
         }
 

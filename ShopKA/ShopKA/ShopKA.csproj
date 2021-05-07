@@ -143,6 +143,7 @@
     </Compile>
     <Compile Include="Models\CovertImage.cs" />
     <Compile Include="Models\DBIO.cs" />
+    <Compile Include="Models\Userpermission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

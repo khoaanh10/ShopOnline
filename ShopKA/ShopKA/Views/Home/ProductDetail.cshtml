@@ -668,7 +668,7 @@
                             var r = item.Price * item.Sale;
                             int t = (int)(item.Price - r);
                             int S = (int)(item.Sale * 100);
-                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                            
                         <div class="u-s-m-b-30">
                             <div class="product-o product-o--hover-on">
                                 <div class="product-o__wrap">
@@ -705,7 +705,9 @@
                                 <span class="product-o__category">
 
                                     <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (S != 0)
-                                    {<i style="color:red;"> Sale @Sale %</i><i style="float:right"> Còn <i style="color:green">@time</i> </i>}
+                                    {
+                                        string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                        <i style="color:red;"> Sale @Sale %</i><i style="float:right"> Còn <i style="color:green">@time</i> </i>}
                                 </span>
 
                                 <span class="product-o__name">

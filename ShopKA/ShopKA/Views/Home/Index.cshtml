@@ -207,8 +207,7 @@
 
                                             <div class="product-o__name">
 
-                                                <a href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>@item.ProductName</a><span style="float:right;font-size:80%;">Đã bán: @DBIO.SumsellPD(item.ID) </span>
-
+                                                <a href=@Url.Action("ProductDetail","Home",new {ID=item.ID } )>@item.ProductName</a>
                                             </div>
                                             <div class="product-o__rating gl-rating-style">
                                                 @{
@@ -243,13 +242,15 @@
                                                 }
 
                                                 <span class="product-o__review">(👁️‍🗨️ @item.View1)</span>
+                                                <span style="float:right;font-size:80%;">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+
                                             </div>
 
                                             <span class="product-o__price">
-                                                @String.Format("{0:0,0}", @b) đ
+                                                @String.Format("{0:0,0}", @b)đ
 
                                                 @if (Sale != 0)
-                                                {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
+                                                {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price)đ</span>}
                                             </span>
                                         </div>
                                     </div>
@@ -263,7 +264,7 @@
 
                                 @foreach (var item in Model)
                                 {
-                                    var db = DBIO.get8Product_ProductT(item.ID).Where(i => i.Launch == true);
+                                    var db = DBIO.get8Product_ProductT(item.ID).Where(i => i.Launch == true).Take(8);
 
                                     foreach (var item2 in db)
                                     {
@@ -314,7 +315,7 @@
 
                                                 <span class="product-o__name">
 
-                                                    <a href=@Url.Action("ProductDetail","Home",new {ID=item2.ID } )>@item2.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item2.ID) </span>
+                                                    <a href=@Url.Action("ProductDetail","Home",new {ID=item2.ID } )>@item2.ProductName</a>
 
                                                 </span>
                                                 <div class="product-o__rating gl-rating-style">
@@ -349,14 +350,14 @@
                                                         }
                                                     }
 
-                                                    <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
+                                                    <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item2.ID) </span>
                                                 </div>
 
                                                 <span class="product-o__price">
-                                                    @String.Format("{0:0,0}", @b) đ
+                                                    @String.Format("{0:0,0}", @b)đ
 
                                                     @if (Sale != 0)
-                                                    {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
+                                                    {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price)đ</span>}
                                                 </span>
                                             </div>
                                         </div>
@@ -456,8 +457,7 @@
 
                                     <span class="product-o__name">
 
-                                        <a href=@Url.Action("ProductDetail","Home",new {ID=@item2.ID } )>@item2.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item2.ID) </span>
-
+                                        <a href=@Url.Action("ProductDetail","Home",new {ID=@item2.ID } )>@item2.ProductName</a>
                                     </span>
                                     <div class="product-o__rating gl-rating-style">
                                         @{
@@ -491,14 +491,15 @@
                                             }
                                         }
 
-                                        <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span>
+                                        <span class="product-o__review">(👁️‍🗨️ @item2.View1)</span><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item2.ID) </span>
+
                                     </div>
 
                                     <span class="product-o__price">
-                                        @String.Format("{0:0,0}", @b) đ
+                                        @String.Format("{0:0,0}", @b)đ
 
                                         @if (Sale != 0)
-                                        {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
+                                        {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price)đ</span>}
                                     </span>
                                 </div>
                             </div>}
@@ -584,8 +585,7 @@
 
                                     <span class="product-o__name">
 
-                                        <a href="@Url.Action("ProductDetail", "Home", new { ID = item.ID })">@item.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
-
+                                        <a href="@Url.Action("ProductDetail", "Home", new { ID = item.ID })">@item.ProductName</a>
                                     </span>
                                     <div class="product-o__rating gl-rating-style">
                                         @{
@@ -619,7 +619,8 @@
                                             }
                                         }
 
-                                        <span class="product-o__review">(👁️‍🗨️ @item.View1)</span>
+                                        <span class="product-o__review">(👁️‍🗨️ @item.View1)</span><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+
                                     </div>
 
                                     <span class="product-o__price">
@@ -628,7 +629,7 @@
 
 
                                         @if (Sale != 0)
-                                        {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price) đ</span>}
+                                        {<span class="product-o__discount">@String.Format("{0:0,0}", @item.Price)đ</span>}
                                     </span>
                                 </div>
                             </div>
@@ -668,11 +669,11 @@
 
                                         <span class="u-c-white">@DBIO.get1ProductT_ProductTID(P.ProductTID).ProducTName</span>
 
-                                        <span class="u-c-secondary">Giảm giá sốc @(P.Sale*100) %</span>
+                                        <span class="u-c-white">Giảm giá sốc @(P.Sale*100) %</span>
                                     </div>
                                     <div class="banner-bg__text-2">
 
-                                        <span class="u-c-secondary">Nhanh tay</span>
+                                        <span class="u-c-white">Nhanh tay</span>
 
                                         <span class="u-c-white">Đừng bỏ lỡ!</span>
                                     </div>
@@ -785,10 +786,10 @@
             </div>}
             <!--====== End - Section 6 ======-->
             <!--====== Section 7 ======-->
-            <div class="u-s-p-b-60">
+            <!--<div class="u-s-p-b-60">-->
 
                 <!--====== Section Content ======-->
-                <div class="section__content">
+                <!--<div class="section__content">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-6 u-s-m-b-30">
@@ -860,11 +861,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!--====== End - Section Content ======-->
-            </div>
+            <!--</div>-->
             <!--====== End - Section 7 ======-->
             <!--====== Section 8 ======-->
+<div> &nbsp;&nbsp;</div>
+<div> &nbsp;&nbsp;</div>
             <div class="u-s-p-b-60">
 
                 <!--====== Section Content ======-->
@@ -946,17 +949,18 @@
 
                                                             <span class="product-l__name">
 
-                                                                <a href="/Home/ProductDetail?ID=@item2.ID">@item2.ProductName</a><span style="float:right;">&nbsp;&nbsp;(Đã bán: @DBIO.SumsellPD(item2.ID)) </span>
-
+                                                                <a href="/Home/ProductDetail?ID=@item2.ID">@item2.ProductName</a>
                                                             </span>
 
                                                             <span class="product-l__price">
                                                                 @String.Format("{0:0,0}", @b) đ
 
+                                                                <span style="float:right;">&nbsp;&nbsp;(Đã bán: @DBIO.SumsellPD(item2.ID)) </span>
 
-                                                                @if (Sale != 0)
-                                                                {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
+
                                                             </span>
+                                                            @if (Sale != 0)
+                                                            {<strong><strike>@String.Format("{0:0,0}", @item2.Price) đ</strike></strong>}
                                                         </div>
                                                     </div>
                                                 </li>
@@ -1040,17 +1044,18 @@
 
                                                             <div class="product-l__name">
 
-                                                                <a href="/Home/ProductDetail?ID=@item2.ID">@item2.ProductName</a><span style="float:right;">&nbsp;&nbsp;(Đã bán: @DBIO.SumsellPD(item2.ID)) </span>
-
+                                                                <a href="/Home/ProductDetail?ID=@item2.ID">@item2.ProductName</a>
                                                             </div>
 
                                                             <span class="product-l__price">
                                                                 @String.Format("{0:0,0}", @b) đ
+                                                                <span style="float:right;">&nbsp;&nbsp;(Đã bán: @DBIO.SumsellPD(item2.ID)) </span>
 
 
-                                                                @if (Sale != 0)
-                                                                {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
+
                                                             </span>
+                                                            @if (Sale != 0)
+                                                            {<strong><strike>@String.Format("{0:0,0}", @item2.Price) đ</strike></strong>}
                                                         </div>
                                                     </div>
                                                 </li>
@@ -1131,17 +1136,18 @@
 
                                                             <div class="product-l__name">
 
-                                                                <a href="/Home/ProductDetail?ID=@item2.ID">@item2.ProductName</a><span style="float:right;">&nbsp;&nbsp;(Đã bán: @DBIO.SumsellPD(item2.ID)) </span>
-
+                                                                <a href="/Home/ProductDetail?ID=@item2.ID">@item2.ProductName</a>
                                                             </div>
 
                                                             <span class="product-l__price">
                                                                 @String.Format("{0:0,0}", @b) đ
 
+                                                                <span style="float:right;">&nbsp;&nbsp;(Đã bán: @DBIO.SumsellPD(item2.ID)) </span>
 
-                                                                @if (Sale != 0)
-                                                                {<span class="product-o__discount">@String.Format("{0:0,0}", @item2.Price) đ</span>}
+
                                                             </span>
+                                                            @if (Sale != 0)
+                                                            {<strong><strike>@String.Format("{0:0,0}", @item2.Price) đ</strike></strong>}
                                                         </div>
                                                     </div>
                                                 </li>

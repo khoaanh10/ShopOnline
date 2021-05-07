@@ -283,8 +283,7 @@
                                                 </span>
                                                 <div class="product-m__name">
 
-                                                    <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
-
+                                                    <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a>
                                                 </div>
                                                 <div class="product-m__rating gl-rating-style">
                                                     @{
@@ -322,7 +321,8 @@
 
 
 
-                                                <span class="product-m__review">(👁️‍🗨️ @item.View1)</span>
+                                                    <span class="product-m__review">(👁️‍🗨️ @item.View1)</span><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+
                                                 </div>
                                                 <span class="product-o__price">
                                                     @String.Format("{0:0,0}", @b) đ
