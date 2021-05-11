@@ -12,6 +12,60 @@ namespace ShopKA.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController()
+        {
+            var PT = DBIO.getallProductT();
+            var PD = DBIO.getallProduct();
+            MyDB DB = new MyDB();
+            foreach (var tt in PT)
+            {
+                if (DB.ProductTSales.Count(i => i.ProductTID == tt.ID) > 0)
+                {
+                    var ttt = DB.ProductTSales.Single(i => i.ProductTID == tt.ID);
+                    if ((DateTime.Now >= ttt.SaleTimeEnd))
+                    {
+                        DB.ProductTSales.Remove(ttt);
+
+                        DB.SaveChanges();
+                    }
+                }
+            }
+
+            foreach (var ii in PD)
+            {
+                if (DB.SaleProducts.Count(i => i.ProductID == ii.ID) > 0)
+                {
+                    var iii = DB.SaleProducts.FirstOrDefault(i => i.ProductID == ii.ID);
+                    if ((iii.SaleTimeStart > DateTime.Now) | (DateTime.Now >= iii.SaleTimeEnd))
+                    {
+                        var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
+                        PD1.Sale = 0;
+                        DB.SaveChanges();
+                        if ((DateTime.Now >= iii.SaleTimeEnd))
+                        {
+                            DB.SaleProducts.Remove(iii);
+
+                            DB.SaveChanges();
+                        }
+
+
+                    }
+                    else if (iii.SaleTimeStart <= DateTime.Now & DateTime.Now < iii.SaleTimeEnd & ii.Sale != iii.Sale)
+                    {
+                        var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
+                        PD1.Sale = iii.Sale;
+                        DB.SaveChanges();
+                    }
+
+                }
+                else if (ii.Sale != 0)
+                {
+                    var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
+                    PD1.Sale = 0;
+                    DB.SaveChanges();
+                }
+            }
+        }
         public ActionResult Index()
         {
             var a = DBIO.getallProductT();

@@ -1,0 +1,189 @@
+﻿@model DataBase.Product
+@using DataBase
+@using ShopKA.Models
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+    ProductT PT = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(Model.ProducerID).ProductTID);
+    Producer PR1 = DBIO.get1Producer_ProducerID(Model.ProducerID);
+    int test = 0;
+
+}
+
+<div class="app-content">
+
+    <!--====== Section 1 ======-->
+
+
+    <div class="u-s-p-b-60">
+
+        <!--====== Section Intro ======-->
+        <div class="section__intro u-s-m-b-60" style="margin-bottom:1.875rem;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section__text-wrap">
+                            <h1 class="section__heading u-c-secondary">Thêm SP</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Intro ======-->
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="row row--center">
+                    <div class="col-lg-12 col-md-8 u-s-m-b-30">
+                        <div class="l-f-o">
+                            <div class="l-f-o__pad-box">
+
+
+
+
+
+
+                                <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+
+                                    <label class="gl-label" for="gender">Loại SP</label>
+                                    <select class="select-box select-box--primary-style u-w-100" name="ProductTID" id="productOption">
+                                        <option value="-1">Chọn Loại SP</option>
+                                        @foreach (var item in ViewBag.TT)
+                                        {
+                                            if (PT.ID == item.ID)
+                                            {
+                                                test = item.ID;
+                                                <option id="@item.ID" selected value="@item.ID">@item.ProducTName</option>
+                                            }
+                                            else
+                                            {
+                                                <option id="@item.ID" value="@item.ID">@item.ProducTName</option>
+                                            }
+
+                                        }
+
+                                    </select>
+                                </div>
+                                @using (Html.BeginForm("EditProduct", "Admin", new { PCID = @ViewBag.ID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger", @style = "color:red;" })
+
+
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+
+                                        <label class="gl-label" for="gender">Nhà Sản Xuất</label>
+                                        <select class="select-box select-box--primary-style u-w-100" name="ProducerID" id="kqq">
+                                            @{var PR = DBIO.getallProducer_ProductT(test); }
+                                            @foreach (var itemm in PR)
+                                            {
+                                                if (itemm.ID == PR1.ID)
+                                                {
+                                                    <option selected value="@itemm.ID">@itemm.ProducerName</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@itemm.ID">@itemm.ProducerName</option>
+                                                }
+
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+
+                                        <label class="gl-label" for="gender">Tình trạng</label>
+                                        <select class="select-box select-box--primary-style u-w-100" name="Launch">
+                                            <option selected value=True>Ra mắt chính thức</option>
+                                            <option value=False>Sắp Ra Mắt</option>
+
+
+                                        </select>
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @Value = @Model.ProductName } })
+                                        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.Configuration, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.Configuration, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @Value = Model.Configuration } })
+                                        @Html.ValidationMessageFor(model => model.Configuration, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @Value = @Model.Price } })
+                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @Value = Model.Note } })
+                                        @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "gl-label" })
+                                        <div class="col-md-15">
+                                            <input type="file" name="file1" class="form-group" />
+
+                                        </div>
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        @Html.LabelFor(model => model.Image2, htmlAttributes: new { @class = "gl-label" })
+                                        <div class="col-md-15">
+                                            <input type="file" name="file2" class="form-group" />
+
+                                        </div>
+                                    </div>
+                                    <div class="u-s-m-b-30">
+
+                                        @Html.LabelFor(model => model.Image3, htmlAttributes: new { @class = "gl-label" })
+                                        <div class="col-md-15">
+                                            <input type="file" name="file3" class="form-group" />
+
+                                        </div>
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        @Html.LabelFor(model => model.Image4, htmlAttributes: new { @class = "gl-label" })
+                                        <div class="col-md-15">
+                                            <input type="file" name="file4" class="form-group" />
+
+                                        </div>
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.Image5, htmlAttributes: new { @class = "gl-label" })
+                                        <div class="col-md-15">
+                                            <input type="file" name="file5" class="form-group" />
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="gl-inline">
+                                        <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+
+                                            <button class="btn btn--e-transparent-brand-b-2" type="submit">Ok</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Content ======-->
+    </div>
+    <!--====== End - Section 2 ======-->
+</div>
+

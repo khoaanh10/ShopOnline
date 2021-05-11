@@ -1,0 +1,241 @@
+﻿@model List<DataBase.Order>
+@using ShopKA.Models
+@using DataBase
+
+@{
+    ViewBag.Title = "ManageAcc";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+    User user = ViewBag.User;
+    Address ship = ViewBag.ShipAddress;
+    Address bill = ViewBag.BillAddress;
+}
+
+<div class="app-content">
+
+    <!--====== Section 1 ======-->
+    <div class="u-s-p-y-60">
+
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="breadcrumb">
+                    <div class="breadcrumb__wrap">
+                        <ul class="breadcrumb__list">
+                            <li class="has-separator">
+
+                                <a href="/">Trang chủ</a>
+                            </li>
+                            <li class="is-marked">
+
+                                <a >Quản lí tài khoản</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====== End - Section 1 ======-->
+    <!--====== Section 2 ======-->
+    <div class="u-s-p-b-60">
+
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="dash">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-12">
+
+                            <!--====== Dashboard Features ======-->
+                            <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
+                                <div class="dash__pad-1">
+
+                                    <span class="dash__text u-s-m-b-16">Xin chào, @{string name = ((UserLogin)Session["SS"]).UserName;}@name</span>
+                                    <ul class="dash__f-list">
+                                        <li>
+
+                                            <a class="dash-active" href=@Url.Action("ManagerAcc","User")>Quản lý tài khoản của tôi</a>
+                                        </li>
+                                        <li>
+
+                                            <a href=@Url.Action("Profile","User")>Hồ sơ của tôi</a>
+                                        </li>
+                                        <li>
+
+                                            <a href=@Url.Action("Address","User")>Địa chỉ</a>
+                                        </li>
+
+                                        <li>
+
+                                            <a href=@Url.Action("Order","User")>Đơn hàng của tôi</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="dash__box dash__box--bg-white dash__box--shadow dash__box--w">
+                                <div class="dash__pad-1">
+                                    <ul class="dash__w-list">
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-1"><i class="fas fa-cart-arrow-down"></i></span>
+
+                                                <span class="dash__w-text">@DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count(i => i.Status == 4)</span>
+
+                                                <span class="dash__w-name">Đơn hàng thành công</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-2"><i class="fas fa-times"></i></span>
+
+                                                <span class="dash__w-text">@DBIO.GetallOrders(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count(i => i.Status == 6)</span>
+
+                                                <span class="dash__w-name">Đơn hàng đã hủy</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dash__w-wrap">
+
+                                                <span class="dash__w-icon dash__w-icon-style-3"><i class="far fa-heart"></i></span>
+
+                                                <span class="dash__w-text">@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID).Count()</span>
+
+                                                <span class="dash__w-name">Yêu thích</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--====== End - Dashboard Features ======-->
+                        </div>
+                        <div class="col-lg-9 col-md-12">
+                            <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                                <div class="dash__pad-2">
+                                    <h1 class="dash__h1 u-s-m-b-14">Quẩn lý tài khoản</h1>
+
+                                    <span class="dash__text u-s-m-b-30">Hiển thị toàn bộ thông tin và hoạt động của tài khoản</span>
+                                    <div class="row">
+                                        <div class="col-lg-4 u-s-m-b-30">
+                                            <div class="dash__box dash__box--bg-grey dash__box--shadow-2 u-h-100">
+                                                <div class="dash__pad-3">
+                                                    <h2 class="dash__h2 u-s-m-b-8">HỒ SƠ CÁ NHÂN</h2>
+                                                    <div class="dash__link dash__link--secondary u-s-m-b-8">
+
+                                                        <a href="dash-edit-profile.html">SỬA</a>
+                                                    </div>
+
+                                                    <span class="dash__text">@user.Fullname</span>
+
+                                                    <span class="dash__text">@user.Email</span>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 u-s-m-b-30">
+                                            <div class="dash__box dash__box--bg-grey dash__box--shadow-2 u-h-100">
+                                                <div class="dash__pad-3">
+                                                    <h2 class="dash__h2 u-s-m-b-8">ĐỊA CHỈ</h2>
+
+                                                    <span class="dash__text-2 u-s-m-b-8">Địa chỉ nhận hàng mặc định</span>
+                                                   
+                                                    @if(ship != null)
+                                                    { 
+                                                    <span class="dash__text">@ship.Detail - @ship.Ward - @DBIO.get1District(ship.DistrictID).Name - @DBIO.get1Province(ship.ProvinceID).Name</span>
+
+                                                    <span class="dash__text">@ship.Phone</span>}
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 u-s-m-b-30">
+                                            <div class="dash__box dash__box--bg-grey dash__box--shadow-2 u-h-100">
+                                                <div class="dash__pad-3">
+                                                    <h2 class="dash__h2 u-s-m-b-8">ĐỊA CHỈ</h2>
+
+                                                    <span class="dash__text-2 u-s-m-b-8">Địa chỉ thanh toán mặc định</span>
+                                                    @if (bill != null)
+                                                    {
+
+                                                    <span class="dash__text">@bill.Detail - @bill.Ward - @DBIO.get1District(bill.DistrictID).Name - @DBIO.get1Province(bill.ProvinceID).Name</span>
+
+                                                    <span class="dash__text">@bill.Phone</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dash__box dash__box--shadow dash__box--bg-white dash__box--radius">
+                                <h2 class="dash__h2 u-s-p-xy-20">Đơn hàng gần đây</h2>
+                                <div class="dash__table-wrap gl-scroll">
+                                    <table class="dash__table">
+                                        <thead>
+                                            <tr>
+                                                <th>Đơn hàng #</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Tổng giá</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                int Money = 0;
+                                                foreach (var item2 in DBIO.getallPDOrder(item.ID))
+                                                {
+
+                                                    int b = item2.Price;
+                                                    int g = b * item2.Quantity;
+                                                    Money = Money + g;
+                                                }
+                                                Money = (int)(Money - (item.Maximum >= Money * item.SalePrice ? item.SalePrice*Money : item.Maximum)) + (int)(100000 - 100000 * item.SaleShip);
+                                            <tr>
+                                                <td>@item.ID</td>
+                                                <td>@String.Format("{0:dd/MM/yyyy}", @item.CreatDate)</td>
+                                                <td>
+                                                    <div>
+                                                        @if (item.Status == 0)
+                                                        {<span class="manage-o__badge badge--processing">Chờ xác nhận</span>}
+                                                        else if (item.Status == 1)
+                                                        {<span class="manage-o__badge badge--processing">Đang chuẩn bị hàng</span>}
+                                                        else if (item.Status == 2)
+                                                        {<span class="manage-o__badge badge--shipped">Đang vận chuyển</span>}
+                                                        else if (item.Status == 3)
+                                                        {<span class="manage-o__badge badge--delivered">Đang giao hàng</span>}
+                                                        else if (item.Status == 4)
+                                                        {<span class="manage-o__badge badge--success">Đã giao thành công</span>}
+                                                        else if (item.Status >4)
+                                                        {<span class="manage-o__badge badge--cancel">Đơn hàng bị hủy</span>}
+
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="dash__table-total">
+
+                                                        <span>@String.Format("{00:0,0}", Money) đ</span>
+                                                        
+                                                        <div class="dash__link dash__link--brand">
+
+                                                            <a href=@Url.Action("ManageOrder","User",new { ID=item.ID })>Quản lý</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>}
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Content ======-->
+    </div>
+    <!--====== End - Section 2 ======-->
+</div>

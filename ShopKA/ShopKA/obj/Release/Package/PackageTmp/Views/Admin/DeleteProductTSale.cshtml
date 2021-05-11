@@ -1,0 +1,93 @@
+﻿@model List<DataBase.ProductT>
+@using ShopKA.Models
+@using DataBase
+@{MyDB DB = new MyDB();
+}
+<div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Tên Loại SP</th>
+                <th scope="col">Số NSX</th>
+                <th scope="col">Tổng số SP</th>
+                <th scope="col">Sale</th>
+
+                <th scope="col">                      </th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                int a = DBIO.Count_Producer_ProductT(item.ID);
+                int b = DBIO.Count_Product_ProductT(item.ID);
+
+
+
+                <tr>
+                    <th scope="row">@item.ID</th>
+                    <td>@item.ProducTName</td>
+                    <td>@a</td>
+                    <td>@b</td>
+                    @if (DB.ProductTSales.Count(i => i.ProductTID == item.ID) == 0)
+                    {
+                        <td>Không</td>
+
+
+                        <td>
+                            <a class="btn btn-primary" href="@Url.Action("DeleteProductT", "Admin", new { ID = @item.ID })" role="button">Xóa</a>
+                            <a class="btn btn-primary" href="@Url.Action("EditProductT", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                            <a class="btn btn-primary" href="@Url.Action("Producer", "Admin", new { ID = @item.ID })" role="button">Xem NSX</a>
+                            <a class="btn btn-primary addSale" href=@Url.Action("AddProductTSale","Admin",new { ID=item.ID}) role="button">Thêm Sale</a>
+
+                        </td>
+                    }
+                    else
+                    {
+                        float ss = (DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).Sale * 100);
+                        if (DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart > DateTime.Now)
+                        {
+
+                            <td>Sắp Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd) )</td>
+                        }
+                        else
+                        {
+                            {
+                                <td>Đang Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd) )</td>
+                            }
+                        }
+                        <td>
+                            <a class="btn btn-primary" href="@Url.Action("DeleteProductT", "Admin", new { ID = @item.ID })" role="button">Xóa</a>
+                            <a class="btn btn-primary" href="@Url.Action("EditProductT", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                            <a class="btn btn-primary" href="@Url.Action("Producer", "Admin", new { ID = @item.ID })" role="button">Xem NSX</a>
+                            <a class="btn btn-primary" href=@Url.Action("EditProductTSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
+                            <a class="btn btn-primary deleteProductTSale" data_value=@item.ID role="button">Xóa Sale</a>
+
+                        </td>
+                    }
+
+
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<script>
+    $('.deleteProductTSale').on('click', function () {
+
+        var a = $(this).attr('data_value');
+
+
+        $.ajax({
+            type: 'POST',
+            data: { ID: a },
+            url: '/Admin/DeleteProductTSale',
+            success: function (ketqua) {
+                $('#product').html(ketqua);
+            }
+        })
+
+
+    });
+</script>

@@ -1,0 +1,61 @@
+﻿@model List<DataBase.User>
+@using ShopKA.Models
+@using DataBase
+@{
+    ViewBag.Title = "User";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+}
+
+
+
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách thành viên</h6>
+    </div>
+
+
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+
+
+
+                        <th scope="col">UserName</th>
+                        <th scope="col">Họ tên</th>
+                        <th scope="col">Chức vụ</th>
+                        <th scope="col">Tình trạng</th>
+
+</thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                    <tr>
+                        <th scope="row">@item.ID</th>
+
+                        <td>@item.Username</td>
+                        <td>@item.Fullname</td>
+                        <td>@{string t = item.Permission == 0 ? "Admin" : item.Permission == 1 ? "Quản trị viên" : "Thành viên";}@t</td>
+                        @{ string p = item.Status == true ? "Đang hoạt động" : "Đang khóa";}
+                        <td id="st-@item.ID">@Ajax.ActionLink(p, "changeSTTUser", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "st-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+
+
+
+                    </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>
+
+

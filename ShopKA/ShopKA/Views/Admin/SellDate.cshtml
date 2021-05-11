@@ -7,11 +7,22 @@
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
 
 }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Sản phẩm đã bán</h6>
+        <h6 class="m-0 font-weight-bold text-primary" id="id2" data_value=@ViewBag.ID>Sản phẩm đã bán</h6>
+        <hr />
+        <select class="select-box select-box--primary-style u-w-30" id="datesell2">
+            <option selected value=0>Tất cả</option>
+
+            <option value=1>Tháng này</option>
+            <option value=3>3 tháng gần nhất</option>
+            <option value=6>6 tháng gần nhất</option>
+
+
+        </select>
     </div>
 
 
@@ -29,7 +40,7 @@
                         <th scope="col">Ngày mua</th>
 
                         <th scope="col">                      </th>
-</thead>
+                </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
@@ -38,7 +49,10 @@
                             <th scope="row">@item.ID</th>
                             <td>@item.BuyName</td>
                             <td>@item.Quantity</td>
-                            <td>@String.Format("{00:0,0}", item.Price) đ x @item.Quantity</td>
+                            <td>
+                                @String.Format("{00:0,0}", item.Price) đ x @item.Quantity @item.Voucher
+
+                            </td>
 
                             <td>
 
@@ -57,3 +71,19 @@
         </div>
     </div>
 </div>
+<script>
+    $('body').on('change', '#datesell2', function () {
+        var date = document.getElementById('datesell2').value;
+        var ID = $('#id2').attr('data_value');
+
+
+        $.ajax({
+            type: 'POST',
+            data: { ID:ID,date: date },
+            url: '/Admin/SellDate1',
+            success: function (ketqua) {
+                $('#product').html(ketqua);
+            }
+        })
+    });
+</script>

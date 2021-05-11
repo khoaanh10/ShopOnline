@@ -272,6 +272,14 @@
     <Compile Include="Migrations\202105050755070_edit ProductT.Designer.cs">
       <DependentUpon>202105050755070_edit ProductT.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105101020411_edit SellDate.cs" />
+    <Compile Include="Migrations\202105101020411_edit SellDate.Designer.cs">
+      <DependentUpon>202105101020411_edit SellDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105101025295_edit SellDate2.cs" />
+    <Compile Include="Migrations\202105101025295_edit SellDate2.Designer.cs">
+      <DependentUpon>202105101025295_edit SellDate2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs" />
     <Compile Include="ProductOrder.cs" />
     <Compile Include="ProductTSale.cs" />
@@ -508,6 +516,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202105050755070_edit ProductT.resx">
       <DependentUpon>202105050755070_edit ProductT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105101020411_edit SellDate.resx">
+      <DependentUpon>202105101020411_edit SellDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105101025295_edit SellDate2.resx">
+      <DependentUpon>202105101025295_edit SellDate2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -25,7 +25,7 @@
 </head>
 
 <body class="config">
-    @{ var PT = DBIO.getallProductT();
+    @*@{ var PT = DBIO.getallProductT();
         var PD = DBIO.getallProduct();
         MyDB DB = new MyDB();
         foreach (var tt in PT)
@@ -75,7 +75,7 @@
                 PD1.Sale = 0;
                 DB.SaveChanges();
             }
-        } }
+        } }*@
 
     <div class="preloader is-active">
         <div class="preloader__wrap">

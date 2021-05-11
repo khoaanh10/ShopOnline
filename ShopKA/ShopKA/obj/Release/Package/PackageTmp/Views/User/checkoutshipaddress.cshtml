@@ -1,0 +1,25 @@
+﻿@using DataBase
+@using ShopKA.Models
+@model DataBase.AddressDTO
+@{
+    
+    Address ship = ViewBag.ship;
+    Address bill = ViewBag.bill;
+    
+}
+
+@if (ViewBag.type == "ship")
+{ <span class="ship-b__p" id="shipid" data_value=@ship.ID>@ship.Detail - @ship.Ward - @DBIO.get1District(ship.DistrictID).Name - @DBIO.get1Province(ship.ProvinceID).Name - @ship.Phone</span>
+
+            <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Sửa</a>}
+
+else
+
+
+{ <span class="ship-b__p" id="billid" data_value=@bill.ID>@bill.Detail - @bill.Ward - @DBIO.get1District(bill.DistrictID).Name - @DBIO.get1Province(bill.ProvinceID).Name - @bill.Phone</span>
+
+            <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-bill-address">Sửa</a>}
+
+   
+
+<script src="~/Asset/js/app.js"></script>

@@ -1,0 +1,86 @@
+﻿@model DataBase.ProductT
+
+@{
+    ViewBag.Title = "EditProductT";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+}
+
+<div class="app-content">
+
+    <!--====== Section 1 ======-->
+
+
+    <div class="u-s-p-b-60">
+
+        <!--====== Section Intro ======-->
+        <div class="section__intro u-s-m-b-60" style="margin-bottom:1.875rem;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section__text-wrap">
+                            <h1 class="section__heading u-c-secondary">Sửa loại SP: @Model.ProducTName</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Intro ======-->
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="row row--center">
+                    <div class="col-lg-12 col-md-8 u-s-m-b-30">
+                        <div class="l-f-o">
+                            <div class="l-f-o__pad-box">
+
+
+
+
+
+
+
+                                @using (Html.BeginForm("EditProductT", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger", @style = "color:red;" })
+
+
+                                    @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @type="hidden", @value = Model.ID } })
+
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.ProducTName, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.ProducTName, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @value = Model.ProducTName } })
+                                        @Html.ValidationMessageFor(model => model.ProducTName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "gl-label" })
+                                        <div class="col-md-15">
+                                            <input type="file" name="file1" />
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="gl-inline">
+                                        <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+
+                                            <button class="btn btn--e-transparent-brand-b-2" type="submit">OK</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Content ======-->
+    </div>
+    <!--====== End - Section 2 ======-->
+</div>
+

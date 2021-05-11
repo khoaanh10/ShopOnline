@@ -11,7 +11,7 @@ using Color = DataBase.Color;
 
 namespace ShopKA.Controllers
 {
-    [Authorize(Roles = "0")]
+    //[Authorize(Roles = "0")]
     public class AdminController : Controller
     {
         
@@ -666,11 +666,15 @@ namespace ShopKA.Controllers
                     foreach (var item in DBIO.getallPDOrder(A.ID))
                     {
                         var C = DB.Colors.SingleOrDefault(i => i.ID == item.ColorID);
+                        
                         if (C != null)
                         {
-                            C.Quantity = C.Quantity + item.Quantity;
-                            DB.Products.SingleOrDefault(i => i.ID == C.ProductID).Status = true;
-                            DB.SaveChanges();
+                            if (DB.Products.SingleOrDefault(i => i.ID == C.ProductID) != null)
+                            {
+                                C.Quantity = C.Quantity + item.Quantity;
+                                DB.Products.SingleOrDefault(i => i.ID == C.ProductID).Status = true;
+                                DB.SaveChanges();
+                            }
                         }
                     }
                 }
@@ -713,6 +717,14 @@ namespace ShopKA.Controllers
                             E.BuyName = DBIO.get1User_ID(A.UserID).Username;
                             E.DateSell = DateTime.Now;
                             E.Price = item.Price - (int)(A.Maximum >= item.Price * A.SalePrice ? item.Price * A.SalePrice : (A.Maximum / DBIO.getallPDOrder(A.ID).Sum(i => i.Quantity)));
+                            if(A.SalePrice>0)
+                            {
+                                E.Voucher = "(Voucher giảm " + A.SalePrice * 100 + "% giá trị đơn hàng, tối đa: " + A.Maximum + "đ)";
+                            } 
+                            else 
+                            {
+                                E.Voucher = "";
+                            }    
                             E.Quantity = item.Quantity;
                             E.SellPDID = F.ID;
                             DB.SellDates.Add(E);
@@ -742,13 +754,72 @@ namespace ShopKA.Controllers
 
             return View(A);
         }
+        public ActionResult SellProduct1(int date)
+        {
+            if (date == 0)
+            {
+                DateTime a = new DateTime(2020, 1, 1);
+                ViewBag.time = a;
+                var A = DBIO.getallSellPD();
+                return View(A);
+            }
+            else
+            {
+                if (DateTime.Now.Month >= date)
+                {
+                    DateTime a = new DateTime(DateTime.Now.Year, (DateTime.Now.Month - date) + 1, 1);
+                    ViewBag.time = a;
+                    var A = DBIO.getallSellPD().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= a)==true).ToList();
+
+                    return View(A);
+                }
+                else
+                {
+                    DateTime a = new DateTime(DateTime.Now.Year - 1, (12 - date + DateTime.Now.Month) + 1, 1);
+                    ViewBag.time = a;
+                    var A = DBIO.getallSellPD().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= a)==true).ToList();
+
+                    return View(A);
+                }
+            }   
+           
+            
+        }
 
         public ActionResult SellDate(int ID)
         {
             var A = DBIO.getallSellDate(ID);
-
+            ViewBag.ID = ID;
             return View(A);
         }
+        public ActionResult SellDate1(int ID,int date)
+        {
+            if(date==0)
+            {
+                
+                var A = DBIO.getallSellDate(ID);
+
+                return View(A);
+            }    
+            if (DateTime.Now.Month >= date)
+            {
+                DateTime a = new DateTime(DateTime.Now.Year, (DateTime.Now.Month - date) + 1, 1);
+                ViewBag.time = a;
+                var A = DBIO.getallSellDate(ID).Where(i => i.DateSell >= a).ToList();
+
+                return View(A);
+            }
+            else
+            {
+
+                DateTime a = new DateTime(DateTime.Now.Year - 1, (12 - date + DateTime.Now.Month) + 1, 1);
+                ViewBag.time = a;
+                var A = DBIO.getallSellDate(ID).Where(i => i.DateSell >= a).ToList();
+
+                return View(A);
+            }
+        }
+
 
         public ActionResult addProductTSale(int ID)
         {

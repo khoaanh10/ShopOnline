@@ -1,0 +1,70 @@
+﻿@using ShopKA.Models
+<thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Tên SP</th>
+        <th scope="col">NSX</th>
+        <th scope="col">Loại SP</th>
+        <th scope="col">Tổng SL</th>
+        <th scope="col">SL đã bán</th>
+        <th scope="col">Launch</th>
+        <th scope="col">Tình Trạng</th>
+        <th scope="col">Sale</th>
+        <th scope="col">                      </th>
+</thead>
+<tbody>
+    @foreach (var item in Model)
+    {
+        string a = DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName;
+        string b = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID).ProducTName;
+        var c = DBIO.getallColor(item.ID);
+        int s = 0;
+        if (c != null)
+        {
+            foreach (var item2 in c)
+            {
+                s = s + item2.Quantity;
+            }
+        }
+        string t;
+        string p;
+        if (@item.Status == true)
+        { t = "Đang Hiện"; }
+        else
+        { t = "Đang Ẩn"; }
+        if (@item.Launch == true)
+        { p = "Đã ra mắt"; }
+        else
+        { p = "Sắp ra mắt"; }
+
+
+    <tr>
+        <th scope="row">@item.ID</th>
+        <td>@item.ProductName</td>
+        <td>@a</td>
+        <td>@b</td>
+        <td>@s</td>
+        <td>@DBIO.SumsellPD(item.ID)</td>
+        <td>@p</td>
+        <td>@t</td>
+        @{if (item.Sale == 0.0)
+            {
+                <td>Không</td>
+            }
+            else
+            {
+                int k = (int)(item.Sale * 100);
+                <td> Đang sale @k % <a class="btn btn-primary" href="@Url.Action("DeleteSale","Admin",new { ID = @item.ID })" role="button">Xóa Sale</a></td>
+            }
+        }
+        <td>
+            <a class="btn btn-primary" href="@Url.Action("DeleteProduct","Admin",new { ID = @item.ID })" role="button">Xóa</a>
+            <a class="btn btn-primary" href="@Url.Action("EditProduct","Admin",new { ID = @item.ID })" role="button">Sửa</a>
+            <a class="btn btn-primary" href="@Url.Action("Color","Admin",new { ID = @item.ID })" role="button">Xem chi tiết</a>
+
+        </td>
+    </tr>
+    }
+
+</tbody>
+

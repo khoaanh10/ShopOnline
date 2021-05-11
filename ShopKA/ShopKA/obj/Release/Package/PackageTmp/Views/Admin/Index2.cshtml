@@ -1,0 +1,149 @@
+﻿@using ShopKA.Models
+@model PagedList.PagedList<DataBase.Product>
+@using PagedList.Mvc
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+
+
+    * 
+    
+
+
+        ul li {
+            list-style: none;
+            line-height: 50px;
+            margin: 0 5px;
+        }
+
+            ul li.pageNumber {
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+            }
+
+            ul li a {
+                display: block;
+                text-decoration: none;
+                color: #383838;
+                font-weight: 600;
+                border-radius: 50%;
+            }
+
+            ul li.pageNumber:hover a,
+            ul li.pageNumber.active a {
+                background: #383838;
+                color: #0000FF;
+            }
+
+           
+</style>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Tên SP</th>
+            <th scope="col">NSX</th>
+            <th scope="col">Loại SP</th>
+            <th scope="col">Tổng SL</th>
+            <th scope="col">Launch</th>
+            <th scope="col">Tình Trạng</th>
+            <th scope="col">Sale</th>
+
+            <th scope="col">                      </th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string a = DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName;
+            string b = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID).ProducTName;
+            var c = DBIO.getallColor(item.ID);
+            int s = 0;
+            if (c != null)
+            {
+                foreach (var item2 in c)
+                {
+                    s = s + item2.Quantity;
+                }
+            }
+            string t;
+            string p;
+            if (@item.Status == true)
+            { t = "Đang Hiện"; }
+            else
+            { t = "Đang Ẩn"; }
+            if (@item.Launch == true)
+            { p = "Đã ra mắt"; }
+            else
+            { p = "Sắp ra mắt"; }
+
+
+        <tr>
+            <th scope="row">@item.ID</th>
+            <td>@item.ProductName</td>
+            <td>@a</td>
+            <td>@b</td>
+            <td>@s</td>
+            <td>@p</td>
+
+
+            <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+            @{if (item.Sale == 0 & item.Sale2 == 0)
+                {
+                    <td>Không</td>
+                }
+                else if (item.Sale2 != 0 & item.Sale == 0)
+                {
+                    int k = (int)(item.Sale2 * 100);
+                    <td id="sale"> Sắp sale: @k% (@String.Format("{0:dd/MM/yyyy}", item.SaleTimeStart) - @String.Format("{0:dd/MM/yyyy }", item.SaleTimeEnd))<a>@Ajax.ActionLink("Xóa", "DeleteSale", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "sale", InsertionMode = InsertionMode.Replace })</a> </td>
+                }
+                else
+                {
+                    int k = (int)(item.Sale2 * 100);
+                    <td id="sale"> Đang sale: @k% (@String.Format("{0:dd/MM/yyyy}", item.SaleTimeStart) - @String.Format("{0:dd/MM/yyyy }", item.SaleTimeEnd))<a>@Ajax.ActionLink("Xóa", "DeleteSale", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "sale", InsertionMode = InsertionMode.Replace })</a> </td>
+                }
+            }
+            
+            <td>
+                <a class="btn btn-primary" href="@Url.Action("DeleteProduct","Admin",new { ID = @item.ID })" role="button">Xóa</a>
+                <a class="btn btn-primary" href="@Url.Action("EditProduct","Admin",new { ID = @item.ID })" role="button">Sửa</a>
+                <a class="btn btn-primary" href="@Url.Action("Color","Admin",new { ID = @item.ID })" role="button">Xem chi tiết</a>
+
+            </td>
+
+        </tr>
+        }
+
+    </tbody>
+    
+</table>
+<ul class="pagination">
+
+    @for (int d = 1; d <= ViewBag.page; d++)
+    {
+        if (ViewBag.a == d)
+        {
+            <li class="pageNumber active">@d</li>
+        }
+        else
+        {
+            <li  class="pageNumber" data-id=@d><a><strong>@d</strong></a></li>
+        }
+    }
+
+</ul>
+<script>
+    $('.pageNumber').on('click', function () {
+
+        var a = $(this).attr('data-id');
+        $.ajax({
+            type: 'POST',
+            data: { page: a },
+            url: '/Admin/Index2',
+            success: function (ketqua) {
+                $('#product').html(ketqua);
+            }
+        })
+
+    });
+</script>

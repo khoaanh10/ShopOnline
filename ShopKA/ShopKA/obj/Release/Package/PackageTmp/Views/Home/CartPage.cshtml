@@ -1,0 +1,50 @@
+﻿
+<ul class="shop-p__pagination">
+    @for (int item = 1; item < ViewBag.page + 1; item++)
+    {
+        if (ViewBag.number == item)
+        {
+            <li class="is-active" style="text-align:center;">
+
+                <a>@item</a>
+            </li>
+        }
+        else
+        {
+
+            <li style="text-align:center;">
+
+                <a class="pagecart" data_value=@item>@item</a>
+            </li>
+        }
+
+    }
+
+    </li>
+</ul>
+<div id="pageV" data_value="@ViewBag.page"></div>
+<script>
+    $('.pagecart').on('click', function () {
+        var d = $(this).attr('data_value');
+        var e = $("#pageV").attr('data_value');
+
+        $.ajax({
+            type: 'POST',
+            data: { page: d },
+            url: '/Home/Cart1',
+            success: function (ketqua) {
+                $('#Cartpage').html(ketqua);
+            }
+        })
+        $.ajax({
+            type: 'POST',
+            data: { page: d,page2: e },
+            url: '/Home/CartPage',
+            success: function (ketqua) {
+                $('#page2').html(ketqua);
+            }
+        })
+
+
+    });
+</script>

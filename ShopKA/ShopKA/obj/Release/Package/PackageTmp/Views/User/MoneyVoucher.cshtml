@@ -1,0 +1,34 @@
+﻿@if (ViewBag.voucher != null)
+{
+    <tr>
+        <td>Tiền vận chuyển</td>
+        <td>@String.Format("{0:0,0}", ViewBag.ship) đ @(ViewBag.voucher.Type == false ? "(-" + (ViewBag.voucher.ShipSale * 100) + "%)" : "")</td>
+    </tr>
+
+    <tr>
+        <td id="tien" data_value=@ViewBag.Money>Tổng tiền SP</td>
+        <td>@String.Format("{0:0,0}", ViewBag.Money) đ @(ViewBag.voucher.Type == true ? "(-" + (ViewBag.voucher.OrderSale * 100) + "%)" : "")</td>
+    </tr>
+    <tr>
+        <td>Tổng cộng</td>
+        <td>@String.Format("{0:0,0}", (ViewBag.Money + ViewBag.ship)) đ</td>
+
+    </tr>
+}
+else
+{
+    <tr>
+        <td>Tiền vận chuyển</td>
+        <td>@String.Format("{0:0,0}", ViewBag.ship) đ </td>
+    </tr>
+
+    <tr>
+        <td id="tien" data_value=@ViewBag.Money>Tổng tiền SP</td>
+        <td>@String.Format("{0:0,0}", ViewBag.Money) đ</td>
+    </tr>
+    <tr>
+        <td>Tổng cộng</td>
+        <td>@String.Format("{0:0,0}", (ViewBag.Money + ViewBag.ship)) đ</td>
+
+    </tr>
+}

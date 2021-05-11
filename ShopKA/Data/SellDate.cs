@@ -26,9 +26,16 @@ namespace DataBase
         [Display(Name = "Tên người mua")]
         [Required]
         public string BuyName { get; set; }
+        [Display(Name = "Voucher")]
+        [Required]
+        public string Voucher { get; set; }
         [Display(Name = "Giá")]
         [Required]
 
         public int Price { get; set; }
+        public SellDate()
+        {
+            Voucher = "";
+        }
     }
 }

@@ -1,0 +1,65 @@
+﻿@model List<DataBase.Producer>
+@using ShopKA.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+
+
+}
+
+
+
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh Sách NSX Của @ViewBag.TT.ProducTName</h6>
+        <hr />
+        <a href=@Url.Action("CreatProducer","Admin",new { ID = @ViewBag.TT.ID }) class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-download fa-sm text-white-50"></i> Thêm NSX
+        </a>
+    </div>
+
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên NSX</th>
+
+                        <th scope="col">Tổng số SP</th>
+
+                        <th scope="col">                      </th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        int a = DBIO.Count_Product_Producer(item.ID);
+                        <tr>
+                            <th scope="row">@item.ID</th>
+                            <td>@item.ProducerName</td>
+                            <td>@a</td>
+
+
+
+                            <td>
+                                <a class="btn btn-primary" href="@Url.Action("DeleteProducer","Admin",new { ID = @item.ID,ID1=ViewBag.TT.ID })" role="button">Xóa</a>
+                                <a class="btn btn-primary" href="@Url.Action("EditProducer","Admin",new { ID = @item.ID })" role="button">Sửa</a>
+
+                                <a class="btn btn-primary" href="@Url.Action("DetailNSX","Admin",new { ID = @item.ID })" role="button">Xem Tất Cả SP</a>
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>
+
