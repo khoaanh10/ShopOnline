@@ -329,7 +329,7 @@ namespace ShopKA.Models
             return DB.Database.SqlQuery<Product>("SELECT TOP 4 * FROM PRODUCTS WHERE STATUS = 'TRUE' AND LAUNCH ='TRUE' AND PRODUCERID='" + a + "' AND ID != '" + ID + "' ORDER BY ID DESC").ToList();
         }
 
-        
+
         //Lay ra 2 sản phẩm sale sắp hết hạn
 
 
@@ -337,7 +337,7 @@ namespace ShopKA.Models
         {
             MyDB DB = new MyDB();
             var a = DB.Database.SqlQuery<SaleProduct>("SELECT * FROM SALEPRODUCTS WHERE SALETIMESTART<='" + A + "' AND '" + A + "'<SALETIMEEND ORDER BY SALETIMEEND").ToList();
-            var b = a.Where(i=>DBIO.get1Product(i.ProductID)!=null& DBIO.get1Product(i.ProductID).Status==true).Take(2).ToList();
+            var b = a.Where(i => DBIO.get1Product(i.ProductID) != null & DBIO.get1Product(i.ProductID).Status == true).Take(2).ToList();
             return b;
 
         }
@@ -351,7 +351,7 @@ namespace ShopKA.Models
         public static List<SaleProduct> get3SaleProduct()
         {
             MyDB DB = new MyDB();
-            var b = DB.SaleProducts.OrderBy(i=>i.SaleTimeEnd).Where(i=>i.SaleTimeStart<=DateTime.Now).Take(3).ToList();
+            var b = DB.SaleProducts.OrderBy(i => i.SaleTimeEnd).Where(i => i.SaleTimeStart <= DateTime.Now).Take(3).ToList();
             return b;
         }
 
@@ -478,11 +478,11 @@ namespace ShopKA.Models
             { Sort = "Price-Price*Sale"; }
             else if (Sort == "Price2")
             { dk = ""; Sort = "Price-Price*Sale"; }
-            
-            else if(Sort== "Sell")
+
+            else if (Sort == "Sell")
             {
-                test1=false;
-            }    
+                test1 = false;
+            }
             if (ProducerID > -1)
             {
                 if (test1 == true)
@@ -491,11 +491,11 @@ namespace ShopKA.Models
                 }
                 else
                 {
-                    var H= DB.Products.Where(i => i.ProducerID == ProducerID & i.Status == true & i.Launch == true & (i.Price - i.Price * i.Sale) >= min & (i.Price - i.Price * i.Sale) <= max).ToList();
+                    var H = DB.Products.Where(i => i.ProducerID == ProducerID & i.Status == true & i.Launch == true & (i.Price - i.Price * i.Sale) >= min & (i.Price - i.Price * i.Sale) <= max).ToList();
                     return H.OrderByDescending(i => DBIO.SumsellPD(i.ID)).ToList();
                 }
-                }
-           
+            }
+
             else
             {
                 if (test1 == true)
@@ -504,13 +504,13 @@ namespace ShopKA.Models
                 }
                 else
                 {
-                    
-                    var H= DB.Products.Where(i => i.Status == true & i.Launch == true & (i.Price - i.Price * i.Sale) >= min & (i.Price - i.Price * i.Sale) <= max).ToList();
+
+                    var H = DB.Products.Where(i => i.Status == true & i.Launch == true & (i.Price - i.Price * i.Sale) >= min & (i.Price - i.Price * i.Sale) <= max).ToList();
                     return H.OrderByDescending(i => DBIO.SumsellPD(i.ID)).ToList();
                 }
             }
         }
-        
+
 
 
         //Dem so luong mau cua sp
@@ -560,10 +560,10 @@ namespace ShopKA.Models
             { DS = DS.OrderByDescending(i => i.Sale).ToList(); }
             else if (Sort == "View1")
             { DS = DS.OrderByDescending(i => i.View1).ToList(); }
-            else if(Sort=="Sell")
+            else if (Sort == "Sell")
             {
                 DS = DS.ToList().OrderByDescending(i => DBIO.SumsellPD(i.ID)).ToList();
-            }    
+            }
             return DS;
         }
 
@@ -725,7 +725,7 @@ namespace ShopKA.Models
             {
                 var a = DBIO.getProduct_Cart(item);
                 var c = DBIO.getColor_Cart(item);
-                if (a == null|c==null)
+                if (a == null | c == null)
                 {
                     var b = DB.Carts.FirstOrDefault(i => i.ID == item.ID);
                     DB.Carts.Remove(b);
@@ -900,7 +900,8 @@ namespace ShopKA.Models
             MyDB DB = new MyDB();
             var a = DB.Orders.FirstOrDefault(i => i.ID == id);
             if (a.Status < 2)
-            { foreach (var item in DB.ProductOrders.Where(i => i.OrderID == id).ToList())
+            {
+                foreach (var item in DB.ProductOrders.Where(i => i.OrderID == id).ToList())
                 {
                     var b = DB.ProductOrders.FirstOrDefault(i => i.ID == item.ID);
                     DB.ProductOrders.Remove(b);
@@ -977,13 +978,13 @@ namespace ShopKA.Models
         public static List<ProductTSale> get3ProductTSale()
         {
             MyDB DB = new MyDB();
-            return DB.ProductTSales.OrderByDescending(i=>i.ID).Where(i => i.Banner != null).Take(3).ToList();
+            return DB.ProductTSales.OrderByDescending(i => i.ID).Where(i => i.Banner != null).Take(3).ToList();
         }
         // Giam gia sap het loai san pham
         public static ProductTSale getGlobalSale()
         {
             MyDB DB = new MyDB();
-            return DB.ProductTSales.Where(i => i.SaleTimeStart <= DateTime.Now & i.Banner!=null).OrderByDescending(i => i.Sale).FirstOrDefault();
+            return DB.ProductTSales.Where(i => i.SaleTimeStart <= DateTime.Now & i.Banner != null).OrderByDescending(i => i.Sale).FirstOrDefault();
         }
 
         public static List<WishList> getallWishList(int id)
@@ -996,22 +997,22 @@ namespace ShopKA.Models
         {
             MyDB DB = new MyDB();
             var a = DB.WishLists.Where(i => i.UserID == id).ToList();
-            foreach(var item in a)
+            foreach (var item in a)
             {
                 var b = DBIO.get1Product(item.ProductID);
-                if(b==null)
+                if (b == null)
                 {
                     var c = DB.WishLists.SingleOrDefault(i => i.ID == item.ID);
                     DB.WishLists.Remove(c);
                     DB.SaveChanges();
-                } 
+                }
                 else
                 {
                     var c = DB.WishLists.SingleOrDefault(i => i.ID == item.ID);
                     c.Status = b.Status;
                     DB.SaveChanges();
                 }
-            }    
+            }
         }
         public static void SendEmail(string address, string subject, string message)
         {
@@ -1055,25 +1056,25 @@ namespace ShopKA.Models
         public static List<Voucher> getallVoucher()
         {
             MyDB DB = new MyDB();
-        return DB.Vouchers.ToList();
+            return DB.Vouchers.ToList();
         }
 
         public static void checkVoucher()
         {
             MyDB DB = new MyDB();
             var a = DB.Vouchers.ToList();
-            foreach(var item in a)
+            foreach (var item in a)
             {
-                if(item.End<DateTime.Now)
+                if (item.End < DateTime.Now)
                 {
                     var b = DB.Voucherlogs.Where(i => i.Code == item.Code);
                     DB.Voucherlogs.RemoveRange(b);
                     DB.SaveChanges();
                     DB.Vouchers.Remove(item);
                     DB.SaveChanges();
-                }    
-            }    
-            
+                }
+            }
+
         }
 
         public static List<ProductT> get4imgLSP()
@@ -1081,10 +1082,16 @@ namespace ShopKA.Models
             MyDB DB = new MyDB();
             return DB.ProductTs.Where(i => i.Image != null).Take(4).ToList();
         }
-       
+
+        public static IQueryable getall()
+        {
+            MyDB DB = new MyDB();
+            var result = DB.Products.Join(DB.Producers, a => a.ProducerID, b => b.ID, (a, b) => new { a, b }).Join(DB.ProductTs, ab => ab.b.ProductTID, c => c.ID, (ab, c) => new { Product = ab.a, Producer = ab.b, ProductT = c });
+            return result;
+        }
 
 
 
     }
-
 }
+

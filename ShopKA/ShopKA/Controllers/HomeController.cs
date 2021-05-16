@@ -68,12 +68,12 @@ namespace ShopKA.Controllers
         }
         public ActionResult Index()
         {
-            var a = DBIO.getallProductT();
+           
 
             
-            ViewBag.Feature = DBIO.GetProductLaunch().Take(8).ToList();
+           
             ViewBag.SalePD = DBIO.get2ProductSale(DateTime.Now);
-            return View(a);
+            return View();
         }
 
         public ActionResult Product(string key="",int ProducerID = -1, string Sort = "ID", int page = 1, int b = 12, int max = 0, int min = 0, int ProductTID = -1)

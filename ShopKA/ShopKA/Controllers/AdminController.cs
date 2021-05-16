@@ -4,6 +4,7 @@ using ShopKA.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,7 +12,7 @@ using Color = DataBase.Color;
 
 namespace ShopKA.Controllers
 {
-    //[Authorize(Roles = "0")]
+    [Authorize(Roles = "0")]
     public class AdminController : Controller
     {
         
@@ -36,13 +37,45 @@ namespace ShopKA.Controllers
         {
             if (ModelState.IsValid & a.ProducerID != 0)
             {
-
                 MyDB b = new MyDB();
-                a.Image = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
-                a.Image2 = file2 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file2.InputStream, true, true)) : null;
-                a.Image3 = file3 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file3.InputStream, true, true)) : null;
-                a.Image4 = file4 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file4.InputStream, true, true)) : null;
-                a.Image5 = file5 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file5.InputStream, true, true)) : null;
+                a.Image = null;
+                a.Image2 = null;
+                a.Image3 = null;
+                a.Image4 = null;
+                a.Image5 = null;
+                if (file1 != null && file1.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file1.FileName);
+                    file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image = "/Image/" + fname;
+                }
+                if (file2 != null && file2.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file2.FileName);
+                    file2.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image2 = "/Image/" + fname;
+                }
+                if (file3 != null && file1.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file3.FileName);
+                    file3.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image3 = "/Image/" + fname;
+                }
+                if (file4 != null && file1.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file4.FileName);
+                    file4.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image4 = "/Image/" + fname;
+                }
+                if (file5 != null && file1.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file5.FileName);
+                    file5.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image5 = "/Image/" + fname;
+                }
+
+
+
                 a.Sale = (a.Sale) / 100;
                 b.Products.Add(a);
                 b.SaveChanges();
@@ -77,12 +110,21 @@ namespace ShopKA.Controllers
         {
             MyDB DB = new MyDB();
             List<Color> c = DBIO.getallColor(ID);
-            foreach (var item2 in c)
+            if (c != null)
             {
-                Color d = DB.Colors.FirstOrDefault(x => x.ID == item2.ID);
-                DB.Colors.Remove(d);
-                DB.SaveChanges();
+                foreach (var item2 in c)
+                {
+                    Color d = DB.Colors.FirstOrDefault(x => x.ID == item2.ID);
+                    DB.Colors.Remove(d);
+                    DB.SaveChanges();
+                }
             }
+            var a = DB.Products.SingleOrDefault(i => i.ID == ID);
+            System.IO.File.Delete(Server.MapPath(a.Image));
+            System.IO.File.Delete(Server.MapPath(a.Image2));
+            System.IO.File.Delete(Server.MapPath(a.Image3));
+            System.IO.File.Delete(Server.MapPath(a.Image4));
+            System.IO.File.Delete(Server.MapPath(a.Image5));
             DBIO.DeleteProduct(ID);
             return RedirectToAction("Index", "Admin");
         }
@@ -100,11 +142,64 @@ namespace ShopKA.Controllers
         {
             if (ModelState.IsValid & a.ProducerID != 0)
             {
-                a.Image = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
-                a.Image2 = file2 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file2.InputStream, true, true)) : null;
-                a.Image3 = file3 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file3.InputStream, true, true)) : null;
-                a.Image4 = file4 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file4.InputStream, true, true)) : null;
-                a.Image5 = file5 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file5.InputStream, true, true)) : null;
+               a.Image = null;
+                a.Image2 = null;
+                a.Image3 = null;
+                a.Image4 = null;
+                a.Image5 = null;
+                var t = DB.Products.SingleOrDefault(i => i.ID == a.ID);
+                if (file1 != null && file1.ContentLength > 0)
+                {
+                    if(t.Image!=null)
+                    {
+                        System.IO.File.Delete(Server.MapPath(t.Image));
+                    }    
+                    string fname = a.ID.ToString() + Path.GetFileName(file1.FileName);
+                    file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image = "/Image/" + fname;
+                }
+                if (file2 != null && file2.ContentLength > 0)
+                {
+                    if (t.Image2 != null)
+                    {
+                        System.IO.File.Delete(Server.MapPath(t.Image2));
+                    }
+                    string fname = a.ID.ToString() + Path.GetFileName(file2.FileName);
+                    file2.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image2 = "/Image/" + fname;
+                }
+                if (file3 != null && file1.ContentLength > 0)
+                {
+                    if (t.Image3 != null)
+                    {
+                        System.IO.File.Delete(Server.MapPath(t.Image3));
+                    }
+                    string fname = a.ID.ToString() + Path.GetFileName(file3.FileName);
+                    file3.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image3 = "/Image/" + fname;
+                }
+                if (file4 != null && file1.ContentLength > 0)
+                {
+                    if (t.Image4 != null)
+                    {
+                        System.IO.File.Delete(Server.MapPath(t.Image4));
+                    }
+                    string fname = a.ID.ToString() + Path.GetFileName(file4.FileName);
+                    file4.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image4 = "/Image/" + fname;
+                }
+                if (file5 != null && file1.ContentLength > 0)
+                {
+                    if (t.Image5 != null)
+                    {
+                        System.IO.File.Delete(Server.MapPath(t.Image5));
+                    }
+                    string fname = a.ID.ToString() + Path.GetFileName(file5.FileName);
+                    file5.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image5 = "/Image/" + fname;
+                }
+
+
                 DBIO.EditProduct(a);
                 if (PCID == -1)
                 {
@@ -211,7 +306,14 @@ namespace ShopKA.Controllers
         {
             if (ModelState.IsValid)
             {
-                a.Image =( file1 != null) ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
+                a.Image = null;
+                
+                if (file1 != null && file1.ContentLength > 0)
+                {
+                    string fname = "PT" + a.ID + Path.GetFileName(file1.FileName);
+                    file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image = "/Image/" + fname;
+                }
                 DBIO.addProductT(a);
                 return RedirectToAction("ProductT", "Admin");
             }
@@ -228,6 +330,8 @@ namespace ShopKA.Controllers
         public ActionResult DeleteProductT(int ID)
         {
             MyDB DB = new MyDB();
+            var t = DB.ProductTs.SingleOrDefault(j => j.ID == ID);
+            System.IO.File.Delete(Server.MapPath(t.Image));
             DBIO.deleteProductT(ID);
             List<Producer> i = DBIO.getallProducer_ProductT(ID);
             foreach (var item3 in i)
@@ -267,7 +371,17 @@ namespace ShopKA.Controllers
         {
             if (ModelState.IsValid)
             {
-                a.Image = (file1 != null) ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
+                a.Image = a.Image;
+                if(a.Image!=null)
+                {
+                    System.IO.File.Delete(Server.MapPath(a.Image));
+                }    
+                if (file1 != null && file1.ContentLength > 0)
+                {
+                    string fname = "PT" + a.ID + Path.GetFileName(file1.FileName);
+                    file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image = "/Image/" + fname;
+                }
                 DBIO.editProductT(a);
 
                 return RedirectToAction("ProductT", "Admin");
@@ -511,11 +625,43 @@ namespace ShopKA.Controllers
             if (ModelState.IsValid & a.ProducerID != 0)
             {
                 MyDB b = new MyDB();
-                a.Image = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
-                a.Image2 = file2 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file2.InputStream, true, true)) : null;
-                a.Image3 = file3 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file3.InputStream, true, true)) : null;
-                a.Image4 = file4 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file4.InputStream, true, true)) : null;
-                a.Image5 = file5 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file5.InputStream, true, true)) : null;
+                a.Image = null;
+                a.Image2 = null;
+                a.Image3 = null;
+                a.Image4 = null;
+                a.Image5 = null;
+                if (file1 != null && file1.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file1.FileName);
+                    file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image = "/Image/" + fname;
+                }
+                if (file2 != null && file2.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file2.FileName);
+                    file2.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image2 = "/Image/" + fname;
+                }
+                if (file3 != null && file1.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file3.FileName);
+                    file3.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image3 = "/Image/" + fname;
+                }
+                if (file4 != null && file1.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file4.FileName);
+                    file4.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image4 = "/Image/" + fname;
+                }
+                if (file5 != null && file1.ContentLength > 0)
+                {
+                    string fname = a.ID.ToString() + Path.GetFileName(file5.FileName);
+                    file5.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    a.Image5 = "/Image/" + fname;
+                }
+
+
                 a.Sale = (a.Sale) / 100;
                 b.Products.Add(a);
                 b.SaveChanges();
@@ -841,7 +987,13 @@ namespace ShopKA.Controllers
                         ViewBag.ProductT = DBIO.get1ProductT_ProductTID(a.ProductTID);
                         return View(a);
                     }
-                    a.Banner = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : null;
+                    a.Banner = null;
+                    if (file1 != null && file1.ContentLength > 0)
+                    {
+                        string fname = "Banner" + a.ProductTID + Path.GetFileName(file1.FileName);
+                        file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                        a.Banner = "/Image/" + fname;
+                    }
                     a.Sale = a.Sale / 100;
                     DB.ProductTSales.Add(a);
                     DB.SaveChanges();
@@ -909,7 +1061,17 @@ namespace ShopKA.Controllers
                 b.SaleTimeStart = a.SaleTimeStart;
                 b.Title = a.Title;
                 b.Content = a.Content;
-                b.Banner = file1 != null ? CovertImage.convert64(System.Drawing.Image.FromStream(file1.InputStream, true, true)) : b.Banner;
+                b.Banner = a.Banner;
+                if(b.Banner!=null)
+                {
+                    System.IO.File.Delete(Server.MapPath(b.Banner));
+                }    
+                if (file1 != null && file1.ContentLength > 0)
+                {
+                    string fname = "Banner" + a.ProductTID + Path.GetFileName(file1.FileName);
+                    file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
+                    b.Banner = "/Image/" + fname;
+                }
                 DB.SaveChanges();
 
                 var f = DBIO.getallProducer_ProductT(a.ProductTID);
@@ -970,6 +1132,7 @@ namespace ShopKA.Controllers
                 }
             }
             var a = DB.ProductTSales.SingleOrDefault(i => i.ProductTID == ID);
+            System.IO.File.Delete(Server.MapPath(a.Banner));
             DB.ProductTSales.Remove(a);
             DB.SaveChanges();
             var E = DBIO.getallProductT();

@@ -43,25 +43,25 @@
                     <div class="pd u-s-m-b-30">
                         <div class="slider-fouc pd-wrap">
                             <div id="pd-o-initiate">
-                                <div class="pd-o-img-wrap" data-src='data:image/png;base64,@Model.Image '>
+                                <div class="pd-o-img-wrap" data-src=@Model.Image >
 
-                                    <img class="u-img-fluid" src='data:image/png;base64,@Model.Image' data-zoom-image='data:image/png;base64,@Model.Image ' alt="">
+                                    <img class="u-img-fluid" src=@Model.Image data-zoom-image=@Model.Image  alt="">
                                 </div>
-                                <div class="pd-o-img-wrap" data-src='data:image/png;base64,@Model.Image2 '>
+                                <div class="pd-o-img-wrap" data-src=@Model.Image2>
 
-                                    <img class="u-img-fluid" src='data:image/png;base64,@Model.Image2 ' data-zoom-image='data:image/png;base64,@Model.Image2 ' alt="">
+                                    <img class="u-img-fluid" src=@Model.Image2  data-zoom-image=@Model.Image2  alt="">
                                 </div>
-                                <div class="pd-o-img-wrap" data-src='data:image/png;base64,@Model.Image3 '>
+                                <div class="pd-o-img-wrap" data-src=@Model.Image3 >
 
-                                    <img class="u-img-fluid" src='data:image/png;base64,@Model.Image3 ' data-zoom-image='data:image/png;base64,@Model.Image3 ' alt="">
+                                    <img class="u-img-fluid" src=@Model.Image3  data-zoom-image=@Model.Image3  alt="">
                                 </div>
-                                <div class="pd-o-img-wrap" data-src='data:image/png;base64,@Model.Image4 '>
+                                <div class="pd-o-img-wrap" data-src=@Model.Image4 >
 
-                                    <img class="u-img-fluid" src='data:image/png;base64,@Model.Image4 ' data-zoom-image='data:image/png;base64,@Model.Image4 ' alt="">
+                                    <img class="u-img-fluid" src=@Model.Image4  data-zoom-image=@Model.Image4  alt="">
                                 </div>
-                                <div class="pd-o-img-wrap" data-src='data:image/png;base64,@Model.Image5 '>
+                                <div class="pd-o-img-wrap" data-src=@Model.Image5 >
 
-                                    <img class="u-img-fluid" src='data:image/png;base64,@Model.Image5 ' data-zoom-image='data:image/png;base64,@Model.Image5 ' alt="">
+                                    <img class="u-img-fluid" src=@Model.Image5  data-zoom-image=@Model.Image5  alt="">
                                 </div>
                             </div>
 
@@ -72,23 +72,23 @@
                                 <div id="pd-o-thumbnail">
                                     <div>
 
-                                        <img class="u-img-fluid" src='data:image/png;base64,@Model.Image ' alt="">
+                                        <img class="u-img-fluid" src=@Model.Image  alt="">
                                     </div>
                                     <div>
 
-                                        <img class="u-img-fluid" src='data:image/png;base64,@Model.Image2 ' alt="">
+                                        <img class="u-img-fluid" src=@Model.Image2 alt="">
                                     </div>
                                     <div>
 
-                                        <img class="u-img-fluid" src='data:image/png;base64,@Model.Image3 ' alt="">
+                                        <img class="u-img-fluid" src=@Model.Image3  alt="">
                                     </div>
                                     <div>
 
-                                        <img class="u-img-fluid" src='data:image/png;base64,@Model.Image4 ' alt="">
+                                        <img class="u-img-fluid" src=@Model.Image4  alt="">
                                     </div>
                                     <div>
 
-                                        <img class="u-img-fluid" src='data:image/png;base64,@Model.Image5 ' alt="">
+                                        <img class="u-img-fluid" src=@Model.Image5  alt="">
                                     </div>
                                 </div>
                             </div>
@@ -675,7 +675,7 @@
 
                                     <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>
 
-                                        <img class="aspect__img" src='data:image/png;base64,@item.Image ' alt="">
+                                        <img class="aspect__img" src=@item.Image  alt="">
                                     </a>
                                     <div class="product-o__action-wrap">
                                         <ul class="product-o__action-list">
