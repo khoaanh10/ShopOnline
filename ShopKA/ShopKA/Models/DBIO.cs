@@ -427,7 +427,7 @@ namespace ShopKA.Models
         public static User getUser_fromUserLogin(UserLogin a)
         {
             MyDB DB = new MyDB();
-            return DB.Users.FirstOrDefault(i => i.Username == a.UserName);
+            return DB.Users.FirstOrDefault(i => i.Username == a.UserName|i.Email== a.UserName);
         }
         //lấy ra User từ ID
         public static User get1User_ID(int ID)

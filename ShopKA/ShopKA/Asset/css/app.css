@@ -5194,7 +5194,7 @@ o-summary__item-wrap1 {
   .is-grid-active .product-m__quick-look {
     position: absolute;
     top: 8px;
-    right: 22px;
+    left: 22px;
     opacity: 0;
     visibility: hidden;
     transition: 0.3s; }
@@ -6447,3 +6447,82 @@ o-summary__item-wrap1 {
 .js-product-detail-modal-thumbnail:hover .pt-prev, .js-product-detail-modal-thumbnail:hover .pt-next {
   opacity: .8; }
 
+
+/*.product-percent-discount {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    margin-top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    background: red;
+    width: auto;
+    height: 30px;
+    line-height: 32px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    padding: 0 15px;
+}
+
+.product-date-discount {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    margin-top: 40px;
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    background: rgb(11, 9, 133);
+    width: auto;
+    height: 30px;
+    line-height: 32px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 0 15px;
+}
+
+.product-percent-discount:after, .product-date-discount::after {
+        content: " ";
+        height: 22px;
+        width: 22px;
+        position: absolute;
+        top: 4px;
+        left: -9px;
+        border-radius: 4px;
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+.product-percent-discount:after {
+    background-color: red;
+}
+
+.product-date-discount:after {
+    background-color: rgb(11, 9, 133);
+}
+
+.product-percent-discount:before, .product-date-discount::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: #fff;
+    position: absolute;
+    top: 12px;
+    left: 0px;
+    z-index: 1;
+    border-radius: 10px;
+}*/

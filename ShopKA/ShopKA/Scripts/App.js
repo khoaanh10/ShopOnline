@@ -445,7 +445,7 @@ $('.addcartindex').on('click', function () {
         url: '/Home/AddCart',
         success: function (ketqua) {
             $('#cartmini').html(ketqua);
-
+            alert('Đã thêm vào giỏ hàng');
         }
     })
 

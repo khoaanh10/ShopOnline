@@ -2,7 +2,7 @@
 @using DataBase
 @using ShopKA.Models
 @{
-    ViewBag.Title = "addAddress";
+    ViewBag.Title = "Chỉnh sửa địa chỉ";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
     Address Address = ViewBag.Address;
     Province province = DBIO.get1Province(Address.ProvinceID);

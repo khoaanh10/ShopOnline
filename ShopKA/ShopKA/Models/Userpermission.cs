@@ -43,7 +43,7 @@ namespace ShopKA.Models // Chú ý tên namespace này
         {
             // tạo biến getrole, so sánh xem UserID đang đăng nhập có giống với tên trong db ko
             
-            User account = db.Users.SingleOrDefault(x => x.Username == name);
+            User account = db.Users.SingleOrDefault(x => x.Username == name|x.Email==name);
             if (account != null) // Nếu giống
             {
                 return new String[] { account.Permission.ToString() };

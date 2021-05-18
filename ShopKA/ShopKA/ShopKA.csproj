@@ -149,15 +149,6 @@
   <ItemGroup>
     <Content Include="AssetAdmin\css\app.color2.css" />
     <Content Include="Asset\audio\1.mp3" />
-    <Content Include="Asset\css\app.color10.css" />
-    <Content Include="Asset\css\app.color2.css" />
-    <Content Include="Asset\css\app.color3.css" />
-    <Content Include="Asset\css\app.color4.css" />
-    <Content Include="Asset\css\app.color5.css" />
-    <Content Include="Asset\css\app.color6.css" />
-    <Content Include="Asset\css\app.color7.css" />
-    <Content Include="Asset\css\app.color8.css" />
-    <Content Include="Asset\css\app.color9.css" />
     <Content Include="Asset\css\app.css" />
     <Content Include="Asset\css\utility.css" />
     <Content Include="Asset\css\vendor.css" />

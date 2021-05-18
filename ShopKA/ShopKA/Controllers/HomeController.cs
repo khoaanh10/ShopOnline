@@ -95,6 +95,7 @@ namespace ShopKA.Controllers
                 { tam = DBIO.getProduct_ProductT_home(Sort, max, min, ProductTID).Where(i => i.ProductName.ToLower().Contains(key.ToLower())).ToList(); }
             }    
             var a = tam.ToPagedList(page, b);
+            
             ViewBag.result = tam.Count();
             int count = tam.Count();
             if (count % b == 0)

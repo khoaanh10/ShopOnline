@@ -3,7 +3,7 @@
 @using DataBase
 
 @{
-    ViewBag.Title = "SellProduct";
+    ViewBag.Title = "Chi tiết đơn hàng";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
     Order a = ViewBag.Order;
     var gia = @Model.Sum(i => i.Price * i.Quantity);

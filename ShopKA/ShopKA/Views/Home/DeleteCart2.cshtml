@@ -50,7 +50,7 @@ else
 
                                     <a class="mini-product__link" href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>
 
-                                        <img class="u-img-fluid" src='data:image/png;base64,@DBIO.getProduct_Cart(item).Image' alt="">
+                                        <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
                                     </a>
                                 </div>
                                 <div class="mini-product__info-wrapper">
