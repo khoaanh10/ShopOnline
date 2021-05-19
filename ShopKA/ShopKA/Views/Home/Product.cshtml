@@ -173,7 +173,7 @@
                                                     <div class="rating__check-star-wrap">
                                                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
 
-                                                        <span>& Hơn</span>
+                                                       <span>↑</span>
                                                     </div>
                                                 </div>
 
@@ -186,7 +186,7 @@
                                                     <div class="rating__check-star-wrap">
                                                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
 
-                                                        <span>& Hơn</span>
+                                                        <span>↑</span>
                                                     </div>
                                                 </div>
 
@@ -199,11 +199,11 @@
                                                     <div class="rating__check-star-wrap">
                                                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
 
-                                                        <span>& Hơn</span>
+                                                        <span>↑</span>
                                                     </div>
                                                 </div>
 
-                                                <span class="shop-w__total-text">((@DBIO.getallProduct().Count(i => DBIO.AVGRatingReview(i.ID) >= 2 & i.Status == true & i.Launch == true)))</span>
+                                                <span class="shop-w__total-text">(@DBIO.getallProduct().Count(i => DBIO.AVGRatingReview(i.ID) >= 2 & i.Status == true & i.Launch == true))</span>
                                             </li>
                                             <li>
                                                 <div class="rating__check">
@@ -212,11 +212,11 @@
                                                     <div class="rating__check-star-wrap">
                                                         <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
 
-                                                        <span>& Hơn</span>
+                                                        <span>↑</span>
                                                     </div>
                                                 </div>
 
-                                                <span class="shop-w__total-text">((@DBIO.getallProduct().Count(i => DBIO.AVGRatingReview(i.ID) >= 1 & i.Status == true & i.Launch == true)))</span>
+                                                <span class="shop-w__total-text">(@DBIO.getallProduct().Count(i => DBIO.AVGRatingReview(i.ID) >= 1 & i.Status == true & i.Launch == true))</span>
                                             </li>
                                             <li>
                                                 <div class="rating__check">
@@ -225,11 +225,11 @@
                                                     <div class="rating__check-star-wrap">
                                                         <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
 
-                                                        <span>& Hơn</span>
+                                                        <span>↑</span>
                                                     </div>
                                                 </div>
 
-                                                <span class="shop-w__total-text">((@DBIO.getallProduct().Count(i => DBIO.AVGRatingReview(i.ID) >= 0 & i.Status == true & i.Launch == true)))</span>
+                                                <span class="shop-w__total-text">(@DBIO.getallProduct().Count(i => DBIO.AVGRatingReview(i.ID) >= 0 & i.Status == true & i.Launch == true))</span>
                                             </li>
                                         </ul>
                                     </div>

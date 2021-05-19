@@ -61,8 +61,13 @@
                                         @String.Format("{0:0,0}", @b) đ
 
                                         @if (Sale != 0)
-                                        {<span class="pd-detail__discount">(@Sale  % OFF)</span><span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.getProduct_Cart(item).Price) đ</span>}
+                                        {<span class="pd-detail__discount">(-@Sale % )</span>}
+
+
                                     </span>
+                                    @if (Sale != 0)
+                                    {
+                                        <span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.getProduct_Cart(item).Price) đ</span>}
                                 </td>
                                 <td>
                                     <div class="table-p__input-counter-wrap">

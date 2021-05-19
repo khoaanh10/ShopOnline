@@ -445,7 +445,7 @@ $('.addcartindex').on('click', function () {
         url: '/Home/AddCart',
         success: function (ketqua) {
             $('#cartmini').html(ketqua);
-            alert('Đã thêm vào giỏ hàng');
+           
         }
     })
 
@@ -455,6 +455,41 @@ $('.addcartindex').on('click', function () {
         url: '/Home/TB',
         success: function (ketqua) {
             $('#tbb-'+b).html(ketqua);
+
+        }
+    })
+    $.ajax({
+        type: 'POST',
+        data: { ID: color },
+        url: '/Home/CountCart2',
+        success: function (ketqua) {
+            $('#countcart').html(ketqua);
+
+        }
+    })
+
+});
+$('.addcartindex2').on('click', function () {
+
+    var color = parseInt($(this).attr('data_value2'));
+    var a = { ColorID: color, Quantity: 1 };
+    var b = $(this).attr('data_value');
+    $.ajax({
+        type: 'POST',
+        data: { a: a },
+        url: '/Home/AddCart',
+        success: function (ketqua) {
+            $('#cartmini').html(ketqua);
+            alert('Đã thêm vào giỏ hàng');
+        }
+    })
+
+    $.ajax({
+        type: 'POST',
+        data: {},
+        url: '/Home/TB',
+        success: function (ketqua) {
+            $('#tbb-' + b).html(ketqua);
 
         }
     })

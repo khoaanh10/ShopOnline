@@ -101,7 +101,7 @@
 
                         <a class="main-logo" href="~/Home/Index">
 
-                            <img src="~/Asset/images/logo.png" alt="">
+                            <img src="~/Asset/images/logsdfso.png" alt="">
                         </a>
                         <!--====== End - Main Logo ======-->
                         <!--====== Search Form ======-->
@@ -279,7 +279,7 @@
                             <!--====== Menu ======-->
                             <div class="ah-lg-mode">
 
-                                <span class="ah-close">✕ Close</span>
+                                <span class="ah-close">✕ Đóng</span>
 
                                 <!--====== List ======-->
                                 <ul class="ah-list">
@@ -498,7 +498,7 @@
                             <!--====== Menu ======-->
                             <div class="ah-lg-mode">
 
-                                <span class="ah-close">✕ Close</span>
+                                <span class="ah-close">✕ Đóng</span>
 
                                 <!--====== List ======-->
                                 <ul class="ah-list ah-list--design2 ah-list--link-color-secondary">
@@ -729,21 +729,22 @@
 
 
                         <div class="menu-init" id="navigation3">
-
+                            @if (ss != null)
+                            {
                             <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
 
-                            <span class="total-item-round">5</span>
+                            <span class="total-item-round" id="countcart2">@DBIO.CountCart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID)</span>}
 
                             <!--====== Menu ======-->
                             <div class="ah-lg-mode">
 
-                                <span class="ah-close">✕ Close</span>
+                                <span class="ah-close">✕ Đóng</span>
 
                                 <!--====== List ======-->
                                 <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
                                     <li>
 
-                                        <a href="index.html"><i class="fas fa-home u-c-brand"></i></a>
+                                        <a href="/"><i class="fas fa-home u-c-brand"></i></a>
                                     </li>
                                     @if (ss != null)
                                     {
@@ -833,7 +834,7 @@
 
                                                                         <span class="mini-product__name">
 
-                                                                            <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><span class="mini-product__quantity">  @DBIO.getColor_Cart(item).ColorName</span>
+                                                                            <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><p class="mini-product__quantity" style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
                                                                         </span>
 
                                                                         <span class="mini-product__quantity">@item.Quantity x</span>
