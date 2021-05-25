@@ -2295,9 +2295,6 @@
     <Content Include="Views\Admin\DetailNSX.cshtml" />
     <Content Include="Views\Admin\ChangeSTT.cshtml" />
     <Content Include="Views\Admin\Index1.cshtml" />
-    <Content Include="Views\Admin\Index2.cshtml" />
-    <Content Include="Views\Admin\DetailNSX1.cshtml" />
-    <Content Include="Views\Admin\DetailNSX2.cshtml" />
     <Content Include="Views\Admin\CreatProduct2.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -2335,7 +2332,6 @@
     <Content Include="Views\User\ManagerAcc.cshtml" />
     <Content Include="Views\User\SortOrder.cshtml" />
     <Content Include="Views\User\ManageOrder.cshtml" />
-    <Content Include="Views\Admin\DeleteSale.cshtml" />
     <Content Include="Views\Home\ClearCart.cshtml" />
     <Content Include="Views\Admin\addSale.cshtml" />
     <Content Include="Views\Admin\EditSale.cshtml" />

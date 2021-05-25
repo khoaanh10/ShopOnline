@@ -115,9 +115,9 @@
 
 
                             <td>
-                                <a class="btn btn-primary addeleteOrder" data_value=@item.ID role="button">Xóa đơn hàng</a>
+                                <a class="btn btn-danger btn-sm btn-circle addeleteOrder" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
 
-                                <a class="btn btn-primary" href="@Url.Action("AdOrderDetail", "Admin", new { ID = @item.ID })" role="button">Chi tiết đơn hàng</a>
+                                <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("AdOrderDetail", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
 
                             </td>
 
@@ -135,7 +135,7 @@
     $('body').on('change', '#type1order', function () {
                             var status = document.getElementById("type1order").value;
                            
-
+        run_waitMe('#order1');
 
         $.ajax({
                             type: 'POST',
@@ -143,77 +143,10 @@
             url: '/Admin/OrderAdmin1',
             success: function (ketqua) {
                 $('#order1').html(ketqua);
+                stop_waitMe('#order1');
                                 }
                             })
     });
     
-    //$('body').on('change', '#sortPD', function () {
-    //    var status = document.getElementById("type1PD").value;
-    //    var sell = document.getElementById("SellPD").value;
-    //    var sort = document.getElementById("sortPD").value;
-
-    //    $.ajax({
-    //        type: 'POST',
-    //        data: { status: status, sell: sell, sort: sort },
-    //        url: '/Admin/Index1',
-    //        success: function (ketqua) {
-    //            $('#product').html(ketqua);
-    //        }
-    //    })
-    //});
-    //$('.pageNumber').on('click', function () {
-    //    var status = document.getElementById("type1PD").value;
-    //    var sell = document.getElementById("SellPD").value;
-    //    var sort = document.getElementById("sortPD").value;
-    //    var page = $(this).attr('data-id');
-    //    $.ajax({
-    //        type: 'POST',
-    //        data: { status: status, sell: sell, sort: sort,page:page },
-    //        url: '/Admin/Index1',
-    //        success: function (ketqua) {
-    //            $('#product').html(ketqua);
-    //        }
-    //    })
-
-
-    //});
-    $('.addeletePD').on('click', function () {
-        var status = document.getElementById("type1PD").value;
-        var sell = document.getElementById("SellPD").value;
-
-
-        var id = $(this).attr('data_value')
-        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này')) {
-            $.ajax({
-                type: 'POST',
-                data: { status: status, sell: sell, id: id },
-                url: '/Admin/Index1',
-                success: function (ketqua) {
-                    $('#product').html(ketqua);
-                }
-            })
-        }
-
-
-    });
-    $('.deleteSale').on('click', function () {
-        var status = document.getElementById("type1PD").value;
-        var sell = document.getElementById("SellPD").value;
-
-
-
-        var id2 = $(this).attr('data_value');
-        if (confirm('Bạn có chắc chắn muốn xóa Sale của sản phẩm này')) {
-            $.ajax({
-                type: 'POST',
-                data: { status: status, sell: sell, id2: id2 },
-                url: '/Admin/Index1',
-                success: function (ketqua) {
-                    $('#product').html(ketqua);
-                }
-            })
-        }
-
-
-    });
+   
 </script>

@@ -7,7 +7,7 @@
     int numsellPD = SellPD.Sum(i => i.Quantity);
     int Earn = SellPD.Where(i=>i.DateSell.Month==DateTime.Now.Month).Sum(i => i.Quantity * i.Price);
     DateTime Start = new DateTime(2021, 4, 1);
-    int AVGEarn = (int)(SellPD.Where(i => i.DateSell.Month <= DateTime.Now.Month | i.DateSell.Year < i.DateSell.Year).Sum(i => i.Quantity * i.Price) / ((DateTime.Now.Month - Start.Month) + 12 * (DateTime.Now.Year - Start.Year)));
+    int AVGEarn = (int)(SellPD.Where(i => i.DateSell.Month < DateTime.Now.Month | i.DateSell.Year < i.DateSell.Year).Sum(i => i.Quantity * i.Price) / ((DateTime.Now.Month - Start.Month) + 12 * (DateTime.Now.Year - Start.Year)));
 }
 <!DOCTYPE html>
 <html lang="en">

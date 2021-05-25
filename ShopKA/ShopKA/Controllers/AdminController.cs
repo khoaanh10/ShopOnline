@@ -12,6 +12,7 @@ using Color = DataBase.Color;
 
 namespace ShopKA.Controllers
 {
+    [Authorize]
     [Authorize(Roles = "0")]
     public class AdminController : Controller
     {
@@ -558,6 +559,21 @@ namespace ShopKA.Controllers
                         A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE=0  ").ToList();
                     }
                 }
+                else if(status=="trueandfalse")
+                {
+                    if (sell == 1)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS ").ToList();
+                    }
+                    else if (sell == 2)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE SALE>0 ").ToList();
+                    }
+                    else
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE SALE=0  ").ToList();
+                    }
+                }    
                 else
                 {
                     A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE LAUNCH='FALSE' ORDER BY ID DESC").ToList();
@@ -596,6 +612,21 @@ namespace ShopKA.Controllers
                         A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE=0 AND PRODUCERID='" + ProducerID + "' ").ToList();
                     }
                 }
+                else if(status=="trueandfalse")
+                {
+                    if (sell == 1)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE PRODUCERID='" + ProducerID + "' ").ToList();
+                    }
+                    else if (sell == 2)
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE SALE>0 AND PRODUCERID='" + ProducerID + "' ").ToList();
+                    }
+                    else
+                    {
+                        A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE SALE=0 AND PRODUCERID='" + ProducerID + "' ").ToList();
+                    }
+                }    
                 else
                 {
                     A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE LAUNCH='FALSE' AND PRODUCERID='" + ProducerID + "' ORDER BY ID DESC").ToList();
@@ -860,6 +891,9 @@ namespace ShopKA.Controllers
                                 F = DB.SellProducts.SingleOrDefault(i => i.ColorID == C.ID);
                             }
                             SellDate E = new SellDate();
+
+                            
+                            
                             E.BuyName = DBIO.get1User_ID(A.UserID).Username;
                             E.DateSell = DateTime.Now;
                             E.Price = item.Price - (int)(A.Maximum >= item.Price * A.SalePrice ? item.Price * A.SalePrice : (A.Maximum / DBIO.getallPDOrder(A.ID).Sum(i => i.Quantity)));

@@ -27,7 +27,7 @@ namespace DataBase
         [Required]
         public string BuyName { get; set; }
         [Display(Name = "Voucher")]
-        [Required]
+        
         public string Voucher { get; set; }
         [Display(Name = "Giá")]
         [Required]

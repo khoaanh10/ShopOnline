@@ -337,7 +337,7 @@ namespace ShopKA.Models
         {
             MyDB DB = new MyDB();
             var a = DB.Database.SqlQuery<SaleProduct>("SELECT * FROM SALEPRODUCTS WHERE SALETIMESTART<='" + A + "' AND '" + A + "'<SALETIMEEND ORDER BY SALETIMEEND").ToList();
-            var b = a.Where(i => DBIO.get1Product(i.ProductID) != null & DBIO.get1Product(i.ProductID).Status == true).Take(2).ToList();
+            var b = a.Where(i => DBIO.get1Product(i.ProductID) != null & DBIO.get1Product(i.ProductID).Status == true & DBIO.get1Product(i.ProductID).Launch==true).Take(2).ToList();
             return b;
 
         }

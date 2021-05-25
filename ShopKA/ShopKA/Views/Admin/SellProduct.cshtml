@@ -52,7 +52,7 @@
                             <td>
 
 
-                                <a class="btn btn-primary" href=@Url.Action("SellDate","Admin",new { ID=item.ID}) role="button">Xem chi tiết </a>
+                                <a class="btn btn-info btn-sm btn-circle" href=@Url.Action("SellDate","Admin",new { ID=item.ID}) role="button"><i class="fas fa-info-circle"></i></a>
 
 
                             </td>
@@ -70,7 +70,8 @@
  $('body').on('change', '#datesell', function () {
   var date = document.getElementById("datesell").value;
 
-
+     
+         run_waitMe('#product');
 
         $.ajax({
             type: 'POST',
@@ -78,6 +79,7 @@
             url: '/Admin/SellProduct1',
             success: function (ketqua) {
                 $('#product').html(ketqua);
+                stop_waitMe('#product');
                                 }
                             })
  });
