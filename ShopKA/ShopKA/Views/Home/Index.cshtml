@@ -91,6 +91,7 @@
     }
 </style>
 <!--====== App Content ======-->
+
 <div class="app-content" id="kk">
 
     <!--====== Primary Slider ======-->
@@ -184,7 +185,7 @@
                                     <a class="collection" href="/Home/Product?ProductTID=@item.FirstOrDefault().ProductT.ID" style="height:350px">
                                         <div class="aspect aspect--bg-grey aspect--square">
 
-                                            <img class="aspect__img collection__img" style="height:350px" src="@item.FirstOrDefault().ProductT.Image"  alt="">
+                                            <img class="aspect__img collection__img" style="height:350px" src="@item.FirstOrDefault().ProductT.Image" alt="">
                                         </div>
                                     </a>
                                 </div>
@@ -250,44 +251,44 @@
                                                     string time = ((int)(DBIO.get1SaleProduct(item.Product.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
                                                     <div class="product-percent-discount">-@Sale%</div>
                                                     <div class="product-date-discount">Còn @time </div>}
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=item.Product.ID } )>
+                                                <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=item.Product.ID } )>
 
-                                                        <img class="aspect__img" src=@item.Product.Image alt="">
-                                                    </a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
+                                                    <img class="aspect__img" src=@item.Product.Image alt="">
+                                                </a>
+                                                <div class="product-o__action-wrap">
+                                                    <ul class="product-o__action-list">
+                                                        <li>
+
+                                                            <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item.Product.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"><i class="fas fa-search-plus"></i></a>
+                                                        </li>
+                                                        @if ((UserLogin)(Session["SS"]) != null)
+                                                        {
                                                             <li>
 
-                                                                <a class="quicklook" data-modal="modal" data-modal-id="#pd-@item.Product.ID" data-tooltip="tooltip" data-placement="top" title="Xem Nhanh"><i class="fas fa-search-plus"></i></a>
+                                                                <a data-modal="modal" class="addcartindex" data_value=@item.Product.ID data_value2=@DBIO.getallColor(item.Product.ID).First().ID data-modal-id="#add-to-cart-@item.Product.ID" data-tooltip="tooltip" data-placement="top" title="Thêm vào giỏ hàng"><i class="fas fa-plus-circle"></i></a>
                                                             </li>
-                                                            @if ((UserLogin)(Session["SS"]) != null)
-                                                            {
-                                                                <li>
-
-                                                                    <a data-modal="modal" class="addcartindex" data_value=@item.Product.ID data_value2=@DBIO.getallColor(item.Product.ID).First().ID data-modal-id="#add-to-cart-@item.Product.ID" data-tooltip="tooltip" data-placement="top" title="Thêm vào giỏ hàng"><i class="fas fa-plus-circle"></i></a>
-                                                                </li>
-                                                                <li>
-
-                                                                    <a class="addWishList" data_value=@item.Product.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
-                                                                </li>
-                                                            }
                                                             <li>
 
-                                                                <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a>
+                                                                <a class="addWishList" data_value=@item.Product.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
                                                             </li>
-                                                        </ul>
-                                                    </div>
+                                                        }
+                                                        <li>
+
+                                                            <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi Email cho AD khi có vấn đề"><i class="fas fa-envelope"></i></a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
+                                            </div>
 
                                             <span class="product-o__category">
 
-                                                <a href=@Url.Action("Product","Home",new {ProducerID=item.Product.ProducerID })>@DBIO.get1Producer_ProducerID(item.Product.ProducerID).ProducerName</a> 
+                                                <a href=@Url.Action("Product","Home",new {ProducerID=item.Product.ProducerID })>@DBIO.get1Producer_ProducerID(item.Product.ProducerID).ProducerName</a>
                                                 <a style="color:red;margin-left:100px;font-weight:600">Đã bán: @DBIO.SumsellPD(item.Product.ID) </a>
                                             </span>
 
                                             <div class="product-o__name">
 
-                                                <a href=@Url.Action("ProductDetail","Home",new {ID=item.Product.ID } ) ><p style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@item.Product.ProductName</p></a>
+                                                <a href=@Url.Action("ProductDetail","Home",new {ID=item.Product.ID } )><p style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@item.Product.ProductName</p></a>
                                             </div>
                                             <div class="product-o__rating gl-rating-style">
                                                 @{
@@ -322,7 +323,7 @@
                                                 }
 
                                                 <span class="product-o__review">(👁️‍🗨️ @item.Product.View1)</span>
-                                                
+
 
                                             </div>
 
@@ -534,7 +535,7 @@
                                     <span class="product-o__category">
 
                                         <a href=@Url.Action("Product","Home",new {ProducerID=item2.Product.ProducerID })>@DBIO.get1Producer_ProducerID(item2.Product.ProducerID).ProducerName</a>
-                                       
+
                                     </span>
 
                                     <span class="product-o__name">
@@ -631,7 +632,7 @@
                                     <div class="product-o__wrap">
                                         @if (Sale != 0)
                                         {
-                                            
+
                                             <div class="product-percent-discount">-@Sale%</div>
                                             <div class="product-date-discount">Còn @time </div>}
                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail", "Home", new { ID = item.ID })>
@@ -735,7 +736,7 @@
 </div>
 
 <!--====== End - Section Content ======-->
-            </div>
+    </div>
 <!--====== End - Section 4 ======-->
 <!--====== Section 5 ======-->
 @{var P = DBIO.getGlobalSale();}
@@ -813,7 +814,7 @@
                                     {
 
                                         <div class="product-percent-discount">-@Sale%</div>
-                                        }
+                                    }
                                     <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail", "Home", new { ID = item.Product.ID })>
 
                                         <img class="aspect__img" src=@item.Product.Image alt="">
@@ -833,7 +834,7 @@
                                 <span class="product-o__category">
 
                                     <a href=@Url.Action("Product", "Home", new { ProducerID = item.Product.ProducerID })>@all.FirstOrDefault(i => i.Producer.ID == item.Producer.ID).Producer.ProducerName</a>
-                                   
+
                                 </span>
 
                                 <span class="product-o__name">
@@ -1124,7 +1125,7 @@
 
                                             <img class="u-img-fluid" src=@item.Product.Image alt="">
                                         </div>
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -1144,7 +1145,7 @@
                                         <span class="pd-detail__price"> @String.Format("{0:0,0}", @b) đ</span>
                                         @if (Sale != 0)
 
-                                        {<span class="pd-detail__discount">(@Sale  % OFF)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @item.Product.Price) đ</del>}
+                                        {<span class="pd-detail__discount">(-@Sale %)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @item.Product.Price) đ</del>}
                                     </div>
                                 </div>
                                 <div class="u-s-m-b-15">
@@ -1190,27 +1191,29 @@
 
                                     <span class="pd-detail__preview-desc">@item.Product.Note</span>
                                 </div>
-                                <div class="u-s-m-b-15">
-                                    <div class="pd-detail__inline">
+                                @if ((UserLogin)(Session["SS"]) != null)
+                                {
+                                    <div class="u-s-m-b-15">
+                                        <div class="pd-detail__inline">
 
-                                        <span class="pd-detail__click-wrap">
-                                            <i class="far fa-heart u-s-m-r-6"></i>
+                                            <span class="pd-detail__click-wrap">
+                                                <i class="far fa-heart u-s-m-r-6"></i>
 
-                                            <a href="signin.html">Thêm vào yêu thích</a>
+                                                <a class="addWish" data_value=@item.Product.ID>Thêm vào yêu thích</a>
 
-                                            <span class="pd-detail__click-count">(222)</span>
-                                        </span>
-                                    </div>
-                                </div>
+                                                <span class="pd-detail__click-count">(@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID).Count())</span>
+                                            </span>
+                                        </div>
+                                    </div>}
                                 <div class="u-s-m-b-15">
                                     <div class="pd-detail__inline">
 
                                         <span class="pd-detail__click-wrap">
                                             <i class="far fa-envelope u-s-m-r-6"></i>
 
-                                            <a href="signin.html">Email me When the price drops</a>
+                                            <a href="mailto:khoaanh15111997@gmail.com">Gửi Email cho Admin</a>
 
-                                            <span class="pd-detail__click-count">(20)</span>
+                                            <span class="pd-detail__click-count"></span>
                                         </span>
                                     </div>
                                 </div>
@@ -1349,7 +1352,7 @@
                                 </div>
                                 <div class="success__img-wrap">
 
-                                    <img class="u-img-fluid" src=@item.Product.Image  alt="">
+                                    <img class="u-img-fluid" src=@item.Product.Image alt="">
                                 </div>
                                 <div>&nbsp;</div>
                                 <div class="success__info-wrap">
@@ -1381,4 +1384,3 @@
             </div>
         </div>
     </div>}
-

@@ -1,5 +1,5 @@
 /*
-Theme Name: Ludus
+   
 Author: ahfront
 Description: Ludus - is complete multipurpose polish eCommerce template built with
 best practices. It will be perfect solution for your current or future shop, customizable
@@ -50,6 +50,8 @@ custom-colors, box-mode, custom-header, custom-menu, custom-logo, featured-image
 /**
  * Setup box-sizing
  */
+
+
 input[type=checkbox] {
     /* Double-sized Checkboxes */
     -ms-transform: scale(2); /* IE */
@@ -6448,7 +6450,7 @@ o-summary__item-wrap1 {
   opacity: .8; }
 
 
-/*.product-percent-discount {
+.product-percent-discount {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -6525,4 +6527,12 @@ o-summary__item-wrap1 {
     left: 0px;
     z-index: 1;
     border-radius: 10px;
-}*/
+}
+
+
+
+/*
+ * Styles for the loading div added to the body for
+ * displaying loading text.
+ *
+ */

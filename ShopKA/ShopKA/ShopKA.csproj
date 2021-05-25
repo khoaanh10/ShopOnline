@@ -152,6 +152,7 @@
     <Content Include="Asset\css\app.css" />
     <Content Include="Asset\css\utility.css" />
     <Content Include="Asset\css\vendor.css" />
+    <Content Include="Asset\css\waitMe.css" />
     <Content Include="Asset\images\about\member-1.jpg" />
     <Content Include="Asset\images\about\member-2.jpg" />
     <Content Include="Asset\images\about\member-3.jpg" />
@@ -302,6 +303,7 @@
     <Content Include="Asset\js\jquery.shopnav.js" />
     <Content Include="Asset\js\map-init.js" />
     <Content Include="Asset\js\vendor.js" />
+    <Content Include="Asset\js\waitMe.js" />
     <Content Include="Asset\ludus\doc-img\01_preview.png" />
     <Content Include="Asset\ludus\doc-img\components\1.jpg" />
     <Content Include="Asset\ludus\doc-img\components\10.jpg" />
@@ -2195,15 +2197,6 @@
     <Content Include="Asset\scss\abstracts\_header-comment.scss" />
     <Content Include="Asset\scss\abstracts\_mixins.scss" />
     <Content Include="Asset\scss\abstracts\_variables.scss" />
-    <Content Include="Asset\scss\app.color10.scss" />
-    <Content Include="Asset\scss\app.color2.scss" />
-    <Content Include="Asset\scss\app.color3.scss" />
-    <Content Include="Asset\scss\app.color4.scss" />
-    <Content Include="Asset\scss\app.color5.scss" />
-    <Content Include="Asset\scss\app.color6.scss" />
-    <Content Include="Asset\scss\app.color7.scss" />
-    <Content Include="Asset\scss\app.color8.scss" />
-    <Content Include="Asset\scss\app.color9.scss" />
     <Content Include="Asset\scss\app.scss" />
     <Content Include="Asset\scss\base\_base.scss" />
     <Content Include="Asset\scss\base\_pre-config.scss" />

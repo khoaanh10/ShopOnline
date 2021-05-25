@@ -538,7 +538,7 @@
                                         <span class="pd-detail__price"> @String.Format("{0:0,0}", @b) đ</span>
                                         @if (Sale != 0)
 
-                                        {<span class="pd-detail__discount">(@Sale  % OFF)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @item.Product.Price) đ</del>}
+                                        {<span class="pd-detail__discount">(-@Sale %)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @item.Product.Price) đ</del>}
                                     </div>
                                 </div>
                                 <div class="u-s-m-b-15">
@@ -584,30 +584,32 @@
 
                                     <span class="pd-detail__preview-desc">@item.Product.Note</span>
                                 </div>
-                                <div class="u-s-m-b-15">
-                                    <div class="pd-detail__inline">
+                                @if ((UserLogin)(Session["SS"]) != null)
+                                {
+                                    <div class="u-s-m-b-15">
+                                        <div class="pd-detail__inline">
 
-                                        <span class="pd-detail__click-wrap">
-                                            <i class="far fa-heart u-s-m-r-6"></i>
+                                            <span class="pd-detail__click-wrap">
+                                                <i class="far fa-heart u-s-m-r-6"></i>
 
-                                            <a href="signin.html">Thêm vào yêu thích</a>
+                                                <a class="addWish" data_value=@item.Product.ID>Thêm vào yêu thích</a>
 
-                                            <span class="pd-detail__click-count">(222)</span>
-                                        </span>
-                                    </div>
+                                                <span class="pd-detail__click-count">(@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID).Count())</span>
+                                            </span>
+                                        </div>
+                                    </div>}
+                            <div class="u-s-m-b-15">
+                                <div class="pd-detail__inline">
+
+                                    <span class="pd-detail__click-wrap">
+                                        <i class="far fa-envelope u-s-m-r-6"></i>
+
+                                        <a href="mailto:khoaanh15111997@gmail.com">Gửi mail cho Admin khi gặp vấn đề.</a>
+
+                                        <span class="pd-detail__click-count"></span>
+                                    </span>
                                 </div>
-                                <div class="u-s-m-b-15">
-                                    <div class="pd-detail__inline">
-
-                                        <span class="pd-detail__click-wrap">
-                                            <i class="far fa-envelope u-s-m-r-6"></i>
-
-                                            <a href="signin.html">Email me When the price drops</a>
-
-                                            <span class="pd-detail__click-count">(20)</span>
-                                        </span>
-                                    </div>
-                                </div>
+                            </div>
                                 <div class="u-s-m-b-15">
                                     <ul class="pd-social-list">
                                         <li>

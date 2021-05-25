@@ -1,8 +1,11 @@
-﻿//Bấm Loại SP ra NSX
+﻿//Modal waiting
+
+
+//Bấm Loại SP ra NSX
 $('body').on('change', '#productOption', function () {
     
-     
-
+    run_waitMe('.loadNSX');
+    
     var e = document.getElementById("productOption");
     var c = e.value;
   
@@ -11,41 +14,15 @@ $('body').on('change', '#productOption', function () {
         data: { id: c },
         url: '/Admin/Creat1',
         success: function (ketqua) {
+            stop_waitMe('.loadNSX');
             $('#kqq').html(ketqua);
+           
         }
     })
 });
 
-//Bấm ra sản phẩm sale trang admin
-$('body').on('click', '#a2', function () {
 
 
-
- 
-    $.ajax({
-        type: 'POST',
-        data: { },
-        url: '/Admin/Index1',
-        success: function (ketqua) {
-            $('#product').html(ketqua);
-        }
-    })
-});
-//Bấm ra tất cả SP trang admin
-$('body').on('click', '#a1', function () {
-
-
-
-
-    $.ajax({
-        type: 'POST',
-        data: {},
-        url: '/Admin/Index2',
-        success: function (ketqua) {
-            $('#product').html(ketqua);
-        }
-    })
-});
 //đổi số sản phẩm dc show ra
 $('body').on('change', '#show', function () {
     var b = document.getElementById("show").value;
@@ -57,12 +34,14 @@ $('body').on('change', '#show', function () {
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: {key:key, ProducerID: a,Sort :c,b:b,type:type,max:max,min:min ,ProductTID:e,rate:rate},
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
 });
@@ -77,12 +56,14 @@ $('body').on('change', '#sort', function () {
     var e = $('#ProductTID').attr('data_value'); 
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: {key:key, ProducerID: a, Sort: c, b: b, type: type,max:max,min:min,ProductTID:e,rate:rate},
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
 });
@@ -96,12 +77,15 @@ $('.Producer').on('click', function () {
     var min = document.getElementById("min").value;
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: {key:key, ProducerID: a, Sort: c, b: b, type: type, max:max,min:min,rate:rate },
         url: '/Home/Product1',
         success: function (ketqua) {
+
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
    
@@ -120,12 +104,14 @@ $('#price').on('click', function () {
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: {key:key, ProducerID: a, Sort: c, b: b, max: max, min: min, type: type, ProductTID:e,rate:rate },
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
 
@@ -142,12 +128,14 @@ $('.rating__check').on('click', function () {
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: { key: key, ProducerID: a, Sort: c, b: b, max: max, min: min, type: type, ProductTID: e, rate: rate },
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
 
@@ -165,12 +153,14 @@ $('#Grid').on('click', function () {
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: {key: key, ProducerID: a, Sort: c, b: b, page: page, max: max, min: min,type:type,ProductTID:e ,rate:rate},
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
 
@@ -188,12 +178,14 @@ $('#List').on('click', function () {
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: { key:key,ProducerID: a, Sort: c, b: b, page: page, max: max, min: min, type: type, ProductTID:e,rate:rate },
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
 
@@ -210,12 +202,14 @@ $('.ProductTID').on('click', function () {
     var a = $(this).attr('data_value');
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: {key:key, ProductTID: a, Sort: c, b: b, type: type, max: max, min: min,rate:rate },
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
 
@@ -233,12 +227,14 @@ $('.page').on('click', function () {
     var e = $('#ProductTID').attr('data_value');
     var key = $('#key').attr('data_value');
     var rate = $('input[name=rate1]:checked').val();
+    run_waitMe('#ketqua');
     $.ajax({
         type: 'POST',
         data: { key:key,ProducerID: a, Sort: c, page: d, b: b, max: max, min: min, type: type, ProductTID: e ,rate:rate},
         url: '/Home/Product1',
         success: function (ketqua) {
             $('#ketqua').html(ketqua);
+            stop_waitMe('#ketqua');
         }
     })
 
@@ -301,9 +297,11 @@ $('.Deletecartmini').on('click', function () {
 
 
 $('#ok2').on('click', function () {
+    
     if ($('#dk').is(':checked')) {
-        if ($('#shipid').attr('data_value') == -1 | $('#billid').attr('data_value') == -1) { alert("Vui lòng thêm địa chỉ trước khi thanh toán"); }
-        else if ($('#num').attr('data_value') == 5) { alert("Chỉ được thêm tối đa 5 đơn hàng 1 lần"); }
+        run_waitMe('#app')
+        if ($('#shipid').attr('data_value') == -1 | $('#billid').attr('data_value') == -1) { stop_waitMe('#app');alert("Vui lòng thêm địa chỉ trước khi thanh toán");  }
+        else if ($('#num').attr('data_value') == 5) { stop_waitMe('#app');alert("Chỉ được thêm tối đa 5 đơn hàng 1 lần"); }
         else {
 
             $.ajax({
@@ -311,10 +309,12 @@ $('#ok2').on('click', function () {
                 data: { payment: $('input[name=payment]:checked').val(), shipID: $('#shipid').attr('data_value'), billID: $('#billid').attr('data_value'), Code: $('#Vouchercode').attr('data_value') },
                 url: '/User/addOrder',
                 success: function (ketqua) {
-
-                    alert("Tạo đơn hàng thành công");
+                    stop_waitMe('#app');
+                    alert('Tạo đơn hàng thành công');
                     window.location.href = '/User/Order';
-
+                   
+                    
+                    
 
 
                 }
@@ -519,24 +519,70 @@ $('.addWishList').on('click', function () {
         }
     })
 });
+$('.addWish').on('click', function () {
+
+    var ID = $(this).attr('data_value');
+    $.ajax({
+        type: 'POST',
+        data: { ID: ID },
+        url: '/Home/addWishList',
+        success: function (ketqua) {
+            alert("Đã thêm vào yêu thích");
+
+        }
+    })
+
+
+});
 function Search() {
     var key = $('#main-search').val();
     window.location.href = "/Home/Product?key=" + key.toString();
 }
-//function person(name, age) {
-//    this.name = name;
-//    this.age = age;
-//    this.changeName = function (name) {
-//        this.name = name;
-//    }
-//}
-
-////Tạo đối tượng
-//var p = new person("Khoa", 19);
-
-//p.changeName("Vân");
 
 
 
 
+//$(container).waitMe("hide");
+function run_waitMe(a) {
+    
+    $(a).waitMe({
+
+        //none, rotateplane, stretch, orbit, roundBounce, win8, 
+        //win8_linear, ios, facebook, rotation, timer, pulse, 
+        //progressBar, bouncePulse or img
+        effect: 'bounce',
+
+        //place text under the effect (string).
+        text: '',
+
+        //background for container (string).
+        bg: 'rgba(255,255,255,0.7)',
+
+        //color for background animation and text (string).
+        color: '#000',
+
+        //max size
+        maxSize: '',
+
+        //wait time im ms to close
+        waitTime: -1,
+
+        //url to image
+        source: '',
+
+        //or 'horizontal'
+        textPos: 'vertical',
+
+        //font size
+        fontSize: '',
+
+        // callback
+        onClose: function () { }
+
+    });
+}
+function stop_waitMe(a) {
+    var a2 = a.toString();
+    $(a2).waitMe('hide');
+}
 

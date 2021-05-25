@@ -12,7 +12,7 @@
 
 
 <!-- DataTales Example -->
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="loadSP">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h6>
         <hr />
@@ -173,53 +173,26 @@
             url: '/Admin/Index1',
             success: function (ketqua) {
                 $('#product').html(ketqua);
+                
             }
         })
     });
     $('body').on('change', '#SellPD', function () {
         var status = document.getElementById("type1PD").value;
         var sell = document.getElementById("SellPD").value;
+       
         
-
         $.ajax({
             type: 'POST',
             data: { status: status, sell: sell},
             url: '/Admin/Index1',
             success: function (ketqua) {
                 $('#product').html(ketqua);
+                
             }
         })
     });
-    //$('body').on('change', '#sortPD', function () {
-    //    var status = document.getElementById("type1PD").value;
-    //    var sell = document.getElementById("SellPD").value;
-    //    var sort = document.getElementById("sortPD").value;
-
-    //    $.ajax({
-    //        type: 'POST',
-    //        data: { status: status, sell: sell, sort: sort },
-    //        url: '/Admin/Index1',
-    //        success: function (ketqua) {
-    //            $('#product').html(ketqua);
-    //        }
-    //    })
-    //});
-    //$('.pageNumber').on('click', function () {
-    //    var status = document.getElementById("type1PD").value;
-    //    var sell = document.getElementById("SellPD").value;
-    //    var sort = document.getElementById("sortPD").value;
-    //    var page = $(this).attr('data-id');
-    //    $.ajax({
-    //        type: 'POST',
-    //        data: { status: status, sell: sell, sort: sort,page:page },
-    //        url: '/Admin/Index1',
-    //        success: function (ketqua) {
-    //            $('#product').html(ketqua);
-    //        }
-    //    })
-
-
-    //});
+    
     $('.addeletePD').on('click', function () {
         var status = document.getElementById("type1PD").value;
         var sell = document.getElementById("SellPD").value;

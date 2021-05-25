@@ -261,12 +261,14 @@ else
         var e = $('#ProductTID').attr('data_value');
         var key = $('#key').attr('data_value');
         var rate = $('input[name=rate1]:checked').val();
+        run_waitMe('#ketqua');
         $.ajax({
             type: 'POST',
             data: { ProducerID: a, Sort: c, page: d, b: b, max: max, min: min, type: type,ProductTID:e,key:key,rate:rate },
             url: '/Home/Product1',
             success: function (ketqua) {
                 $('#ketqua').html(ketqua);
+                stop_waitMe('#ketqua');
             }
         })
 

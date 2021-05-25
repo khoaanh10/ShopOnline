@@ -13,7 +13,7 @@
 
 <!-- Custom styles for this page -->
 <link href="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-<div id="pdid" data_value=@ViewBag.ProducerID></div>>
+
 <div class="card-body">
     <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -127,12 +127,13 @@
         </table>
     </div>
 </div>
+<div id="pdid" data_value=@ViewBag.ProducerID></div>
 <script src="/AssetAdmin/vendor/jquery/jquery.min.js"></script>
 <script src="/AssetAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="/AssetAdmin/vendor/jquery-easing/jquery.easing.min.js"></script>
-
+<script src="~/Asset/js/waitMe.js"></script>
 <!-- Custom scripts for all pages-->
 <script src="/AssetAdmin/js/sb-admin-2.min.js"></script>
 

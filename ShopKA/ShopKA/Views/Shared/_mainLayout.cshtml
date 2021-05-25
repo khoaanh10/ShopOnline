@@ -12,16 +12,19 @@
     <title>KhoaAnhShop - Chợ Điện Thoại, Máy Tính, Đồ Điện Tử </title>
 
     <!--====== Google Font ======-->
-    @*<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">*@
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
 
     <!--====== Vendor Css ======-->
     <link rel="stylesheet" href="~/Asset/css/vendor.css">
 
     <!--====== Utility-Spacing ======-->
     <link rel="stylesheet" href="~/Asset/css/utility.css">
-
+    <link href="~/Asset/css/waitMe.css" rel="stylesheet" />
     <!--====== App ======-->
     <link rel="stylesheet" href="~/Asset/css/app.css">
+
+    
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">*@
 </head>
 
 <body class="config">
@@ -731,9 +734,9 @@
                         <div class="menu-init" id="navigation3">
                             @if (ss != null)
                             {
-                            <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
+                                <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
 
-                            <span class="total-item-round" id="countcart2">@DBIO.CountCart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID)</span>}
+                                <span class="total-item-round" id="countcart2">@DBIO.CountCart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID)</span>}
 
                             <!--====== Menu ======-->
                             <div class="ah-lg-mode">
@@ -825,7 +828,7 @@
 
                                                                         <a class="mini-product__link" href="product-detail.html">
 
-                                                                            <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image  alt="">
+                                                                            <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
                                                                         </a>
                                                                     </div>
                                                                     <div class="mini-product__info-wrapper">
@@ -1117,9 +1120,11 @@
         <!--====== End - Newsletter Subscribe Modal ======-->
         <!--====== End - Modal Section ======-->
     </div>
+
+   
     <!--====== End - Main App ======-->
     <!--====== Google Analytics: change UA-XXXXX-Y to be your site's ID ======-->
-
+    
     <script>
         window.ga = function () {
             ga.q.push(arguments)
@@ -1134,7 +1139,7 @@
     <!--====== Vendor Js ======-->
     <script src="/Asset/js/vendor.js"></script>
 
-
+    <script src="~/Asset/js/waitMe.js"></script>
     <!--====== jQuery Shopnav plugin ======-->
     <script src="/Asset/js/jquery.shopnav.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>

@@ -43,25 +43,25 @@
                     <div class="pd u-s-m-b-30">
                         <div class="slider-fouc pd-wrap">
                             <div id="pd-o-initiate">
-                                <div class="pd-o-img-wrap" data-src=@Model.Image >
+                                <div class="pd-o-img-wrap" data-src=@Model.Image>
 
-                                    <img class="u-img-fluid" src=@Model.Image data-zoom-image=@Model.Image  alt="">
+                                    <img class="u-img-fluid" src=@Model.Image data-zoom-image=@Model.Image alt="">
                                 </div>
                                 <div class="pd-o-img-wrap" data-src=@Model.Image2>
 
-                                    <img class="u-img-fluid" src=@Model.Image2  data-zoom-image=@Model.Image2  alt="">
+                                    <img class="u-img-fluid" src=@Model.Image2 data-zoom-image=@Model.Image2 alt="">
                                 </div>
-                                <div class="pd-o-img-wrap" data-src=@Model.Image3 >
+                                <div class="pd-o-img-wrap" data-src=@Model.Image3>
 
-                                    <img class="u-img-fluid" src=@Model.Image3  data-zoom-image=@Model.Image3  alt="">
+                                    <img class="u-img-fluid" src=@Model.Image3 data-zoom-image=@Model.Image3 alt="">
                                 </div>
-                                <div class="pd-o-img-wrap" data-src=@Model.Image4 >
+                                <div class="pd-o-img-wrap" data-src=@Model.Image4>
 
-                                    <img class="u-img-fluid" src=@Model.Image4  data-zoom-image=@Model.Image4  alt="">
+                                    <img class="u-img-fluid" src=@Model.Image4 data-zoom-image=@Model.Image4 alt="">
                                 </div>
-                                <div class="pd-o-img-wrap" data-src=@Model.Image5 >
+                                <div class="pd-o-img-wrap" data-src=@Model.Image5>
 
-                                    <img class="u-img-fluid" src=@Model.Image5  data-zoom-image=@Model.Image5  alt="">
+                                    <img class="u-img-fluid" src=@Model.Image5 data-zoom-image=@Model.Image5 alt="">
                                 </div>
                             </div>
 
@@ -72,7 +72,7 @@
                                 <div id="pd-o-thumbnail">
                                     <div>
 
-                                        <img class="u-img-fluid" src=@Model.Image  alt="">
+                                        <img class="u-img-fluid" src=@Model.Image alt="">
                                     </div>
                                     <div>
 
@@ -80,15 +80,15 @@
                                     </div>
                                     <div>
 
-                                        <img class="u-img-fluid" src=@Model.Image3  alt="">
+                                        <img class="u-img-fluid" src=@Model.Image3 alt="">
                                     </div>
                                     <div>
 
-                                        <img class="u-img-fluid" src=@Model.Image4  alt="">
+                                        <img class="u-img-fluid" src=@Model.Image4 alt="">
                                     </div>
                                     <div>
 
-                                        <img class="u-img-fluid" src=@Model.Image5  alt="">
+                                        <img class="u-img-fluid" src=@Model.Image5 alt="">
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
                                 <span class="pd-detail__price"> @String.Format("{0:0,0}", @b) đ</span>
                                 @if (Sale != 0)
 
-                                {<span class="pd-detail__discount">(@Sale  % OFF)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @Model.Price) đ</del>}
+                                {<span class="pd-detail__discount">(-@Sale %)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @Model.Price) đ</del>}
                             </div>
                         </div>
                         <div class="u-s-m-b-15">
@@ -166,18 +166,18 @@
                         </div>
                         @if ((UserLogin)(Session["SS"]) != null)
                         {
-                        <div class="u-s-m-b-15">
-                            <div class="pd-detail__inline">
+                            <div class="u-s-m-b-15">
+                                <div class="pd-detail__inline">
 
-                                <span class="pd-detail__click-wrap">
-                                    <i class="far fa-heart u-s-m-r-6"></i>
+                                    <span class="pd-detail__click-wrap">
+                                        <i class="far fa-heart u-s-m-r-6"></i>
 
-                                    <a id="addWish" data_value=@Model.ID>Thêm vào yêu thích</a>
+                                        <a class="addWish" data_value=@Model.ID>Thêm vào yêu thích</a>
 
-                                    <span class="pd-detail__click-count">(@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID).Count())</span>
-                                </span>
-                            </div>
-                        </div>}
+                                        <span class="pd-detail__click-count">(@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID).Count())</span>
+                                    </span>
+                                </div>
+                            </div>}
                         <div class="u-s-m-b-15">
                             <div class="pd-detail__inline">
 
@@ -277,215 +277,214 @@
                                 </div>}
                         </div>
                     </div>
-                        <div class="u-s-m-b-15">
+                    <div class="u-s-m-b-15">
 
-                            <span class="pd-detail__label u-s-m-b-8">Chính Sách Sản Phẩm:</span>
-                            <ul class="pd-detail__policy-list">
-                                <li>
-                                    <i class="fas fa-check-circle u-s-m-r-8"></i>
+                        <span class="pd-detail__label u-s-m-b-8">Chính Sách Sản Phẩm:</span>
+                        <ul class="pd-detail__policy-list">
+                            <li>
+                                <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                    <span>Bảo vệ người mua.</span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-check-circle u-s-m-r-8"></i>
+                                <span>Bảo vệ người mua.</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                    <span>Hoàn trả đầy đủ nếu bạn không nhận được đơn hàng.</span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-check-circle u-s-m-r-8"></i>
+                                <span>Hoàn trả đầy đủ nếu bạn không nhận được đơn hàng.</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle u-s-m-r-8"></i>
 
-                                    <span>Trả hàng được chấp nhận nếu như sản phẩm không giống như mô tả.</span>
-                                </li>
-                            </ul>
-                        </div>
+                                <span>Trả hàng được chấp nhận nếu như sản phẩm không giống như mô tả.</span>
+                            </li>
+                        </ul>
                     </div>
-                    <!--====== End - Product Right Side Details ======-->
                 </div>
+                <!--====== End - Product Right Side Details ======-->
             </div>
         </div>
     </div>
+</div>
 
-    <!--====== Product Detail Tab ======-->
-    <div class="u-s-p-y-90">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="pd-tab">
-                        <div class="u-s-m-b-30">
-                            <ul class="nav pd-tab__list">
-                                <li class="nav-item">
+<!--====== Product Detail Tab ======-->
+<div class="u-s-p-y-90">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="pd-tab">
+                    <div class="u-s-m-b-30">
+                        <ul class="nav pd-tab__list">
+                            <li class="nav-item">
 
-                                    <a class="nav-link" data-toggle="tab" href="#pd-desc">CẤU HÌNH</a>
-                                </li>
-                                
-                                <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#pd-desc">CẤU HÌNH</a>
+                            </li>
 
-                                    <a class="nav-link active" id="view-review" data-toggle="tab" href="#pd-rev">
-                                        ĐÁNH GIÁ
+                            <li class="nav-item">
 
-                                        <span>(@ViewBag.NumberReview)</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-content">
+                                <a class="nav-link active" id="view-review" data-toggle="tab" href="#pd-rev">
+                                    ĐÁNH GIÁ
 
-                            <!--====== Tab 1 ======-->
-                            <div class="tab-pane" id="pd-desc">
-                                <div class="pd-tab__desc">
-                                    <div class="u-s-m-b-15">
-                                        <p>@Model.Note</p>
-                                    </div>
-                                    <div class="u-s-m-b-30"><iframe src="https://www.youtube.com/embed/qKqSBm07KZk" allowfullscreen></iframe></div>
-                                    
-                                    <div class="u-s-m-b-15">
-                                        <h4>THÔNG TIN CHI TIẾT</h4>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-                                        <div class="pd-table gl-scroll">
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Loại Sản Phẩm</td>
-                                                        <td>@DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(Model.ProducerID).ProductTID).ProducTName</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Nhà Sản Xuất</td>
-                                                        <td>@DBIO.get1Producer_ProducerID(Model.ProducerID).ProducerName</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cấu hình phần cứng</td>
-                                                        <td>@Model.Configuration</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Số lượng</td>
-                                                        <td>@DBIO.CountColor(Model.ID)</td>
-                                                    </tr>
-                                                    
-                                                    <tr>
-                                                        <td>Trọng lượng (kg)</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <span>(@ViewBag.NumberReview)</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+
+                        <!--====== Tab 1 ======-->
+                        <div class="tab-pane" id="pd-desc">
+                            <div class="pd-tab__desc">
+                                <div class="u-s-m-b-15">
+                                    <p>@Model.Note</p>
+                                </div>
+                                <div class="u-s-m-b-30"><iframe src="https://www.youtube.com/embed/qKqSBm07KZk" allowfullscreen></iframe></div>
+
+                                <div class="u-s-m-b-15">
+                                    <h4>THÔNG TIN CHI TIẾT</h4>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-table gl-scroll">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Loại Sản Phẩm</td>
+                                                    <td>@DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(Model.ProducerID).ProductTID).ProducTName</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nhà Sản Xuất</td>
+                                                    <td>@DBIO.get1Producer_ProducerID(Model.ProducerID).ProducerName</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cấu hình phần cứng</td>
+                                                    <td>@Model.Configuration</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Số lượng</td>
+                                                    <td>@DBIO.CountColor(Model.ID)</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>Trọng lượng (kg)</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                            <!--====== End - Tab 1 ======-->
-                            <!--====== Tab 2 ======-->
-                           
-                            <!--====== End - Tab 2 ======-->
-                            <!--====== Tab 3 ======-->
-                            <div class="tab-pane fade show active" id="pd-rev">
-                                <div class="pd-tab__rev">
-                                    <div class="u-s-m-b-30">
-                                        <div class="pd-tab__rev-score">
-                                            <div class="u-s-m-b-8">
-                                                <h2>@ViewBag.NumberReview đánh giá - @ViewBag.AVG (Trung bình)</h2>
+                        </div>
+                        <!--====== End - Tab 1 ======-->
+                        <!--====== Tab 2 ======-->
+                        <!--====== End - Tab 2 ======-->
+                        <!--====== Tab 3 ======-->
+                        <div class="tab-pane fade show active" id="pd-rev">
+                            <div class="pd-tab__rev">
+                                <div class="u-s-m-b-30">
+                                    <div class="pd-tab__rev-score">
+                                        <div class="u-s-m-b-8">
+                                            <h2>@ViewBag.NumberReview đánh giá - @ViewBag.AVG (Trung bình)</h2>
+                                        </div>
+                                        <div class="gl-rating-style-2 u-s-m-b-8">
+                                            @for (int i = 0; i < (int)(ViewBag.AVG); i++)
+                                            {<i class="fas fa-star"></i>}
+                                            @if ((ViewBag.AVG - (int)ViewBag.AVG) > 0.25 & (ViewBag.AVG - (int)ViewBag.AVG) < 0.75)
+                                            {
+                                                <i class="fas fa-star-half-alt"></i>
+                                            }
+                                            @if ((ViewBag.AVG - (int)ViewBag.AVG) >= 0.75)
+                                            {
+                                                <i class="fas fa-star"></i>
+                                            }
+
+
+
+
+
+                                        </div>
+                                        <div class="u-s-m-b-8">
+                                            <h4>Chúng tôi mong nhận được sự đánh giá của bạn!</h4>
+                                        </div>
+
+                                        <span class="gl-text">Nói cho chúng tôi biết bạn cảm thây thế nào</span>
+                                    </div>
+                                </div>
+                                <div class="u-s-m-b-30">
+                                    <form class="pd-tab__rev-f1">
+                                        <div class="rev-f1__group">
+                                            <div class="u-s-m-b-15">
+                                                <h2>@ViewBag.NumberReview đánh giá </h2>
                                             </div>
-                                            <div class="gl-rating-style-2 u-s-m-b-8">
-                                                @for (int i = 0; i < (int)(ViewBag.AVG); i++)
-                                                {<i class="fas fa-star"></i>}
-                                                @if ((ViewBag.AVG - (int)ViewBag.AVG) > 0.25 & (ViewBag.AVG - (int)ViewBag.AVG) < 0.75)
-                                                {
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                }
-                                                @if ((ViewBag.AVG - (int)ViewBag.AVG) >= 0.75)
-                                                {
-                                                    <i class="fas fa-star"></i>
-                                                }
+                                            <div class="u-s-m-b-15">
 
-
-
-
-
-                                            </div>
-                                                <div class="u-s-m-b-8">
-                                                    <h4>Chúng tôi mong nhận được sự đánh giá của bạn!</h4>
-                                                </div>
-
-                                                <span class="gl-text">Nói cho chúng tôi biết bạn cảm thây thế nào</span>
+                                                <label for="sort-review"></label><select class="select-box select-box--primary-style" id="sort_review">
+                                                    <option selected value="ID">Đánh giá mới nhất</option>
+                                                    <option value="Rate">Đánh giá tích cực</option>
+                                                    <option value="Rate2">Đánh giá tiêu cực</option>
+                                                </select>
                                             </div>
                                         </div>
-                                    <div class="u-s-m-b-30">
-                                        <form class="pd-tab__rev-f1">
-                                            <div class="rev-f1__group">
-                                                <div class="u-s-m-b-15">
-                                                    <h2>@ViewBag.NumberReview đánh giá </h2>
-                                                </div>
-                                                <div class="u-s-m-b-15">
+                                        <div class="rev-f1__review" id="review">
+                                            @foreach (var item in ViewBag.Review)
+                                            {
+                                                <div class="review-o u-s-m-b-15">
+                                                    <div class="review-o__info u-s-m-b-8">
 
-                                                    <label for="sort-review"></label><select class="select-box select-box--primary-style" id="sort_review">
-                                                        <option selected value="ID">Đánh giá mới nhất</option>
-                                                        <option value="Rate">Đánh giá tích cực</option>
-                                                        <option value="Rate2">Đánh giá tiêu cực</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="rev-f1__review" id="review">
-                                                @foreach (var item in ViewBag.Review)
-                                                {
-                                                    <div class="review-o u-s-m-b-15">
-                                                        <div class="review-o__info u-s-m-b-8">
+                                                        <span class="review-o__name">@DBIO.get1User_ID(item.UserID).Username</span>
 
-                                                            <span class="review-o__name">@DBIO.get1User_ID(item.UserID).Username</span>
-
-                                                            <span class="review-o__date">@String.Format("{0:dd/MM/yyyy H:mm:ss}", @item.CreatDate)</span>
-                                                            @if (Session["SS"] != null)
-                                                            {
-                                                                if (((UserLogin)Session["SS"]).UserName == DBIO.get1User_ID(item.UserID).Username || DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).Permission == 0)
-                                                                {
-                                                                <a class="mini-product__delete-link far fa-trash-alt" style="text-align:right" data_value=@item.ID></a>}
-                                                            }
-                                                        </div>
-                                                        <div class="review-o__rating gl-rating-style u-s-m-b-8">
-                                                            @for (int i = 0; i < item.Rate; i++)
-                                                            {<i class="fas fa-star"></i>}
-
-                                                            <span>(@item.Rate)</span>
-                                                        </div>
-                                                        <p class="review-o__text">@item.Text</p>
-                                                    </div>
-                                                }
-                                                <div class="u-s-p-y-60">
-
-                                                    <!--====== Pagination ======-->
-                                                    <ul class="shop-p__pagination">
-                                                        @for (int item = 1; item < ViewBag.page + 1; item++)
+                                                        <span class="review-o__date">@String.Format("{0:dd/MM/yyyy H:mm:ss}", @item.CreatDate)</span>
+                                                        @if (Session["SS"] != null)
                                                         {
-                                                            if (ViewBag.number == item)
+                                                            if (((UserLogin)Session["SS"]).UserName == DBIO.get1User_ID(item.UserID).Username || DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).Permission == 0)
                                                             {
-                                                                <li class="is-active">
-
-                                                                    <a>@item</a>
-                                                                </li>
-                                                            }
-                                                            else
-                                                            {
-
-                                                                <li>
-
-                                                                    <a class="pagereview" data_value=@item>@item</a>
-                                                                </li>
-                                                            }
-
+                                                                <a class="mini-product__delete-link far fa-trash-alt" style="text-align:right" data_value=@item.ID></a>}
                                                         }
-                                                        
-                                                        
-                                                    </ul>
-                                                    <!--====== End - Pagination ======-->
-                                                </div>
-                                            </div>
+                                                    </div>
+                                                    <div class="review-o__rating gl-rating-style u-s-m-b-8">
+                                                        @for (int i = 0; i < item.Rate; i++)
+                                                        {<i class="fas fa-star"></i>}
 
-                                        </form>
-                                    </div>
-                                   
-                                    @if (Session["SS"] != null)
+                                                        <span>(@item.Rate)</span>
+                                                    </div>
+                                                    <p class="review-o__text">@item.Text</p>
+                                                </div>
+                                            }
+                                            <div class="u-s-p-y-60">
+
+                                                <!--====== Pagination ======-->
+                                                <ul class="shop-p__pagination">
+                                                    @for (int item = 1; item < ViewBag.page + 1; item++)
+                                                    {
+                                                        if (ViewBag.number == item)
+                                                        {
+                                                            <li class="is-active">
+
+                                                                <a>@item</a>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+
+                                                            <li>
+
+                                                                <a class="pagereview" data_value=@item>@item</a>
+                                                            </li>
+                                                        }
+
+                                                    }
+
+
+                                                </ul>
+                                                <!--====== End - Pagination ======-->
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                @if (Session["SS"] != null)
+                                {
+                                    if (DBIO.CountReview_ofUser(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID, Model.ID) == false)
                                     {
-                                        if (DBIO.CountReview_ofUser(DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).ID,Model.ID) == false)
-                                        {
-                                            <div class="u-s-m-b-30">
+                                        <div class="u-s-m-b-30">
 
                                             <div class="pd-tab__rev-f2">
                                                 @using (Html.BeginForm("Review", "Home", new { ProductID = ViewBag.ProductID }, FormMethod.Post))
@@ -629,55 +628,61 @@
                                                     </div>}
                                             </div>
                                         </div>}
-                                    }
+                                }
 
-                                </div>
                             </div>
-                            <!--====== End - Tab 3 ======-->
                         </div>
+                        <!--====== End - Tab 3 ======-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--====== End - Product Detail Tab ======-->
-    <div class="u-s-p-b-90">
+</div>
+<!--====== End - Product Detail Tab ======-->
+<div class="u-s-p-b-90">
 
-        <!--====== Section Intro ======-->
-        <div class="section__intro u-s-m-b-46">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section__text-wrap">
-                            <h1 class="section__heading u-c-secondary u-s-m-b-12">SẢN PHẨM TƯƠNG TỰ</h1>
+    <!--====== Section Intro ======-->
+    <div class="section__intro u-s-m-b-46">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section__text-wrap">
+                        <h1 class="section__heading u-c-secondary u-s-m-b-12">SẢN PHẨM TƯƠNG TỰ</h1>
 
-                            <span class="section__span u-c-grey">KHÁCH HÀNG CŨNG THƯỜNG XEM</span>
-                        </div>
+                        <span class="section__span u-c-grey">KHÁCH HÀNG CŨNG THƯỜNG XEM</span>
                     </div>
                 </div>
             </div>
         </div>
-        <!--====== End - Section Intro ======-->
-        <!--====== Section Content ======-->
-        <div class="section__content">
-            <div class="container">
-                <div class="slider-fouc">
-                    <div class="owl-carousel product-slider" data-item="4">
-                        @foreach (var item in ViewBag.SameProduct)
-                        {
-                            var r = item.Price * item.Sale;
-                            int t = (int)(item.Price - r);
-                            int S = (int)(item.Sale * 100);
-                            
+    </div>
+    <!--====== End - Section Intro ======-->
+    <!--====== Section Content ======-->
+    <div class="section__content">
+        <div class="container">
+            <div class="slider-fouc">
+                <div class="owl-carousel product-slider" data-item="4">
+                    @foreach (var item in ViewBag.SameProduct)
+                    {
+                        var r = item.Price * item.Sale;
+                        int t = (int)(item.Price - r);
+                        int S = (int)(item.Sale * 100);
+
                         <div class="u-s-m-b-30">
                             <div class="product-o product-o--hover-on">
                                 <div class="product-o__wrap">
+                                    @if (S != 0)
+                                    {
+                                        string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                        <div class="product-percent-discount">-@S%</div>
+                                        <div class="product-date-discount">Còn @time </div>}
 
                                     <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>
 
-                                        <img class="aspect__img" src=@item.Image  alt="">
+                                        <img class="aspect__img" src=@item.Image alt="">
                                     </a>
                                     <div class="product-o__action-wrap">
+
                                         <ul class="product-o__action-list">
                                             <li>
 
@@ -690,10 +695,11 @@
                                                     <a data-modal="modal" class="addcartindex" data_value=@item.ID data_value2=@DBIO.get1ColorFirst(item.ID).ID data-modal-id="#add-to-cart-@item.ID" data-tooltip="tooltip" data-placement="top" title="Thêm vào giỏ hàng"><i class="fas fa-plus-circle"></i></a>
                                                 </li>
 
-                                            <li>
+                                                <li>
 
-                                                <a class="addWishList" data_value=@item.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
-                                            </li>}
+                                                    <a class="addWishList" data_value=@item.ID data-tooltip="tooltip" data-placement="top" title="Thêm vào yêu thích"><i class="fas fa-heart"></i></a>
+                                                </li>
+                                            }
                                             <li>
 
                                                 <a href="mailto:khoaanh15111997@gmail.com" data-tooltip="tooltip" data-placement="top" title="Gửi mail cho Admin khi có vấn đề"><i class="fas fa-envelope"></i></a>
@@ -704,15 +710,13 @@
 
                                 <span class="product-o__category">
 
-                                    <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (S != 0)
-                                    {
-                                        string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                        <i style="color:red;"> Sale @Sale %</i><i style="float:right"> Còn <i style="color:green">@time</i> </i>}
+                                    <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>
+                                    <a style="color:red;margin-left:120px;font-weight:600">Đã bán: @DBIO.SumsellPD(item.ID) </a>
                                 </span>
 
                                 <span class="product-o__name">
 
-                                    <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a>
+                                    <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })><p style="width: 230px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@item.ProductName</p></a>
                                 </span>
                                 <div class="product-o__rating gl-rating-style">
                                     @{
@@ -746,7 +750,7 @@
                                         }
                                     }
 
-                                    <span class="product-o__review">(@DBIO.CountProductofColor(item.ID))</span>
+                                    <span class="product-o__review">(👁️‍🗨️ @item.View1)</span>
                                 </div>
 
                                 <span class="product-o__price">
@@ -757,15 +761,319 @@
                                 </span>
                             </div>
                         </div>}
-                        
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====== End - Section Content ======-->
+</div>
+<!--====== End - Section 1 ======-->
+@{ List<Product> PD = ViewBag.SameProduct;}
+@foreach (var item in PD)
+{
+    
+    var NSX1 = DBIO.get1Producer_ProducerID(item.ProducerID);
+    var LSP1 = DBIO.get1ProductT_ProductTID(NSX1.ProductTID);
+    float d = (float)(item.Price * item.Sale);
+    int b1 = (int)(item.Price - d);
+    float Sale1 = (item.Sale * 100);
+
+    <div class="modal fade1" id="pd-@item.ID">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal--shadow">
+
+                <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+                <div class="modal-body" id="look">
+                    <div class="row">
+                        <div class="col-lg-5">
+
+                            <!--====== Product Breadcrumb ======-->
+                            <div class="pd-breadcrumb u-s-m-b-30">
+                                <ul class="pd-breadcrumb__list">
+                                    <li class="has-separator">
+
+                                        <a href=@Url.Action("Index", "Home")>Home</a>
+                                    </li>
+                                    <li class="has-separator">
+
+                                        <a href=@Url.Action("Product", "Home", new { ProductTID = LSP.ID })> @LSP1.ProducTName</a>
+                                    </li>
+                                    <li class="has-separator">
+
+                                        <a href=@Url.Action("Product", "Home", new { ProducerID = NSX.ID })>@NSX1.ProducerName</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <!--====== End - Product Breadcrumb ======-->
+                            <!--====== Product Detail ======-->
+                            <div class="pd u-s-m-b-30">
+                                <div class="pd-wrap">
+                                    <div class="js-product-detail-modal">
+                                        <div>
+
+                                            <img class="u-img-fluid" src=@item.Image alt="">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--====== End - Product Detail ======-->
+                        </div>
+                        <div class="col-lg-7">
+
+                            <!--====== Product Right Side Details ======-->
+                            <div class="pd-detail">
+                                <div>
+
+                                    <span class="pd-detail__name">@item.ProductName</span>
+                                </div>
+                                <div>
+                                    <div class="pd-detail__inline">
+
+                                        <span class="pd-detail__price"> @String.Format("{0:0,0}", @b1) đ</span>
+                                        @if (Sale1 != 0)
+
+                                        {<span class="pd-detail__discount">(-@Sale1 %)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @item.Price) đ</del>}
+                                    </div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-detail__rating gl-rating-style">
+                                        @{ var Review1 = DBIO.AVGRatingReview(item.ID); }
+                                        @for (int i = 0; i < (int)Review1; i++)
+                                        {
+                                            <i class="fas fa-star"></i>}
+                                        @if (Review1 - (int)Review1 > 0.25 & Review1 - (int)Review1 < 0.75)
+                                        {
+                                            <i class="fas fa-star-half-alt"></i>}
+                                        @if (Review1 - (int)Review1 >= 0.75)
+                                        {
+                                            <i class="fas fa-star"></i>}
+                                        @if (Review1 - (int)Review1 <= 0.25)
+                                        {
+                                            for (int i = 0; i < (5 - ((int)Review1)); i++)
+                                            {
+                                                <i class="far fa-star"></i> }
+                                        }
+                                        else
+                                        {
+                                            for (int i = 0; i < (5 - ((int)Review1 + 1)); i++)
+                                            {
+                                                <i class="far fa-star"></i>}
+                                        }
+
+                                        <span class="pd-detail__review u-s-m-l-4">
+
+                                            <a data-click-scroll="#view-review">@DBIO.getallReview_Product(item.ID, "ID").Count() đánh giá</a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-detail__inline">
+
+                                        <span class="pd-detail__stock" id="quantity-@item.ID">@DBIO.get1Color_ProductID(@item.ID).Quantity trong kho</span>
+
+                                        <span class="pd-detail__left">Đã bán: @DBIO.SumsellPD(item.ID)</span>
+                                    </div>
+                                </div>
+                                <div class="u-s-m-b-15">
+
+                                    <span class="pd-detail__preview-desc">@item.Note</span>
+                                </div>
+                                @if ((UserLogin)(Session["SS"]) != null)
+                                {
+                                    <div class="u-s-m-b-15">
+                                        <div class="pd-detail__inline">
+
+                                            <span class="pd-detail__click-wrap">
+                                                <i class="far fa-heart u-s-m-r-6"></i>
+
+                                                <a class="addWish" data_value=@item.ID>Thêm vào yêu thích</a>
+
+                                                <span class="pd-detail__click-count">(@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID).Count())</span>
+                                            </span>
+                                        </div>
+                                    </div>}
+                                <div class="u-s-m-b-15">
+                            <div class="pd-detail__inline">
+
+                                <span class="pd-detail__click-wrap">
+                                    <i class="far fa-envelope u-s-m-r-6"></i>
+
+                                    <a href="mailto:khoaanh15111997@gmail.com">Gửi mail cho Admin khi gặp vấn đề.</a>
+
+                                    <span class="pd-detail__click-count"></span>
+                                </span>
+                            </div>
+                        </div>
+                                <div class="u-s-m-b-15">
+                                    <ul class="pd-social-list">
+                                        <li>
+
+                                            <a class="s-fb--color-hover" href="#"><i class="fab fa-facebook-f"></i></a>
+                                        </li>
+                                        <li>
+
+                                            <a class="s-tw--color-hover" href="#"><i class="fab fa-twitter"></i></a>
+                                        </li>
+                                        <li>
+
+                                            <a class="s-insta--color-hover" href="#"><i class="fab fa-instagram"></i></a>
+                                        </li>
+                                        <li>
+
+                                            <a class="s-wa--color-hover" href="#"><i class="fab fa-whatsapp"></i></a>
+                                        </li>
+                                        <li>
+
+                                            <a class="s-gplus--color-hover" href="#"><i class="fab fa-google-plus-g"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="u-s-m-b-15">
+
+                                </div>
+                                <div class="pd-detail__form">
+                                    @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
+                                    {
+                                        <div class="u-s-m-b-15">
+
+                                            <span class="pd-detail__label u-s-m-b-8">Cấu hình:</span>
+                                            <div class="pd-detail__size">
+                                                @{int dem1 = 0;}
+                                                @foreach (var item2 in DBIO.getallColor(item.ID))
+                                                {
+
+                                                    <div class="size__radio">
+                                                        @if (dem1 == 0)
+                                                        {
+                                                            <input class="colorP-@item.ID colorP2" type="radio" data_value=@item.ID name="ColorID" checked value=@item2.ID> dem1 = 1;
+                                                        }
+                                                        else
+                                                        {
+                                                            <input class="colorP-@item.ID colorP2" type="radio" data_value=@item.ID name="ColorID" value=@item2.ID>}
+
+                                                        <label class="size__radio-label" for="xs">@item2.ColorName</label>
+                                                    </div>}
+                                            </div>
+                                        </div>
+                                        <div class="pd-detail-inline-2">
+                                            <div class="u-s-m-b-15">
+
+                                                <!--====== Input Counter ======-->
+                                                <div class="input-counter">
+
+                                                    <span class="input-counter__minus fas fa-minus"></span>
+
+                                                    <input class="input-counter__text input-counter--text-primary-style" type="text" name="Quantity" value="1" data-min="1" data-max="10">
+
+                                                    <span class="input-counter__plus fas fa-plus"></span>
+                                                </div>
+                                                <!--====== End - Input Counter ======-->
+                                            </div>
+                                            @if (item.Launch == false)
+                                            {
+                                                <div class="u-s-m-b-15">
+
+                                                    <button class="btn btn--e-brand-b-2" type="button" data_value="@item.ID">Sắp ra mắt</button>
+                                                </div>}
+                                            else if ((UserLogin)(Session["SS"]) != null)
+                                            {
+                                                <div class="u-s-m-b-15">
+
+                                                    <button class="btn btn--e-brand-b-2 ok3" type="submit" data_value="@item.ID">Thêm vào giỏ hàng</button>
+                                                </div>}
+                                            else
+                                            {
+                                                <div class="u-s-m-b-15">
+
+                                                    <button class="btn btn--e-brand-b-2" type="button" onclick="window.location.href='/User/Login'">Đăng nhập để mua hàng</button>
+                                                </div>}
+                                        </div>}
+                                </div>
+                            </div>
+                            <div class="u-s-m-b-15">
+
+                                <span class="pd-detail__label u-s-m-b-8">Chính Sách Sản Phẩm:</span>
+                                <ul class="pd-detail__policy-list">
+                                    <li>
+                                        <i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                        <span>Bảo vệ người mua.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                        <span>Hoàn trả đầy đủ nếu bạn không nhận được đơn hàng.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                        <span>Trả hàng được chấp nhận nếu như sản phẩm không giống như mô tả.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--====== End - Product Right Side Details ======-->
                     </div>
                 </div>
             </div>
         </div>
-        <!--====== End - Section Content ======-->
     </div>
-    <!--====== End - Section 1 ======-->
-</div>
+
+
+
+    <!--====== End - Quick Look Modal ======-->
+    <!--====== Add to Cart Modal ======-->
+    <div class="modal fade" id="add-to-cart-@item.ID">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-radius modal-shadow">
+
+                <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="success u-s-m-b-30">
+                                <div class="success__text-wrap">
+                                    <i class="fas fa-check"></i>
+
+                                    <span>Sản phẩm đã được thêm thành công!</span>
+                                </div>
+                                <div class="success__img-wrap">
+
+                                    <img class="u-img-fluid" src=@item.Image alt="">
+                                </div>
+                                <div>&nbsp;</div>
+                                <div class="success__info-wrap">
+
+                                    <span class="success__name">@item.ProductName - @DBIO.getallColor(item.ID).First().ColorName</span>
+
+                                    <span class="success__quantity">Số lượng: 1</span>
+
+                                    <span class="success__price">@String.Format("{0:0,0}", @b1) đ</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="s-option">
+
+                                <span class="s-option__text" id="tbb-@item.ID"></span>
+                                <div class="s-option__link-box">
+
+                                    <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Index","Home")>TIẾP TỤC MUA SẮM</a>
+
+                                    <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Cart","Home")>XEM GIỎ HÀNG</a>
+
+                                    <a class="s-option__link btn--e-brand-shadow" href=@Url.Action("checkoutCart","User")>ĐẾN TRANG THANH TOÁN</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>}
 <div id="ProductID" data_value=@ViewBag.ProductID></div>
 
 <script>
@@ -776,7 +1084,7 @@
         var b = document.getElementById("sort_review").value;
         $.ajax({
             type: 'POST',
-            data: { ProductID: e, page: d,Sort:b },
+            data: { ProductID: e, page: d, Sort: b },
             url: '/Home/Review1',
             success: function (ketqua) {
                 $('#review').html(ketqua);
@@ -793,7 +1101,7 @@
         alert("Đã xóa");
         $.ajax({
             type: 'POST',
-            data: { ProductID: e, ID: d,Sort:b },
+            data: { ProductID: e, ID: d, Sort: b },
             url: '/Home/DeleteReview',
             success: function (ketqua) {
                 $('#pd-rev').html(ketqua);
@@ -836,30 +1144,16 @@
         var ID = $('.colorP').attr('value');
         $.ajax({
             type: 'POST',
-            data: { ID:ID },
+            data: { ID: ID },
             url: '/Home/CountCart2',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-                
-            }
-        })
-
-
-    });
-    $('#addWish').on('click', function () {
-        
-        var ID = $(this).attr('data_value');
-        $.ajax({
-            type: 'POST',
-            data: { ID: ID },
-            url: '/Home/addWishList',
-            success: function (ketqua) {
-                alert("Đã thêm vào yêu thích");
 
             }
         })
 
 
     });
+   
 
 </script>
