@@ -3,7 +3,7 @@
 @using PagedList.Mvc
 @using DataBase
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sản phẩm";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
     MyDB DB = new MyDB();
     int IDD = ViewBag.ID;
@@ -19,7 +19,8 @@
         <hr />
         <div div class="gl-inline" >
             <select class="select-box select-box--primary-style u-w-30" id="type1PD">
-                <option selected value="true">Còn hàng</option>
+                <option selected value="trueandfalse">Tất cả</option>
+                <option value="true">Còn hàng</option>
 
                 <option value="false">Hết hàng</option>
                 <option value="Launch">SP sắp ra mắt</option>
@@ -95,7 +96,7 @@
                         @{string idd = 'a' + item.ID.ToString();}
                         @if (item.Launch == false)
                         {
-                            <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
+                            <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST",OnBegin= "run_waitMe('#" + @idd + "')",OnComplete= "stop_waitMe('#" + @idd + "')", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
                         }
                         else
                         {
@@ -103,7 +104,7 @@
                         }
 
 
-                        <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST",OnBegin= "run_waitMe('#" + @item.ID + "')",OnComplete= "stop_waitMe('#" + @item.ID + "')", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                         @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
                             {
                                 <td>Không</td>
@@ -112,10 +113,10 @@
 
 
                                 <td>
-                                    <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
-                                    <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
-                                    <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
-                                    <a class="btn btn-primary addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID,PCID=IDD}) role="button">Thêm Sale</a>
+                                    <a class="btn btn-danger btn-sm btn-circle addeletePD" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                                    <a class="btn btn-warning btn-sm btn-circle" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
+                                    <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
+                                    <a class="btn btn-success btn-sm btn-circle addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID,PCID=IDD}) role="button">+Sale</a>
 
                                 </td>
                             }
@@ -125,23 +126,23 @@
                                 if (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart > DateTime.Now)
                                 {
 
-                                    <td>Sắp Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                    <td style="font-size:80%">Sắp Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd))</td>
                                 }
                                 else
                                 {
                                     {
-                                        <td>Đang Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                        <td style="font-size:80%">Đang Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd))</td>
                                     }
                                 }
 
 
 
                                 <td>
-                                    <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
-                                    <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
-                                    <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
-                                    <a class="btn btn-primary deleteSale" data_value=@item.ID role="button">Xóa Sale</a>
-                                    <a class="btn btn-primary" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID,PCID=IDD }) role="button">Sửa Sale</a>
+                                    <a class="btn btn-danger btn-sm btn-circle addeletePD" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                                    <a class="btn btn-warning btn-sm btn-circle" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
+                                    <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
+                                    <a class="btn btn-danger btn-sm btn-circle deleteSale" data_value=@item.ID role="button"><i class="fas fa-trash"></i>Sale</a>
+                                    <a class="btn btn-warning btn-sm btn-circle" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID,PCID=IDD }) role="button">Sửa Sale</a>
                                 </td>
                             }
                         }
@@ -162,13 +163,14 @@
         var status = document.getElementById("type1PD").value;
         var sell = document.getElementById("SellPD").value;
         var ProducerID = $('#PCid').attr('data_value');
-
+        run_waitMe('#product');
         $.ajax({
             type: 'POST',
             data: { status: status, sell: sell,ProducerID:ProducerID },
             url: '/Admin/Index1',
             success: function (ketqua) {
                 $('#product').html(ketqua);
+                stop_waitMe('#product');
             }
         })
     });
@@ -176,13 +178,14 @@
         var status = document.getElementById("type1PD").value;
         var sell = document.getElementById("SellPD").value;
         var ProducerID = $('#PCid').attr('data_value');
-
+        run_waitMe('#product');
         $.ajax({
             type: 'POST',
             data: { status: status, sell: sell,ProducerID:ProducerID },
             url: '/Admin/Index1',
             success: function (ketqua) {
                 $('#product').html(ketqua);
+                stop_waitMe('#product');
             }
         })
     });
@@ -193,12 +196,14 @@
         
         var id = $(this).attr('data_value')
         if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này')) {
+            run_waitMe('#product');
             $.ajax({
                 type: 'POST',
                 data: { status: status, sell: sell, id: id ,ProducerID:ProducerID},
                 url: '/Admin/Index1',
                 success: function (ketqua) {
                     $('#product').html(ketqua);
+                    stop_waitMe('#product');
                 }
             })
         }
@@ -213,12 +218,14 @@
 
         var id2 = $(this).attr('data_value');
         if (confirm('Bạn có chắc chắn muốn xóa Sale của sản phẩm này')) {
+            run_waitMe('#product');
             $.ajax({
                 type: 'POST',
                 data: { status: status, sell: sell, id2: id2 ,ProducerID:ProducerID},
                 url: '/Admin/Index1',
                 success: function (ketqua) {
                     $('#product').html(ketqua);
+                    stop_waitMe('#product');
                 }
             })
         }

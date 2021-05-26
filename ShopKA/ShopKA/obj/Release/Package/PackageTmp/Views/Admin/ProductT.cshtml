@@ -2,7 +2,7 @@
 @using ShopKA.Models
 @using DataBase
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "DS Loại SP";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
     MyDB DB = new MyDB();
 
@@ -51,10 +51,10 @@
 
 
                             <td>
-                                <a class="btn btn-primary" href="@Url.Action("DeleteProductT", "Admin", new { ID = @item.ID })" role="button">Xóa</a>
-                                <a class="btn btn-primary" href="@Url.Action("EditProductT", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
-                                <a class="btn btn-primary" href="@Url.Action("Producer", "Admin", new { ID = @item.ID })" role="button">Xem NSX</a>
-                                <a class="btn btn-primary addSale" href=@Url.Action("AddProductTSale","Admin",new { ID=item.ID}) role="button">Thêm Sale</a>
+                                <a class="btn btn-danger btn-sm btn-circle" href="@Url.Action("DeleteProductT", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-warning btn-sm btn-circle" href="@Url.Action("EditProductT", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                                <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("Producer", "Admin", new { ID = @item.ID })" role="button">NSX</a>
+                                <a class="btn btn-success btn-sm btn-circle addSale" href=@Url.Action("AddProductTSale","Admin",new { ID=item.ID}) role="button">+Sale</a>
 
                             </td>
                         }
@@ -64,20 +64,20 @@
                             if (DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart > DateTime.Now)
                             {
 
-                                <td>Sắp Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd) )</td>
+                                <td style="font-size:80%">Sắp Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd))</td>
                             }
                             else
                             {
                                 {
-                                    <td>Đang Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd) )</td>
+                                    <td style="font-size:80%">Đang Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd))</td>
                                 }
                             }
                     <td>
-                        <a class="btn btn-primary" href="@Url.Action("DeleteProductT", "Admin", new { ID = @item.ID })" role="button">Xóa</a>
-                        <a class="btn btn-primary" href="@Url.Action("EditProductT", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
-                        <a class="btn btn-primary" href="@Url.Action("Producer", "Admin", new { ID = @item.ID })" role="button">Xem NSX</a>
-                        <a class="btn btn-primary" href=@Url.Action("EditProductTSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
-                        <a class="btn btn-primary deleteProductTSale" data_value=@item.ID role="button">Xóa Sale</a>
+                        <a class="btn btn-danger btn-sm btn-circle" href="@Url.Action("DeleteProductT", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-trash"></i></a>
+                        <a class="btn btn-warning btn-sm btn-circle" href="@Url.Action("EditProductT", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                        <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("Producer", "Admin", new { ID = @item.ID })" role="button">NSX</a>
+                        <a class="btn btn-warning btn-sm btn-circle" href=@Url.Action("EditProductTSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
+                        <a class="btn btn-danger btn-sm btn-circle deleteProductTSale" data_value=@item.ID role="button"><i class="fas fa-trash"></i>Sale</a>
 
                     </td>}
 
@@ -97,15 +97,18 @@
         
         var a = $(this).attr('data_value');
         
-
-        $.ajax({
-            type: 'POST',
-            data: { ID:a },
-            url: '/Admin/DeleteProductTSale',
-            success: function (ketqua) {
-                $('#product').html(ketqua);
-            }
-        })
+        if (confirm('Bạn có chắc chắn muốn xóa Sale của loại sản phẩm này')) {
+            run_waitMe('#product');
+            $.ajax({
+                type: 'POST',
+                data: { ID: a },
+                url: '/Admin/DeleteProductTSale',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                    stop_waitMe('#product');
+                }
+            })
+        }
 
 
     });

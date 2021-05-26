@@ -19,10 +19,14 @@
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="product-m">
                     <div class="product-m__thumb">
-
+                        @if (Sale != 0)
+                        {
+                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                            <div class="product-percent-discount">-@Sale%</div>
+                            <div class="product-date-discount">Còn @time </div>}
                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>
 
-                            <img class="aspect__img" src='data:image/png;base64,@item.Image' alt="">
+                            <img class="aspect__img" src=@item.Image alt="">
                         </a>
                         <div class="product-m__quick-look">
 
@@ -36,21 +40,19 @@
                             </div>}
                         else
                         { <div class="product-m__add-cart">
-                            <a class="btn--e-brand" href="/User/Login">Đăng nhập để mua hàng</a>
-                        </div>
+                                <a class="btn--e-brand" href="/User/Login">Đăng nhập để mua hàng</a>
+                            </div>
                         }
                     </div>
                     <div class="product-m__content">
                         <span class="product-o__category">
 
-                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
-                            {
-                                string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%"> Còn <i style="color:green"> @time</i> </i>}
+                            <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID})>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>
+                            <a style="color:red;margin-left:120px;font-weight:600">Đã bán: @DBIO.SumsellPD(item.ID) </a>
                         </span>
                         <div class="product-m__name">
 
-                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a>
+                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })><p style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@item.ProductName</p></a>
                         </div>
                         <div class="product-m__rating gl-rating-style">
                             @{
@@ -84,7 +86,7 @@
                                 }
                             }
 
-                            <span class="product-m__review">(👁️‍🗨️ @item.View1)</span><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+                            <span class="product-m__review">(👁️‍🗨️ @item.View1)</span>
 
                         </div>
                         <span class="product-o__price">
@@ -98,7 +100,7 @@
 
                                 <span>@item.Note</span>
                             </div>
-                            @if (Session["SS"]!= null)
+                            @if (Session["SS"] != null)
                             {
                                 <div class="product-m__wishlist">
 
@@ -120,12 +122,16 @@ else
             int b = (int)(item.Price - r);
             int Sale = (int)(item.Sale * 100);
             <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="product-m">
+                <div class="product-m wish-@item.ID">
                     <div class="product-m__thumb">
-
+                        @if (Sale != 0)
+                        {
+                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                            <div class="product-percent-discount">-@Sale%</div>
+                            <div class="product-date-discount">Còn @time </div>}
                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>
 
-                            <img class="aspect__img" src='data:image/png;base64,@item.Image' alt="">
+                            <img class="aspect__img" src=@item.Image alt="">
                         </a>
                         <div class="product-m__quick-look">
 
@@ -146,14 +152,12 @@ else
                     <div class="product-m__content">
                         <span class="product-o__category">
 
-                            <a href="shop-side-version-2.html">@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a> @if (Sale != 0)
-                            {
-                                string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
-                                <i style="color:red;"> Sale @Sale %</i><i style="float:right;font-size:80%">Còn <i style="color:green"> @time</i> </i>}
+                            <a href=@Url.Action("Product","Home",new {ProducerID=item.ProducerID})>@DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName</a>
+                            <a style="color:red;margin-left:120px;font-weight:600">Đã bán: @DBIO.SumsellPD(item.ID) </a>
                         </span>
                         <div class="product-m__name">
 
-                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>@item.ProductName</a>
+                            <a href=@Url.Action("ProductDetail","Home",new { ID = item.ID })><p style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@item.ProductName</p></a>
                         </div>
                         <div class="product-m__rating gl-rating-style">
                             @{
@@ -187,7 +191,7 @@ else
                                 }
                             }
 
-                            <span class="product-m__review">(👁️‍🗨️ @item.View1)</span><span style="float:right;font-size:80%">Đã bán: @DBIO.SumsellPD(item.ID) </span>
+                            <span class="product-m__review">(👁️‍🗨️ @item.View1)</span>
 
                         </div>
                         <span class="product-o__price">
@@ -201,7 +205,7 @@ else
 
                                 <span>@item.Note</span>
                             </div>
-                            @if (Session["SS"]!= null)
+                            @if (Session["SS"] != null)
                             {
                                 <div class="product-m__wishlist">
 
@@ -257,28 +261,34 @@ else
         var e = $('#ProductTID').attr('data_value');
         var key = $('#key').attr('data_value');
         var rate = $('input[name=rate1]:checked').val();
+        run_waitMe('#ketqua');
         $.ajax({
             type: 'POST',
             data: { ProducerID: a, Sort: c, page: d, b: b, max: max, min: min, type: type,ProductTID:e,key:key,rate:rate },
             url: '/Home/Product1',
             success: function (ketqua) {
                 $('#ketqua').html(ketqua);
+                stop_waitMe('#ketqua');
             }
         })
 
 
     });
     $('.addcartindex').on('click', function () {
-
+        run_waitMe('#countcart');
         var color = parseInt($(this).attr('data_value2'));
         var a = { ColorID: color, Quantity: 1 };
         var b = $(this).attr('data_value');
+        var c = $(this).attr('data-modal-id');
+        run_waitMe(c);
+        run_waitMe('#tbb-' + b);
         $.ajax({
             type: 'POST',
             data: { a: a },
             url: '/Home/AddCart',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
+                stop_waitMe(c);
 
             }
         })
@@ -289,7 +299,7 @@ else
             url: '/Home/TB',
             success: function (ketqua) {
                 $('#tbb-' + b).html(ketqua);
-
+                stop_waitMe('#tbb-' + b);
             }
         })
         $.ajax({
@@ -298,7 +308,7 @@ else
             url: '/Home/CountCart2',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
             }
         })
 

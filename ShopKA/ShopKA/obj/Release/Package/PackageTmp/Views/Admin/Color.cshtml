@@ -1,6 +1,6 @@
 ﻿@model List<DataBase.Color>
 @{
-    ViewBag.Title = "Color";
+    ViewBag.Title = "Thuộc tính sản phẩm";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
 }
 
@@ -41,8 +41,8 @@
                             <td>@item.Quantity</td>
 
                             <td>
-                                <a class="btn btn-primary" href="@Url.Action("deleteColor","Admin",new { ID = @item.ID,ID2 = @ViewBag.TT.ID })" role="button">Xóa</a>
-                                <a class="btn btn-primary" href="@Url.Action("editColor","Admin",new { ID = @item.ID,ID2 = @ViewBag.TT.ID  })" role="button">Sửa</a>
+                                <a class="btn btn-danger btn-circle btn-sm" href="@Url.Action("deleteColor","Admin",new { ID = @item.ID,ID2 = @ViewBag.TT.ID })" role="button"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-warning btn-circle btn-sm" href="@Url.Action("editColor","Admin",new { ID = @item.ID,ID2 = @ViewBag.TT.ID  })" role="button">Sửa</a>
 
 
                             </td>

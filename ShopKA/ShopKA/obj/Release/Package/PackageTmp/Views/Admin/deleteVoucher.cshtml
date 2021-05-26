@@ -1,10 +1,7 @@
 ﻿@model List<DataBase.Voucher>
 @using ShopKA.Models
 @using DataBase
-@{
-    ViewBag.Title = "User";
 
-}
 <div class="table-responsive">
     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
@@ -41,7 +38,7 @@
                     <td>@String.Format("{0:dd/MM/yyyy}", @item.End)</td>
 
                     <td>
-                        <a class="btn btn-primary addeletevc" data_value=@item.ID role="button">Xóa Voucher</a>
+                        <a class="btn btn-danger btn-sm btn-circle addeletevc" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             }
@@ -64,12 +61,14 @@
 
         var id2 = $(this).attr('data_value');
         if (confirm('Bạn có chắc chắn muốn xóa Voucher này')) {
+            run_waitMe('#product');
             $.ajax({
                 type: 'POST',
                 data: { id: id },
                 url: '/Admin/deleteVoucher',
                 success: function (ketqua) {
                     $('#product').html(ketqua);
+                    stop_waitMe('#product');
                 }
             })
         }

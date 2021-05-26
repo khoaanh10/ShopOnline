@@ -50,7 +50,7 @@ else
 
                                     <a class="mini-product__link" href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>
 
-                                        <img class="u-img-fluid" src='data:image/png;base64,@DBIO.getProduct_Cart(item).Image' alt="">
+                                        <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
                                     </a>
                                 </div>
                                 <div class="mini-product__info-wrapper">
@@ -59,7 +59,7 @@ else
 
                                     <span class="mini-product__name">
 
-                                        <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@DBIO.getProduct_Cart(item).ProductName</a><span class="mini-product__quantity">  @DBIO.getColor_Cart(item).ColorName</span>
+                                        <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@DBIO.getProduct_Cart(item).ProductName</a><p style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
                                     </span>
 
                                     <span class="mini-product__quantity">@item.Quantity x</span>
@@ -94,14 +94,17 @@ else
 <script>
     $('.Deletecartmini').on('click', function () {
         var d = $(this).attr('data_value');
-
+        run_waitMe('#cartmini');
+        run_waitMe('#countcart');
+        run_waitMe('#Pricetotal');
+        run_waitMe('#Cartpage');
         $.ajax({
             type: 'POST',
             data: { ID: d },
             url: '/Home/DeleteCartmini',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-                
+                stop_waitMe('#cartmini');
 
             }
         })
@@ -112,7 +115,28 @@ else
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
+                stop_waitMe('#countcart');
 
+            }
+        })
+        $.ajax({
+            type: 'POST',
+            data: {},
+            url: '/Home/Cart1',
+            success: function (ketqua) {
+                $('#Cartpage').html(ketqua);
+                stop_waitMe('#Cartpage');
+
+
+            }
+        })
+        $.ajax({
+            type: 'POST',
+            data: {},
+            url: '/Home/Pricetotal',
+            success: function (ketqua) {
+                $('#Pricetotal').html(ketqua);
+                stop_waitMe('#Pricetotal');
 
             }
         })
@@ -124,7 +148,9 @@ else
     });
 
     $('.checkSTT2').on('click', function () {
-
+        run_waitMe('#total');
+        run_waitMe('#Pricetotal');
+        run_waitMe('#Cartpage');
         if ($(this).is(':checked')) {
             var check = true;
         }
@@ -136,7 +162,7 @@ else
             url: '/Home/changecheck',
             success: function (ketqua) {
                 $('#Pricetotal').html(ketqua);
-
+                stop_waitMe('#Pricetotal');
 
             }
         })
@@ -146,7 +172,7 @@ else
             url: '/Home/total',
             success: function (ketqua) {
                 $('#total').html(ketqua);
-
+                stop_waitMe('#total');
 
             }
         })
@@ -156,10 +182,13 @@ else
             url: '/Home/Cart1',
             success: function (ketqua) {
                 $('#Cartpage').html(ketqua);
-
+                stop_waitMe('#Cartpage');
 
             }
         })
+       
+       
+        
 
 
 

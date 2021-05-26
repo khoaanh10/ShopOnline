@@ -19,13 +19,16 @@
 
     <!--====== Utility-Spacing ======-->
     <link rel="stylesheet" href="~/Asset/css/utility.css">
-
+    <link href="~/Asset/css/waitMe.css" rel="stylesheet" />
     <!--====== App ======-->
     <link rel="stylesheet" href="~/Asset/css/app.css">
+    <link href="~/Asset/css/iao-alert.min.css" rel="stylesheet" />
+    
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">*@
 </head>
 
 <body class="config">
-    @{ var PT = DBIO.getallProductT();
+    @*@{ var PT = DBIO.getallProductT();
         var PD = DBIO.getallProduct();
         MyDB DB = new MyDB();
         foreach (var tt in PT)
@@ -75,7 +78,7 @@
                 PD1.Sale = 0;
                 DB.SaveChanges();
             }
-        } }
+        } }*@
 
     <div class="preloader is-active">
         <div class="preloader__wrap">
@@ -83,10 +86,10 @@
             <img class="preloader__img" src="~/Asset/images/preloader.png" alt="">
         </div>
     </div>
-
+    
     <!--====== Main App ======-->
     <div id="app">
-
+        <div class="alert-box2 success2">Successful Alert !!!</div>
         <!--====== Main Header ======-->
         <header class="header--style-1">
 
@@ -101,18 +104,18 @@
 
                         <a class="main-logo" href="~/Home/Index">
 
-                            <img src="~/Asset/images/logo.png" alt="">
+                            <img src="~/Asset/images/logsdfso.png" alt="">
                         </a>
                         <!--====== End - Main Logo ======-->
                         <!--====== Search Form ======-->
-                        
+
                         <div class="main-form">
 
                             <label for="main-search"></label>
 
                             <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Tìm kiếm">
 
-                            <button class="btn btn--icon fas fa-search main-search-button" onclick="Search()" type="button"></button>
+                            <button class="btn btn--icon fas fa-search main-search-button" onclick="Search" type="button"></button>
                         </div>
                         <!--====== End - Search Form ======-->
                         <!--====== Dropdown Main plugin ======-->
@@ -279,7 +282,7 @@
                             <!--====== Menu ======-->
                             <div class="ah-lg-mode">
 
-                                <span class="ah-close">✕ Close</span>
+                                <span class="ah-close">✕ Đóng</span>
 
                                 <!--====== List ======-->
                                 <ul class="ah-list">
@@ -368,7 +371,7 @@
                                                                     <ul>
                                                                         <li class="mega-list-title">
 
-                                                                            <a >DANH MỤC</a>
+                                                                            <a>DANH MỤC</a>
                                                                         </li>
                                                                         <li>
 
@@ -498,7 +501,7 @@
                             <!--====== Menu ======-->
                             <div class="ah-lg-mode">
 
-                                <span class="ah-close">✕ Close</span>
+                                <span class="ah-close">✕ Đóng</span>
 
                                 <!--====== List ======-->
                                 <ul class="ah-list ah-list--design2 ah-list--link-color-secondary">
@@ -729,21 +732,22 @@
 
 
                         <div class="menu-init" id="navigation3">
+                            @if (ss != null)
+                            {
+                                <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
 
-                            <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
-
-                            <span class="total-item-round">5</span>
+                                <span class="total-item-round" id="countcart2">@DBIO.CountCart(DBIO.getUser_fromUserLogin((UserLogin)ss).ID)</span>}
 
                             <!--====== Menu ======-->
                             <div class="ah-lg-mode">
 
-                                <span class="ah-close">✕ Close</span>
+                                <span class="ah-close">✕ Đóng</span>
 
                                 <!--====== List ======-->
                                 <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
                                     <li>
 
-                                        <a href="index.html"><i class="fas fa-home u-c-brand"></i></a>
+                                        <a href="/"><i class="fas fa-home u-c-brand"></i></a>
                                     </li>
                                     @if (ss != null)
                                     {
@@ -824,7 +828,7 @@
 
                                                                         <a class="mini-product__link" href="product-detail.html">
 
-                                                                            <img class="u-img-fluid" src='data:image/png;base64,@DBIO.getProduct_Cart(item).Image ' alt="">
+                                                                            <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
                                                                         </a>
                                                                     </div>
                                                                     <div class="mini-product__info-wrapper">
@@ -833,7 +837,7 @@
 
                                                                         <span class="mini-product__name">
 
-                                                                            <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><span class="mini-product__quantity">  @DBIO.getColor_Cart(item).ColorName</span>
+                                                                            <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><p class="mini-product__quantity" style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
                                                                         </span>
 
                                                                         <span class="mini-product__quantity">@item.Quantity x</span>
@@ -975,7 +979,7 @@
 
                                                     <a href="/Home/About">Thông tin ADMIN - Liên Hệ</a>
                                                 </li>
-                                                
+
                                                 <li>
 
                                                     <a href="index.html">Sitemap</a>
@@ -1065,346 +1069,6 @@
 
         <!--====== Modal Section ======-->
         <!--====== Quick Look Modal ======-->
-        @foreach (var item in DBIO.getallProduct().Where(i => i.Status == true))
-        {
-            var LSP = @DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID);
-            var NSX = @DBIO.get1Producer_ProducerID(item.ProducerID);
-            float d = (float)(item.Price * item.Sale);
-            int b = (int)(item.Price - d);
-            float Sale = (item.Sale * 100);
-
-            <div class="modal fade1" id="pd-@item.ID">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content modal--shadow">
-
-                        <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
-                        <div class="modal-body" id="look">
-                            <div class="row">
-                                <div class="col-lg-5">
-
-                                    <!--====== Product Breadcrumb ======-->
-                                    <div class="pd-breadcrumb u-s-m-b-30">
-                                        <ul class="pd-breadcrumb__list">
-                                            <li class="has-separator">
-
-                                                <a href=@Url.Action("Index", "Home")>Home</a>
-                                            </li>
-                                            <li class="has-separator">
-
-                                                <a href=@Url.Action("Product", "Home", new { ProductTID = LSP.ID })> @LSP.ProducTName</a>
-                                            </li>
-                                            <li class="has-separator">
-
-                                                <a href=@Url.Action("Product", "Home", new { ProducerID = NSX.ID })>@NSX.ProducerName</a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                    <!--====== End - Product Breadcrumb ======-->
-                                    <!--====== Product Detail ======-->
-                                    <div class="pd u-s-m-b-30">
-                                        <div class="pd-wrap">
-                                            <div class="js-product-detail-modal">
-                                                <div>
-
-                                                    <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
-                                                </div>
-                                                @*<div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image2 ' alt="">
-                                                            </div>
-                                                            <div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image3' alt="">
-                                                            </div>
-                                                            <div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image4' alt="">
-                                                            </div>
-                                                            <div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image5 ' alt="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="u-s-m-t-15">
-                                                        <div id="js-product-detail-modal-thumbnail">
-                                                            <div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
-                                                            </div>
-                                                            <div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image2 ' alt="">
-                                                            </div>
-                                                            <div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image3 ' alt="">
-                                                            </div>
-                                                            <div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image4 ' alt="">
-                                                            </div>
-                                                            <div>
-
-                                                                <img class="u-img-fluid" src='data:image/png;base64,@item.Image5 ' alt="">
-                                                            </div>*@
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--====== End - Product Detail ======-->
-                                </div>
-                                <div class="col-lg-7">
-
-                                    <!--====== Product Right Side Details ======-->
-                                    <div class="pd-detail">
-                                        <div>
-
-                                            <span class="pd-detail__name">@item.ProductName</span>
-                                        </div>
-                                        <div>
-                                            <div class="pd-detail__inline">
-
-                                                <span class="pd-detail__price"> @String.Format("{0:0,0}", @b) đ</span>
-                                                @if (Sale != 0)
-
-                                                {<span class="pd-detail__discount">(@Sale  % OFF)</span><del class="pd-detail__del">@String.Format("{0:0,0}", @item.Price) đ</del>}
-                                            </div>
-                                        </div>
-                                        <div class="u-s-m-b-15">
-                                            <div class="pd-detail__rating gl-rating-style">
-                                                @{ var Review = DBIO.AVGRatingReview(item.ID); }
-                                                @for (int i = 0; i < (int)Review; i++)
-                                                {
-                                                    <i class="fas fa-star"></i>}
-                                                @if (Review - (int)Review > 0.25 & Review - (int)Review < 0.75)
-                                                {
-                                                    <i class="fas fa-star-half-alt"></i>}
-                                                @if (Review - (int)Review >= 0.75)
-                                                {
-                                                    <i class="fas fa-star"></i>}
-                                                @if (Review - (int)Review <= 0.25)
-                                                {
-                                                    for (int i = 0; i < (5 - ((int)Review)); i++)
-                                                    {
-                                                        <i class="far fa-star"></i> }
-                                                }
-                                                else
-                                                {
-                                                    for (int i = 0; i < (5 - ((int)Review + 1)); i++)
-                                                    {
-                                                        <i class="far fa-star"></i>}
-                                                }
-
-                                                <span class="pd-detail__review u-s-m-l-4">
-
-                                                    <a data-click-scroll="#view-review">@DBIO.getallReview_Product(item.ID, "ID").Count() đánh giá</a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="u-s-m-b-15">
-                                            <div class="pd-detail__inline">
-
-                                                <span class="pd-detail__stock" id="quantity-@item.ID">@DBIO.get1Color_ProductID(@item.ID).Quantity trong kho</span>
-
-                                                <span class="pd-detail__left">Đã bán: @DBIO.SumsellPD(item.ID)</span>
-                                            </div>
-                                        </div>
-                                        <div class="u-s-m-b-15">
-
-                                            <span class="pd-detail__preview-desc">@item.Note</span>
-                                        </div>
-                                        <div class="u-s-m-b-15">
-                                            <div class="pd-detail__inline">
-
-                                                <span class="pd-detail__click-wrap">
-                                                    <i class="far fa-heart u-s-m-r-6"></i>
-
-                                                    <a href="signin.html">Thêm vào yêu thích</a>
-
-                                                    <span class="pd-detail__click-count">(222)</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="u-s-m-b-15">
-                                            <div class="pd-detail__inline">
-
-                                                <span class="pd-detail__click-wrap">
-                                                    <i class="far fa-envelope u-s-m-r-6"></i>
-
-                                                    <a href="signin.html">Email me When the price drops</a>
-
-                                                    <span class="pd-detail__click-count">(20)</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="u-s-m-b-15">
-                                            <ul class="pd-social-list">
-                                                <li>
-
-                                                    <a class="s-fb--color-hover" href="#"><i class="fab fa-facebook-f"></i></a>
-                                                </li>
-                                                <li>
-
-                                                    <a class="s-tw--color-hover" href="#"><i class="fab fa-twitter"></i></a>
-                                                </li>
-                                                <li>
-
-                                                    <a class="s-insta--color-hover" href="#"><i class="fab fa-instagram"></i></a>
-                                                </li>
-                                                <li>
-
-                                                    <a class="s-wa--color-hover" href="#"><i class="fab fa-whatsapp"></i></a>
-                                                </li>
-                                                <li>
-
-                                                    <a class="s-gplus--color-hover" href="#"><i class="fab fa-google-plus-g"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="u-s-m-b-15">
-
-                                        </div>
-                                        <div class="pd-detail__form">
-                                            @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
-                                            {
-                                                <div class="u-s-m-b-15">
-
-                                                    <span class="pd-detail__label u-s-m-b-8">Cấu hình:</span>
-                                                    <div class="pd-detail__size">
-                                                        @{int dem1 = 0;}
-                                                        @foreach (var item2 in DBIO.getallColor(item.ID))
-                                                        {
-
-                                                            <div class="size__radio">
-                                                                @if (dem1 == 0)
-                                                                {
-                                                                    <input class="colorP-@item.ID colorP2" type="radio" data_value=@item.ID name="ColorID" checked value=@item2.ID> dem1 = 1;
-                                                                }
-                                                                else
-                                                                {
-                                                                    <input class="colorP-@item.ID colorP2" type="radio" data_value=@item.ID name="ColorID" value=@item2.ID>}
-
-                                                                <label class="size__radio-label" for="xs">@item2.ColorName</label>
-                                                            </div>}
-                                                    </div>
-                                                </div>
-                                                <div class="pd-detail-inline-2">
-                                                    <div class="u-s-m-b-15">
-
-                                                        <!--====== Input Counter ======-->
-                                                        <div class="input-counter">
-
-                                                            <span class="input-counter__minus fas fa-minus"></span>
-
-                                                            <input class="input-counter__text input-counter--text-primary-style" type="text" name="Quantity" value="1" data-min="1" data-max="10">
-
-                                                            <span class="input-counter__plus fas fa-plus"></span>
-                                                        </div>
-                                                        <!--====== End - Input Counter ======-->
-                                                    </div>
-                                                    @if (item.Launch == false)
-                                                    {
-                                                        <div class="u-s-m-b-15">
-
-                                                            <button class="btn btn--e-brand-b-2" type="button" data_value="@item.ID">Sắp ra mắt</button>
-                                                        </div>}
-                                                    else if ((UserLogin)(Session["SS"]) != null)
-                                                    {
-                                                        <div class="u-s-m-b-15">
-
-                                                            <button class="btn btn--e-brand-b-2 ok3" type="submit" data_value="@item.ID">Thêm vào giỏ hàng</button>
-                                                        </div>}
-                                                    else
-                                                    {
-                                                        <div class="u-s-m-b-15">
-
-                                                            <button class="btn btn--e-brand-b-2" type="button" onclick="window.location.href='/User/Login'">Đăng nhập để mua hàng</button>
-                                                        </div>}
-                                                </div>}
-                                        </div>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-
-                                        <span class="pd-detail__label u-s-m-b-8">Chính Sách Sản Phẩm:</span>
-                                        <ul class="pd-detail__policy-list">
-                                            <li>
-                                                <i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                                <span>Bảo vệ người mua.</span>
-                                            </li>
-                                            <li>
-                                                <i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                                <span>Hoàn trả đầy đủ nếu bạn không nhận được đơn hàng.</span>
-                                            </li>
-                                            <li>
-                                                <i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                                <span>Trả hàng được chấp nhận nếu như sản phẩm không giống như mô tả.</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!--====== End - Product Right Side Details ======-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!--====== End - Quick Look Modal ======-->
-            <!--====== Add to Cart Modal ======-->
-            <div class="modal fade" id="add-to-cart-@item.ID">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content modal-radius modal-shadow">
-
-                        <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="success u-s-m-b-30">
-                                        <div class="success__text-wrap">
-                                            <i class="fas fa-check"></i>
-
-                                            <span>Sản phẩm đã được thêm thành công!</span>
-                                        </div>
-                                        <div class="success__img-wrap">
-
-                                            <img class="u-img-fluid" src='data:image/png;base64,@item.Image ' alt="">
-                                        </div>
-                                        <div>&nbsp;</div>
-                                        <div class="success__info-wrap">
-
-                                            <span class="success__name">@item.ProductName - @DBIO.getallColor(item.ID).First().ColorName</span>
-
-                                            <span class="success__quantity">Số lượng: 1</span>
-
-                                            <span class="success__price">@String.Format("{0:0,0}", @b) đ</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="s-option">
-
-                                        <span class="s-option__text" id="tbb-@item.ID"></span>
-                                        <div class="s-option__link-box">
-
-                                            <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Index","Home")>TIẾP TỤC MUA SẮM</a>
-
-                                            <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Cart","Home")>XEM GIỎ HÀNG</a>
-
-                                            <a class="s-option__link btn--e-brand-shadow" href=@Url.Action("checkoutCart","User")>ĐẾN TRANG THANH TOÁN</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>}
         <!--====== End - Add to Cart Modal ======-->
         <!--====== Newsletter Subscribe Modal ======-->
         <div class="modal fade new-l" id="newsletter-modal">
@@ -1456,6 +1120,8 @@
         <!--====== End - Newsletter Subscribe Modal ======-->
         <!--====== End - Modal Section ======-->
     </div>
+    
+
     <!--====== End - Main App ======-->
     <!--====== Google Analytics: change UA-XXXXX-Y to be your site's ID ======-->
 
@@ -1468,16 +1134,17 @@
         ga('create', 'UA-XXXXX-Y', 'auto');
         ga('send', 'pageview')</script>
     <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-    
+
 
     <!--====== Vendor Js ======-->
     <script src="/Asset/js/vendor.js"></script>
 
+    <script src="~/Asset/js/waitMe.js"></script>
     <!--====== jQuery Shopnav plugin ======-->
     <script src="/Asset/js/jquery.shopnav.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="/Asset/js/map-init.js"></script>
-
+    <script src="~/Asset/js/iao-alert.jquery.min.js"></script>
     <!--====== jQuery Shopnav plugin ======-->
     <script src="/Asset/js/jquery.shopnav.js"></script>
     <!--====== App ======-->

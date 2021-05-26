@@ -2,7 +2,7 @@
 @using DataBase
 @using ShopKA.Models
 @{
-    ViewBag.Title = "checkoutCart";
+    ViewBag.Title = "Thanh toán";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
     List<Cart> cart = ViewBag.Cart;
     Address ship = ViewBag.ShipAddress;
@@ -114,7 +114,7 @@
                                                 <div class="o-card__flex">
                                                     <div class="o-card__img-wrap">
 
-                                                        <img class="u-img-fluid" src='data:image/png;base64,@DBIO.getProduct_Cart(item).Image ' alt="">
+                                                        <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image  alt="">
                                                     </div>
                                                     <div class="o-card__info-wrap">
 
@@ -232,37 +232,7 @@
 
                                                 <span class="gl-text u-s-m-t-6">Thanh toán online qua các ngân hàng nội địa</span>
                                             </div>
-                                            <div class="u-s-m-b-10">
-
-                                                <!--====== Radio Box ======-->
-                                                <div class="radio-box">
-
-                                                    <input type="radio" id="pay-with-check" name="payment" value=3>
-                                                    <div class="radio-box__state radio-box__state--primary">
-
-                                                        <label class="radio-box__label" for="pay-with-check">PayPal</label>
-                                                    </div>
-                                                </div>
-                                                <!--====== End - Radio Box ======-->
-
-                                                <span class="gl-text u-s-m-t-6">Thanh toán online bằng tài khoản Paypal</span>
-                                            </div>
-                                            <div class="u-s-m-b-10">
-
-                                                <!--====== Radio Box ======-->
-                                                <div class="radio-box">
-
-                                                    <input type="radio" id="pay-with-card" name="payment" value=4>
-                                                    <div class="radio-box__state radio-box__state--primary">
-
-                                                        <label class="radio-box__label" for="pay-with-card">Thẻ Visa</label>
-                                                    </div>
-                                                </div>
-                                                <!--====== End - Radio Box ======-->
-
-                                                <span class="gl-text u-s-m-t-6">Thanh toán online qua thẻ Visa quốc tế</span>
-                                            </div>
-
+                                            
                                             <div class="u-s-m-b-15">
 
                                                 <!--====== Check Box ======-->
@@ -280,7 +250,7 @@
                                             </div>
                                             <div>
 
-                                                <button class="btn btn--e-brand-b-2" id="ok2" type="submit">Tạo đơn hàng</button>
+                                                <button class="btn btn--e-brand-b-2" id="ok2" type="button">Tạo đơn hàng</button>
                                             </div>
                                         </div>
                                     </div>
@@ -313,7 +283,7 @@
                     </div>
                     @if (address.Count() != 0)
                     {
-                        using (Ajax.BeginForm("checkoutshipaddress", "User", new { ID = bill.ID ,type="ship"}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "shiprange", InsertionMode = InsertionMode.Replace }))
+                        using (Ajax.BeginForm("checkoutshipaddress", "User", new { ID = bill.ID ,type="ship"}, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMe('#edit-ship-address')",OnComplete= "changeship()", UpdateTargetId = "shiprange", InsertionMode = InsertionMode.Replace }))
                         {
                             <div class="checkout-modal2__form">
                                 <div class="dash__table-2-wrap u-s-m-b-30 gl-scroll">
@@ -398,7 +368,7 @@
                     </div>
                     @if (address.Count() != 0)
                     {
-                        using (Ajax.BeginForm("checkoutshipaddress", "User", new { ID = ship.ID, type = "bill" }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "billrange", InsertionMode = InsertionMode.Replace }))
+                        using (Ajax.BeginForm("checkoutshipaddress", "User", new { ID = ship.ID, type = "bill" }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMe('#edit-bill-address')", OnComplete = "changebill()", UpdateTargetId = "billrange", InsertionMode = InsertionMode.Replace }))
                         {
                             <div class="checkout-modal2__form">
                                 <div class="dash__table-2-wrap u-s-m-b-30 gl-scroll">
@@ -554,7 +524,7 @@
 <script>
     $('body').on('change', '#province', function () {
         var a = document.getElementById("province").value;
-
+        run_waitMe('#district');
 
         $.ajax({
             type: 'POST',
@@ -562,6 +532,7 @@
             url: '/User/getDistrict',
             success: function (ketqua) {
                 $('#district').html(ketqua);
+                stop_waitMe('#district');
             }
         })
     });
@@ -570,13 +541,17 @@
         var ID = $(this).attr('data_value');
         
         if (confirm('Xóa sản phẩm sẽ làm mã voucher hết hiệu lực, bạn có muốn xóa không?')) {
+            run_waitMe('#checkoutPD');
+            run_waitMe('#kqVoucher');
+            run_waitMe('#money');
+            run_waitMe('#cartmini');
             $.ajax({
                 type: 'POST',
                 data: { ID: ID },
                 url: '/User/checkoutPD',
                 success: function (ketqua) {
                     $('#checkoutPD').html(ketqua);
-
+                    stop_waitMe('#checkoutPD');
 
                 }
             })
@@ -586,7 +561,7 @@
                 url: '/User/checkVoucher',
                 success: function (ketqua) {
                     $('#kqVoucher').html(ketqua);
-
+                    stop_waitMe('#kqVoucher');
 
                 }
             })
@@ -597,7 +572,7 @@
                 url: '/User/checkoutMoney',
                 success: function (ketqua) {
                     $('#money').html(ketqua);
-
+                    stop_waitMe('#money');
 
                 }
             })
@@ -607,7 +582,7 @@
                 url: '/Home/DeleteCart2',
                 success: function (ketqua) {
                     $('#cartmini').html(ketqua);
-
+                    stop_waitMe('#cartmini');
 
                 }
             })
@@ -615,32 +590,51 @@
 
 
     });
-
-    $('#buttonship').on('click', function () {
-        alert("Đã thay đổi địa chỉ nhận hàng");
+    function changeship() {
+        stop_waitMe('#edit-ship-address');
+        $('#edit-ship-address').modal('hide');
+        $.iaoAlert({
+            msg: "Đã thay đổi địa chỉ nhận hàng",
+            type: "success",
+            mode: "light",
+        })
+    };
+    function changebill() {
+        stop_waitMe('#edit-bill-address');
+        $('#edit-bill-address').modal('hide');
+        $.iaoAlert({
+            msg: "Đã thay đổi địa chỉ thanh toán",
+            type: "success",
+            mode: "light",
+        })
+    };
+    //$('#buttonship').on('click', function () {
+    //    alert("Đã thay đổi địa chỉ nhận hàng");
         
 
 
 
-    });
-    $('#buttonbill').on('click', function () {
-        alert("Đã thay đổi địa chỉ thanh toán");
+    //});
+    //$('#buttonbill').on('click', function () {
+    //    alert("Đã thay đổi địa chỉ thanh toán");
 
 
 
 
-    });
+    //});
     $('#buttonvc').on('click', function () {
         var code = $("#code").val();
         var SLSP = $("#SLSP").attr('data_value');
         var money = $("#tien").attr('data_value');
+        run_waitMe('#kqVoucher');
+        run_waitMe('#money');
         $.ajax({
             type: 'POST',
             data: {code:code,SLSP:SLSP,money:money},
             url: '/User/checkVoucher',
             success: function (ketqua) {
                 $('#kqVoucher').html(ketqua);
-
+                stop_waitMe('#kqVoucher');
 
             }
             
@@ -652,7 +646,7 @@
                 url: '/User/MoneyVoucher',
                 success: function (ketqua) {
                     $('#money').html(ketqua);
-
+                    stop_waitMe('#money');
 
                 }
 

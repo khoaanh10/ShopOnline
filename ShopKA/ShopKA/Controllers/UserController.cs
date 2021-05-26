@@ -74,7 +74,7 @@ namespace ShopKA.Controllers
                 else
                 {
                     Session.Add("SS", a);
-                    FormsAuthentication.SetAuthCookie(a.UserName, false);
+                    FormsAuthentication.SetAuthCookie(a.UserName,false);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -87,7 +87,10 @@ namespace ShopKA.Controllers
         public ActionResult Logout()
         {
             Session["SS"] = null;
+
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
+
         }
 
         public ActionResult Profile()

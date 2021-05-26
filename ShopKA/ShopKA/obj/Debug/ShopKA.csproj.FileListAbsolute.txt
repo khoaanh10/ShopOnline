@@ -182,6 +182,7 @@ D:\KhoaAnhProject\ShopOnline\ShopKA\ShopKA\obj\Debug\ShopKA.csproj.CoreCompileIn
 D:\KhoaAnhProject\ShopOnline\ShopKA\ShopKA\obj\Debug\ShopKA.csproj.CopyComplete
 D:\KhoaAnhProject\ShopOnline\ShopKA\ShopKA\obj\Debug\ShopKA.dll
 D:\KhoaAnhProject\ShopOnline\ShopKA\ShopKA\obj\Debug\ShopKA.pdb
+E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\EntityFramework.dll
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\ShopKA.dll.config
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\ShopKA.dll
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\ShopKA.pdb
@@ -236,7 +237,6 @@ E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\roslyn\VBCSCompiler.exe
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\roslyn\VBCSCompiler.exe.config
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\Antlr3.Runtime.dll
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\Data.dll
-E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\EntityFramework.dll
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\EntityFramework.SqlServer.dll
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 E:\KhoaAnhGit\ShopOnline\ShopKA\ShopKA\bin\Microsoft.Web.Infrastructure.dll

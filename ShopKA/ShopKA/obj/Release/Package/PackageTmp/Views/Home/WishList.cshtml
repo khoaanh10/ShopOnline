@@ -2,7 +2,7 @@
 @using ShopKA.Models
 @using DataBase
 @{
-    ViewBag.Title = "WishList";
+    ViewBag.Title = "Sản phẩm yêu thích";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -84,7 +84,7 @@ else
             <!--====== Section Content ======-->
             <div class="section__content">
                 <div class="container">
-                    <div class="row">
+                    <div class="row" id="Wish2">
                         <div class="col-lg-12 col-md-12 col-sm-12" style="max-height:500px;overflow-y:scroll" id="Wish">
                             @foreach (var item in Model)
                             {
@@ -99,7 +99,7 @@ else
                                         <div class="w-r__wrap-1">
                                             <div class="w-r__img-wrap">
 
-                                                <img class="u-img-fluid" src='data:image/png;base64,@DBIO.get1Product(item.ProductID).Image' alt="">
+                                                <img class="u-img-fluid" src=@DBIO.get1Product(item.ProductID).Image alt="">
                                             </div>
                                             <div class="w-r__info">
 
@@ -162,43 +162,111 @@ else
         </div>
         <!--====== End - Section 2 ======-->
     </div>}
-    <script>
-        $('.deleteWish').on('click', function () {
-            var ID = $(this).attr('data_value')
+@foreach (var item1 in Model)
+{
+    var item = DBIO.get1Product(item1.ProductID);
+    var NSX1 = DBIO.get1Producer_ProducerID(item.ProducerID);
+    var LSP1 = DBIO.get1ProductT_ProductTID(NSX1.ProductTID);
+    float d = (float)(item.Price * item.Sale);
+    int b1 = (int)(item.Price - d);
+    float Sale1 = (item.Sale * 100);
+
+
+
+
+
+    <!--====== End - Quick Look Modal ======-->
+    <!--====== Add to Cart Modal ======-->
+    <div class="modal fade" id="add-to-cart-@item.ID">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-radius modal-shadow">
+
+                <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="success u-s-m-b-30">
+                                <div class="success__text-wrap">
+                                    <i class="fas fa-check"></i>
+
+                                    <span>Sản phẩm đã được thêm thành công!</span>
+                                </div>
+                                <div class="success__img-wrap">
+
+                                    <img class="u-img-fluid" src=@item.Image alt="">
+                                </div>
+                                <div>&nbsp;</div>
+                                <div class="success__info-wrap">
+
+                                    <span class="success__name">@item.ProductName - @DBIO.getallColor(item.ID).First().ColorName</span>
+
+                                    <span class="success__quantity">Số lượng: 1</span>
+
+                                    <span class="success__price">@String.Format("{0:0,0}", @b1) đ</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="s-option">
+
+                                <span class="s-option__text" id="tbb-@item.ID"></span>
+                                <div class="s-option__link-box">
+
+                                    <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Index","Home")>TIẾP TỤC MUA SẮM</a>
+
+                                    <a class="s-option__link btn--e-white-brand-shadow" href=@Url.Action("Cart","Home")>XEM GIỎ HÀNG</a>
+
+                                    <a class="s-option__link btn--e-brand-shadow" href=@Url.Action("checkoutCart","User")>ĐẾN TRANG THANH TOÁN</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>}
+<script>
+    $('.deleteWish').on('click', function () {
+        var ID = $(this).attr('data_value');
+        
+            run_waitMe('#Wish2');
             $.ajax({
                 type: 'POST',
                 data: { ID: ID },
                 url: '/Home/deleteWish',
                 success: function (ketqua) {
                     $('#Wish').html(ketqua);
-                    aler("Đã xóa");
+                    stop_waitMe('#Wish2');
 
                 }
             })
+        
 
 
 
 
-        });
+    });
 
-        $('#clearWish').on('click', function () {
-            
+    $('#clearWish').on('click', function () {
+        if (confirm('Bạn có chắc chắn muốn xóa hết danh sách không')) {
+            run_waitMe('#clear');
             $.ajax({
                 type: 'POST',
                 data: {},
                 url: '/Home/clearWish',
                 success: function (ketqua) {
                     $('#clear').html(ketqua);
-
+                    stop_waitMe('#clear');
 
                 }
             })
+        }
 
 
 
 
-        });
+    });
 
 
-    </script>
+</script>
 

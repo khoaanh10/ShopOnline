@@ -161,7 +161,7 @@ E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\DataBase.csproj.CoreCompileInputs
 E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\DataBase.csproj.CopyComplete
 E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\Data.dll
 E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\Data.pdb
-E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\DataBase.csprojAssemblyReference.cache
 E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.start.resources
 E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\DataBase.csproj.GenerateResource.cache
 E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\Data.Migrations.editSellDate.resources
+E:\KhoaAnhGit\ShopOnline\ShopKA\Data\obj\Debug\DataBase.csprojAssemblyReference.cache

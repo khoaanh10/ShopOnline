@@ -2,7 +2,7 @@
 @using ShopKA.Models
 @using DataBase
 @{
-    ViewBag.Title = "User";
+    ViewBag.Title = "Quản lí người dùng";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
 }
 
@@ -43,7 +43,7 @@
                         <td>@item.Fullname</td>
                         <td>@{string t = item.Permission == 0 ? "Admin" : item.Permission == 1 ? "Quản trị viên" : "Thành viên";}@t</td>
                         @{ string p = item.Status == true ? "Đang hoạt động" : "Đang khóa";}
-                        <td id="st-@item.ID">@Ajax.ActionLink(p, "changeSTTUser", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "st-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        <td id="st-@item.ID">@Ajax.ActionLink(p, "changeSTTUser", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#st-" + item.ID + "')", OnComplete = "stop_waitMe('#st-" + item.ID + "')", UpdateTargetId = "st-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
 
 
 

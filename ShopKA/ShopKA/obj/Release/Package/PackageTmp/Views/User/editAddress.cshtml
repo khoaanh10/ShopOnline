@@ -2,7 +2,7 @@
 @using DataBase
 @using ShopKA.Models
 @{
-    ViewBag.Title = "addAddress";
+    ViewBag.Title = "Chỉnh sửa địa chỉ";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
     Address Address = ViewBag.Address;
     Province province = DBIO.get1Province(Address.ProvinceID);
@@ -23,11 +23,11 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a>
+                                <a href="/">Trang chủ</a>
                             </li>
                             <li class="is-marked">
 
-                                <a href="dash-address-add.html">My Account</a>
+                                <a >Địa chỉ</a>
                             </li>
                         </ul>
                     </div>
@@ -214,7 +214,7 @@
 <script>
     $('body').on('change', '#province', function () {
         var a = document.getElementById("province").value;
-
+        run_waitMe('#district');
 
         $.ajax({
             type: 'POST',
@@ -222,6 +222,7 @@
             url: '/User/getDistrict',
             success: function (ketqua) {
                 $('#district').html(ketqua);
+                stop_waitMe('#district');
             }
         })
     });

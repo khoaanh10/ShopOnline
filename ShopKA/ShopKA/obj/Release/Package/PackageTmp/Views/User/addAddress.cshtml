@@ -2,7 +2,7 @@
 @using DataBase
 @using ShopKA.Models
 @{
-    ViewBag.Title = "addAddress";
+    ViewBag.Title = "Thêm địa chỉ";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -110,8 +110,8 @@
                     </div>
                         <div class="col-lg-9 col-md-12">
                             <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white">
-                                <div class="dash__pad-2">
-                                    <h1 class="dash__h1 u-s-m-b-14">Add new Address</h1>
+                                <div class="dash__pad-2 ">
+                                    <h1 class="dash__h1 u-s-m-b-14">Thêm địa chỉ mới</h1>
 
 
                                     @using (Html.BeginForm("addAddress", "User", FormMethod.Post))
@@ -155,7 +155,7 @@
                                             </select>
                                             <!--====== End - Select Box ======-->
                                         </div>
-                                        <div class="u-s-m-b-30">
+                                        <div class="u-s-m-b-30" id="addad">
 
                                             <!--====== Select Box ======-->
 
@@ -197,6 +197,7 @@
 </div>
 <script>
     $('body').on('change', '#province', function () {
+        run_waitMe('#district');
         var a = document.getElementById("province").value;
         
 
@@ -206,6 +207,7 @@
             url: '/User/getDistrict',
             success: function (ketqua) {
                 $('#district').html(ketqua);
+                stop_waitMe('#district');
             }
         })
     });

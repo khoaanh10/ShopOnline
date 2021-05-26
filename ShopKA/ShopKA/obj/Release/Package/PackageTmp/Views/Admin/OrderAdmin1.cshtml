@@ -62,15 +62,15 @@
                     <td>@(gia1 +ship) đ @bonus</td>
                     @if (item.Status < 3)
                     {
-                        <td id="orderSTT-@item.ID">@Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        <td id="orderSTT-@item.ID">@Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                     }
                     else if (item.Status == 3)
                     {
-                        <td id="orderSTT-@item.ID">Đang giao hàng - @Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID,ID2=5}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        <td id="orderSTT-@item.ID">Đang giao hàng - @Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID,ID2=5}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                     }
                     else if (item.Status == 5)
                     {
-                        <td id="orderSTT-@item.ID">Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </td>
+                        <td id="orderSTT-@item.ID">Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </td>
                     }
 
                     else
@@ -80,9 +80,9 @@
 
 
                     <td>
-                        <a class="btn btn-primary addeleteOrder" data_value=@item.ID role="button">Xóa đơn hàng</a>
+                        <a class="btn btn-danger btn-sm btn-circle addeleteOrder" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
 
-                        <a class="btn btn-primary" href=@Url.Action("AdOrderDetail", "Admin", new { ID = @item.ID }) role="button">Chi tiết đơn hàng</a>
+                        <a class="btn btn-info btn-sm btn-circle" href=@Url.Action("AdOrderDetail", "Admin", new { ID = @item.ID }) role="button"><i class="fas fa-info-circle"></i></a>
 
                     </td>
 
@@ -94,14 +94,8 @@
         </table>
     </div>
 </div>
-<script src="/AssetAdmin/vendor/jquery/jquery.min.js"></script>
-<script src="/AssetAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 <!-- Core plugin JavaScript-->
-<script src="/AssetAdmin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="/AssetAdmin/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
 <script src="/AssetAdmin/vendor/datatables/jquery.dataTables.min.js"></script>
@@ -110,4 +104,3 @@
 <!-- Page level custom scripts -->
 <script src="~/Scripts/App.js"></script>
 <script src="/AssetAdmin/js/demo/datatables-demo.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>

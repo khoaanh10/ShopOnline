@@ -2,7 +2,7 @@
 @using DataBase
 @using ShopKA.Models
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Sửa SP";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
     ProductT PT = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(Model.ProducerID).ProductTID);
     Producer PR1 = DBIO.get1Producer_ProducerID(Model.ProducerID);

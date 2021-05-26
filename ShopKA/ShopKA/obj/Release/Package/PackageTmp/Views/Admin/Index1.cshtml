@@ -3,17 +3,9 @@
 
 @using DataBase
 @{MyDB DB = new MyDB(); }
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link href="/AssetAdmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-      rel="stylesheet">
 
-<!-- Custom styles for this template -->
-<link href="/AssetAdmin/css/sb-admin-2.min.css" rel="stylesheet">
 
-<!-- Custom styles for this page -->
-<link href="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-<div id="pdid" data_value=@ViewBag.ProducerID></div>>
+
 <div class="card-body">
     <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -68,7 +60,7 @@
                     @{string idd = 'a' + item.ID.ToString();}
                     @if (item.Launch == false)
                     {
-                        <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
+                        <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#" + @idd + "')", OnComplete = "stop_waitMe('#" + @idd + "')", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
                     }
                     else
                     {
@@ -76,7 +68,7 @@
                     }
 
 
-                    <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                    <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#" + item.ID + "')", OnComplete = "stop_waitMe('#" + item.ID + "')", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                     @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
                         {
                             <td>Không</td>
@@ -85,10 +77,10 @@
 
 
                             <td>
-                                <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
-                                <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
-                                <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
-                                <a class="btn btn-primary addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID}) role="button">Thêm Sale</a>
+                                <a class="btn btn-danger btn-circle btn-sm addeletePD" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-warning btn-circle btn-sm" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                                <a class="btn btn-info btn-circle btn-sm" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
+                                <a class="btn btn-circle btn-success btn-sm addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID}) role="button">+Sale</a>
 
                             </td>
                         }
@@ -98,23 +90,23 @@
                             if (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart > DateTime.Now)
                             {
 
-                                <td>Sắp Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                <td style="font-size:80%">Sắp Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd))</td>
                             }
                             else
                             {
                                 {
-                                    <td>Đang Sale: @ss % ( @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart) - @String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd) )</td>
+                                    <td style="font-size:80%">Đang Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd))</td>
                                 }
                             }
 
 
 
                             <td>
-                                <a class="btn btn-primary addeletePD" data_value=@item.ID role="button">Xóa</a>
-                                <a class="btn btn-primary" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
-                                <a class="btn btn-primary" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button">Xem chi tiết</a>
-                                <a class="btn btn-primary deleteSale" data_value=@item.ID role="button">Xóa Sale</a>
-                                <a class="btn btn-primary" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
+                                <a class="btn btn-danger btn-circle btn-sm addeletePD" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-warning btn-circle btn-sm" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                                <a class="btn btn-info btn-circle btn-sm" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
+                                <a class="btn btn-danger btn-circle btn-sm deleteSale" data_value=@item.ID role="button"><i class="fas fa-trash"></i> Sale</a>
+                                <a class="btn btn-warning btn-circle btn-sm" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
                             </td>
                         }
                     }
@@ -127,14 +119,7 @@
         </table>
     </div>
 </div>
-<script src="/AssetAdmin/vendor/jquery/jquery.min.js"></script>
-<script src="/AssetAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="/AssetAdmin/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="/AssetAdmin/js/sb-admin-2.min.js"></script>
+<div id="pdid" data_value=@ViewBag.ProducerID></div>
 
 <!-- Page level plugins -->
 <script src="/AssetAdmin/vendor/datatables/jquery.dataTables.min.js"></script>
@@ -150,12 +135,14 @@
         var ProducerID = $('#pdid').attr("data_value");
         var id = $(this).attr('data_value')
         if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này')) {
+            run_waitMe('#product');
             $.ajax({
                 type: 'POST',
                 data: { status: status, sell: sell, id: id ,ProducerID:ProducerID},
                 url: '/Admin/Index1',
                 success: function (ketqua) {
                     $('#product').html(ketqua);
+                    stop_waitMe('#product');
                 }
             })
         }
@@ -168,12 +155,14 @@
 
         var id2 = $(this).attr('data_value');
         if (confirm('Bạn có chắc chắn muốn xóa Sale của sản phẩm này')) {
+            run_waitMe('#product');
             $.ajax({
                 type: 'POST',
                 data: { status: status, sell: sell, id2: id2, ProducerID: ProducerID },
                 url: '/Admin/Index1',
                 success: function (ketqua) {
                     $('#product').html(ketqua);
+                    stop_waitMe('#product');
                 }
             })
         }

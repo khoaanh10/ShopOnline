@@ -10,7 +10,7 @@
         t = "Đang Ẩn";
     }
 }
-@Ajax.ActionLink(t, "ChangeSTT", "Admin", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = Model.ID.ToString(), InsertionMode = InsertionMode.Replace })
+@Ajax.ActionLink(t, "ChangeSTT", "Admin", new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#" + Model.ID + "')",OnComplete= "stop_waitMe('#" + Model.ID + "')",UpdateTargetId = Model.ID.ToString(), InsertionMode = InsertionMode.Replace })
 @if (ViewBag.TB != null)
 {
     <div class="text-danger">

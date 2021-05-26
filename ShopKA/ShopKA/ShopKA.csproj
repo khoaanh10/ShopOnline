@@ -2255,6 +2255,9 @@
     <Content Include="Asset\webfonts\lg.eot" />
     <Content Include="Asset\webfonts\lg.ttf" />
     <Content Include="Asset\webfonts\lg.woff" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

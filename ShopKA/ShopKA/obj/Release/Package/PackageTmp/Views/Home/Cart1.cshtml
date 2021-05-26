@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="table-p__img-wrap">
 
-                                            <img class="u-img-fluid" src='data:image/png;base64,@DBIO.getProduct_Cart(item).Image' alt="">
+                                            <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
                                         </div>
                                         <div class="table-p__info">
 
@@ -61,8 +61,13 @@
                                         @String.Format("{0:0,0}", @b) đ
 
                                         @if (Sale != 0)
-                                        {<span class="pd-detail__discount">(@Sale  % OFF)</span><span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.getProduct_Cart(item).Price) đ</span>}
+                                        {<span class="pd-detail__discount">(-@Sale % )</span>}
+
+
                                     </span>
+                                    @if (Sale != 0)
+                                    {
+                                        <span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.getProduct_Cart(item).Price) đ</span>}
                                 </td>
                                 <td>
                                     <div class="table-p__input-counter-wrap">
@@ -134,33 +139,27 @@
         var d = $(this).attr('data_value');
 
 
+        run_waitMe('#Cartpage');
+        run_waitMe('#cartmini');
+        run_waitMe('#countcart');
+        run_waitMe('#Pricetotal');
         $.ajax({
             type: 'POST',
-            data: { ID: d, pagenum: e },
+            data: { ID: d },
             url: '/Home/DeleteCart',
             success: function (ketqua) {
                 $('#Cartpage').html(ketqua);
-                alert("Đã xóa");
+                stop_waitMe('#Cartpage');
+
             }
         })
-
         $.ajax({
             type: 'POST',
             data: {},
             url: '/Home/Pricetotal',
             success: function (ketqua) {
                 $('#Pricetotal').html(ketqua);
-
-
-            }
-        })
-        $.ajax({
-            type: 'POST',
-            data: {},
-            url: '/Home/DeleteCart2',
-            success: function (ketqua) {
-                $('#cartmini').html(ketqua);
-
+                stop_waitMe('#Pricetotal');
 
             }
         })
@@ -170,11 +169,20 @@
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
 
             }
         })
+        $.ajax({
+            type: 'POST',
+            data: {},
+            url: '/Home/DeleteCart2',
+            success: function (ketqua) {
+                $('#cartmini').html(ketqua);
+                stop_waitMe('#cartmini');
 
+            }
+        })
 
 
 
@@ -182,14 +190,19 @@
     $('#deletecheck').on('click', function () {
 
 
+        run_waitMe('#Cartpage');
+        run_waitMe('#cartmini');
+        run_waitMe('#countcart');
+        run_waitMe('#Pricetotal');
+
         $.ajax({
             type: 'POST',
             data: {},
             url: '/Home/deletecheck',
             success: function (ketqua) {
                 $('#Cartpage').html(ketqua);
-                alert("Đã xóa mục đã chọn");
 
+                stop_waitMe('#Cartpage');
             }
         })
 
@@ -200,7 +213,7 @@
             url: '/Home/Pricetotal',
             success: function (ketqua) {
                 $('#Pricetotal').html(ketqua);
-
+                stop_waitMe('#Pricetotal');
 
             }
         })
@@ -210,7 +223,7 @@
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
 
             }
         })
@@ -220,33 +233,30 @@
             url: '/Home/DeleteCart2',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-
+                stop_waitMe('#cartmini');
 
             }
         })
 
 
 
-    });
-    $('.pagecart').on('click', function () {
-        var d = $(this).attr('data_value');
-
-
-        $.ajax({
-            type: 'POST',
-            data: { page: d },
-            url: '/Home/Cart1',
-            success: function (ketqua) {
-                $('#Cartpage').html(ketqua);
-            }
-        })
-
-
 
     });
-
+   
     $('#updatecart').on('click', function () {
         alert("Đã cập nhật giỏ hàng");
+        $.ajax({
+            type: 'POST',
+            data: {},
+            url: '/Home/DeleteCart2',
+            success: function (ketqua) {
+                $('#cartmini').html(ketqua);
+                stop_waitMe('#cartmini');
+
+            }
+        })
+
+
 
 
 
@@ -257,35 +267,29 @@
     $('#clearcart').on('click', function () {
 
 
+        run_waitMe('#empty');
+        run_waitMe('#countcart');
+        run_waitMe('#cartmini');
         $.ajax({
             type: 'POST',
             data: {},
             url: '/Home/ClearCart',
             success: function (ketqua) {
                 $('#empty').html(ketqua);
-                alert("Đã xóa sạch giỏ hàng");
+                stop_waitMe('#empty');
 
             }
         })
 
 
-        $.ajax({
-            type: 'POST',
-            data: {},
-            url: '/Home/Pricetotal',
-            success: function (ketqua) {
-                $('#Pricetotal').html(ketqua);
 
-
-            }
-        })
         $.ajax({
             type: 'POST',
             data: {},
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
 
             }
         })
@@ -295,16 +299,16 @@
             url: '/Home/DeleteCart2',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-
+                stop_waitMe('#cartmini');
 
             }
         })
 
-
-
     });
     $('.checkSTT').on('click', function () {
 
+        run_waitMe('#Pricetotal');
+        run_waitMe('#cartmini');
         if ($(this).is(':checked')) {
             var check = true;
         }
@@ -316,7 +320,7 @@
             url: '/Home/changecheck',
             success: function (ketqua) {
                 $('#Pricetotal').html(ketqua);
-
+                stop_waitMe('#Pricetotal');
 
             }
         })
@@ -326,7 +330,7 @@
             url: '/Home/DeleteCart2',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-
+                stop_waitMe('#cartmini');
 
             }
         })
