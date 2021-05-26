@@ -245,46 +245,52 @@ $('.page').on('click', function () {
 
 $('.Deletecartmini').on('click', function () {
         var d = $(this).attr('data_value');
-        
+    run_waitMe('#cartmini');
+    run_waitMe('#countcart');
+    run_waitMe('#Pricetotal');
+    run_waitMe('#Cartpage');
+
         $.ajax({
             type: 'POST',
             data: { ID: d},
             url: '/Home/DeleteCartmini',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-               
+                stop_waitMe('#cartmini');
                 
             }
         })
 
-        $.ajax({
-            type: 'POST',
-            data: { },
-            url: '/Home/Cart1',
-            success: function (ketqua) {
-                $('#Cartpage').html(ketqua);
-                alert("Đã xóa");
-
-            }
-        })
-
+        
         $.ajax({
             type: 'POST',
             data: {},
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
 
             }
         })
         $.ajax({
             type: 'POST',
             data: {},
+            url: '/Home/Cart1',
+            success: function (ketqua) {
+                $('#Cartpage').html(ketqua);
+                stop_waitMe('#Cartpage');
+
+
+            }
+        })
+
+        $.ajax({
+            type: 'POST',
+            data: {},
             url: '/Home/Pricetotal',
             success: function (ketqua) {
                 $('#Pricetotal').html(ketqua);
-
+                stop_waitMe('#Pricetotal');
 
             }
         })
@@ -328,7 +334,8 @@ $('#ok2').on('click', function () {
 
 });
 $('.checkSTT').on('click', function () {
-
+    run_waitMe('#Pricetotal');
+    run_waitMe('#cartmini');
     if ($(this).is(':checked')) {
         var check = true;
     }
@@ -340,7 +347,7 @@ $('.checkSTT').on('click', function () {
         url: '/Home/changecheck',
         success: function (ketqua) {
             $('#Pricetotal').html(ketqua);
-            
+            stop_waitMe('#Pricetotal');
 
         }
     })
@@ -350,7 +357,7 @@ $('.checkSTT').on('click', function () {
         url: '/Home/DeleteCart2',
         success: function (ketqua) {
             $('#cartmini').html(ketqua);
-
+            stop_waitMe('#cartmini');
 
         }
     })
@@ -361,6 +368,9 @@ $('.checkSTT').on('click', function () {
 
 });
 $('.checkSTT2').on('click', function () {
+    run_waitMe('#total');
+    run_waitMe('#Pricetotal');
+    run_waitMe('#Cartpage');
 
     if ($(this).is(':checked')) {
         var check = true;
@@ -373,7 +383,7 @@ $('.checkSTT2').on('click', function () {
         url: '/Home/changecheck',
         success: function (ketqua) {
             $('#Pricetotal').html(ketqua);
-
+            stop_waitMe('#Pricetotal');
 
         }
     })
@@ -383,7 +393,7 @@ $('.checkSTT2').on('click', function () {
         url: '/Home/total',
         success: function (ketqua) {
             $('#total').html(ketqua);
-
+            stop_waitMe('#total');
 
         }
     })
@@ -393,10 +403,13 @@ $('.checkSTT2').on('click', function () {
         url: '/Home/Cart1',
         success: function (ketqua) {
             $('#Cartpage').html(ketqua);
-
+            stop_waitMe('#Cartpage');
 
         }
     })
+    
+    
+    
 
 
 
@@ -407,19 +420,20 @@ $('.checkSTT2').on('click', function () {
 $('.colorP2').on('click', function () {
     var d = $(this).attr('value');
     var a = $(this).attr('data_value');
-
+    run_waitMe('#quantity-' + a.toString());
     $.ajax({
         type: 'POST',
         data: { ID: d },
         url: '/Home/ColorQuantity',
         success: function (ketqua) {
             $('#quantity-' + a.toString()).html(ketqua);
+            stop_waitMe('#quantity-' + a.toString());
         }
     })
 });
 
 $('.ok3').on('click', function () {
-    alert("Đã thêm thành công");
+    run_waitMe('#countcart');
     var id1 = $(this).attr('data_value');
     var ID = $('.colorP-'+id1.toString()).attr('value');
     $.ajax({
@@ -428,6 +442,8 @@ $('.ok3').on('click', function () {
         url: '/Home/CountCart2',
         success: function (ketqua) {
             $('#countcart').html(ketqua);
+            stop_waitMe('#countcart');
+            alert("Đã thêm vào giỏ hàng");
 
         }
     })
@@ -435,17 +451,20 @@ $('.ok3').on('click', function () {
 
 });
 $('.addcartindex').on('click', function () {
-
+    run_waitMe('#countcart');
     var color = parseInt($(this).attr('data_value2'));
     var a = { ColorID: color, Quantity: 1 };
-    var b =$(this).attr('data_value');
+    var b = $(this).attr('data_value');
+    var c = $(this).attr('data-modal-id');
+    run_waitMe(c);
+    run_waitMe('#tbb-' + b);
     $.ajax({
         type: 'POST',
         data: { a:a },
         url: '/Home/AddCart',
         success: function (ketqua) {
             $('#cartmini').html(ketqua);
-           
+            stop_waitMe(c);
         }
     })
 
@@ -455,7 +474,7 @@ $('.addcartindex').on('click', function () {
         url: '/Home/TB',
         success: function (ketqua) {
             $('#tbb-'+b).html(ketqua);
-
+            stop_waitMe('#tbb-' + b);
         }
     })
     $.ajax({
@@ -464,49 +483,15 @@ $('.addcartindex').on('click', function () {
         url: '/Home/CountCart2',
         success: function (ketqua) {
             $('#countcart').html(ketqua);
-
+            stop_waitMe('#countcart');
         }
     })
 
 });
-$('.addcartindex2').on('click', function () {
 
-    var color = parseInt($(this).attr('data_value2'));
-    var a = { ColorID: color, Quantity: 1 };
-    var b = $(this).attr('data_value');
-    $.ajax({
-        type: 'POST',
-        data: { a: a },
-        url: '/Home/AddCart',
-        success: function (ketqua) {
-            $('#cartmini').html(ketqua);
-            alert('Đã thêm vào giỏ hàng');
-        }
-    })
-
-    $.ajax({
-        type: 'POST',
-        data: {},
-        url: '/Home/TB',
-        success: function (ketqua) {
-            $('#tbb-' + b).html(ketqua);
-
-        }
-    })
-    $.ajax({
-        type: 'POST',
-        data: { ID: color },
-        url: '/Home/CountCart2',
-        success: function (ketqua) {
-            $('#countcart').html(ketqua);
-
-        }
-    })
-
-});
 $('.addWishList').on('click', function () {
 
-    
+    run_waitMe('#app');
     
     var ID = $(this).attr('data_value');
     $.ajax({
@@ -514,19 +499,21 @@ $('.addWishList').on('click', function () {
         data: { ID: ID },
         url: '/Home/addWishList',
         success: function (ketqua) {
+            stop_waitMe('#app');
             alert("Đã thêm vào yêu thích");
-
+            
         }
     })
 });
 $('.addWish').on('click', function () {
-
+    run_waitMe('#app');
     var ID = $(this).attr('data_value');
     $.ajax({
         type: 'POST',
         data: { ID: ID },
         url: '/Home/addWishList',
         success: function (ketqua) {
+            stop_waitMe('#app');
             alert("Đã thêm vào yêu thích");
 
         }

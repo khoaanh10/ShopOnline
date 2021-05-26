@@ -1,4 +1,4 @@
-﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+﻿
 @if (ViewBag.check == 0)
 {
     <div id="Vouchercode" data_value=null></div>
@@ -156,13 +156,15 @@ else
         var code = $("#code").val();
         var SLSP = $("#SLSP").attr('data_value');
         var money = $("#tien").attr('data_value');
+        run_waitMe('#kqVoucher');
+        run_waitMe('#money');
         $.ajax({
             type: 'POST',
             data: { code: code, SLSP: SLSP, money: money },
             url: '/User/checkVoucher',
             success: function (ketqua) {
                 $('#kqVoucher').html(ketqua);
-
+                stop_waitMe('#kqVoucher');
 
             }
 
@@ -173,7 +175,7 @@ else
             url: '/User/MoneyVoucher',
             success: function (ketqua) {
                 $('#money').html(ketqua);
-
+                stop_waitMe('#money');
 
             }
 

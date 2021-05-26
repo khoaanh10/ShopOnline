@@ -1079,6 +1079,7 @@
 <script>
     // Phân trang ajax
     $('.pagereview').on('click', function () {
+        run_waitMe('#review');
         var d = $(this).attr('data_value');
         var e = $('#ProductID').attr('data_value');
         var b = document.getElementById("sort_review").value;
@@ -1088,6 +1089,7 @@
             url: '/Home/Review1',
             success: function (ketqua) {
                 $('#review').html(ketqua);
+                stop_waitMe('#review');
             }
         })
 
@@ -1095,23 +1097,28 @@
     });
     // xóa đánh giá
     $('.mini-product__delete-link').on('click', function () {
+
         var d = $(this).attr('data_value');
         var e = $('#ProductID').attr('data_value');
         var b = document.getElementById("sort_review").value;
-        alert("Đã xóa");
-        $.ajax({
-            type: 'POST',
-            data: { ProductID: e, ID: d, Sort: b },
-            url: '/Home/DeleteReview',
-            success: function (ketqua) {
-                $('#pd-rev').html(ketqua);
-            }
-        })
+        if (confirm('Bạn có chắc chắn muốn xóa bình luận này không')) {
+            run_waitMe('#pd-rev');
+            $.ajax({
+                type: 'POST',
+                data: { ProductID: e, ID: d, Sort: b },
+                url: '/Home/DeleteReview',
+                success: function (ketqua) {
+                    $('#pd-rev').html(ketqua);
+                    stop_waitMe('#pd-rev');
+                }
+            })
+        }
 
 
     });
     //Đổi kiểu sắp xếp đánh giá
     $('body').on('change', '#sort_review', function () {
+        run_waitMe('#review');
         var b = document.getElementById("sort_review").value;
         var e = $('#ProductID').attr('data_value');
         $.ajax({
@@ -1120,6 +1127,7 @@
             url: '/Home/Review1',
             success: function (ketqua) {
                 $('#review').html(ketqua);
+                stop_waitMe('#review');
             }
         })
     });
@@ -1128,19 +1136,21 @@
     $('.colorP').on('click', function () {
         var d = $(this).attr('value');
 
-
+        run_waitMe('#quantity');
         $.ajax({
             type: 'POST',
             data: { ID: d },
             url: '/Home/ColorQuantity',
             success: function (ketqua) {
                 $('#quantity').html(ketqua);
+                stop_waitMe('#quantity');
             }
         })
     });
 
     $('#ok').on('click', function () {
         alert("Đã thêm thành công");
+        run_waitMe('#countcart');
         var ID = $('.colorP').attr('value');
         $.ajax({
             type: 'POST',
@@ -1148,7 +1158,7 @@
             url: '/Home/CountCart2',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
             }
         })
 

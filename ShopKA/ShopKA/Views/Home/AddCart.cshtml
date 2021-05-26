@@ -69,13 +69,17 @@
     $('.Deletecartmini').on('click', function () {
         var d = $(this).attr('data_value');
 
+        run_waitMe('#cartmini');
+        run_waitMe('#countcart');
+        run_waitMe('#Pricetotal');
+        run_waitMe('#Cartpage');
         $.ajax({
             type: 'POST',
             data: { ID: d },
             url: '/Home/DeleteCartmini',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-
+                stop_waitMe('#cartmini');
 
             }
         })
@@ -86,10 +90,11 @@
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
 
             }
         })
+        
 
 
 
@@ -98,6 +103,8 @@
     });
     $('.checkSTT2').on('click', function () {
 
+        run_waitMe('#total');
+       
         if ($(this).is(':checked')) {
             var check = true;
         }
@@ -109,7 +116,7 @@
             url: '/Home/changecheck',
             success: function (ketqua) {
                 $('#Pricetotal').html(ketqua);
-
+                
 
             }
         })
@@ -119,20 +126,12 @@
             url: '/Home/total',
             success: function (ketqua) {
                 $('#total').html(ketqua);
-
-
-            }
-        })
-        $.ajax({
-            type: 'POST',
-            data: {},
-            url: '/Home/Cart1',
-            success: function (ketqua) {
-                $('#Cartpage').html(ketqua);
-
+                stop_waitMe('#total');
 
             }
         })
+       
+        
 
 
 

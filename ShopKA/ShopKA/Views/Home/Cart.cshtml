@@ -284,51 +284,31 @@ else {
 
 
 <script>
-    $('.pagecart').on('click', function () {
-        var d = $(this).attr('data_value');
-        var e = $("#pageV").attr('data_value');
-
-        $.ajax({
-            type: 'POST',
-            data: { page: d },
-            url: '/Home/Cart1',
-            success: function (ketqua) {
-                $('#Cartpage').html(ketqua);
-            }
-        })
-        //$.ajax({
-        //    type: 'POST',
-        //    data: { page: d,page2: e },
-        //    url: '/Home/CartPage',
-        //    success: function (ketqua) {
-        //        $('#page2').html(ketqua);
-        //    }
-        //})
-
-
-    });
+    
 
     $('.deleteCart').on('click', function () {
         var d = $(this).attr('data_value');
-
+        run_waitMe('#Cartpage');
+        run_waitMe('#cartmini');
+        run_waitMe('#countcart');
+        run_waitMe('#Pricetotal');
         $.ajax({
             type: 'POST',
             data: { ID: d },
             url: '/Home/DeleteCart',
             success: function (ketqua) {
                 $('#Cartpage').html(ketqua);
-                alert("Đã xóa");
+                stop_waitMe('#Cartpage');
 
             }
         })
-
         $.ajax({
             type: 'POST',
             data: {},
-            url: '/Home/DeleteCart2',
+            url: '/Home/Pricetotal',
             success: function (ketqua) {
-                $('#cartmini').html(ketqua);
-
+                $('#Pricetotal').html(ketqua);
+                stop_waitMe('#Pricetotal');
 
             }
         })
@@ -338,36 +318,39 @@ else {
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
 
             }
         })
-
         $.ajax({
             type: 'POST',
             data: {},
-            url: '/Home/Pricetotal',
+            url: '/Home/DeleteCart2',
             success: function (ketqua) {
-                $('#Pricetotal').html(ketqua);
-
+                $('#cartmini').html(ketqua);
+                stop_waitMe('#cartmini');
 
             }
         })
+       
+
+       
 
 
 
     });
 
     $('#clearcart').on('click', function () {
-
-
+        run_waitMe('#empty');
+        run_waitMe('#countcart');
+        run_waitMe('#cartmini');
         $.ajax({
             type: 'POST',
             data: {},
             url: '/Home/ClearCart',
             success: function (ketqua) {
                 $('#empty').html(ketqua);
-                alert("Đã xóa sạch giỏ hàng");
+                stop_waitMe('#empty');
 
             }
         })
@@ -380,7 +363,7 @@ else {
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
 
             }
         })
@@ -390,7 +373,7 @@ else {
             url: '/Home/DeleteCart2',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-
+                stop_waitMe('#cartmini');
 
             }
         })
@@ -399,7 +382,10 @@ else {
 
     });
     $('#deletecheck').on('click', function () {
-
+        run_waitMe('#Cartpage');
+        run_waitMe('#cartmini');
+        run_waitMe('#countcart');
+        run_waitMe('#Pricetotal');
 
         $.ajax({
             type: 'POST',
@@ -407,8 +393,8 @@ else {
             url: '/Home/deletecheck',
             success: function (ketqua) {
                 $('#Cartpage').html(ketqua);
-                alert("Đã xóa mục đã chọn");
-
+                
+                stop_waitMe('#Cartpage');
             }
         })
 
@@ -419,7 +405,7 @@ else {
             url: '/Home/Pricetotal',
             success: function (ketqua) {
                 $('#Pricetotal').html(ketqua);
-
+                stop_waitMe('#Pricetotal');
 
             }
         })
@@ -429,7 +415,7 @@ else {
             url: '/Home/CountCart',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
 
             }
         })
@@ -439,7 +425,7 @@ else {
             url: '/Home/DeleteCart2',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-
+                stop_waitMe('#cartmini');
 
             }
         })
@@ -450,13 +436,14 @@ else {
 
     $('#updatecart').on('click', function () {
         alert("Đã cập nhật giỏ hàng");
+
         $.ajax({
             type: 'POST',
             data: {},
             url: '/Home/DeleteCart2',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-
+                stop_waitMe('#cartmini');
 
             }
         })

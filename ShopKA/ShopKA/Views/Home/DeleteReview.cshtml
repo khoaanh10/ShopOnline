@@ -272,15 +272,18 @@
 <div id="ProductID" data_value=@ViewBag.ProductID></div>
 <script>
     $('.pagereview').on('click', function () {
+        run_waitMe('#review');
         var d = $(this).attr('data_value');
         var e = $('#ProductID').attr('data_value');
         var b = document.getElementById("sort_review").value;
+
         $.ajax({
             type: 'POST',
             data: { ProductID:e, page: d,Sort:b},
             url: '/Home/Review1',
             success: function (ketqua) {
                 $('#review').html(ketqua);
+                stop_waitMe('#review');
             }
         })
 
@@ -288,6 +291,7 @@
     });
 
     $('.mini-product__delete-link').on('click', function () {
+        run_waitMe('#pd-rev');
         var d = $(this).attr('data_value');
         var e = $('#ProductID').attr('data_value');
         var b = document.getElementById("sort_review").value;
@@ -298,6 +302,7 @@
             url: '/Home/DeleteReview',
             success: function (ketqua) {
                 $('#pd-rev').html(ketqua);
+                stop_waitMe('#pd-rev');
             }
         })
 
@@ -305,6 +310,7 @@
     });
 
     $('body').on('change', '#sort_review', function () {
+        run_waitMe('#review');
         var b = document.getElementById("sort_review").value;
         var e = $('#ProductID').attr('data_value');
         $.ajax({
@@ -313,6 +319,7 @@
             url: '/Home/Review1',
             success: function (ketqua) {
                 $('#review').html(ketqua);
+                stop_waitMe('#review');
             }
         })
     });

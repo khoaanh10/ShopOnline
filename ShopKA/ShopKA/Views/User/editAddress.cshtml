@@ -214,7 +214,7 @@
 <script>
     $('body').on('change', '#province', function () {
         var a = document.getElementById("province").value;
-
+        run_waitMe('#district');
 
         $.ajax({
             type: 'POST',
@@ -222,6 +222,7 @@
             url: '/User/getDistrict',
             success: function (ketqua) {
                 $('#district').html(ketqua);
+                stop_waitMe('#district');
             }
         })
     });

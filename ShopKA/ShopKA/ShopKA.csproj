@@ -2309,8 +2309,6 @@
     <Content Include="Views\Home\DeleteReview.cshtml" />
     <Content Include="Views\Home\Cart.cshtml" />
     <Content Include="Views\Home\Cart1.cshtml" />
-    <Content Include="Views\Home\CartPage.cshtml" />
-    <Content Include="Views\Home\quicklook.cshtml" />
     <Content Include="Views\Home\AddCart.cshtml" />
     <Content Include="Views\Home\DeleteCart2.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />

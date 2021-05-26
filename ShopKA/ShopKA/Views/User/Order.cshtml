@@ -274,6 +274,7 @@
     $('.deleteorder').on('click', function () {
 
         if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này')) {
+            run_waitMe('#displayorder');
             var ID = $(this).attr('data_value');
             var ID2 = document.getElementById("my-order-sort").value;
             $.ajax({
@@ -282,6 +283,7 @@
                 url: '/User/DeleteOrder',
                 success: function (ketqua) {
                     $('#displayorder').html(ketqua);
+                    stop_waitMe('#displayorder');
                 }
             })
         }
@@ -290,18 +292,19 @@
     });
     $('#my-order-sort').on('change', function () {
         var b = document.getElementById("my-order-sort").value;
-       
+        run_waitMe('#displayorder');
         $.ajax({
             type: 'POST',
             data: {ID:b},
             url: '/User/SortOrder',
             success: function (ketqua) {
                 $('#displayorder').html(ketqua);
+                stop_waitMe('#displayorder');
             }
         })
     });
     $('.pageo').on('click', function () {
-
+        run_waitMe('#displayorder');
         
             var page = $(this).attr('data_value');
             var ID2 = document.getElementById("my-order-sort").value;
@@ -311,6 +314,7 @@
                 url: '/User/DeleteOrder',
                 success: function (ketqua) {
                     $('#displayorder').html(ketqua);
+                    stop_waitMe('#displayorder');
                 }
             })
         

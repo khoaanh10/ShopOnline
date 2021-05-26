@@ -501,7 +501,7 @@
                                                 <div class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", (int)(Money - (order.Maximum >= Money * order.SalePrice ? Money*order.SalePrice : order.Maximum)) + (int)(100000 - 100000 * order.SaleShip)) đ</div>
                                             </div>
 
-                                            <span class="dash__text-2">Hình thức thanh toán:</span>
+                                            <span class="dash__text-2">Hình thức thanh toán: @(order.payment==1?"Thanh toán tại nhà":"Thanh toán qua ngân hàng")</span>
                                         </div>
                                     </div>
                                 </div>

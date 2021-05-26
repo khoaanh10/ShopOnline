@@ -524,7 +524,7 @@
 <script>
     $('body').on('change', '#province', function () {
         var a = document.getElementById("province").value;
-
+        run_waitMe('#district');
 
         $.ajax({
             type: 'POST',
@@ -532,6 +532,7 @@
             url: '/User/getDistrict',
             success: function (ketqua) {
                 $('#district').html(ketqua);
+                stop_waitMe('#district');
             }
         })
     });
@@ -540,13 +541,17 @@
         var ID = $(this).attr('data_value');
         
         if (confirm('Xóa sản phẩm sẽ làm mã voucher hết hiệu lực, bạn có muốn xóa không?')) {
+            run_waitMe('#checkoutPD');
+            run_waitMe('#kqVoucher');
+            run_waitMe('#money');
+            run_waitMe('#cartmini');
             $.ajax({
                 type: 'POST',
                 data: { ID: ID },
                 url: '/User/checkoutPD',
                 success: function (ketqua) {
                     $('#checkoutPD').html(ketqua);
-
+                    stop_waitMe('#checkoutPD');
 
                 }
             })
@@ -556,7 +561,7 @@
                 url: '/User/checkVoucher',
                 success: function (ketqua) {
                     $('#kqVoucher').html(ketqua);
-
+                    stop_waitMe('#kqVoucher');
 
                 }
             })
@@ -567,7 +572,7 @@
                 url: '/User/checkoutMoney',
                 success: function (ketqua) {
                     $('#money').html(ketqua);
-
+                    stop_waitMe('#money');
 
                 }
             })
@@ -577,7 +582,7 @@
                 url: '/Home/DeleteCart2',
                 success: function (ketqua) {
                     $('#cartmini').html(ketqua);
-
+                    stop_waitMe('#cartmini');
 
                 }
             })
@@ -604,13 +609,15 @@
         var code = $("#code").val();
         var SLSP = $("#SLSP").attr('data_value');
         var money = $("#tien").attr('data_value');
+        run_waitMe('#kqVoucher');
+        run_waitMe('#money');
         $.ajax({
             type: 'POST',
             data: {code:code,SLSP:SLSP,money:money},
             url: '/User/checkVoucher',
             success: function (ketqua) {
                 $('#kqVoucher').html(ketqua);
-
+                stop_waitMe('#kqVoucher');
 
             }
             
@@ -622,7 +629,7 @@
                 url: '/User/MoneyVoucher',
                 success: function (ketqua) {
                     $('#money').html(ketqua);
-
+                    stop_waitMe('#money');
 
                 }
 

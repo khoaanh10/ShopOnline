@@ -275,17 +275,20 @@ else
 
     });
     $('.addcartindex').on('click', function () {
-
+        run_waitMe('#countcart');
         var color = parseInt($(this).attr('data_value2'));
         var a = { ColorID: color, Quantity: 1 };
         var b = $(this).attr('data_value');
+        var c = $(this).attr('data-modal-id');
+        run_waitMe(c);
+        run_waitMe('#tbb-' + b);
         $.ajax({
             type: 'POST',
             data: { a: a },
             url: '/Home/AddCart',
             success: function (ketqua) {
                 $('#cartmini').html(ketqua);
-                
+                stop_waitMe(c);
 
             }
         })
@@ -296,7 +299,7 @@ else
             url: '/Home/TB',
             success: function (ketqua) {
                 $('#tbb-' + b).html(ketqua);
-
+                stop_waitMe('#tbb-' + b);
             }
         })
         $.ajax({
@@ -305,7 +308,7 @@ else
             url: '/Home/CountCart2',
             success: function (ketqua) {
                 $('#countcart').html(ketqua);
-
+                stop_waitMe('#countcart');
             }
         })
 
