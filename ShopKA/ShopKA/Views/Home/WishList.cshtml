@@ -84,7 +84,7 @@ else
             <!--====== Section Content ======-->
             <div class="section__content">
                 <div class="container">
-                    <div class="row">
+                    <div class="row" id="Wish2">
                         <div class="col-lg-12 col-md-12 col-sm-12" style="max-height:500px;overflow-y:scroll" id="Wish">
                             @foreach (var item in Model)
                             {
@@ -229,14 +229,14 @@ else
     $('.deleteWish').on('click', function () {
         var ID = $(this).attr('data_value');
         
-            run_waitMe('#Wish');
+            run_waitMe('#Wish2');
             $.ajax({
                 type: 'POST',
                 data: { ID: ID },
                 url: '/Home/deleteWish',
                 success: function (ketqua) {
                     $('#Wish').html(ketqua);
-                    stop_waitMe('#Wish');
+                    stop_waitMe('#Wish2');
 
                 }
             })

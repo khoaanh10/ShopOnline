@@ -62,15 +62,15 @@
                     <td>@(gia1 +ship) đ @bonus</td>
                     @if (item.Status < 3)
                     {
-                        <td id="orderSTT-@item.ID">@Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        <td id="orderSTT-@item.ID">@Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                     }
                     else if (item.Status == 3)
                     {
-                        <td id="orderSTT-@item.ID">Đang giao hàng - @Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID,ID2=5}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        <td id="orderSTT-@item.ID">Đang giao hàng - @Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID,ID2=5}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                     }
                     else if (item.Status == 5)
                     {
-                        <td id="orderSTT-@item.ID">Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </td>
+                        <td id="orderSTT-@item.ID">Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </td>
                     }
 
                     else

@@ -283,7 +283,7 @@
                     </div>
                     @if (address.Count() != 0)
                     {
-                        using (Ajax.BeginForm("checkoutshipaddress", "User", new { ID = bill.ID ,type="ship"}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "shiprange", InsertionMode = InsertionMode.Replace }))
+                        using (Ajax.BeginForm("checkoutshipaddress", "User", new { ID = bill.ID ,type="ship"}, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMe('#edit-ship-address')",OnComplete= "changeship()", UpdateTargetId = "shiprange", InsertionMode = InsertionMode.Replace }))
                         {
                             <div class="checkout-modal2__form">
                                 <div class="dash__table-2-wrap u-s-m-b-30 gl-scroll">
@@ -368,7 +368,7 @@
                     </div>
                     @if (address.Count() != 0)
                     {
-                        using (Ajax.BeginForm("checkoutshipaddress", "User", new { ID = ship.ID, type = "bill" }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "billrange", InsertionMode = InsertionMode.Replace }))
+                        using (Ajax.BeginForm("checkoutshipaddress", "User", new { ID = ship.ID, type = "bill" }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMe('#edit-bill-address')", OnComplete = "changebill()", UpdateTargetId = "billrange", InsertionMode = InsertionMode.Replace }))
                         {
                             <div class="checkout-modal2__form">
                                 <div class="dash__table-2-wrap u-s-m-b-30 gl-scroll">
@@ -590,21 +590,38 @@
 
 
     });
-
-    $('#buttonship').on('click', function () {
-        alert("Đã thay đổi địa chỉ nhận hàng");
+    function changeship() {
+        stop_waitMe('#edit-ship-address');
+        $('#edit-ship-address').modal('hide');
+        $.iaoAlert({
+            msg: "Đã thay đổi địa chỉ nhận hàng",
+            type: "success",
+            mode: "light",
+        })
+    };
+    function changebill() {
+        stop_waitMe('#edit-bill-address');
+        $('#edit-bill-address').modal('hide');
+        $.iaoAlert({
+            msg: "Đã thay đổi địa chỉ thanh toán",
+            type: "success",
+            mode: "light",
+        })
+    };
+    //$('#buttonship').on('click', function () {
+    //    alert("Đã thay đổi địa chỉ nhận hàng");
         
 
 
 
-    });
-    $('#buttonbill').on('click', function () {
-        alert("Đã thay đổi địa chỉ thanh toán");
+    //});
+    //$('#buttonbill').on('click', function () {
+    //    alert("Đã thay đổi địa chỉ thanh toán");
 
 
 
 
-    });
+    //});
     $('#buttonvc').on('click', function () {
         var code = $("#code").val();
         var SLSP = $("#SLSP").attr('data_value');

@@ -246,7 +246,7 @@ $('.page').on('click', function () {
 $('.Deletecartmini').on('click', function () {
         var d = $(this).attr('data_value');
     run_waitMe('#cartmini');
-    run_waitMe('#countcart');
+    run_waitMesm('#countcart');
     run_waitMe('#Pricetotal');
     run_waitMe('#Cartpage');
 
@@ -303,11 +303,33 @@ $('.Deletecartmini').on('click', function () {
 
 
 $('#ok2').on('click', function () {
-    
-    if ($('#dk').is(':checked')) {
-        run_waitMe('#app')
-        if ($('#shipid').attr('data_value') == -1 | $('#billid').attr('data_value') == -1) { stop_waitMe('#app');alert("Vui lòng thêm địa chỉ trước khi thanh toán");  }
-        else if ($('#num').attr('data_value') == 5) { stop_waitMe('#app');alert("Chỉ được thêm tối đa 5 đơn hàng 1 lần"); }
+    debugger;
+    run_waitMe('#app');
+    var SLSP = $('#SLSP').attr('data_value');
+    if (SLSP == 0) {
+        stop_waitMe('#app');
+        $.iaoAlert({
+            msg: "Không có SP nào trong đơn hàng",
+            type: "warning",
+            mode: "dark",
+        });
+        
+        
+    }
+    else if ($('#dk').is(':checked')) {
+        
+        if ($('#shipid').attr('data_value') == -1 | $('#billid').attr('data_value') == -1) {
+            stop_waitMe('#app'); $.iaoAlert({
+                msg: "Thêm địa chỉ trước khi thanh toán",
+                type: "warning",
+                mode: "dark",
+            });  }
+        else if ($('#num').attr('data_value') == 5) {
+            stop_waitMe('#app'); $.iaoAlert({
+                msg: "Chỉ được thêm tối đa 5 đơn hàng",
+                type: "warning",
+                mode: "dark",
+            }); }
         else {
 
             $.ajax({
@@ -316,8 +338,14 @@ $('#ok2').on('click', function () {
                 url: '/User/addOrder',
                 success: function (ketqua) {
                     stop_waitMe('#app');
-                    alert('Tạo đơn hàng thành công');
+                    $.iaoAlert({
+                        msg: "Tạo đơn hàng thành công",
+                        type: "success",
+                        mode: "light",
+                    })
+                    
                     window.location.href = '/User/Order';
+                    
                    
                     
                     
@@ -327,7 +355,13 @@ $('#ok2').on('click', function () {
             })
         }
     }
-    else { alert("Vui long chấp nhận các điều khoản");}
+    else {
+        stop_waitMe('#app');
+        $.iaoAlert({
+            msg: "Vui lòng chấp nhận các điều khoản",
+            type: "warning",
+            mode: "dark",
+        });}
 
 
 
@@ -432,39 +466,47 @@ $('.colorP2').on('click', function () {
     })
 });
 
-$('.ok3').on('click', function () {
-    run_waitMe('#countcart');
-    var id1 = $(this).attr('data_value');
-    var ID = $('.colorP-'+id1.toString()).attr('value');
+function addCart(p) {
+    stop_waitMe('.modal1id-' + p.toString());
+    $('#pd-'+p.toString()).modal('hide');
+    $.iaoAlert({
+        msg: "Đã thêm vào giỏ hàng",
+        type: "success",
+        mode: "light",
+    })
+    run_waitMesm('#countcart');
+    
     $.ajax({
         type: 'POST',
-        data: { ID: ID },
-        url: '/Home/CountCart2',
+        data: { },
+        url: '/Home/CountCart',
         success: function (ketqua) {
             $('#countcart').html(ketqua);
             stop_waitMe('#countcart');
-            alert("Đã thêm vào giỏ hàng");
+            
 
         }
     })
 
 
-});
+}
+
 $('.addcartindex').on('click', function () {
-    run_waitMe('#countcart');
+    run_waitMesm('#countcart');
     var color = parseInt($(this).attr('data_value2'));
     var a = { ColorID: color, Quantity: 1 };
     var b = $(this).attr('data_value');
-    var c = $(this).attr('data-modal-id');
-    run_waitMe(c);
-    run_waitMe('#tbb-' + b);
+    
+    run_waitMe('.modal2id-' + b.toString());
+    
+    run_waitMesm('#tbb-' + b);
     $.ajax({
         type: 'POST',
         data: { a:a },
         url: '/Home/AddCart',
         success: function (ketqua) {
             $('#cartmini').html(ketqua);
-            stop_waitMe(c);
+            stop_waitMe('.modal2id-' + b.toString());
         }
     })
 
@@ -479,8 +521,8 @@ $('.addcartindex').on('click', function () {
     })
     $.ajax({
         type: 'POST',
-        data: { ID: color },
-        url: '/Home/CountCart2',
+        data: {},
+        url: '/Home/CountCart',
         success: function (ketqua) {
             $('#countcart').html(ketqua);
             stop_waitMe('#countcart');
@@ -491,32 +533,44 @@ $('.addcartindex').on('click', function () {
 
 $('.addWishList').on('click', function () {
 
-    run_waitMe('#app');
+    
     
     var ID = $(this).attr('data_value');
+    run_waitMesm('.wish-' + ID);
     $.ajax({
         type: 'POST',
         data: { ID: ID },
         url: '/Home/addWishList',
         success: function (ketqua) {
-            stop_waitMe('#app');
-            alert("Đã thêm vào yêu thích");
+            stop_waitMe('.wish-' + ID);
+            
             
         }
     })
+    $.iaoAlert({
+        msg: "Đã thêm vào yêu thích",
+        type: "success",
+        mode: "light",
+    })
 });
 $('.addWish').on('click', function () {
-    run_waitMe('#app');
+    
     var ID = $(this).attr('data_value');
+    run_waitMesm('.wish2-' + ID);
     $.ajax({
         type: 'POST',
         data: { ID: ID },
         url: '/Home/addWishList',
         success: function (ketqua) {
-            stop_waitMe('#app');
-            alert("Đã thêm vào yêu thích");
+            
+            stop_waitMe('.wish2-' + ID);
 
         }
+    })
+    $.iaoAlert({
+        msg: "Đã thêm vào yêu thích",
+        type: "success",
+        mode: "light",
     })
 
 
@@ -531,7 +585,7 @@ function Search() {
 
 //$(container).waitMe("hide");
 function run_waitMe(a) {
-    
+    console.log(a);
     $(a).waitMe({
 
         //none, rotateplane, stretch, orbit, roundBounce, win8, 
@@ -568,8 +622,77 @@ function run_waitMe(a) {
 
     });
 }
+function run_waitMesm(a) {
+    console.log(a);
+    $(a).waitMe({
+
+        //none, rotateplane, stretch, orbit, roundBounce, win8, 
+        //win8_linear, ios, facebook, rotation, timer, pulse, 
+        //progressBar, bouncePulse or img
+        effect: 'bounce',
+
+        //place text under the effect (string).
+        text: '',
+
+        //background for container (string).
+        bg: 'rgba(255,255,255,0.7)',
+
+        //color for background animation and text (string).
+        color: '#000',
+
+        //max size
+        maxSize: '20',
+
+        //wait time im ms to close
+        waitTime: -1,
+
+        //url to image
+        source: '',
+
+        //or 'horizontal'
+        textPos: 'vertical',
+
+        //font size
+        fontSize: '',
+
+        // callback
+        onClose: function () { }
+
+    });
+}
 function stop_waitMe(a) {
     var a2 = a.toString();
     $(a2).waitMe('hide');
 }
 
+$("#demo-1").click(function () {
+    $.iaoAlert()
+});
+$("#demo-2").click(function () {
+    $.iaoAlert({
+        msg: "Dark Theme",
+        type: "notification",
+        mode: "dark",
+    })
+});
+$("#demo-3").click(function () {
+    $.iaoAlert({
+        msg: "Success + Light Theme",
+        type: "success",
+        mode: "light",
+    })
+});
+$("#demo-4").click(function () {
+    $.iaoAlert({
+        msg: "Error + Dark Theme",
+        type: "error",
+        mode: "dark",
+    })
+});
+$("#demo-5").click(function () {
+    $.iaoAlert({
+        msg: "Warning + Dark Theme",
+        type: "warning",
+        mode: "dark",
+    })
+});

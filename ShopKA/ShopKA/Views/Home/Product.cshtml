@@ -336,7 +336,7 @@
                                     int b = (int)(item.Price - r);
                                     float Sale = (item.Sale * 100);
                                     <div class="col-lg-4 col-md-6 col-sm-6">
-                                        <div class="product-m">
+                                        <div class="product-m wish-@item.ID">
                                             <div class="product-m__thumb">
                                                 @if (Sale != 0)
                                                 {
@@ -485,7 +485,7 @@
 
     <div class="modal fade1" id="pd-@item.Product.ID">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal--shadow">
+            <div class="modal-content modal--shadow wish2-@item.Product.ID">
 
                 <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
                 <div class="modal-body" id="look">
@@ -593,7 +593,7 @@
                                             <span class="pd-detail__click-wrap">
                                                 <i class="far fa-heart u-s-m-r-6"></i>
 
-                                                <a class="addWish" data_value=@item.Product.ID>Thêm vào yêu thích</a>
+                                                <a class="addWish" data_value=@item.Product.ID>Thêm vào yêu thích</a><span class="wish-@item.Product.ID"></span>
 
                                                 <span class="pd-detail__click-count">(@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID).Count())</span>
                                             </span>
@@ -639,7 +639,7 @@
 
                                 </div>
                                 <div class="pd-detail__form">
-                                    @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
+                                    @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('.modal1id-" + item.Product.ID + "')", OnComplete = "addCart('" + item.Product.ID + "')", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
                                     {
                                         <div class="u-s-m-b-15">
 
@@ -684,9 +684,9 @@
                                                 </div>}
                                             else if ((UserLogin)(Session["SS"]) != null)
                                             {
-                                                <div class="u-s-m-b-15">
+                                                <div class="u-s-m-b-15 ">
 
-                                                    <button class="btn btn--e-brand-b-2 ok3" type="submit" data_value="@item.Product.ID">Thêm vào giỏ hàng</button>
+                                                    <button class="btn btn--e-brand-b-2 modal1id-@item.Product.ID" type="submit" data_value="@item.Product.ID">Thêm vào giỏ hàng</button>
                                                 </div>}
                                             else
                                             {
@@ -732,7 +732,7 @@
     <!--====== Add to Cart Modal ======-->
     <div class="modal fade" id="add-to-cart-@item.Product.ID">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-radius modal-shadow">
+            <div class="modal-content modal-radius modal-shadow modal2id-@item.Product.ID">
 
                 <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
                 <div class="modal-body">

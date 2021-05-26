@@ -150,6 +150,7 @@
     <Content Include="AssetAdmin\css\app.color2.css" />
     <Content Include="Asset\audio\1.mp3" />
     <Content Include="Asset\css\app.css" />
+    <Content Include="Asset\css\iao-alert.min.css" />
     <Content Include="Asset\css\utility.css" />
     <Content Include="Asset\css\vendor.css" />
     <Content Include="Asset\css\waitMe.css" />
@@ -300,6 +301,7 @@
     <Content Include="Asset\images\slider\slide-8.jpg" />
     <Content Include="Asset\images\slider\slide-9.jpg" />
     <Content Include="Asset\js\app.js" />
+    <Content Include="Asset\js\iao-alert.jquery.min.js" />
     <Content Include="Asset\js\jquery.shopnav.js" />
     <Content Include="Asset\js\map-init.js" />
     <Content Include="Asset\js\vendor.js" />

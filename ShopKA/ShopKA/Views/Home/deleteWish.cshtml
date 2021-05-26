@@ -49,7 +49,7 @@
     </div>}
 <script>
     $('.deleteWish').on('click', function () {
-        run_waitMe('#Wish');
+        run_waitMe('#Wish2');
         var ID = $(this).attr('data_value')
         $.ajax({
             type: 'POST',
@@ -57,7 +57,7 @@
             url: '/Home/deleteWish',
             success: function (ketqua) {
                 $('#Wish').html(ketqua);
-                stop_waitMe('#Wish');
+                stop_waitMe('#Wish2');
 
             }
         })

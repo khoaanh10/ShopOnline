@@ -22,7 +22,7 @@
     <link href="~/Asset/css/waitMe.css" rel="stylesheet" />
     <!--====== App ======-->
     <link rel="stylesheet" href="~/Asset/css/app.css">
-
+    <link href="~/Asset/css/iao-alert.min.css" rel="stylesheet" />
     
     @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">*@
 </head>
@@ -86,10 +86,10 @@
             <img class="preloader__img" src="~/Asset/images/preloader.png" alt="">
         </div>
     </div>
-
+    
     <!--====== Main App ======-->
     <div id="app">
-
+        <div class="alert-box2 success2">Successful Alert !!!</div>
         <!--====== Main Header ======-->
         <header class="header--style-1">
 
@@ -115,7 +115,7 @@
 
                             <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Tìm kiếm">
 
-                            <button class="btn btn--icon fas fa-search main-search-button" onclick="Search()" type="button"></button>
+                            <button class="btn btn--icon fas fa-search main-search-button" onclick="Search" type="button"></button>
                         </div>
                         <!--====== End - Search Form ======-->
                         <!--====== Dropdown Main plugin ======-->
@@ -1120,11 +1120,11 @@
         <!--====== End - Newsletter Subscribe Modal ======-->
         <!--====== End - Modal Section ======-->
     </div>
+    
 
-   
     <!--====== End - Main App ======-->
     <!--====== Google Analytics: change UA-XXXXX-Y to be your site's ID ======-->
-    
+
     <script>
         window.ga = function () {
             ga.q.push(arguments)
@@ -1144,7 +1144,7 @@
     <script src="/Asset/js/jquery.shopnav.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="/Asset/js/map-init.js"></script>
-
+    <script src="~/Asset/js/iao-alert.jquery.min.js"></script>
     <!--====== jQuery Shopnav plugin ======-->
     <script src="/Asset/js/jquery.shopnav.js"></script>
     <!--====== App ======-->

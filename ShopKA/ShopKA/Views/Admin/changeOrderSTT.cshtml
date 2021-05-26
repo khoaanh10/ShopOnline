@@ -23,13 +23,13 @@
     } }
 @if (item.Status < 3)
 {
-    @Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })}
+    @Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })}
 else if (item.Status == 3)
 {
-    <p>Đang giao hàng -@Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID,ID2 =5}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</p>
+   <p>Đang giao hàng -@Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID,ID2 =5}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</p>
 }
 else if (item.Status == 5)
-{ <p>Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </p> }
+{ <p>Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </p> }
 
 else
 {

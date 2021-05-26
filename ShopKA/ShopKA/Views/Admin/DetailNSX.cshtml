@@ -96,7 +96,7 @@
                         @{string idd = 'a' + item.ID.ToString();}
                         @if (item.Launch == false)
                         {
-                            <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
+                            <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST",OnBegin= "run_waitMe('#" + @idd + "')",OnComplete= "stop_waitMe('#" + @idd + "')", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
                         }
                         else
                         {
@@ -104,7 +104,7 @@
                         }
 
 
-                        <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST",OnBegin= "run_waitMe('#" + @item.ID + "')",OnComplete= "stop_waitMe('#" + @item.ID + "')", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
                         @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
                             {
                                 <td>Không</td>

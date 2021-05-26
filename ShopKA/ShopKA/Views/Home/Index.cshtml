@@ -89,10 +89,13 @@
         z-index: 1;
         border-radius: 10px;
     }
+    
 </style>
 <!--====== App Content ======-->
 
 <div class="app-content" id="kk">
+
+    
 
     <!--====== Primary Slider ======-->
     @{var PT = DBIO.get3ProductTSale(); }
@@ -244,8 +247,8 @@
                                     float Sale = (item.Product.Sale * 100);
 
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item all">
-                                        <div class="product-o product-o--hover-on product-o--radius">
-                                            <div class="product-o__wrap">
+                                        <div class="product-o product-o--hover-on product-o--radius wish-@item.Product.ID">
+                                            <div class="product-o__wrap ">
                                                 @if (Sale != 0)
                                                 {
                                                     string time = ((int)(DBIO.get1SaleProduct(item.Product.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
@@ -354,7 +357,7 @@
                                         float Sale = (item2.Product.Sale * 100);
 
                                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item @item.Key">
-                                            <div class="product-o product-o--hover-on product-o--radius">
+                                            <div class="product-o product-o--hover-on product-o--radius wish-@item2.Product.ID">
                                                 <div class="product-o__wrap">
                                                     @if (Sale != 0)
                                                     {
@@ -497,7 +500,7 @@
                             float Sale = (item2.Product.Sale * 100);
 
                             <div class="col-lg-6 col-md-6 u-s-m-b-30">
-                                <div class="product-o product-o--radius product-o--hover-off u-h-100">
+                                <div class="product-o product-o--radius product-o--hover-off u-h-100 wish-@item2.Product.ID">
                                     <div class="product-o__wrap">
                                         <div class="product-percent-discount">-@Sale%</div>
                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=@item2.Product.ID } )>
@@ -628,7 +631,7 @@
                             string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
 
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 ">
-                                <div class="product-o product-o--hover-on product-o--radius">
+                                <div class="product-o product-o--hover-on product-o--radius wish-@item.ID">
                                     <div class="product-o__wrap">
                                         @if (Sale != 0)
                                         {
@@ -808,7 +811,7 @@
                         int b = (int)(item.Product.Price - a);
                         float Sale = (item.Product.Sale * 100);
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                            <div class="product-o product-o--hover-on u-h-100">
+                            <div class="product-o product-o--hover-on u-h-100 wish-@item.Product.ID">
                                 <div class="product-o__wrap">
                                     @if (Sale != 0)
                                     {
@@ -1091,7 +1094,7 @@
 
     <div class="modal fade1" id="pd-@item.Product.ID">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal--shadow">
+            <div class="modal-content modal--shadow wish2-@item.Product.ID">
 
                 <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
                 <div class="modal-body" id="look">
@@ -1245,7 +1248,7 @@
 
                                 </div>
                                 <div class="pd-detail__form">
-                                    @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
+                                    @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('.modal1id-"+item.Product.ID+"')", OnComplete= "addCart('" + item.Product.ID + "')", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
                                     {
                                         <div class="u-s-m-b-15">
 
@@ -1290,9 +1293,9 @@
                                                 </div>}
                                             else if ((UserLogin)(Session["SS"]) != null)
                                             {
-                                                <div class="u-s-m-b-15">
+                                                <div class="u-s-m-b-15 ">
 
-                                                    <button class="btn btn--e-brand-b-2 ok3" type="submit" data_value="@item.Product.ID">Thêm vào giỏ hàng</button>
+                                                    <button class="btn btn--e-brand-b-2 modal1id-@item.Product.ID" type="submit" data_value="@item.Product.ID">Thêm vào giỏ hàng</button>
                                                 </div>}
                                             else
                                             {
@@ -1338,7 +1341,7 @@
     <!--====== Add to Cart Modal ======-->
     <div class="modal fade" id="add-to-cart-@item.Product.ID">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-radius modal-shadow">
+            <div class="modal-content modal-radius modal-shadow modal2id-@item.Product.ID">
 
                 <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
                 <div class="modal-body">

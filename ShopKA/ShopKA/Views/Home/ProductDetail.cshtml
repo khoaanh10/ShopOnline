@@ -8,7 +8,7 @@
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<div class="app-content">
+<div class="app-content wish2-@Model.ID">
 
     <!--====== Section 1 ======-->
     <div class="u-s-p-t-90">
@@ -172,7 +172,7 @@
                                     <span class="pd-detail__click-wrap">
                                         <i class="far fa-heart u-s-m-r-6"></i>
 
-                                        <a class="addWish" data_value=@Model.ID>Thêm vào yêu thích</a>
+                                        <a class="addWish" data_value=@Model.ID>Thêm vào yêu thích</a><span class="wish-@Model.ID"></span>
 
                                         <span class="pd-detail__click-count">(@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID).Count())</span>
                                     </span>
@@ -218,7 +218,7 @@
                             <div id="ka"></div>
                         </div>
                         <div class="pd-detail__form">
-                            @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
+                            @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('.modal1id-" +Model.ID + "')", OnComplete = "addCart('" + Model.ID + "')", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
                             {
                                 <div class="u-s-m-b-15">
 
@@ -265,9 +265,9 @@
                                         </div>}
                                     else if ((UserLogin)(Session["SS"]) != null)
                                     {
-                                        <div class="u-s-m-b-15">
+                                        <div class="u-s-m-b-15 ">
 
-                                            <button id="ok" class="btn btn--e-brand-b-2" type="submit" data_value="@Model.ID">Thêm vào giỏ hàng</button>
+                                            <button class="btn btn--e-brand-b-2 modal1id-@Model.ID" type="submit" data_value="@Model.ID">Thêm vào giỏ hàng</button>
                                         </div>}
                                     else
                                     {<div class="u-s-m-b-15">
@@ -670,7 +670,7 @@
 
                         <div class="u-s-m-b-30">
                             <div class="product-o product-o--hover-on">
-                                <div class="product-o__wrap">
+                                <div class="product-o__wrap wish-@item.ID">
                                     @if (S != 0)
                                     {
                                         string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
@@ -781,7 +781,7 @@
 
     <div class="modal fade1" id="pd-@item.ID">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal--shadow">
+            <div class="modal-content modal--shadow wish2-@item.ID">
 
                 <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
                 <div class="modal-body" id="look">
@@ -889,7 +889,7 @@
                                             <span class="pd-detail__click-wrap">
                                                 <i class="far fa-heart u-s-m-r-6"></i>
 
-                                                <a class="addWish" data_value=@item.ID>Thêm vào yêu thích</a>
+                                                <a class="addWish" data_value=@item.ID>Thêm vào yêu thích</a><span class="wish-@item.ID"></span>
 
                                                 <span class="pd-detail__click-count">(@DBIO.getallWishList(DBIO.getUser_fromUserLogin((UserLogin)(Session["SS"])).ID).Count())</span>
                                             </span>
@@ -935,7 +935,7 @@
 
                                 </div>
                                 <div class="pd-detail__form">
-                                    @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
+                                    @using (Ajax.BeginForm("AddCart", "Home", new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('.modal1id-" + item.ID + "')", OnComplete = "addCart('" + item.ID + "')", UpdateTargetId = "cartmini", InsertionMode = InsertionMode.Replace }))
                                     {
                                         <div class="u-s-m-b-15">
 
@@ -980,9 +980,9 @@
                                                 </div>}
                                             else if ((UserLogin)(Session["SS"]) != null)
                                             {
-                                                <div class="u-s-m-b-15">
+                                                <div class="u-s-m-b-15 ">
 
-                                                    <button class="btn btn--e-brand-b-2 ok3" type="submit" data_value="@item.ID">Thêm vào giỏ hàng</button>
+                                                    <button class="btn btn--e-brand-b-2 modal1id-@item.ID" type="submit" data_value="@item.ID">Thêm vào giỏ hàng</button>
                                                 </div>}
                                             else
                                             {
@@ -1028,7 +1028,7 @@
     <!--====== Add to Cart Modal ======-->
     <div class="modal fade" id="add-to-cart-@item.ID">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-radius modal-shadow">
+            <div class="modal-content modal-radius modal-shadow modal2id-@item.ID">
 
                 <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
                 <div class="modal-body">
@@ -1090,6 +1090,7 @@
             success: function (ketqua) {
                 $('#review').html(ketqua);
                 stop_waitMe('#review');
+                
             }
         })
 
@@ -1148,22 +1149,7 @@
         })
     });
 
-    $('#ok').on('click', function () {
-        alert("Đã thêm thành công");
-        run_waitMe('#countcart');
-        var ID = $('.colorP').attr('value');
-        $.ajax({
-            type: 'POST',
-            data: { ID: ID },
-            url: '/Home/CountCart2',
-            success: function (ketqua) {
-                $('#countcart').html(ketqua);
-                stop_waitMe('#countcart');
-            }
-        })
-
-
-    });
+    
    
 
 </script>
