@@ -51,7 +51,7 @@
                                     @Html.EditorFor(model => model.OrderSale, new { htmlAttributes = new { @type = "hidden", @Value = 0 } })
                                     @Html.EditorFor(model => model.ShipSale, new { htmlAttributes = new { @type = "hidden", @Value = 0 } })
 
-                                    @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @type = "hidden", @Value = DateTime.Now } })
+                                    @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @type = "hidden", @Value = DateTime.UtcNow.AddHours(7) } })
                                     <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
 
                                         <label class="gl-label" for="gender">Loại Voucher</label>

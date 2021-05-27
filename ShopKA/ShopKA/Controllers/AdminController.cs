@@ -929,7 +929,7 @@ namespace ShopKA.Controllers
                             
                             
                             E.BuyName = DBIO.get1User_ID(A.UserID).Username;
-                            E.DateSell = DateTime.Now;
+                            E.DateSell = DateTime.UtcNow.AddHours(7);
                             E.Price = item.Price - (int)(A.Maximum >= item.Price * A.SalePrice ? item.Price * A.SalePrice : (A.Maximum / DBIO.getallPDOrder(A.ID).Sum(i => i.Quantity)));
                             if(A.SalePrice>0)
                             {
@@ -979,9 +979,9 @@ namespace ShopKA.Controllers
             }
             else
             {
-                if (DateTime.Now.Month >= date)
+                if (DateTime.UtcNow.AddHours(7).Month >= date)
                 {
-                    DateTime a = new DateTime(DateTime.Now.Year, (DateTime.Now.Month - date) + 1, 1);
+                    DateTime a = new DateTime(DateTime.UtcNow.AddHours(7).Year, (DateTime.UtcNow.AddHours(7).Month - date) + 1, 1);
                     ViewBag.time = a;
                     var A = DBIO.getallSellPD().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= a)==true).ToList();
 
@@ -989,7 +989,7 @@ namespace ShopKA.Controllers
                 }
                 else
                 {
-                    DateTime a = new DateTime(DateTime.Now.Year - 1, (12 - date + DateTime.Now.Month) + 1, 1);
+                    DateTime a = new DateTime(DateTime.UtcNow.AddHours(7).Year - 1, (12 - date + DateTime.UtcNow.AddHours(7).Month) + 1, 1);
                     ViewBag.time = a;
                     var A = DBIO.getallSellPD().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= a)==true).ToList();
 
@@ -1015,9 +1015,9 @@ namespace ShopKA.Controllers
 
                 return View(A);
             }    
-            if (DateTime.Now.Month >= date)
+            if (DateTime.UtcNow.AddHours(7).Month >= date)
             {
-                DateTime a = new DateTime(DateTime.Now.Year, (DateTime.Now.Month - date) + 1, 1);
+                DateTime a = new DateTime(DateTime.UtcNow.AddHours(7).Year, (DateTime.UtcNow.AddHours(7).Month - date) + 1, 1);
                 ViewBag.time = a;
                 var A = DBIO.getallSellDate(ID).Where(i => i.DateSell >= a).ToList();
 
@@ -1026,7 +1026,7 @@ namespace ShopKA.Controllers
             else
             {
 
-                DateTime a = new DateTime(DateTime.Now.Year - 1, (12 - date + DateTime.Now.Month) + 1, 1);
+                DateTime a = new DateTime(DateTime.UtcNow.AddHours(7).Year - 1, (12 - date + DateTime.UtcNow.AddHours(7).Month) + 1, 1);
                 ViewBag.time = a;
                 var A = DBIO.getallSellDate(ID).Where(i => i.DateSell >= a).ToList();
 
@@ -1231,7 +1231,7 @@ namespace ShopKA.Controllers
 
             if (ModelState.IsValid)
             {
-                if (a.End <= DateTime.Now)
+                if (a.End <= DateTime.UtcNow.AddHours(7))
                 {
                     ModelState.AddModelError("", "Ngày không hợp lệ");
                     return View(a);

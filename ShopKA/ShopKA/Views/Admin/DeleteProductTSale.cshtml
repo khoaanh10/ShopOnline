@@ -44,7 +44,7 @@
                     else
                     {
                         float ss = (DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).Sale * 100);
-                        if (DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart > DateTime.Now)
+                        if (DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart > DateTime.UtcNow.AddHours(7))
                         {
 
                             <td style="font-size:80%">Sắp Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd))</td>

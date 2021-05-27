@@ -351,7 +351,8 @@ namespace ShopKA.Models
         public static List<SaleProduct> get3SaleProduct()
         {
             MyDB DB = new MyDB();
-            var b = DB.SaleProducts.OrderBy(i => i.SaleTimeEnd).Where(i => i.SaleTimeStart <= DateTime.Now).Take(3).ToList();
+            DateTime now = DateTime.UtcNow.AddHours(7);
+            var b = DB.SaleProducts.OrderBy(i => i.SaleTimeEnd).Where(i => i.SaleTimeStart <= now).Take(3).ToList();
             return b;
         }
 
@@ -984,7 +985,8 @@ namespace ShopKA.Models
         public static ProductTSale getGlobalSale()
         {
             MyDB DB = new MyDB();
-            return DB.ProductTSales.Where(i => i.SaleTimeStart <= DateTime.Now & i.Banner != null).OrderByDescending(i => i.Sale).FirstOrDefault();
+            DateTime now = DateTime.UtcNow.AddHours(7);
+            return DB.ProductTSales.Where(i => i.SaleTimeStart <= now & i.Banner != null).OrderByDescending(i => i.Sale).FirstOrDefault();
         }
 
         public static List<WishList> getallWishList(int id)
@@ -1065,7 +1067,7 @@ namespace ShopKA.Models
             var a = DB.Vouchers.ToList();
             foreach (var item in a)
             {
-                if (item.End < DateTime.Now)
+                if (item.End < DateTime.UtcNow.AddHours(7))
                 {
                     var b = DB.Voucherlogs.Where(i => i.Code == item.Code);
                     DB.Voucherlogs.RemoveRange(b);

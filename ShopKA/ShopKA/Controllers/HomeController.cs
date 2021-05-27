@@ -22,7 +22,7 @@ namespace ShopKA.Controllers
                 if (DB.ProductTSales.Count(i => i.ProductTID == tt.ID) > 0)
                 {
                     var ttt = DB.ProductTSales.Single(i => i.ProductTID == tt.ID);
-                    if ((DateTime.Now >= ttt.SaleTimeEnd))
+                    if ((DateTime.UtcNow.AddHours(7) >= ttt.SaleTimeEnd))
                     {
                         DB.ProductTSales.Remove(ttt);
 
@@ -36,12 +36,12 @@ namespace ShopKA.Controllers
                 if (DB.SaleProducts.Count(i => i.ProductID == ii.ID) > 0)
                 {
                     var iii = DB.SaleProducts.FirstOrDefault(i => i.ProductID == ii.ID);
-                    if ((iii.SaleTimeStart > DateTime.Now) | (DateTime.Now >= iii.SaleTimeEnd))
+                    if ((iii.SaleTimeStart > DateTime.UtcNow.AddHours(7)) | (DateTime.UtcNow.AddHours(7) >= iii.SaleTimeEnd))
                     {
                         var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
                         PD1.Sale = 0;
                         DB.SaveChanges();
-                        if ((DateTime.Now >= iii.SaleTimeEnd))
+                        if ((DateTime.UtcNow.AddHours(7) >= iii.SaleTimeEnd))
                         {
                             DB.SaleProducts.Remove(iii);
 
@@ -50,7 +50,7 @@ namespace ShopKA.Controllers
 
 
                     }
-                    else if (iii.SaleTimeStart <= DateTime.Now & DateTime.Now < iii.SaleTimeEnd & ii.Sale != iii.Sale)
+                    else if (iii.SaleTimeStart <= DateTime.UtcNow.AddHours(7) & DateTime.UtcNow.AddHours(7) < iii.SaleTimeEnd & ii.Sale != iii.Sale)
                     {
                         var PD1 = DB.Products.FirstOrDefault(i => i.ID == ii.ID);
                         PD1.Sale = iii.Sale;
@@ -72,7 +72,7 @@ namespace ShopKA.Controllers
 
             
            
-            ViewBag.SalePD = DBIO.get2ProductSale(DateTime.Now);
+            ViewBag.SalePD = DBIO.get2ProductSale(DateTime.UtcNow.AddHours(7));
             return View();
         }
 

@@ -29,7 +29,7 @@ namespace DataBase
         public DateTime CreatDate { get; set; } 
         public Review()
         {
-            CreatDate = DateTime.Now;
+            CreatDate = DateTime.UtcNow.AddHours(7);
         }
 
     }

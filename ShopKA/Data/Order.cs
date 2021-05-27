@@ -59,7 +59,7 @@ namespace DataBase
         public DateTime CreatDate { get; set; }
         public Order()
         {
-            CreatDate = DateTime.Now;
+            CreatDate = DateTime.UtcNow.AddHours(7); 
             SaleShip = 0;
             SalePrice = 0;
             Maximum = 0;
