@@ -1,0 +1,16 @@
+﻿@{int Money = ViewBag.Money; }
+<tbody>
+    <tr>
+        <td>Tổng giá SP</td>
+        <td> @String.Format("{0:0,0}", Money) đ</td>
+    </tr>
+    <tr>
+        <td>Phí vận chuyển</td>
+        <td>100,000 đ</td>
+    </tr>
+    <tr>
+        <td>Tổng cộng</td>
+        <td>@String.Format("{0:0,0}", Money + 100000) đ</td>
+    </tr>
+
+</tbody>

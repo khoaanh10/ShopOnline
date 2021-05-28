@@ -1,0 +1,6 @@
+﻿@model DataBase.User
+  
+@{ var item = Model;}
+@{string p=item.Status==true?"Đang hoạt động":"Đang khóa"; }
+@Ajax.ActionLink(p, "changeSTTUser", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#st-" + item.ID + "')", OnComplete = "stop_waitMe('#st-" + item.ID + "')", UpdateTargetId = "st-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+

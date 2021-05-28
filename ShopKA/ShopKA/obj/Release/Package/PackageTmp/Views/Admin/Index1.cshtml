@@ -1,0 +1,172 @@
+﻿@using ShopKA.Models
+@model List<DataBase.Product>
+
+@using DataBase
+@{MyDB DB = new MyDB(); }
+
+
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên SP</th>
+                    <th>NSX</th>
+                    <th>Loại SP</th>
+                    <th>SL</th>
+                    <th>Đã bán</th>
+                    <th>Launch</th>
+                    <th>Tình Trạng</th>
+                    <th>Sale</th>
+
+                    <th>                      </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    string a = DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName;
+                    string b = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID).ProducTName;
+                    var c = DBIO.getallColor(item.ID);
+                    int s = 0;
+                    if (c != null)
+                    {
+                        foreach (var item2 in c)
+                        {
+                            s = s + item2.Quantity;
+                        }
+                    }
+                    string t;
+                    string p;
+                    if (@item.Status == true)
+                    { t = "Đang Hiện"; }
+                    else
+                    { t = "Đang Ẩn"; }
+                    if (@item.Launch == true)
+                    { p = "Đã ra mắt"; }
+                    else
+                    { p = "Sắp ra mắt"; }
+
+                <tr>
+                    <th scope="row">@item.ID</th>
+                    <td>@item.ProductName</td>
+                    <td>@a</td>
+                    <td>@b</td>
+                    <td>@s</td>
+                    <td>@DBIO.SumsellPD(item.ID)</td>
+                    @{string idd = 'a' + item.ID.ToString();}
+                    @if (item.Launch == false)
+                    {
+                        <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#" + @idd + "')", OnComplete = "stop_waitMe('#" + @idd + "')", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
+                    }
+                    else
+                    {
+                        <td>@p</td>
+                    }
+
+
+                    <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#" + item.ID + "')", OnComplete = "stop_waitMe('#" + item.ID + "')", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                    @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
+                        {
+                            <td>Không</td>
+
+
+
+
+                            <td>
+                                <a class="btn btn-danger btn-circle btn-sm addeletePD" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-warning btn-circle btn-sm" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                                <a class="btn btn-info btn-circle btn-sm" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
+                                <a class="btn btn-circle btn-success btn-sm addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID}) role="button">+Sale</a>
+
+                            </td>
+                        }
+                        else
+                        {
+                            float ss = (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).Sale * 100);
+                            if (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart > DateTime.Now)
+                            {
+
+                                <td style="font-size:80%">Sắp Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd))</td>
+                            }
+                            else
+                            {
+                                {
+                                    <td style="font-size:80%">Đang Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd))</td>
+                                }
+                            }
+
+
+
+                            <td>
+                                <a class="btn btn-danger btn-circle btn-sm addeletePD" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-warning btn-circle btn-sm" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                                <a class="btn btn-info btn-circle btn-sm" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
+                                <a class="btn btn-danger btn-circle btn-sm deleteSale" data_value=@item.ID role="button"><i class="fas fa-trash"></i> Sale</a>
+                                <a class="btn btn-warning btn-circle btn-sm" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
+                            </td>
+                        }
+                    }
+
+
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="pdid" data_value=@ViewBag.ProducerID></div>
+
+<!-- Page level plugins -->
+<script src="/AssetAdmin/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/AssetAdmin/js/demo/datatables-demo.js"></script>
+<script>
+   
+    $('.addeletePD').on('click', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+        var ProducerID = $('#pdid').attr("data_value");
+        var id = $(this).attr('data_value')
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này')) {
+            run_waitMe('#product');
+            $.ajax({
+                type: 'POST',
+                data: { status: status, sell: sell, id: id ,ProducerID:ProducerID},
+                url: '/Admin/Index1',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                    stop_waitMe('#product');
+                }
+            })
+        }
+
+    });
+    $('.deleteSale').on('click', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+        var ProducerID = $('#pdid').attr("data_value");
+
+        var id2 = $(this).attr('data_value');
+        if (confirm('Bạn có chắc chắn muốn xóa Sale của sản phẩm này')) {
+            run_waitMe('#product');
+            $.ajax({
+                type: 'POST',
+                data: { status: status, sell: sell, id2: id2, ProducerID: ProducerID },
+                url: '/Admin/Index1',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                    stop_waitMe('#product');
+                }
+            })
+        }
+
+
+    });
+</script>

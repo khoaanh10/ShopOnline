@@ -1,0 +1,6 @@
+﻿
+@if (ViewBag.T != null)
+{
+    foreach (var item in ViewBag.T)
+    {<option value="@item.ID">@item.ProducerName</option>}
+}

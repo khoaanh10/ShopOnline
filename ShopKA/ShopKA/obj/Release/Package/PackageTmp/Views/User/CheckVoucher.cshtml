@@ -1,0 +1,186 @@
+﻿
+@if (ViewBag.check == 0)
+{
+    <div id="Vouchercode" data_value=null></div>
+
+
+    <span class="msg__text">
+        Mã giảm giá?
+
+        <a class="gl-link" href="#have-coupon" data-toggle="collapse">Bấm vào đây để nhập mã giảm giá</a>
+    </span>
+    <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
+        <div class="c-f u-s-m-b-16">
+
+            <span class="gl-text u-s-m-b-16">Nhập mã ngay</span>
+            <form class="c-f__form">
+                <div class="u-s-m-b-16">
+                    <div class="u-s-m-b-15">
+
+                        <label for="coupon"></label>
+
+                        <input class="input-text input-text--primary-style" type="text" id="code" placeholder="Mã khuyến mãi">
+                    </div>
+                    <div class="u-s-m-b-15">
+
+                        <button class="btn btn--e-transparent-brand-b-2" type="button" id="buttonvc">Áp dụng</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else if (ViewBag.check == 1)
+{<div id="Vouchercode" data_value=null></div>
+    <span class="msg__text">
+        Mã giảm giá?
+
+        <a class="gl-link" aria-expanded="true" href="#have-coupon" data-toggle="collapse">Bấm vào đây để nhập mã giảm giá</a>
+    </span>
+    <div class="collapse show" aria-expanded="true" id="have-coupon" data-parent="#checkout-msg-group">
+        <div class="c-f u-s-m-b-16">
+
+            <span class="gl-text u-s-m-b-16">Nhập mã ngay</span>
+            <form class="c-f__form">
+                <div class="u-s-m-b-16">
+                    <div class="u-s-m-b-15">
+
+                        <label for="coupon"></label>
+                        <p class="text-danger" style="color:red">Mã không hợp lệ</p>
+                        <input class="input-text input-text--primary-style" type="text" id="code" placeholder="Mã khuyến mãi">
+                    </div>
+                    <div class="u-s-m-b-15">
+
+                        <button class="btn btn--e-transparent-brand-b-2" type="button" id="buttonvc">Áp dụng</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>}
+else if (ViewBag.check == 5)
+{
+    <div id="Vouchercode" data_value=null></div>
+    <span class="msg__text">
+        Mã giảm giá?
+
+        <a class="gl-link" aria-expanded="true" href="#have-coupon" data-toggle="collapse">Bấm vào đây để nhập mã giảm giá</a>
+    </span>
+    <div class="collapse show" aria-expanded="true" id="have-coupon" data-parent="#checkout-msg-group">
+        <div class="c-f u-s-m-b-16">
+
+            <span class="gl-text u-s-m-b-16">Nhập mã ngay</span>
+            <form class="c-f__form">
+                <div class="u-s-m-b-16">
+                    <div class="u-s-m-b-15">
+
+                        <label for="coupon"></label>
+                        <p class="text-danger" style="color:red">Mã đã hết hạn hoặc hết lượt sử dụng</p>
+                        <input class="input-text input-text--primary-style" type="text" id="code" placeholder="Mã khuyến mãi">
+                    </div>
+                    <div class="u-s-m-b-15">
+
+                        <button class="btn btn--e-transparent-brand-b-2" type="button" id="buttonvc">Áp dụng</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>}
+else if (ViewBag.check == 2)
+{<div id="Vouchercode" data_value=null></div>
+    <span class="msg__text">
+        Mã giảm giá?
+
+        <a class="gl-link" aria-expanded="true" href="#have-coupon" data-toggle="collapse">Bấm vào đây để nhập mã giảm giá</a>
+    </span>
+    <div class="collapse show" aria-expanded="true" id="have-coupon" data-parent="#checkout-msg-group">
+        <div class="c-f u-s-m-b-16">
+
+            <span class="gl-text u-s-m-b-16">Nhập mã ngay</span>
+            <form class="c-f__form">
+                <div class="u-s-m-b-16">
+                    <div class="u-s-m-b-15">
+
+                        <label for="coupon"></label>
+                        <p class="text-danger" style="color:red">Bạn đã sử dụng mã này rồi</p>
+                        <input class="input-text input-text--primary-style" type="text" id="code" placeholder="Mã khuyến mãi">
+                    </div>
+                    <div class="u-s-m-b-15">
+
+                        <button class="btn btn--e-transparent-brand-b-2" type="button" id="buttonvc">Áp dụng</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else if (ViewBag.check == 3)
+{<div id="Vouchercode" data_value=null></div>
+    <span class="msg__text">
+        Mã giảm giá?
+
+        <a class="gl-link" aria-expanded="true" href="#have-coupon" data-toggle="collapse">Bấm vào đây để nhập mã giảm giá</a>
+    </span>
+    <div class="collapse show" aria-expanded="true" id="have-coupon" data-parent="#checkout-msg-group">
+        <div class="c-f u-s-m-b-16">
+
+            <span class="gl-text u-s-m-b-16">Nhập mã ngay</span>
+            <form class="c-f__form">
+                <div class="u-s-m-b-16">
+                    <div class="u-s-m-b-15">
+
+                        <label for="coupon"></label>
+                        <p class="text-danger" style="color:red">Đơn hàng không đủ điều kiện</p>
+                        <input class="input-text input-text--primary-style" type="text" id="code" placeholder="Mã khuyến mãi">
+                    </div>
+                    <div class="u-s-m-b-15">
+
+                        <button class="btn btn--e-transparent-brand-b-2" type="button" id="buttonvc">Áp dụng</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div id="Vouchercode" data_value=@ViewBag.voucher.Code></div>
+    <span class="msg__text">
+
+
+        <a class="gl-link">Đã nhập mã @ViewBag.voucher.Code giảm @(ViewBag.type==true?ViewBag.voucher.OrderSale*100 + "% giá trị đơn hàng, tối đa: " + ViewBag.voucher.Maximum +" đ":ViewBag.voucher.ShipSale*100 +" phí vận chuyển")</a>
+    </span>
+
+}
+<script>
+    $('#buttonvc').on('click', function () {
+        var code = $("#code").val();
+        var SLSP = $("#SLSP").attr('data_value');
+        var money = $("#tien").attr('data_value');
+        run_waitMe('#kqVoucher');
+        run_waitMe('#money');
+        $.ajax({
+            type: 'POST',
+            data: { code: code, SLSP: SLSP, money: money },
+            url: '/User/checkVoucher',
+            success: function (ketqua) {
+                $('#kqVoucher').html(ketqua);
+                stop_waitMe('#kqVoucher');
+
+            }
+
+        })
+        $.ajax({
+            type: 'POST',
+            data: { code: code, SLSP: SLSP, money: money },
+            url: '/User/MoneyVoucher',
+            success: function (ketqua) {
+                $('#money').html(ketqua);
+                stop_waitMe('#money');
+
+            }
+
+        })
+
+
+    });
+</script>

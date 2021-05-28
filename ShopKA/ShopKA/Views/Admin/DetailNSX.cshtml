@@ -1,0 +1,234 @@
+﻿@model List<DataBase.Product>
+@using ShopKA.Models
+@using PagedList.Mvc
+@using DataBase
+@{
+    ViewBag.Title = "Sản phẩm";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+    MyDB DB = new MyDB();
+    int IDD = ViewBag.ID;
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4" id="PCid" data_value=@IDD>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh Sách SP của @DBIO.get1Producer_ProducerID(IDD).ProducerName</h6>
+        <hr />
+        <div div class="gl-inline" >
+            <select class="select-box select-box--primary-style u-w-30" id="type1PD">
+                <option selected value="trueandfalse">Tất cả</option>
+                <option value="true">Còn hàng</option>
+
+                <option value="false">Hết hàng</option>
+                <option value="Launch">SP sắp ra mắt</option>
+
+
+            </select>
+
+            <p>&nbsp;&nbsp;&nbsp;</p>
+            <select class="select-box select-box--primary-style u-w-30" id="SellPD">
+                <option value=1 selected>Tất cả SP</option>
+
+                <option value=2>SP đang Sale</option>
+                <option value=3>SP không Sale</option>
+
+
+            </select>
+            <p>&nbsp;&nbsp;&nbsp;</p>
+            <a href=@Url.Action("CreatProduct2","Admin",new { ID = IDD }) class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Thêm SP
+            </a>
+        </div>
+        
+    </div>
+
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên SP</th>
+                        <th scope="col">NSX</th>
+                        <th scope="col">Loại SP</th>
+                        <th scope="col">Tổng SL</th>
+                        <th scope="col">SL đã bán</th>
+                        <th scope="col">Launch</th>
+                        <th scope="col">Tình Trạng</th>
+                        <th scope="col">Sale</th>
+                        <th scope="col">                      </th>
+</thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string a = DBIO.get1Producer_ProducerID(item.ProducerID).ProducerName;
+                        string b = DBIO.get1ProductT_ProductTID(DBIO.get1Producer_ProducerID(item.ProducerID).ProductTID).ProducTName;
+                        var c = DBIO.getallColor(item.ID);
+                        int s = 0;
+                        if (c != null)
+                        {
+                            foreach (var item2 in c)
+                            {
+                                s = s + item2.Quantity;
+                            }
+                        }
+                        string t;
+                        string p;
+                        if (@item.Status == true)
+                        { t = "Đang Hiện"; }
+                        else
+                        { t = "Đang Ẩn"; }
+                        if (@item.Launch == true)
+                        { p = "Đã ra mắt"; }
+                        else
+                        { p = "Sắp ra mắt"; }
+
+                    <tr>
+                        <th scope="row">@item.ID</th>
+                        <td>@item.ProductName</td>
+                        <td>@a</td>
+                        <td>@b</td>
+                        <td>@s</td>
+                        <td>@DBIO.SumsellPD(item.ID)</td>
+                        @{string idd = 'a' + item.ID.ToString();}
+                        @if (item.Launch == false)
+                        {
+                            <td id=@idd>@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST",OnBegin= "run_waitMe('#" + @idd + "')",OnComplete= "stop_waitMe('#" + @idd + "')", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })</td>
+                        }
+                        else
+                        {
+                            <td>@p</td>
+                        }
+
+
+                        <td id=@item.ID>@Ajax.ActionLink(t, "ChangeSTT", "Admin", new { ID = @item.ID }, new AjaxOptions { HttpMethod = "POST",OnBegin= "run_waitMe('#" + @item.ID + "')",OnComplete= "stop_waitMe('#" + @item.ID + "')", UpdateTargetId = @item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                        @{if (DB.SaleProducts.Count(i => i.ProductID == item.ID) == 0)
+                            {
+                                <td>Không</td>
+
+
+
+
+                                <td>
+                                    <a class="btn btn-danger btn-sm btn-circle addeletePD" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                                    <a class="btn btn-warning btn-sm btn-circle" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
+                                    <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
+                                    <a class="btn btn-success btn-sm btn-circle addSale" href=@Url.Action("AddSale","Admin",new { ID=item.ID,PCID=IDD}) role="button">+Sale</a>
+
+                                </td>
+                            }
+                            else
+                            {
+                                float ss = (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).Sale * 100);
+                                if (DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart > DateTime.UtcNow.AddHours(7))
+                                {
+
+                                    <td style="font-size:80%">Sắp Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd))</td>
+                                }
+                                else
+                                {
+                                    {
+                                        <td style="font-size:80%">Đang Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.SaleProducts.FirstOrDefault(i => i.ProductID == item.ID).SaleTimeEnd))</td>
+                                    }
+                                }
+
+
+
+                                <td>
+                                    <a class="btn btn-danger btn-sm btn-circle addeletePD" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                                    <a class="btn btn-warning btn-sm btn-circle" href="@Url.Action("EditProduct", "Admin", new { ID = @item.ID , PCID=IDD})" role="button">Sửa</a>
+                                    <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("Color", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-info-circle"></i></a>
+                                    <a class="btn btn-danger btn-sm btn-circle deleteSale" data_value=@item.ID role="button"><i class="fas fa-trash"></i>Sale</a>
+                                    <a class="btn btn-warning btn-sm btn-circle" href=@Url.Action("EditSale", "Admin", new { ID = @item.ID,PCID=IDD }) role="button">Sửa Sale</a>
+                                </td>
+                            }
+                        }
+
+
+                    </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $('body').on('change', '#type1PD', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+        var ProducerID = $('#PCid').attr('data_value');
+        run_waitMe('#product');
+        $.ajax({
+            type: 'POST',
+            data: { status: status, sell: sell,ProducerID:ProducerID },
+            url: '/Admin/Index1',
+            success: function (ketqua) {
+                $('#product').html(ketqua);
+                stop_waitMe('#product');
+            }
+        })
+    });
+    $('body').on('change', '#SellPD', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+        var ProducerID = $('#PCid').attr('data_value');
+        run_waitMe('#product');
+        $.ajax({
+            type: 'POST',
+            data: { status: status, sell: sell,ProducerID:ProducerID },
+            url: '/Admin/Index1',
+            success: function (ketqua) {
+                $('#product').html(ketqua);
+                stop_waitMe('#product');
+            }
+        })
+    });
+    $('.addeletePD').on('click', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+        var ProducerID = $('#PCid').attr('data_value');
+        
+        var id = $(this).attr('data_value')
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này')) {
+            run_waitMe('#product');
+            $.ajax({
+                type: 'POST',
+                data: { status: status, sell: sell, id: id ,ProducerID:ProducerID},
+                url: '/Admin/Index1',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                    stop_waitMe('#product');
+                }
+            })
+        }
+
+
+    });
+    $('.deleteSale').on('click', function () {
+        var status = document.getElementById("type1PD").value;
+        var sell = document.getElementById("SellPD").value;
+        
+        var ProducerID = $('#PCid').attr('data_value');
+
+        var id2 = $(this).attr('data_value');
+        if (confirm('Bạn có chắc chắn muốn xóa Sale của sản phẩm này')) {
+            run_waitMe('#product');
+            $.ajax({
+                type: 'POST',
+                data: { status: status, sell: sell, id2: id2 ,ProducerID:ProducerID},
+                url: '/Admin/Index1',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                    stop_waitMe('#product');
+                }
+            })
+        }
+
+
+    });</script>

@@ -1,0 +1,116 @@
+﻿@model List<DataBase.ProductT>
+@using ShopKA.Models
+@using DataBase
+@{
+    ViewBag.Title = "DS Loại SP";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+    MyDB DB = new MyDB();
+
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách Loại SP</h6>
+        <hr />
+        <a href="/Admin/CreatProductT" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-download fa-sm text-white-50"></i> Thêm Loại SP
+        </a>
+    </div>
+    
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên Loại SP</th>
+                        <th scope="col">Số NSX</th>
+                        <th scope="col">Tổng số SP</th>
+                        <th scope="col">Sale</th>
+
+                        <th scope="col">                      </th>
+</thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        int a = DBIO.Count_Producer_ProductT(item.ID);
+                        int b = DBIO.Count_Product_ProductT(item.ID);
+
+
+
+                    <tr>
+                        <th scope="row">@item.ID</th>
+                        <td>@item.ProducTName</td>
+                        <td>@a</td>
+                        <td>@b</td>
+                        @if (DB.ProductTSales.Count(i => i.ProductTID == item.ID) == 0)
+                        {
+                            <td>Không</td>
+
+
+                            <td>
+                                <a class="btn btn-danger btn-sm btn-circle" href="@Url.Action("DeleteProductT", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-warning btn-sm btn-circle" href="@Url.Action("EditProductT", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                                <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("Producer", "Admin", new { ID = @item.ID })" role="button">NSX</a>
+                                <a class="btn btn-success btn-sm btn-circle addSale" href=@Url.Action("AddProductTSale","Admin",new { ID=item.ID}) role="button">+Sale</a>
+
+                            </td>
+                        }
+                        else
+                        {
+                            float ss = (DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).Sale * 100);
+                            if (DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart > DateTime.UtcNow.AddHours(7))
+                            {
+
+                                <td style="font-size:80%">Sắp Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd))</td>
+                            }
+                            else
+                            {
+                                {
+                                    <td style="font-size:80%">Đang Sale:@ss%(@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeStart)-@String.Format("{0:dd/MM/yyyy}", DB.ProductTSales.FirstOrDefault(i => i.ProductTID == item.ID).SaleTimeEnd))</td>
+                                }
+                            }
+                    <td>
+                        <a class="btn btn-danger btn-sm btn-circle" href="@Url.Action("DeleteProductT", "Admin", new { ID = @item.ID })" role="button"><i class="fas fa-trash"></i></a>
+                        <a class="btn btn-warning btn-sm btn-circle" href="@Url.Action("EditProductT", "Admin", new { ID = @item.ID })" role="button">Sửa</a>
+                        <a class="btn btn-info btn-sm btn-circle" href="@Url.Action("Producer", "Admin", new { ID = @item.ID })" role="button">NSX</a>
+                        <a class="btn btn-warning btn-sm btn-circle" href=@Url.Action("EditProductTSale", "Admin", new { ID = @item.ID }) role="button">Sửa Sale</a>
+                        <a class="btn btn-danger btn-sm btn-circle deleteProductTSale" data_value=@item.ID role="button"><i class="fas fa-trash"></i>Sale</a>
+
+                    </td>}
+
+
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+
+    $('.deleteProductTSale').on('click', function () {
+        
+        var a = $(this).attr('data_value');
+        
+        if (confirm('Bạn có chắc chắn muốn xóa Sale của loại sản phẩm này')) {
+            run_waitMe('#product');
+            $.ajax({
+                type: 'POST',
+                data: { ID: a },
+                url: '/Admin/DeleteProductTSale',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                    stop_waitMe('#product');
+                }
+            })
+        }
+
+
+    });
+</script>
+

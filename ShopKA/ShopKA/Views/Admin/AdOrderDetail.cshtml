@@ -1,0 +1,69 @@
+﻿@model List<DataBase.ProductOrder>
+@using ShopKA.Models
+@using DataBase
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+    Order a = ViewBag.Order;
+    var gia = @Model.Sum(i => i.Price * i.Quantity);
+    int gia1 = (int)(gia - (a.Maximum >= gia * a.SalePrice ? gia * a.SalePrice : a.Maximum));
+    int ship = 100000 - (int)(100000 * a.SaleShip);
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Chi tiết đơn hàng</h6>
+    </div>
+    <div class="card-header py-3">
+        <div>Tên người nhận: @a.ShipName</div>
+        <div>Địa chỉ nhận hàng: @a.ShipAddress</div>
+        <div>SDT người nhận: @a.ShipPhone</div>
+    </div>
+    <div class="card-header py-3">
+        <div>Tên người thanh toán: @a.BillName</div>
+        <div>Địa chỉ thanh toán: @a.BillAddress</div>
+        <div>SDT người thanh toán: @a.BillPhone</div>
+    </div>
+    <div class="card-header py-3">
+        <div>Tổng giá SP: @String.Format("{00:0,0}", @gia1) đ @(a.SalePrice > 0?"(Voucher Giảm " + @a.SalePrice * 100 + "% giá trị đơn hàng)":""  )</div>
+        <div>Tiền ship: @String.Format("{00:0,0}", @ship) đ @(a.SaleShip > 0?"(Voucher Giảm " + @a.SaleShip * 100 + "% phí vận chuyển)":""  )</div>
+        <div>Tổng cộng: @String.Format("{00:0,0}", gia1+ship) đ</div>
+    </div>
+
+    <div class="card-body" id="product">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên Sp</th>
+
+
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Giá</th>
+
+
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <th scope="row">@item.ID</th>
+                            <td>@item.PDName</td>
+                            <td>@item.Quantity</td>
+                            <td>@String.Format("{00:0,0}", item.Price) đ x @item.Quantity</td>
+
+
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>

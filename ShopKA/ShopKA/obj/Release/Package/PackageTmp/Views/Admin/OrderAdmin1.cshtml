@@ -1,0 +1,106 @@
+﻿@model List<DataBase.Order>
+@using DataBase
+@using ShopKA.Models
+@{ MyDB DB = new MyDB();}
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Người đặt hàng</th>
+                    <th>Số Lượng SP</th>
+                    <th>Tổng giá</th>
+                    <th>Trạng thái</th>
+
+                    <th>                      </th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    string t = "";
+                    switch (item.Status)
+                    {
+                        case 0:
+                            t = "Chờ xác nhận";
+                            break;
+                        case 1:
+                            t = "Đã chuẩn bị hàng";
+                            break;
+                        case 2:
+                            t = "Đang vận chuyển";
+                            break;
+                        case 4:
+                            t = "Thành công";
+                            break;
+                        case 6:
+                            t = "Đã trả hàng";
+                            break;
+                    }
+
+
+                <tr>
+                    <th scope="row">@item.ID</th>
+                    <td>@DBIO.get1User_ID(item.UserID).Username</td>
+                    <td>@DB.ProductOrders.Count(i => i.OrderID == item.ID)</td>
+                    @{int gia = DB.ProductOrders.Where(i => i.OrderID == item.ID).Sum(i => i.Price * i.Quantity);
+                        int gia1 = (int)(gia - (item.Maximum >= gia * item.SalePrice ? gia * item.SalePrice : item.Maximum));
+                        int ship = 100000 - (int)(100000 * item.SaleShip);
+                        string bonus = "";
+                        if (item.SalePrice > 0)
+                        {
+                            bonus = "(Voucher Giảm " + item.SalePrice * 100 + "% giá trị đơn hàng)";
+                        }
+                        else if (item.SaleShip > 0)
+                        {
+                            bonus = "(Voucher giảm " + item.SaleShip * 100 + "% tiền ship)";
+                        }
+                    }
+                    <td>@(gia1 +ship) đ @bonus</td>
+                    @if (item.Status < 3)
+                    {
+                        <td id="orderSTT-@item.ID">@Ajax.ActionLink(t, "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                    }
+                    else if (item.Status == 3)
+                    {
+                        <td id="orderSTT-@item.ID">Đang giao hàng - @Ajax.ActionLink("Giao cho khách", "changeOrderSTT", "Admin", new { ID = item.ID, ID2 = 4 }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) - @Ajax.ActionLink("Hủy", "changeOrderSTT", "Admin", new { ID = item.ID,ID2=5}, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace })</td>
+                    }
+                    else if (item.Status == 5)
+                    {
+                        <td id="orderSTT-@item.ID">Đã hủy - @Ajax.ActionLink("Đang trả hàng", "changeOrderSTT", "Admin", new { ID = item.ID }, new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMesm('#orderSTT-" + item.ID + "')", OnComplete = "stop_waitMe('#orderSTT-" + item.ID + "')", UpdateTargetId = "orderSTT-" + item.ID.ToString(), InsertionMode = InsertionMode.Replace }) </td>
+                    }
+
+                    else
+                    {
+                        <td id="orderSTT-@item.ID">@t</td>
+                    }
+
+
+                    <td>
+                        <a class="btn btn-danger btn-sm btn-circle addeleteOrder" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+
+                        <a class="btn btn-info btn-sm btn-circle" href=@Url.Action("AdOrderDetail", "Admin", new { ID = @item.ID }) role="button"><i class="fas fa-info-circle"></i></a>
+
+                    </td>
+
+
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Core plugin JavaScript-->
+
+
+<!-- Page level plugins -->
+<script src="/AssetAdmin/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="~/Scripts/App.js"></script>
+<script src="/AssetAdmin/js/demo/datatables-demo.js"></script>

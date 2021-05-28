@@ -1,0 +1,68 @@
+﻿@model List<DataBase.WishList>
+    @using ShopKA.Models
+
+
+@foreach (var item in Model)
+{
+    string name = 'c' + item.ID.ToString();
+    var r = DBIO.get1Product(item.ProductID).Price * DBIO.get1Product(item.ProductID).Sale;
+    int b = (int)(DBIO.get1Product(item.ProductID).Price - r);
+    float Sale = (DBIO.get1Product(item.ProductID).Sale * 100);
+
+    <!--====== Wishlist Product ======-->
+    <div class="w-r u-s-m-b-0">
+        <div class="w-r__container">
+            <div class="w-r__wrap-1">
+                <div class="w-r__img-wrap">
+
+                    <img class="u-img-fluid" src='@DBIO.get1Product(item.ProductID).Image' alt="">
+                </div>
+                <div class="w-r__info">
+
+                    <span class="w-r__name">
+
+                        <a href="/Home/ProductDetail?ID=@item.ProductID">@DBIO.get1Product(item.ProductID).ProductName</a>
+                    </span>
+
+                    <span class="w-r__category">
+
+                        <a href="/Home/Product?ProducerID=@DBIO.get1Product(item.ProductID).ProducerID">@DBIO.get1Producer_ProducerID(DBIO.get1Product(item.ProductID).ProducerID).ProducerName</a>
+                    </span>
+
+                    <span class="w-r__price">
+                        @String.Format("{0:0,0}", @b) đ
+
+                        @if (Sale != 0)
+                        {<span class="pd-detail__discount">(@Sale  % OFF)</span><span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.get1Product(item.ProductID).Price) đ</span>}
+                    </span>
+                </div>
+            </div>
+            <div class="w-r__wrap-2">
+
+                <a class="w-r__link btn--e-brand-b-2 addcartindex2" data_value=@item.ProductID data_value2=@DBIO.get1ColorFirst(item.ProductID).ID data-modal="modal" data-modal-id="#add-to-cart-@item.ProductID">THÊM VÀO GIỎ HÀNG</a>
+
+                <a class="w-r__link btn--e-transparent-platinum-b-2" href="/Home/ProductDetail?ID=@item.ProductID">XEM CHI TIẾT</a>
+
+                <a class="w-r__link btn--e-transparent-platinum-b-2 deleteWish" data_value=@item.ID href="#">XÓA</a>
+            </div>
+        </div>
+    </div>}
+<script>
+    $('.deleteWish').on('click', function () {
+        run_waitMe('#Wish2');
+        var ID = $(this).attr('data_value')
+        $.ajax({
+            type: 'POST',
+            data: { ID: ID },
+            url: '/Home/deleteWish',
+            success: function (ketqua) {
+                $('#Wish').html(ketqua);
+                stop_waitMe('#Wish2');
+
+            }
+        })
+
+
+
+
+    });</script>

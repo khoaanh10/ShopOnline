@@ -1,0 +1,14 @@
+﻿@model DataBase.Product
+ 
+@{ string p;
+    string idd = 'a' + Model.ID.ToString();
+    if (@Model.Launch == true)
+    { p = "Đã ra mắt"; }
+    else
+    { p = "Sắp ra mắt"; }
+
+}
+@if (@Model.Launch == false)
+{
+@Ajax.ActionLink(p, "ChangeLaunch", "Admin", new { ID = @Model.ID }, new AjaxOptions { HttpMethod = "POST",OnBegin= "run_waitMe('#" + @Model.ID + "')",OnComplete= "stop_waitMe('#" + @Model.ID + "')", UpdateTargetId = @idd, InsertionMode = InsertionMode.Replace })}
+else {@p}

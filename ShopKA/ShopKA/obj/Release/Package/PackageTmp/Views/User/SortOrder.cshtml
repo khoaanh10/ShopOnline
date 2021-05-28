@@ -1,0 +1,171 @@
+﻿@model PagedList.PagedList<DataBase.Order>
+@using ShopKA.Models
+@using DataBase
+
+@foreach (var item in Model)
+{
+    int Money = 0;
+    foreach (var item2 in DBIO.getallPDOrder(item.ID))
+    {
+
+        int b = item2.Price;
+        int g = b * item2.Quantity;
+        Money = Money + g ;
+    }
+    Money = (int)(Money - (item.Maximum >= Money * item.SalePrice ? item.SalePrice * Money : item.Maximum)) + (int)(100000 - 100000 * item.SaleShip);
+    <div class="m-order__get">
+        <div class="manage-o__header u-s-m-b-30">
+            <div class="dash-l-r">
+                <div>
+                    <div class="manage-o__text-2 u-c-secondary">Đơn hàng #@item.ID</div>
+                    <div class="manage-o__text u-c-silver">Ngày đặt hàng: @String.Format("{0:dd/MM/yyyy H:mm:ss}", @item.CreatDate)</div>
+                </div>
+                <div>
+
+                    <span class="manage-o__text-2 u-c-silver">
+                        Tổng giá:
+
+                        <span class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", Money) đ</span>
+                    </span>
+                </div>
+                <div>
+                    @if (item.Status == 0)
+                    {<span class="manage-o__badge badge--processing">Chờ xác nhận</span>}
+                    else if (item.Status == 1)
+                    {<span class="manage-o__badge badge--processing">Đang chuẩn bị hàng</span>}
+                    else if (item.Status == 2)
+                    {<span class="manage-o__badge badge--shipped">Đang vận chuyển</span>}
+                    else if (item.Status == 3)
+                    {<span class="manage-o__badge badge--delivered">Đang giao hàng</span>}
+                    else if (item.Status == 4)
+                    {<span class="manage-o__badge badge--success">Đã giao thành công</span>}
+                    else if (item.Status > 4)
+                    {<span class="manage-o__badge badge--cancel">Đơn hàng bị hủy</span>}
+                </div>
+                @if (item.Status < 2)
+                {
+                    <div>
+
+                        <div class="dash__link dash__link--brand">
+
+
+                            <a class="deleteorder" data_value=@item.ID>Hủy</a>
+                        </div>
+                    </div>
+                }
+                <div>
+
+                    <div class="dash__link dash__link--brand">
+
+
+                        <a href=@Url.Action("ManageOrder","User",new { ID=item.ID })>Quản lý</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="o-summary__item-wrap gl-scroll">
+            @foreach (var item2 in DBIO.getallPDOrder(item.ID))
+            {
+               
+                int b = item2.Price;
+                int g = b * item2.Quantity;
+
+                <div class="o-card">
+                    <div class="description__container">
+                        <div class="description__img-wrap">
+
+                            <img class="u-img-fluid" src=@item2.Image  alt="">
+                        </div>
+                        <div class="description-title">@item2.PDName</div>
+                    </div>
+                    <div class="description__info-wrap">
+
+                        <div>
+
+                            <span class="manage-o__text-2 u-c-silver">
+                                Số lượng
+
+                                <span class="manage-o__text-2 u-c-secondary">@item2.Quantity</span>
+                            </span>
+                        </div>
+                        <div>
+
+                            <span class="manage-o__text-2 u-c-silver">
+                                Giá
+
+                                <span class="manage-o__text-2 u-c-secondary">@String.Format("{00:0,0}", @g) đ</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                @*<hr width="100%" align="center" />*@}
+        </div>
+    </div>}
+<div class="u-s-p-y-60">
+
+    <!--====== Pagination ======-->
+    <ul class="shop-p__pagination">
+        @for (int item = 1; item < ViewBag.page + 1; item++)
+        {
+            if (ViewBag.number == item)
+            {
+                <li class="is-active">
+
+                    <a>@item</a>
+                </li>
+            }
+            else
+            {
+
+                <li>
+
+                    <a class="pageo" data_value=@item>@item</a>
+                </li>
+            }
+
+        }
+
+
+    </ul>
+    <!--====== End - Pagination ======-->
+</div>
+<script>
+    $('.deleteorder').on('click', function () {
+        
+        if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này')) {
+            run_waitMe('#displayorder');
+            var ID = $(this).attr('data_value');
+            var ID2 = document.getElementById("my-order-sort").value;
+            $.ajax({
+                type: 'POST',
+                data: { ID: ID,ID2:ID2 },
+                url: '/User/DeleteOrder',
+                success: function (ketqua) {
+                    $('#displayorder').html(ketqua);
+                    stop_waitMe('#displayorder');
+                }
+            })
+        }
+
+
+    });
+    $('.pageo').on('click', function () {
+
+        run_waitMe('#displayorder');
+        var page = $(this).attr('data_value');
+        var ID2 = document.getElementById("my-order-sort").value;
+        $.ajax({
+            type: 'POST',
+            data: { ID: -1, ID2: ID2, page: page },
+            url: '/User/DeleteOrder',
+            success: function (ketqua) {
+                $('#displayorder').html(ketqua);
+                stop_waitMe('#displayorder');
+            }
+        })
+
+
+
+    });
+    
+</script>

@@ -1,0 +1,332 @@
+﻿@model PagedList.PagedList<DataBase.Review>
+@using ShopKA.Models
+@using DataBase
+<div class="pd-tab__rev">
+    <div class="u-s-m-b-30">
+        <div class="pd-tab__rev-score">
+            <div class="u-s-m-b-8">
+                <h2>@ViewBag.NumberReview đánh giá - @ViewBag.AVG (Overall)</h2>
+            </div>
+            <div class="gl-rating-style-2 u-s-m-b-8">
+                @for (int i = 0; i < (int)(ViewBag.AVG); i++)
+                {<i class="fas fa-star"></i>}
+                @if ((ViewBag.AVG - (int)ViewBag.AVG) > 0.25 & (ViewBag.AVG - (int)ViewBag.AVG) < 0.75)
+                {
+                    <i class="fas fa-star-half-alt"></i>
+                }
+                @if ((ViewBag.AVG - (int)ViewBag.AVG) >= 0.75)
+                {
+                    <i class="fas fa-star"></i>
+                }
+
+
+
+
+
+            </div>
+            <div class="u-s-m-b-8">
+                <h4>Chúng tôi mong nhận được sự đánh giá của bạn!</h4>
+            </div>
+
+            <span class="gl-text">Nói cho chúng tôi biết bạn cảm thây thế nào</span>
+        </div>
+    </div>
+    <div class="u-s-m-b-30">
+        <form class="pd-tab__rev-f1">
+            <div class="rev-f1__group">
+                <div class="u-s-m-b-15">
+                    <h2>@ViewBag.NumberReview đánh giá </h2>
+                </div>
+                <div class="u-s-m-b-15">
+
+                    <label for="sort-review"></label>
+                    @if (ViewBag.Sort == 1)
+                    {<select class="select-box select-box--primary-style" id="sort_review">
+
+                            <option selected value="ID">Đánh giá mới nhất</option>
+                            <option value="Rate">Đánh giá tích cực</option>
+                            <option value="Rate2">Đánh giá tiêu cực</option>
+                        </select>}
+                    else if (ViewBag.Sort == 2)
+                    {<select class="select-box select-box--primary-style" id="sort_review">
+
+                            <option value="ID">Đánh giá mới nhất</option>
+                            <option selected value="Rate">Đánh giá tích cực</option>
+                            <option value="Rate2">Đánh giá tiêu cực</option>
+                        </select>}
+                    else if (ViewBag.Sort == 3)
+                    {<select class="select-box select-box--primary-style" id="sort_review">
+
+                            <option value="ID">Đánh giá mới nhất</option>
+                            <option value="Rate">Đánh giá tích cực</option>
+                            <option selected value="Rate2">Đánh giá tiêu cực</option>
+                        </select>}
+                </div>
+            </div>
+            <div class="rev-f1__review" id="review">
+                @foreach (var item in Model)
+                {
+                    <div class="review-o u-s-m-b-15">
+                        <div class="review-o__info u-s-m-b-8">
+
+                            <span class="review-o__name">@DBIO.get1User_ID(item.UserID).Username</span>
+
+                            <span class="review-o__date">@String.Format("{0:dd/MM/yyyy H:mm:ss}", @item.CreatDate)</span>
+                            @if (Session["SS"] != null)
+                            {
+                                if (((UserLogin)Session["SS"]).UserName == DBIO.get1User_ID(item.UserID).Username || DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).Permission == 0)
+                                {
+                                    <a class="mini-product__delete-link far fa-trash-alt" style="text-align:right" data_value=@item.ID></a>}
+                            }
+                        </div>
+                        <div class="review-o__rating gl-rating-style u-s-m-b-8">
+                            @for (int i = 0; i < item.Rate; i++)
+                            {<i class="fas fa-star"></i>}
+
+                            <span>(@item.Rate)</span>
+                        </div>
+                        <p class="review-o__text">@item.Text</p>
+                    </div>
+                }
+                <div class="u-s-p-y-60">
+
+                    <!--====== Pagination ======-->
+                    <ul class="shop-p__pagination">
+                        @for (int item = 1; item < ViewBag.page + 1; item++)
+                        {
+                            if (ViewBag.number == item)
+                            {
+                                <li class="is-active">
+
+                                    <a>@item</a>
+                                </li>
+                            }
+                            else
+                            {
+
+                                <li>
+
+                                    <a class="pagereview" data_value=@item>@item</a>
+                                </li>
+                            }
+
+                        }
+                       
+                        </li>
+                    </ul>
+                    <!--====== End - Pagination ======-->
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    @if (Session["SS"] != null)
+    {
+        <div class="u-s-m-b-30">
+
+            <div class="pd-tab__rev-f2">
+                @using (Html.BeginForm("Review", "Home", new { ProductID = ViewBag.ProductID }, FormMethod.Post))
+                {
+                    <h2 class="u-s-m-b-15">Viết đánh giá</h2>
+
+                    
+                    <div class="u-s-m-b-30">
+                        <div class="rev-f2__table-wrap gl-scroll">
+                            <table class="rev-f2__table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="gl-rating-style-2">
+                                                <i class="fas fa-star"></i>
+
+                                                <span>(1)</span>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div class="gl-rating-style-2">
+                                                <i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                <span>(2)</span>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div class="gl-rating-style-2">
+                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                <span>(3)</span>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div class="gl-rating-style-2">
+                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                <span>(4)</span>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div class="gl-rating-style-2">
+                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                <span>(5)</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+
+                                            <!--====== Radio Box ======-->
+                                            <div class="radio-box">
+
+                                                <input type="radio" id=1 name="Rate" value=1>
+                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                    <label class="radio-box__label" for="star-1"></label>
+                                                </div>
+                                            </div>
+                                            <!--====== End - Radio Box ======-->
+                                        </td>
+
+                                        <td>
+
+                                            <!--====== Radio Box ======-->
+                                            <div class="radio-box">
+
+                                                <input type="radio" id=2 name="Rate" value=2>
+                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                    <label class="radio-box__label" for="star-2"></label>
+                                                </div>
+                                            </div>
+                                            <!--====== End - Radio Box ======-->
+                                        </td>
+
+                                        <td>
+
+                                            <!--====== Radio Box ======-->
+                                            <div class="radio-box">
+
+                                                <input type="radio" id=3 name="Rate" value=3>
+                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                    <label class="radio-box__label" for="star-3"></label>
+                                                </div>
+                                            </div>
+                                            <!--====== End - Radio Box ======-->
+                                        </td>
+
+                                        <td>
+
+                                            <!--====== Radio Box ======-->
+                                            <div class="radio-box">
+
+                                                <input type="radio" id=4 name="Rate" value=4>
+                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                    <label class="radio-box__label" for="star-4"></label>
+                                                </div>
+                                            </div>
+                                            <!--====== End - Radio Box ======-->
+                                        </td>
+
+                                        <td>
+
+                                            <!--====== Radio Box ======-->
+                                            <div class="radio-box">
+
+                                                <input type="radio" id=5 name="Rate" value=5>
+                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                    <label class="radio-box__label" for="star-5"></label>
+                                                </div>
+                                            </div>
+                                            <!--====== End - Radio Box ======-->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="rev-f2__group">
+                        <div class="u-s-m-b-15">
+
+                            <label class="gl-label" for="reviewer-text">ĐÁNH GIÁ CỦA BẠN *</label><textarea class="text-area text-area--primary-style" name="Text"></textarea>
+                        </div>
+
+
+                    </div>
+                    <div>
+
+                        <button class="btn btn--e-brand-shadow" type="submit">SUBMIT</button>
+                    </div>}
+            </div>
+        </div>}
+
+</div>
+<div id="ProductID" data_value=@ViewBag.ProductID></div>
+<script>
+    $('.pagereview').on('click', function () {
+        run_waitMe('#review');
+        var d = $(this).attr('data_value');
+        var e = $('#ProductID').attr('data_value');
+        var b = document.getElementById("sort_review").value;
+
+        $.ajax({
+            type: 'POST',
+            data: { ProductID:e, page: d,Sort:b},
+            url: '/Home/Review1',
+            success: function (ketqua) {
+                $('#review').html(ketqua);
+                stop_waitMe('#review');
+            }
+        })
+
+
+    });
+
+    $('.mini-product__delete-link').on('click', function () {
+        run_waitMe('#pd-rev');
+        var d = $(this).attr('data_value');
+        var e = $('#ProductID').attr('data_value');
+        var b = document.getElementById("sort_review").value;
+        alert("Đã xóa");
+        $.ajax({
+            type: 'POST',
+            data: { ProductID: e, ID: d,Sort:b },
+            url: '/Home/DeleteReview',
+            success: function (ketqua) {
+                $('#pd-rev').html(ketqua);
+                stop_waitMe('#pd-rev');
+            }
+        })
+
+
+    });
+
+    $('body').on('change', '#sort_review', function () {
+        run_waitMe('#review');
+        var b = document.getElementById("sort_review").value;
+        var e = $('#ProductID').attr('data_value');
+        $.ajax({
+            type: 'POST',
+            data: { ProductID: e, Sort: b },
+            url: '/Home/Review1',
+            success: function (ketqua) {
+                $('#review').html(ketqua);
+                stop_waitMe('#review');
+            }
+        })
+    });
+
+
+
+</script>
+
+
+

@@ -1,0 +1,78 @@
+﻿@model List<DataBase.Voucher>
+@using ShopKA.Models
+@using DataBase
+
+<div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+
+
+
+                <th scope="col">Mã</th>
+                <th scope="col">Loại</th>
+
+                <th scope="col">Số lượng</th>
+                <th scope="col">Điều kiện giá </th>
+                <th scope="col">Điều kiện số lượng </th>
+                <th scope="col">Tình trạng</th>
+                <th scope="col">Thời gian hết hạn</th>
+                <th scope="col"></th>
+
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <th scope="row">@item.ID</th>
+
+                    <td>@item.Code</td>
+                    <td>@(item.Type==true?"Giảm giá đơn hàng "+item.OrderSale*100 +" %, tối đa: " + item.Maximum +" đ":"Giảm giá ship "+item.ShipSale*100 +" %")</td>
+                    <td>@item.Quantity</td>
+                    <td>Giá >= @item.PriceOrderCondition</td>
+                    <td>SL SP >= @item.QuantityCondition</td>
+                    <td>@(item.Status==true?"Còn":"Hết")</td>
+                    <td>@String.Format("{0:dd/MM/yyyy}", @item.End)</td>
+
+                    <td>
+                        <a class="btn btn-danger btn-sm btn-circle addeletevc" data_value=@item.ID role="button"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+
+    </table>
+</div>
+<script src="/AssetAdmin/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/AssetAdmin/js/demo/datatables-demo.js"></script>
+<script>
+    $('.addeletevc').on('click', function () {
+        var id = $(this).attr('data_value');
+
+
+
+        var id2 = $(this).attr('data_value');
+        if (confirm('Bạn có chắc chắn muốn xóa Voucher này')) {
+            run_waitMe('#product');
+            $.ajax({
+                type: 'POST',
+                data: { id: id },
+                url: '/Admin/deleteVoucher',
+                success: function (ketqua) {
+                    $('#product').html(ketqua);
+                    stop_waitMe('#product');
+                }
+            })
+        }
+
+
+    });
+</script>

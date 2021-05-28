@@ -1,0 +1,119 @@
+﻿@model DataBase.Voucher
+
+@{
+    ViewBag.Title = "AddVoucher";
+    Layout = "~/Views/Shared/_Aminlayout.cshtml";
+}
+
+
+<div class="app-content">
+
+    <!--====== Section 1 ======-->
+
+
+    <div class="u-s-p-b-60">
+
+        <!--====== Section Intro ======-->
+        <div class="section__intro u-s-m-b-60" style="margin-bottom:1.875rem;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section__text-wrap">
+                            <h1 class="section__heading u-c-secondary">Thêm Voucher</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Intro ======-->
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="row row--center">
+                    <div class="col-lg-12 col-md-8 u-s-m-b-30">
+                        <div class="l-f-o">
+                            <div class="l-f-o__pad-box">
+
+
+
+
+
+
+
+                                @using (Html.BeginForm("AddVoucher", "Admin"))
+                                {
+                                    @Html.AntiForgeryToken()
+
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger", @style = "color:red;" })
+
+
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+
+                                        <label class="gl-label" for="gender">Loại Voucher</label>
+                                        <select class="select-box select-box--primary-style u-w-100" name="Type">
+                                            <option value=true selected>Giảm giá đơn hàng</option>
+                                            <option value=false>Giảm giá vận chuyển</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        <label class="gl-label">% Giảm giá</label>
+                                        <input type="number" class="input-text input-text--primary-style" />
+
+                                    </div>
+                                    @Html.EditorFor(model => model.Code, new { @type = "hidden", @Value = "A" })
+                                    @Html.EditorFor(model => model.OrderSale, new { @type = "hidden", @Value = 0 })
+                                    @Html.EditorFor(model => model.ShipSale, new { @type = "hidden", @Value = 0 })
+                                    @Html.EditorFor(model => model.Type, new { @type = "hidden", @Value = true })
+                                    @Html.EditorFor(model => model.Start, new { @type = "hidden", @Value = DateTime.UtcNow.AddHours(7) })
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.PriceOrderCondition, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.PriceOrderCondition, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                        @Html.ValidationMessageFor(model => model.PriceOrderCondition, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.QuantityCondition, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.QuantityCondition, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                        @Html.ValidationMessageFor(model => model.QuantityCondition, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+                                        @Html.LabelFor(model => model.End, htmlAttributes: new { @class = "gl-label" })
+
+                                        @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "input-text input-text--primary-style",@type="date" } })
+                                        @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
+
+                                    </div>
+
+
+
+                                    <div class="gl-inline">
+                                        <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
+
+                                            <button class="btn btn--e-transparent-brand-b-2" type="submit">TẠO</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Content ======-->
+    </div>
+    <!--====== End - Section 2 ======-->
+</div>
+

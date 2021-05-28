@@ -1,0 +1,101 @@
+﻿@model PagedList.PagedList<DataBase.Review>
+@using ShopKA.Models
+@using DataBase
+@foreach (var item in Model)
+{
+    <div class="review-o u-s-m-b-15">
+        <div class="review-o__info u-s-m-b-8">
+
+            <span class="review-o__name">@DBIO.get1User_ID(item.UserID).Username</span>
+
+            <span class="review-o__date">@String.Format("{0:dd/MM/yyyy H:mm:ss}", @item.CreatDate)</span>
+            @if (Session["SS"] != null)
+            {
+                if (((UserLogin)Session["SS"]).UserName == DBIO.get1User_ID(item.UserID).Username || DBIO.getUser_fromUserLogin((UserLogin)Session["SS"]).Permission == 0)
+                {
+                    <a class="mini-product__delete-link far fa-trash-alt" style="text-align:right" data_value=@item.ID></a>}
+            }
+        </div>
+        <div class="review-o__rating gl-rating-style u-s-m-b-8">
+            @for (int i = 0; i < item.Rate; i++)
+            {<i class="fas fa-star"></i>}
+
+            <span>(@item.Rate)</span>
+        </div>
+        <p class="review-o__text">@item.Text</p>
+    </div>
+
+}
+<div class="u-s-p-y-60">
+
+    <!--====== Pagination ======-->
+    <ul class="shop-p__pagination">
+        @for (int item = 1; item < ViewBag.page + 1; item++)
+        {
+            if (ViewBag.number == item)
+            {
+                <li class="is-active">
+
+                    <a>@item</a>
+                </li>
+            }
+            else
+            {
+
+                <li>
+                     
+                    <a class="pagereview" data_value=@item>@item</a>
+                </li>
+            }
+
+        }
+       
+        
+    </ul>
+    <!--====== End - Pagination ======-->
+</div>
+<div id="ProductID" data_value=@ViewBag.ProductID></div>
+<script>
+    $('.pagereview').on('click', function () {
+        run_waitMe('#review');
+        var d = $(this).attr('data_value');
+        var e = $('#ProductID').attr('data_value');
+        var b = document.getElementById("sort_review").value;
+        $.ajax({
+            type: 'POST',
+            data: { ProductID: e, page: d ,Sort :b},
+            url: '/Home/Review1',
+            success: function (ketqua) {
+                $('#review').html(ketqua);
+                stop_waitMe('#review');
+            }
+        })
+
+
+    });
+
+    $('.mini-product__delete-link').on('click', function () {
+        var d = $(this).attr('data_value');
+        var e = $('#ProductID').attr('data_value');
+        var b = document.getElementById("sort_review").value;
+        if (confirm('Bạn có chắc chắn muốn xóa bình luận này không')) {
+            run_waitMe('#pd-rev');
+            $.ajax({
+                type: 'POST',
+                data: { ProductID: e, ID: d, Sort: b },
+                url: '/Home/DeleteReview',
+                success: function (ketqua) {
+                    $('#pd-rev').html(ketqua);
+                    stop_waitMe('#pd-rev');
+                }
+            })
+        }
+
+
+    });
+
+
+
+</script>
+
+
