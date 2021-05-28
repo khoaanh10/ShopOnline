@@ -340,7 +340,7 @@
                                             <div class="product-m__thumb">
                                                 @if (Sale != 0)
                                                 {
-                                                    string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                    string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.UtcNow.AddHours(7)).TotalDays).ToString() + 'N';
                                                     <div class="product-percent-discount">-@Sale%</div>
                                                     <div class="product-date-discount">Còn @time </div>}
                                                 <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new { ID = item.ID })>

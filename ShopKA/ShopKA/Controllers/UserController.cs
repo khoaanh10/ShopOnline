@@ -591,7 +591,7 @@ namespace ShopKA.Controllers
                 if (vc != null)
                 {
                     vc.Quantity = vc.Quantity + 1;
-                    if (vc.End > DateTime.Now)
+                    if (vc.End > DateTime.UtcNow.AddHours(7))
                     {
                         vc.Status = true;
                         DB.SaveChanges();

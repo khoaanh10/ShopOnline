@@ -251,7 +251,7 @@
                                             <div class="product-o__wrap ">
                                                 @if (Sale != 0)
                                                 {
-                                                    string time = ((int)(DBIO.get1SaleProduct(item.Product.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                    string time = ((int)(DBIO.get1SaleProduct(item.Product.ID).SaleTimeEnd - DateTime.UtcNow.AddHours(7)).TotalDays).ToString() + 'N';
                                                     <div class="product-percent-discount">-@Sale%</div>
                                                     <div class="product-date-discount">Còn @time </div>}
                                                 <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=item.Product.ID } )>
@@ -361,7 +361,7 @@
                                                 <div class="product-o__wrap">
                                                     @if (Sale != 0)
                                                     {
-                                                        string time = ((int)(DBIO.get1SaleProduct(item2.Product.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                        string time = ((int)(DBIO.get1SaleProduct(item2.Product.ID).SaleTimeEnd - DateTime.UtcNow.AddHours(7)).TotalDays).ToString() + 'N';
                                                         <div class="product-percent-discount">-@Sale%</div>
                                                         <div class="product-date-discount">Còn @time </div>}
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block" href=@Url.Action("ProductDetail","Home",new {ID=@item2.Product.ID } )>
@@ -628,7 +628,7 @@
                             float? a = (item.Price * item.Sale);
                             int b = (int)(item.Price - a);
                             float Sale = (item.Sale * 100);
-                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                            string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.UtcNow.AddHours(7)).TotalDays).ToString() + 'N';
 
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 ">
                                 <div class="product-o product-o--hover-on product-o--radius wish-@item.ID">
@@ -922,7 +922,7 @@
 
                                                     <a href="/Home/Product?ProducerID=@DBIO.get1Producer_ProducerID(item2.ProducerID).ID">@DBIO.get1Producer_ProducerID(item2.ProducerID).ProducerName</a>@if (Sale != 0)
                                                     {
-                                                        string time = ((int)(DBIO.get1SaleProduct(item2.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                        string time = ((int)(DBIO.get1SaleProduct(item2.ID).SaleTimeEnd - DateTime.UtcNow.AddHours(7)).TotalDays).ToString() + 'N';
                                                         <a style="color: red;font-weight:600"> Sale @Sale %</a>}
 
 
@@ -984,7 +984,7 @@
 
                                                     <a href="/Home/Product?ProducerID=@DBIO.get1Producer_ProducerID(item2.Product.ProducerID).ID">@DBIO.get1Producer_ProducerID(item2.Product.ProducerID).ProducerName</a>@if (Sale != 0)
                                                     {
-                                                        string time = ((int)(DBIO.get1SaleProduct(item2.Product.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                        string time = ((int)(DBIO.get1SaleProduct(item2.Product.ID).SaleTimeEnd - DateTime.UtcNow.AddHours(7)).TotalDays).ToString() + 'N';
                                                         <a style="color: red;font-weight:600"> Sale @Sale %</a>}
                                                     else
                                                     {
@@ -1048,7 +1048,7 @@
 
                                                     <a href="/Home/Product?ProducerID=@DBIO.get1Producer_ProducerID(item2.Product.ProducerID).ID">@DBIO.get1Producer_ProducerID(item2.Product.ProducerID).ProducerName</a>@if (Sale != 0)
                                                     {
-                                                        string time = ((int)(DBIO.get1SaleProduct(item2.Product.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                                        string time = ((int)(DBIO.get1SaleProduct(item2.Product.ID).SaleTimeEnd - DateTime.UtcNow.AddHours(7)).TotalDays).ToString() + 'N';
                                                         <a style="color: red;font-weight:600"> Sale @Sale %</a>}
 
                                                 </span>

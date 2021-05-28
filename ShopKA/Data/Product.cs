@@ -66,9 +66,7 @@ namespace DataBase
         {
             Status = false;
             Sale = 0;
-            //Sale2 = 0;
-            //SaleTimeStart = DateTime.Now;
-            //SaleTimeStart = DateTime.Now;
+           
         }
 
         
