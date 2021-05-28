@@ -51,12 +51,30 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis, Version=1.51.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.51.0\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.51.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.51.0\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.51.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.51.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="reCAPTCHA.MVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\reCAPTCH.MVC.1.0.1\lib\net45\reCAPTCHA.MVC.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -113,9 +131,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -2023,29 +2038,6 @@
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="AssetAdmin\scss\navs\_global.scss" />
-    <Content Include="AssetAdmin\scss\navs\_sidebar.scss" />
-    <Content Include="AssetAdmin\scss\navs\_topbar.scss" />
-    <Content Include="AssetAdmin\scss\sb-admin-2.scss" />
-    <Content Include="AssetAdmin\scss\utilities\_animation.scss" />
-    <Content Include="AssetAdmin\scss\utilities\_background.scss" />
-    <Content Include="AssetAdmin\scss\utilities\_border.scss" />
-    <Content Include="AssetAdmin\scss\utilities\_display.scss" />
-    <Content Include="AssetAdmin\scss\utilities\_progress.scss" />
-    <Content Include="AssetAdmin\scss\utilities\_rotate.scss" />
-    <Content Include="AssetAdmin\scss\utilities\_text.scss" />
-    <Content Include="AssetAdmin\scss\_buttons.scss" />
-    <Content Include="AssetAdmin\scss\_cards.scss" />
-    <Content Include="AssetAdmin\scss\_charts.scss" />
-    <Content Include="AssetAdmin\scss\_dropdowns.scss" />
-    <Content Include="AssetAdmin\scss\_error.scss" />
-    <Content Include="AssetAdmin\scss\_footer.scss" />
-    <Content Include="AssetAdmin\scss\_global.scss" />
-    <Content Include="AssetAdmin\scss\_login.scss" />
-    <Content Include="AssetAdmin\scss\_mixins.scss" />
-    <Content Include="AssetAdmin\scss\_navs.scss" />
-    <Content Include="AssetAdmin\scss\_utilities.scss" />
-    <Content Include="AssetAdmin\scss\_variables.scss" />
     <Content Include="AssetAdmin\vendor\bootstrap\js\bootstrap.bundle.js.map" />
     <Content Include="AssetAdmin\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
     <Content Include="AssetAdmin\vendor\bootstrap\js\bootstrap.js.map" />
@@ -2195,52 +2187,6 @@
     <Content Include="AssetAdmin\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="AssetAdmin\vendor\jquery\jquery.min.map" />
     <Content Include="AssetAdmin\vendor\jquery\jquery.slim.min.map" />
-    <Content Include="Asset\scss\abstracts\mixins-module\_mixin-utilities-spacing.scss" />
-    <Content Include="Asset\scss\abstracts\_functions.scss" />
-    <Content Include="Asset\scss\abstracts\_header-comment.scss" />
-    <Content Include="Asset\scss\abstracts\_mixins.scss" />
-    <Content Include="Asset\scss\abstracts\_variables.scss" />
-    <Content Include="Asset\scss\app.scss" />
-    <Content Include="Asset\scss\base\_base.scss" />
-    <Content Include="Asset\scss\base\_pre-config.scss" />
-    <Content Include="Asset\scss\base\_typography.scss" />
-    <Content Include="Asset\scss\base\_utilities.scss" />
-    <Content Include="Asset\scss\components\breadcrumb\_breadcrumb.scss" />
-    <Content Include="Asset\scss\components\button\_button.scss" />
-    <Content Include="Asset\scss\components\checkbox-radio\_checkbox-radio.scss" />
-    <Content Include="Asset\scss\components\countdown\_countdown.scss" />
-    <Content Include="Asset\scss\components\input-counter\_input-counter.scss" />
-    <Content Include="Asset\scss\components\input-text\_input-text.scss" />
-    <Content Include="Asset\scss\components\modal\_modal.scss" />
-    <Content Include="Asset\scss\components\preload-img-aspect-ratio\_preload-img-aspect-ratio.scss" />
-    <Content Include="Asset\scss\components\product\_product.scss" />
-    <Content Include="Asset\scss\components\select-box\_select-box.scss" />
-    <Content Include="Asset\scss\components\textarea\_textarea.scss" />
-    <Content Include="Asset\scss\components\_all.scss" />
-    <Content Include="Asset\scss\layout\_footer.scss" />
-    <Content Include="Asset\scss\layout\_header.scss" />
-    <Content Include="Asset\scss\pages\_about.scss" />
-    <Content Include="Asset\scss\pages\_all.scss" />
-    <Content Include="Asset\scss\pages\_blog.scss" />
-    <Content Include="Asset\scss\pages\_cart-wishlist.scss" />
-    <Content Include="Asset\scss\pages\_checkout.scss" />
-    <Content Include="Asset\scss\pages\_contact.scss" />
-    <Content Include="Asset\scss\pages\_dashboard.scss" />
-    <Content Include="Asset\scss\pages\_empty-404.scss" />
-    <Content Include="Asset\scss\pages\_faq.scss" />
-    <Content Include="Asset\scss\pages\_index.scss" />
-    <Content Include="Asset\scss\pages\_product-detail.scss" />
-    <Content Include="Asset\scss\pages\_shop.scss" />
-    <Content Include="Asset\scss\pages\_sign-in-up-lost.scss" />
-    <Content Include="Asset\scss\utility.scss" />
-    <Content Include="Asset\scss\vendors-extensions\jquery.shopNav\extensions\_mega.scss" />
-    <Content Include="Asset\scss\vendors-extensions\jquery.shopNav\extensions\_mini-cart.scss" />
-    <Content Include="Asset\scss\vendors-extensions\jquery.shopNav\_dropdown.scss" />
-    <Content Include="Asset\scss\vendors-extensions\_all.scss" />
-    <Content Include="Asset\scss\vendors-extensions\_bootstrap.scss" />
-    <Content Include="Asset\scss\vendors-extensions\_jquery.scrollup.scss" />
-    <Content Include="Asset\scss\vendors-extensions\_owl-carousel.scss" />
-    <Content Include="Asset\scss\vendors-extensions\_slick.scss" />
     <Content Include="Asset\webfonts\fa-brands-400.eot" />
     <Content Include="Asset\webfonts\fa-brands-400.ttf" />
     <Content Include="Asset\webfonts\fa-brands-400.woff" />

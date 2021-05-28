@@ -673,7 +673,7 @@
                                 <div class="product-o__wrap wish-@item.ID">
                                     @if (S != 0)
                                     {
-                                        string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.Now).TotalDays).ToString() + 'N';
+                                        string time = ((int)(DBIO.get1SaleProduct(item.ID).SaleTimeEnd - DateTime.UtcNow.AddHours(7)).TotalDays).ToString() + 'N';
                                         <div class="product-percent-discount">-@S%</div>
                                         <div class="product-date-discount">Còn @time </div>}
 

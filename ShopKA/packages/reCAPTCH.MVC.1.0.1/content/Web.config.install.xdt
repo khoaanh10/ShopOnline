@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <appSettings>
+    <!-- reCaptcha Keys -->
+    <add key="reCaptchaPublicKey" value="6Lf63vcaAAAAAEjhwu_g53VqbQTAo7X9qAuCX53X" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+    <add key="reCaptchaPrivateKey" value="6Lf63vcaAAAAAJa6dBGLcGV6sGiXGTxhqtgLYKIN" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+  </appSettings>
+</configuration>

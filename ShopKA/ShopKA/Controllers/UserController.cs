@@ -1,23 +1,40 @@
 ﻿using DataBase;
+using Facebook;
 using PagedList;
+using reCAPTCHA.MVC;
 using ShopKA.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using DataBase;
 
 namespace ShopKA.Controllers
 {
     public class UserController : Controller
     {
+        private Uri RedirectUri
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(Request.Url);
+                uriBuilder.Query = null;
+                uriBuilder.Fragment = null;
+                uriBuilder.Path = Url.Action("FacebookCallback");
+                return uriBuilder.Uri;
+
+            }
+        }
         // GET: User
         public ActionResult Register()
         {
             return View();
         }
         [HttpPost]
+        [CaptchaValidator(RequiredMessage ="Vui lòng xác minh")]
         public ActionResult Register(User a, FormCollection f)
         {
             if (ModelState.IsValid)
@@ -44,13 +61,86 @@ namespace ShopKA.Controllers
                 return View(a);
             }
         }
-       
+        public ActionResult LoginFb()
+        {
+            var fb = new FacebookClient();
+            var loginUrl = fb.GetLoginUrl(new { 
+            client_id = ConfigurationManager.AppSettings["IDFB"],
+            client_secret = ConfigurationManager.AppSettings["Secret"],
+            redirect_uri = RedirectUri.AbsoluteUri,
+            response_type="code",
+            scope="email",
+            });
+            return Redirect(loginUrl.AbsoluteUri);
+        }
+        public ActionResult FacebookCallback(string code)
+        {
+            var fb = new FacebookClient();
+            dynamic result = fb.Post("oauth/access_token", new
+            {
+                client_id = ConfigurationManager.AppSettings["IDFB"],
+                client_secret = ConfigurationManager.AppSettings["Secret"],
+                redirect_uri = RedirectUri.AbsoluteUri,
+                code = code
+            });
+            var accessToken = result.access_token;
+            if(!string.IsNullOrEmpty(accessToken))
+            {
+                fb.AccessToken = accessToken;
+                dynamic me = fb.Get("me?fields=first_name,middle_name,last_name,id,email");
+                string email = me.email;
+                string username = me.email;
+                string firstname = me.first_name;
+                string middlename = me.middle_name;
+                string lastname = me.last_name;
+                MyDB DB = new MyDB();
+                if(DB.Users.Any(i=>i.Email==email)==false)
+                {
+                    User FBuser = new User();
+                    FBuser.Email = email;
+                   
+                    FBuser.Username = email;
+                    
+                    FBuser.Birthday = (new DateTime(1990, 1, 1)).ToString();
+                    FBuser.Fullname = firstname + " " + middlename + " " + lastname;
+                    FBuser.Gender = true;
+                    FBuser.Address = "";
+                    FBuser.Phone="";
+                    FBuser.Password1 = DBIO.MD5(DBIO.RandomString(6));
+                    FBuser.Password2 = FBuser.Password1;
+                    DB.Users.Add(FBuser);
+                    DB.SaveChanges();
+                    UserLogin a = new UserLogin();
+                    a.UserName = FBuser.Email;
+                    a.Password = "facebook";
+                    Session.Add("SS", a);
+                    FormsAuthentication.SetAuthCookie(a.UserName, false);
+                    
+
+
+                }
+                else
+                {
+                    UserLogin a = new UserLogin();
+                    
+                   
+                    a.UserName = email;
+                    
+                    a.Password = "facebook";
+                    Session.Add("SS", a);
+                    FormsAuthentication.SetAuthCookie(a.UserName, false);
+                    
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
         public ActionResult Login(bool tb = false)
         {
             ViewBag.tb = tb;
             return View();
         }
         [HttpPost]
+        [CaptchaValidator(RequiredMessage = "Vui lòng xác minh")]
         public ActionResult Login(UserLogin a)
         {
             if (ModelState.IsValid)
@@ -712,6 +802,7 @@ namespace ShopKA.Controllers
             return View();
         }
         [HttpPost]
+        [CaptchaValidator(RequiredMessage = "Vui lòng xác minh")]
         public ActionResult EditPassWord(EditPassWord a)
         {
             if (ModelState.IsValid)
@@ -746,6 +837,7 @@ namespace ShopKA.Controllers
             return View();
         }
         [HttpPost]
+        [CaptchaValidator(RequiredMessage = "Vui lòng xác minh")]
         public ActionResult ForgetPassWord(FormCollection f)
         {
             MyDB DB = new MyDB();

@@ -62,6 +62,10 @@
     <Compile Include="Migrations\202105250721243_edit SellDate.Designer.cs">
       <DependentUpon>202105250721243_edit SellDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105281128220_edit Users.cs" />
+    <Compile Include="Migrations\202105281128220_edit Users.Designer.cs">
+      <DependentUpon>202105281128220_edit Users.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="ProductOrder.cs" />
@@ -93,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202105250721243_edit SellDate.resx">
       <DependentUpon>202105250721243_edit SellDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105281128220_edit Users.resx">
+      <DependentUpon>202105281128220_edit Users.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
