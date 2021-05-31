@@ -2310,6 +2310,7 @@
     <Content Include="Views\Home\Voucher.cshtml" />
     <Content Include="Views\Admin\SellProduct1.cshtml" />
     <Content Include="Views\Admin\SellDate1.cshtml" />
+    <Content Include="Views\User\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

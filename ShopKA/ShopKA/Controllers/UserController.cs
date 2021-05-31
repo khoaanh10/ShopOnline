@@ -10,7 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using DataBase;
+
 
 namespace ShopKA.Controllers
 {
@@ -53,12 +53,50 @@ namespace ShopKA.Controllers
                 a.Birthday = f["day"].ToString() + '-' + f["month"].ToString() + '-' + f["year"].ToString();
                 a.Password1 = DBIO.MD5(a.Password1);
                 a.Password2 = DBIO.MD5(a.Password2);
-                DBIO.addUser(a);
-                return RedirectToAction("Login", "User", new { tb = true });
+                ViewBag.User = a;
+                string code = DBIO.RandomString(6);
+                DBIO.SendEmail(a.Email, "Mã xác nhận đăng ký", "Mã xác nhận đăng ký tài khoản của bạn là " + code);
+                Session.Add("code", code);
+                TempData["User"] = a;
+                //ViewData["User"] = a;
+                //DBIO.addUser(a);
+                return RedirectToAction("Confirm", "User") ;
             }
             else
             {
                 return View(a);
+            }
+        }
+        public ActionResult Confirm()
+        {
+            User a = (User)TempData["User"];
+            TempData.Remove("User");
+            
+            return View(a);
+        }
+        public ActionResult SendAgain(string email)
+        {
+            string code = DBIO.RandomString(6);
+            Session["code"] = code;
+            DBIO.SendEmail(email, "Mã xác nhận đăng ký", "Mã xác nhận đăng ký tài khoản của bạn là " + code);
+            return Content("Gửi lại mã xác nhận sau: <span id='countdown'>60</span> giây.");
+        }
+        [HttpPost]
+        public ActionResult Confirm(FormCollection a)
+        {
+            User User = (User)TempData["User"];
+            TempData.Remove("User");
+            string code = a["code"];
+            if (code ==(string)Session["code"])
+            {
+                DBIO.addUser(User);
+                Session.Remove("code");
+                return RedirectToAction("Login", "User", new { tb = true });
+            }
+            else
+            {
+                ViewBag.TB = "Mã xác nhận không đúng";
+                return View(User);
             }
         }
         public ActionResult LoginFb()

@@ -1,0 +1,164 @@
+﻿
+@model DataBase.User
+
+@{
+    ViewBag.Title = "Xác nhận Email";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+    TempData["User"] = Model;
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
+
+   
+
+
+
+
+<div class="app-content">
+
+    <!--====== Section 1 ======-->
+    <div class="u-s-p-y-60">
+
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="breadcrumb">
+                    <div class="breadcrumb__wrap">
+                        <ul class="breadcrumb__list">
+                            <li class="has-separator">
+
+                                <a href="/">Home</a>
+                            </li>
+                            <li class="is-marked">
+
+                                <a>Xác nhận email</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    
+
+
+    <div class="u-s-p-b-60">
+
+        <!--====== Section Intro ======-->
+        <div class="section__intro u-s-m-b-60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section__text-wrap">
+                            <h1 class="section__heading u-c-secondary">XÁC NHẬN EMAIL</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Intro ======-->
+        <!--====== Section Content ======-->
+        <div class="section__content">
+            <div class="container">
+                <div class="row row--center">
+                    <div class="col-lg-6 col-md-8 u-s-m-b-30">
+                        <div class="l-f-o">
+                            <div class="l-f-o__pad-box">
+
+
+                                <h1 class="gl-h1">Vui lòng nhập mã xác nhận đã được gửi đến email </h1>
+                                @using (Html.BeginForm("Confirm", "User", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+
+
+
+                                    if (ViewBag.TB != null)
+                                    {
+                                        <div class="text-danger" style="color:green;font-size:180%;"><p style="color:red;">@ViewBag.TB</p></div>}
+
+                                    <div class="u-s-m-b-30">
+                                        <label class="gl-label">Mã xác nhận</label>
+
+                                        <input class="input-text input-text--primary-style" name="code" />
+                                    </div>
+                                    
+                                        <h3 id="sendagaintext" data_value=@Model.Email style="margin-bottom:20px">
+                                            Gửi lại mã xác nhận sau: <span id="countdown">60</span> giây.
+                                        </h3>
+                                        
+                                        <div class="gl-inline">
+                                            <div class="u-s-m-b-30">
+
+                                                <button class="btn btn--e-transparent-brand-b-2" type="submit">XÁC NHẬN</button>
+                                            </div>
+
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section Content ======-->
+    </div>
+    <!--====== End - Section 2 ======-->
+</div>
+
+<script>
+    window.onload = function () {
+        $.iaoAlert({
+            msg: "Đã gửi mã xác nhận vui lòng kiểm tra email",
+            type: "success",
+            mode: "light",
+        });
+        countdown(31);
+    };
+      
+
+    function countdown(a) {
+        if (a == 0) { seconds = seconds - 1; }
+        else {
+            seconds = a - 1;
+        }
+            
+            if (seconds < 0) {
+                // Chnage your redirection link here
+                document.getElementById("sendagaintext").innerHTML = "<a style='color:blue;' id='sendagain' onclick='sendAgain()'>Gửi lại mã</a>";
+            } else {
+               
+                    document.getElementById("countdown").innerHTML = seconds;
+                
+                // Count down using javascript
+                window.setTimeout("countdown(0)", 1000);
+            }
+    };
+
+        // Run countdown function
+       
+    function sendAgain() {
+
+        var email = $('#sendagaintext').attr('data_value');
+        run_waitMe('#sendagaintext');
+        $.ajax({
+            type: 'POST',
+            data: { email:email },
+            url: '/User/SendAgain',
+            success: function (ketqua) {
+                $('#sendagaintext').html(ketqua);
+                stop_waitMe('#sendagaintext');
+                $.iaoAlert({
+                    msg: "Đã gửi lại mã xác nhận, vui lòng kiểm tra email",
+                    type: "success",
+                    mode: "light",
+                })
+                countdown(31);
+            }
+        })
+
+
+    };
+</script>
