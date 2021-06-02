@@ -13,7 +13,7 @@ using Color = DataBase.Color;
 namespace ShopKA.Controllers
 {
     
-    [Authorize(Roles = "0")]
+    //[Authorize(Roles = "0")]
     public class AdminController : Controller
     {
        
@@ -1281,6 +1281,98 @@ namespace ShopKA.Controllers
             var A = DB.Vouchers.ToList();
             return View(A);
                 
+        }
+
+        public ActionResult Chart()
+        {
+            DateTime Start = new DateTime(2021, 4, 1);
+            ViewData["StartSell"] = Start;
+            if(DateTime.UtcNow.AddHours(7).AddMonths(-12)>Start)
+            {
+                Start = DateTime.UtcNow.AddHours(7).AddMonths(-12);
+            }
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            List<string> month = new List<string>();
+            List<long> Earn = new List<long>();
+
+
+
+            for (DateTime i = Start; i <= DateTime.UtcNow.AddHours(7); i = i.AddMonths(1))
+            {
+                
+                string text ="T"+i.Month.ToString()+ " - " +i.Year.ToString().Substring(2) ;
+                
+                month.Add(text);
+                Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+                
+            }
+            ViewData["start"]= Start;
+            ViewData["end"]= DateTime.UtcNow.AddHours(7);
+            ViewData["month"] = month;
+            ViewData["Earn"] = Earn;
+            return View();
+        }
+
+        public ActionResult Chart2(int startmonth,int startyear,int endmonth,int endyear)
+        {
+            DateTime Start = new DateTime(startyear,startmonth, 1);
+            DateTime End = new DateTime(endyear, endmonth, 30);
+            if (endyear == DateTime.UtcNow.AddHours(7).Year&endmonth==DateTime.UtcNow.AddHours(7).Month)
+            {
+                End = DateTime.UtcNow.AddHours(7);
+            }    
+            
+            
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            List<string> month = new List<string>();
+            List<long> Earn = new List<long>();
+
+
+
+            for (DateTime i = Start; i <= End; i = i.AddMonths(1))
+            {
+
+                string text = "T" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                month.Add(text);
+                Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+
+            }
+            
+            ViewData["month"] = month;
+            ViewData["Earn"] = Earn;
+            return View();
+        }
+
+        public ActionResult Chart3(int startmonth, int startyear, int endmonth, int endyear)
+        {
+            DateTime Start = new DateTime(startyear, startmonth, 1);
+            DateTime End = new DateTime(endyear, endmonth, 30);
+            if (endyear == DateTime.UtcNow.AddHours(7).Year & endmonth == DateTime.UtcNow.AddHours(7).Month)
+            {
+                End = DateTime.UtcNow.AddHours(7);
+            }
+
+
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            List<string> month = new List<string>();
+            List<long> Earn = new List<long>();
+
+
+
+            for (DateTime i = Start; i <= End; i = i.AddMonths(1))
+            {
+
+                string text = "T" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                month.Add(text);
+                Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+
+            }
+
+            ViewData["month"] = month;
+            ViewData["Earn"] = Earn;
+            return View();
         }
     }
     }

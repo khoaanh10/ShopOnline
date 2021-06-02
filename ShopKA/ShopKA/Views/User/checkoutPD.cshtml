@@ -1,9 +1,57 @@
 ﻿@model List<DataBase.Cart>
-    @using ShopKA.Models
+@using ShopKA.Models
 
-    @{int dem = 0;}
-<div id="SLSP" data_value=@Model.Sum(i=>i.Quantity)></div>
-    @foreach (var item in Model)
+@{int dem = 0;}
+@if (Model.Count() > 1)
+{
+    <div class="o-summary__item-wrap gl-scroll">
+        <div id="SLSP" data_value=@Model.Sum(i => i.Quantity)></div>
+        @foreach (var item in Model)
+        {
+            dem = dem + 1;
+            string ID1 = "ID" + dem.ToString();
+
+            var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
+            int b = (int)(DBIO.getProduct_Cart(item).Price - r);
+            float Sale = (DBIO.getProduct_Cart(item).Sale * 100);
+
+            <div class="o-card" @(item==Model.Last()?"style=margin-bottom:0px":"")>
+                <div class="o-card__flex">
+                    <div class="o-card__img-wrap">
+
+                        <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
+                    </div>
+                    <div class="o-card__info-wrap">
+
+                        <span class="mini-product__name">
+
+                            <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><span class="mini-product__quantity">  @DBIO.getColor_Cart(item).ColorName</span>
+                        </span>
+
+
+                        <span class="o-card__quantity">Số lượng x @item.Quantity</span>
+
+                        <div class="o-card__price">
+                            @String.Format("{0:0,0}", @b) đ
+
+                            @if (Sale != 0)
+                            {<span class="pd-detail__discount">(@Sale  % OFF)</span><span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.getProduct_Cart(item).Price) đ</span>}
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <a class="deletePD1 far fa-trash-alt" data_value=@item.ID></a>
+
+            </div>
+            <p id=@ID1 data_value=@item.ID></p>}
+        <div id="dem1" data_value=@dem></div>
+    </div>}
+else
+{
+    <div id="SLSP" data_value=@Model.Sum(i => i.Quantity)></div>
+    foreach (var item in Model)
     {
         dem = dem + 1;
         string ID1 = "ID" + dem.ToString();
@@ -11,12 +59,12 @@
         var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
         int b = (int)(DBIO.getProduct_Cart(item).Price - r);
         float Sale = (DBIO.getProduct_Cart(item).Sale * 100);
-        
-        <div class="o-card">
+
+        <div class="o-card" style="margin-bottom:0px">
             <div class="o-card__flex">
                 <div class="o-card__img-wrap">
 
-                    <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image  alt="">
+                    <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
                 </div>
                 <div class="o-card__info-wrap">
 
@@ -33,19 +81,22 @@
 
                         @if (Sale != 0)
                         {<span class="pd-detail__discount">(@Sale  % OFF)</span><span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.getProduct_Cart(item).Price) đ</span>}
+
+
                     </div>
                 </div>
             </div>
 
-            <a class="deletePD1 far fa-trash-alt" data_value=@item.ID></a>
             
+
         </div>
         <p id=@ID1 data_value=@item.ID></p>}
     <div id="dem1" data_value=@dem></div>
+}
 <script>
     $('.deletePD1').on('click', function () {
         var ID = $(this).attr('data_value');
-        
+
         if (confirm('Xóa sản phẩm sẽ làm mã voucher hết hiệu lực, bạn có muốn xóa không?')) {
             run_waitMe('#checkoutPD');
             run_waitMe('#kqVoucher');
