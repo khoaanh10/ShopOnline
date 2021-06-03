@@ -12,6 +12,7 @@
     DateTime StartSell = (DateTime)ViewData["StartSell"];
     DateTime Start = (DateTime)ViewData["start"];
     DateTime End = (DateTime)ViewData["end"];
+    string Now = @String.Format("{0:yyyy-MM-dd}", DateTime.UtcNow.AddHours(7));
 
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -25,16 +26,16 @@
             <div class="card-header py-3">
 
 
-                <div div class="gl-inline">
+                <div class="gl-inline">
                     <h6 class="m-0 font-weight-bold text-primary">Thống kê doanh thu </h6>
                     <p>&nbsp;&nbsp;&nbsp;</p>
 
                     <select class="select-box select-box--primary-style u-w-30" id="type">
 
-                        <option type="month" selected>Thống kê theo tháng</option>
+                        <option typeselect="month" selected>Thống kê theo tháng</option>
 
-                        <option>Thống kê theo tuần</option>
-                        <option>Thống kê theo ngày</option>
+                        
+                        <option typeselect="day">Thống kê theo ngày</option>
 
 
 
@@ -42,14 +43,14 @@
                     <p>&nbsp;&nbsp;&nbsp;</p>
 
 
-
+                    <div id="select_content" class="gl-inline">
                     <select class="select-box select-box--primary-style u-w-30" id="startmonth">
-                        @for (DateTime i = End.AddMonths(-1); i.Month > Start.Month; i = i.AddMonths(-1))
+                        @for (DateTime i = End.AddMonths(-1); (i.Month> Start.Month)|(i.Year>Start.Year); i = i.AddMonths(-1))
                         {
                             <option month=@i.Month year=@i.Year>Từ tháng @i.Month.ToString() - @i.Year.ToString()</option>
                         }
                         <option month=@Start.Month year=@Start.Year selected>Từ tháng @Start.Month.ToString() - @Start.Year.ToString()</option>
-                        @for (DateTime i = Start.AddMonths(-1); i.Month > StartSell.Month; i = i.AddMonths(-1))
+                        @for (DateTime i = Start.AddMonths(-1); i> StartSell; i = i.AddMonths(-1))
                         {
                             <option month=@i.Month year=@i.Year>Từ tháng @i.Month.ToString() - @i.Year.ToString()</option>
                         }
@@ -58,17 +59,17 @@
                     </select>
                     <p>&nbsp;&nbsp;&nbsp;</p>
 
-                    <select class="select-box select-box--primary-style u-w-30" id="endmonth">
+                    <select style="display:inline-block" class="select-box select-box--primary-style u-w-30" id="endmonth">
                         
                         <option month=@End.Month year=@End.Year selected>Đến tháng @End.Month.ToString() - @End.Year.ToString()</option>
-                        @for (DateTime i = End.AddMonths(-1); i.Month > Start.Month ; i = i.AddMonths(-1))
+                        @for (DateTime i = End.AddMonths(-1); (i.Month > Start.Month) | (i.Year > Start.Year); i = i.AddMonths(-1))
                         {
                             <option month=@i.Month year=@i.Year>Đến tháng @i.Month.ToString() - @i.Year.ToString()</option>
                         }
 
 
                     </select>
-
+                        </div>
 
 
 
@@ -90,19 +91,13 @@
 
 
     </div>
-    <div id="text" hidden>
-        <option month=@End.Month year=@End.Year selected>Đến tháng @End.Month.ToString() - @End.Year.ToString()</option>
-        @for (DateTime i = End.AddMonths(-1); i.Month > Start.Month; i = i.AddMonths(-1))
-        {
-            <option month=@i.Month year=@i.Year> Đến tháng @i.Month.ToString() - @i.Year.ToString()</option>
-        }
-    </div>
+    
     <!-- Donut Chart -->
     <div class="col-xl-4 col-lg-5">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Thống kê chi tiết</h6>
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -147,6 +142,42 @@
 </div>
 
 
+<div id="month" hidden>
+    <select class="select-box select-box--primary-style u-w-30" id="startmonth2" onchange="startmonth2()">
+        @for (DateTime i = End.AddMonths(-1); (i.Month > Start.Month) | (i.Year > Start.Year); i = i.AddMonths(-1))
+        {
+            <option month=@i.Month year=@i.Year>Từ tháng @i.Month.ToString() - @i.Year.ToString()</option>
+        }
+        <option month=@Start.Month year=@Start.Year selected>Từ tháng @Start.Month.ToString() - @Start.Year.ToString()</option>
+        @for (DateTime i = Start.AddMonths(-1); i > StartSell; i = i.AddMonths(-1))
+        {
+            <option month=@i.Month year=@i.Year>Từ tháng @i.Month.ToString() - @i.Year.ToString()</option>
+        }
+
+
+    </select>
+    <p>&nbsp;&nbsp;&nbsp;</p>
+
+    <select style="display:inline-block" class="select-box select-box--primary-style u-w-30" id="endmonth2" onchange="endmonth2()">
+
+        <option month=@End.Month year=@End.Year selected>Đến tháng @End.Month.ToString() - @End.Year.ToString()</option>
+        @for (DateTime i = End.AddMonths(-1); (i.Month > Start.Month) | (i.Year > Start.Year); i = i.AddMonths(-1))
+        {
+            <option month=@i.Month year=@i.Year>Đến tháng @i.Month.ToString() - @i.Year.ToString()</option>
+        }
+
+
+    </select>
+</div>
+<div id="day" hidden>
+    <label class = "gl-label" >Từ: </label>
+    <input onchange="daystart()" type="text" id="daystart" onfocus="(this.type='date')" onblur="(this.type='text')" class="input-text input-text--primary-style" min="@String.Format("{0:yyyy-MM-dd}",Start)" max="@String.Format("{0:yyyy-MM-dd}",End.AddDays(-1))" value=@String.Format("{0:yyyy-MM-dd}",End.AddDays(-30))>
+    <p>&nbsp;&nbsp;&nbsp;</p>
+    <div id="enddayt" class="gl-inline">
+    <label class = "gl-label" >Đến: </label>
+    <input onchange="dayend()"  type="text" id="dayend" onfocus="(this.type='date')" onblur="(this.type='text')" class="input-text input-text--primary-style" min="@String.Format("{0:yyyy-MM-dd}", End.AddDays(-29))" max="@String.Format("{0:yyyy-MM-dd}", End)" value=@String.Format("{0:yyyy-MM-dd}",End)>
+        </div>
+</div>
 <script src="~/AssetAdmin/js/demo/chart-pie-demo.js"></script>
 <script src="~/AssetAdmin/vendor/chart.js/Chart.min.js"></script>
 
@@ -281,24 +312,149 @@
                 }
             }
         });
-    
+    $('#type').on('change', function () {
+        var type = $('option:selected', '#type').attr('typeselect');
 
+        if (type == "day") {
+            $('#select_content').html($('#day').html());
+            $.ajax({
+                type: 'POST',
+                data: {},
+                url: '/Admin/ChartDay',
+                success: function (ketqua) {
+                    $('#chartinsert').html(ketqua);
+                    stop_waitMe('#chartinsert');
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                data: {},
+                url: '/Admin/ChartDay2',
+                success: function (ketqua) {
+                    $('#chartinsert2').html(ketqua);
+                    stop_waitMe('#chartinsert2');
+                }
+            });
+        }
+        else if (type == "month") {
+            $('#select_content').html($('#month').html());
+            $.ajax({
+                type: 'POST',
+                data: {},
+                url: '/Admin/Chart2',
+                success: function (ketqua) {
+                    $('#chartinsert').html(ketqua);
+                    stop_waitMe('#chartinsert');
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                data: {},
+                url: '/Admin/Chart3',
+                success: function (ketqua) {
+                    $('#chartinsert2').html(ketqua);
+                    stop_waitMe('#chartinsert2');
+                }
+            });
+        }
+    });
+    function daystart() {
+        var daystart = $('#daystart').val();
+        
+        var dayend = $('#dayend').val();
+        
+        var startday = new Date(daystart);
+        var endday = new Date(dayend);
+        var check = 0;
+        if (startday >= endday) {
+
+
+                var check = 1;
+                var dayend= "@Now";
+
+        }
+        $.ajax({
+            type: 'POST',
+            data: { startday:daystart,endday:dayend,check:check},
+            url: '/Admin/Day',
+            success: function (ketqua) {
+                $('#enddayt').html(ketqua);
+
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            data: { daystart: daystart,dayend:dayend },
+            url: '/Admin/ChartDay',
+            success: function (ketqua) {
+                $('#chartinsert').html(ketqua);
+                stop_waitMe('#chartinsert');
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            data: { daystart: daystart, dayend: dayend },
+            url: '/Admin/ChartDay2',
+            success: function (ketqua) {
+                $('#chartinsert2').html(ketqua);
+                stop_waitMe('#chartinsert2');
+            }
+        });
+    };
+    function dayend() {
+        var daystart = $('#daystart').val();
+        console.log(daystart);
+        var dayend = $('#dayend').val();
+        console.log(dayend);
+        $.ajax({
+            type: 'POST',
+            data: { daystart: daystart, dayend: dayend },
+            url: '/Admin/ChartDay',
+            success: function (ketqua) {
+                $('#chartinsert').html(ketqua);
+                stop_waitMe('#chartinsert');
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            data: { daystart: daystart, dayend: dayend },
+            url: '/Admin/ChartDay2',
+            success: function (ketqua) {
+                $('#chartinsert2').html(ketqua);
+                stop_waitMe('#chartinsert2');
+            }
+        });
+    };
     $('#startmonth').on('change', function () {
         var startmonth = $('option:selected', '#startmonth').attr('month');
         var startyear = $('option:selected', '#startmonth').attr('year');
+        var check = 0;
         var endmonth = $('option:selected', '#endmonth').attr('month');
         var endyear = $('option:selected', '#endmonth').attr('year');
+
         if (startyear >= endyear) {
-            if (!((startyear == endyear) & (startmonth <= endmonth))) {
-                $('#endmonth').html($('#text').html());
-                endmonth =@End.Month;
-                endyear=@End.Year;
-            };
+            if (!((startyear == endyear) & (startmonth < endmonth))) {
+
+                var check = 1;
+                endmonth = @DateTime.UtcNow.Month;
+                endyear = @DateTime.UtcNow.Year;
+            }
         }
+        $.ajax({
+            type: 'POST',
+            data: { startmonth: startmonth, startyear: startyear, check: check, endmonth: $('option:selected', '#endmonth').attr('month'), endyear: $('option:selected', '#endmonth').attr('year') },
+            url: '/Admin/Month',
+            success: function (ketqua) {
+                $('#endmonth').html(ketqua);
+
+            }
+        });
+
+
 
         run_waitMe('#chartinsert');
         run_waitMe('#chartinsert2');
-        
+
 
         $.ajax({
             type: 'POST',
@@ -350,7 +506,87 @@
         });
 
     });
+    function startmonth2() {
+        var startmonth = $('option:selected', '#startmonth2').attr('month');
+        var startyear = $('option:selected', '#startmonth2').attr('year');
+        var check = 0;
+        var endmonth = $('option:selected', '#endmonth2').attr('month');
+        var endyear = $('option:selected', '#endmonth2').attr('year');
+        console.log(startmonth);
+        if (startyear >= endyear) {
+            if (!((startyear == endyear) & (startmonth < endmonth))) {
 
+                var check = 1;
+                endmonth = @DateTime.UtcNow.Month;
+                endyear = @DateTime.UtcNow.Year;
+            }
+        }
+        $.ajax({
+            type: 'POST',
+            data: { startmonth: startmonth, startyear: startyear, check: check, endmonth: $('option:selected', '#endmonth2').attr('month'), endyear: $('option:selected', '#endmonth2').attr('year') },
+            url: '/Admin/Month',
+            success: function (ketqua) {
+                $('#endmonth2').html(ketqua);
+
+            }
+        });
+
+
+
+        run_waitMe('#chartinsert');
+        run_waitMe('#chartinsert2');
+
+
+        $.ajax({
+            type: 'POST',
+            data: { startmonth: startmonth, startyear: startyear, endmonth: endmonth, endyear: endyear },
+            url: '/Admin/Chart2',
+            success: function (ketqua) {
+                $('#chartinsert').html(ketqua);
+                stop_waitMe('#chartinsert');
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            data: { startmonth: startmonth, startyear: startyear, endmonth: endmonth, endyear: endyear },
+            url: '/Admin/Chart3',
+            success: function (ketqua) {
+                $('#chartinsert2').html(ketqua);
+                stop_waitMe('#chartinsert2');
+            }
+        });
+
+    };
+
+    function endmonth2() {
+
+        run_waitMe('#chartinsert');
+        run_waitMe('#chartinsert2');
+        var startmonth = $('option:selected', '#startmonth2').attr('month');
+        var startyear = $('option:selected', '#startmonth2').attr('year');
+        var endmonth = $('option:selected', '#endmonth2').attr('month');
+        var endyear = $('option:selected', '#endmonth2').attr('year');
+
+        $.ajax({
+            type: 'POST',
+            data: { startmonth: startmonth, startyear: startyear, endmonth: endmonth, endyear: endyear },
+            url: '/Admin/Chart2',
+            success: function (ketqua) {
+                $('#chartinsert').html(ketqua);
+                stop_waitMe('#chartinsert');
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            data: { startmonth: startmonth, startyear: startyear, endmonth: endmonth, endyear: endyear },
+            url: '/Admin/Chart3',
+            success: function (ketqua) {
+                $('#chartinsert2').html(ketqua);
+                stop_waitMe('#chartinsert2');
+            }
+        });
+
+    };
     var ctx = document.getElementById("myBarChart");
     var myBarChart = new Chart(ctx, {
         type: 'bar',
