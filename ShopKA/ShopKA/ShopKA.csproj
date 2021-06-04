@@ -2316,6 +2316,7 @@
     <Content Include="Views\Admin\Chart3.cshtml" />
     <Content Include="Views\Admin\Month.cshtml" />
     <Content Include="Views\Admin\Day.cshtml" />
+    <Content Include="Views\Admin\Chart4.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

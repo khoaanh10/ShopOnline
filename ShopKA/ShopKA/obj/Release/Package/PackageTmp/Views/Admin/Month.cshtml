@@ -1,0 +1,13 @@
+﻿@{ 
+    DateTime End = ViewBag.End;
+    DateTime Now = DateTime.UtcNow.AddHours(7);
+}
+@for (DateTime i = Now; (i.Month > End.Month) | (i.Year > End.Year); i = i.AddMonths(-1))
+                {
+<option month=@i.Month year=@i.Year>Đến tháng @i.Month.ToString() - @i.Year.ToString()</option>}
+<option month=@End.Month year=@End.Year selected>Đến tháng @End.Month.ToString() - @End.Year.ToString()</option>
+@for (DateTime i = End.AddMonths(-1); (i.Month > ViewBag.Start.Month) | (i.Year > ViewBag.Start.Year); i = i.AddMonths(-1))
+{
+    <option month=@i.Month year=@i.Year>Đến tháng @i.Month.ToString() - @i.Year.ToString()</option>
+}
+

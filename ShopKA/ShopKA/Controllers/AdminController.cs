@@ -1285,6 +1285,7 @@ namespace ShopKA.Controllers
 
         public ActionResult Chart()
         {
+            DateTime Now = DateTime.UtcNow.AddHours(7);
             DateTime Start = new DateTime(2021, 4, 1);
             ViewData["StartSell"] = Start;
             if (DateTime.UtcNow.AddHours(7).AddMonths(-12) > Start)
@@ -1292,20 +1293,48 @@ namespace ShopKA.Controllers
                 Start = DateTime.UtcNow.AddHours(7).AddMonths(-12);
             }
             var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            var SellPD = DB.SellProducts.ToList().Where(i=>DBIO.getallSellDate(i.ID).Any(j=>j.DateSell>=Start&j.DateSell<= Now) ==true);
             List<string> month = new List<string>();
             List<long> Earn = new List<long>();
-
-
-
+            List<string> TypePD = new List<string>();
+            List<float> percent = new List<float>();
+            float sum2;
             for (DateTime i = Start; i <= DateTime.UtcNow.AddHours(7); i = i.AddMonths(1))
             {
 
                 string text = "T" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
 
                 month.Add(text);
+
                 Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
 
+
             }
+            float sum = Earn.Sum();
+            foreach (var item in DBIO.getallProductT())
+            {
+                TypePD.Add(DBIO.RemoveUnicode(item.ProducTName));
+                sum2 = 0;
+                foreach(var item2 in SellPD.Where(i=>DBIO.getProductT_colorID(i.ColorID)!=null).Where(i=>DBIO.getProductT_colorID(i.ColorID).ID == item.ID))
+                {
+                    sum2 = sum2 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= Now).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum2/sum*100,1));
+                
+            }
+            float sum3 = 0;
+            if(SellPD.Any(i => DBIO.getProductT_colorID(i.ColorID) == null)==true)
+            {
+                TypePD.Add("Khac");
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) == null))
+                    {
+                    sum3 = sum3 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= Now).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum3 / sum * 100, 1));
+            }    
+
+            ViewData["type"] = TypePD;
+            ViewData["percent"] = percent;
             ViewData["start"] = Start;
             ViewData["end"] = DateTime.UtcNow.AddHours(7);
             ViewData["month"] = month;
@@ -1400,6 +1429,70 @@ namespace ShopKA.Controllers
             ViewData["Earn"] = Earn;
             return View();
         }
+        public ActionResult Chart4(int startmonth = 0, int startyear = 0, int endmonth = 0, int endyear = 0)
+        {
+            DateTime Start = new DateTime();
+            DateTime End = new DateTime();
+            
+            if (startmonth != 0)
+            {
+                Start = new DateTime(startyear, startmonth, 1);
+
+                End = new DateTime(endyear, endmonth, 30);
+                if (endyear == DateTime.UtcNow.AddHours(7).Year & endmonth == DateTime.UtcNow.AddHours(7).Month)
+                {
+                    End = DateTime.UtcNow.AddHours(7);
+                }
+            }
+            else
+            {
+                DateTime StartSell = new DateTime(2021, 4, 1);
+                Start = DateTime.UtcNow.AddHours(7).AddMonths(-12) > StartSell ? DateTime.UtcNow.AddHours(7).AddMonths(-12) : StartSell;
+                End = DateTime.UtcNow.AddHours(7);
+
+            }
+            var SellPD = DB.SellProducts.ToList().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= Start & j.DateSell <= End) == true);
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            
+
+            List<string> TypePD = new List<string>();
+            List<float> percent = new List<float>();
+            float sum = 0;
+            for (DateTime i = Start; i <= End; i = i.AddMonths(1))
+            {
+
+                sum = sum + Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity);
+
+             
+
+            }
+            float sum2;
+            foreach (var item in DBIO.getallProductT())
+            {
+                TypePD.Add(DBIO.RemoveUnicode(item.ProducTName));
+                sum2 = 0;
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) != null).Where(i => DBIO.getProductT_colorID(i.ColorID).ID == item.ID))
+                {
+                    sum2 = sum2 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum2 / sum * 100, 1));
+
+            }
+            float sum3 = 0;
+            if (SellPD.Any(i => DBIO.getProductT_colorID(i.ColorID) == null) == true)
+            {
+                TypePD.Add("Khac");
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) == null))
+                {
+                    sum3 = sum3 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum3 / sum * 100, 1));
+            }
+
+            ViewData["type"] = TypePD;
+            ViewData["percent"] = percent;
+            return View();
+        }
         public ActionResult Month(int startmonth, int startyear, int endmonth, int endyear, int check)
         {
             if (check == 0)
@@ -1435,7 +1528,13 @@ namespace ShopKA.Controllers
         {
             DateTime Now = DateTime.UtcNow.AddHours(7);
             DateTime Start = new DateTime(2021, 4, 1);
-            if(daystart!=null)
+            DateTime End = DateTime.UtcNow.AddHours(7);
+            if (dayend != null)
+            {
+                End = DateTime.ParseExact(dayend, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            }
+            if (daystart!=null)
             {
                 Start = DateTime.ParseExact(daystart, "yyyy-MM-dd",
                                        System.Globalization.CultureInfo.InvariantCulture); 
@@ -1530,5 +1629,122 @@ namespace ShopKA.Controllers
             ViewData["Earn"] = Earn;
             return View("Chart3");
         }
+
+        public ActionResult ChartDay3(string daystart = null, string dayend = null)
+        {
+            DateTime Now = DateTime.UtcNow.AddHours(7);
+            DateTime Start = new DateTime(2021, 4, 1);
+            DateTime End = DateTime.UtcNow.AddHours(7);
+            if(dayend != null)
+            {
+                End = DateTime.ParseExact(dayend, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            }
+            if (daystart != null)
+            {
+                Start = DateTime.ParseExact(daystart, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); ;
+            }
+            else if (DateTime.UtcNow.AddHours(7).AddDays(-30) > Start)
+            {
+                Start = DateTime.UtcNow.AddHours(7).AddDays(-30);
+            }
+            var SellPD = DB.SellProducts.ToList().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= Start & j.DateSell <= End) == true);
+               var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+
+
+               List<string> TypePD = new List<string>();
+               List<float> percent = new List<float>();
+
+            float sum = 0;
+            if (dayend == null)
+            {
+                for (DateTime i = Start; i <= DateTime.UtcNow.AddHours(7); i = i.AddDays(1))
+                {
+
+                   
+                    sum= sum + Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Day == i.Day & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity);
+
+                }
+            }
+            else
+            {
+                for (DateTime i = Start; i <= DateTime.ParseExact(dayend, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); i = i.AddDays(1))
+                {
+
+                    sum = sum + Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Day == i.Day & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity);
+
+                }
+            }
+            float sum2;
+            foreach (var item in DBIO.getallProductT())
+            {
+                TypePD.Add(DBIO.RemoveUnicode(item.ProducTName));
+                sum2 = 0;
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) != null).Where(i => DBIO.getProductT_colorID(i.ColorID).ID == item.ID))
+                {
+                    sum2 = sum2 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum2 / sum * 100, 1));
+
+            }
+            float sum3 = 0;
+            if (SellPD.Any(i => DBIO.getProductT_colorID(i.ColorID) == null) == true)
+            {
+                TypePD.Add("Khac");
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) == null))
+                {
+                    sum3 = sum3 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum3 / sum * 100, 1));
+            }
+
+            ViewData["type"] = TypePD;
+            ViewData["percent"] = percent;
+            return View("Chart4");
+        }
+
+         //var SellPD = DB.SellProducts.ToList().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= Start & j.DateSell <= End) == true);
+         //   var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            
+
+         //   List<string> TypePD = new List<string>();
+         //   List<float> percent = new List<float>();
+         //   float sum = 0;
+         //   for (DateTime i = Start; i <= End; i = i.AddMonths(1))
+         //   {
+
+         //       sum = sum + Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity);
+
+             
+
+         //   }
+         //   float sum2;
+         //   foreach (var item in DBIO.getallProductT())
+         //   {
+         //       TypePD.Add(DBIO.RemoveUnicode(item.ProducTName));
+         //       sum2 = 0;
+         //       foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) != null).Where(i => DBIO.getProductT_colorID(i.ColorID).ID == item.ID))
+         //       {
+         //           sum2 = sum2 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+         //       }
+         //       percent.Add((float)Math.Round(sum2 / sum * 100, 1));
+
+         //   }
+         //   float sum3 = 0;
+         //   if (SellPD.Any(i => DBIO.getProductT_colorID(i.ColorID) == null) == true)
+         //   {
+         //       TypePD.Add("Khac");
+         //       foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) == null))
+         //       {
+         //           sum3 = sum3 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+         //       }
+         //       percent.Add((float)Math.Round(sum3 / sum * 100, 1));
+         //   }
+
+         //   ViewData["type"] = TypePD;
+         //   ViewData["percent"] = percent;
+         //   return View();
     }
 }
