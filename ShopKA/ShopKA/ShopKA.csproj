@@ -2204,7 +2204,10 @@
     <Content Include="Asset\webfonts\lg.woff" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings1.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings2.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2255,7 +2258,7 @@
     <Content Include="Views\Home\Product1.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\Home\View.cshtml" />
+    <Content Include="Views\Home\View2.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Home\Review1.cshtml" />
     <Content Include="Views\Home\DeleteReview.cshtml" />

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using DataBase;
 using System.Threading;
+using System.IO;
 
 namespace ShopKA.Controllers
 {
@@ -23,7 +24,12 @@ namespace ShopKA.Controllers
                 {
                     var ttt = DB.ProductTSales.Single(i => i.ProductTID == tt.ID);
                     if ((DateTime.UtcNow.AddHours(7) >= ttt.SaleTimeEnd))
-                    {
+                    { 
+                        if (System.IO.File.Exists(Server.MapPath(ttt.Banner)) == true)
+                        {
+                            System.IO.File.Delete(Server.MapPath(ttt.Banner));
+                        }
+                        
                         DB.ProductTSales.Remove(ttt);
 
                         DB.SaveChanges();
@@ -73,6 +79,15 @@ namespace ShopKA.Controllers
             
            
             ViewBag.SalePD = DBIO.get2ProductSale(DateTime.UtcNow.AddHours(7));
+            return View();
+        }
+        public ActionResult View2()
+        {
+
+
+
+
+           
             return View();
         }
 

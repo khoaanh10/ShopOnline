@@ -107,19 +107,20 @@ else {
                                         <!--====== Row ======-->
                                         <tr>
                                             <td>
+                                                <!--====== Radio Box ======-->
+                                                <div class="form-check">
+                                                    @if (item.checkSTT == true)
+                                                    {<input class="checkSTT" type="checkbox" data_value=@item.ID id="check" checked>}
+                                                    else
+                                                    { <input class="checkSTT" type="checkbox" data_value=@item.ID id="check">}
+                                                   
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <div class="table-p__box">
 
 
-                                                    <!--====== Radio Box ======-->
-                                                    <div class="form-check">
-                                                        @if (item.checkSTT == true)
-                                                        {<input class="checkSTT" type="checkbox" data_value=@item.ID id="check" checked>}
-                                                        else
-                                                        { <input class="checkSTT" type="checkbox" data_value=@item.ID id="check">}
-                                                        <label class="form-check-label" for="check">
-                                                            &nbsp;&nbsp;&nbsp;
-                                                        </label>
-                                                    </div>
+                                                  
                                                     <!--====== End - Radio Box ======-->
 
                                                     <div class="table-p__img-wrap">

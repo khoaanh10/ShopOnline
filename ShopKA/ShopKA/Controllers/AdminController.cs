@@ -13,7 +13,7 @@ using Color = DataBase.Color;
 namespace ShopKA.Controllers
 {
 
-    //[Authorize(Roles = "0")]
+    [Authorize(Roles = "0")]
     public class AdminController : Controller
     {
 
@@ -123,15 +123,29 @@ namespace ShopKA.Controllers
                 }
             }
             var a = DB.Products.SingleOrDefault(i => i.ID == ID);
-            try
+
+            if (System.IO.File.Exists(Server.MapPath(a.Image)) == true)
             {
                 System.IO.File.Delete(Server.MapPath(a.Image));
+            }
+            if (System.IO.File.Exists(Server.MapPath(a.Image2)) == true)
+            {
                 System.IO.File.Delete(Server.MapPath(a.Image2));
+            }
+            if (System.IO.File.Exists(Server.MapPath(a.Image3)) == true)
+            {
                 System.IO.File.Delete(Server.MapPath(a.Image3));
+            }
+            if (System.IO.File.Exists(Server.MapPath(a.Image4)) == true)
+            {
                 System.IO.File.Delete(Server.MapPath(a.Image4));
+            }
+            if (System.IO.File.Exists(Server.MapPath(a.Image5)) == true)
+            {
                 System.IO.File.Delete(Server.MapPath(a.Image5));
             }
-            catch { }
+
+
             DBIO.DeleteProduct(ID);
             return RedirectToAction("Index", "Admin");
         }
@@ -159,11 +173,11 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image != null)
                     {
-                        try
+                        if (System.IO.File.Exists(Server.MapPath(t.Image)) == true)
                         {
                             System.IO.File.Delete(Server.MapPath(t.Image));
                         }
-                        catch { }
+                       
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file1.FileName);
                     file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -173,11 +187,11 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image2 != null)
                     {
-                        try
+                        if (System.IO.File.Exists(Server.MapPath(t.Image2)) == true)
                         {
                             System.IO.File.Delete(Server.MapPath(t.Image2));
                         }
-                        catch { }
+                       
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file2.FileName);
                     file2.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -187,11 +201,11 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image3 != null)
                     {
-                        try
+                        if (System.IO.File.Exists(Server.MapPath(t.Image3)) == true)
                         {
                             System.IO.File.Delete(Server.MapPath(t.Image3));
                         }
-                        catch { }
+                        
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file3.FileName);
                     file3.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -201,11 +215,12 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image4 != null)
                     {
-                        try
-                        {
+                        if (System.IO.File.Exists(Server.MapPath(t.Image4)) == true)
+                        
+                            {
                             System.IO.File.Delete(Server.MapPath(t.Image4));
                         }
-                        catch { }
+                        
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file4.FileName);
                     file4.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -215,11 +230,11 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image5 != null)
                     {
-                        try
+                        if (System.IO.File.Exists(Server.MapPath(t.Image5)) == true)
                         {
                             System.IO.File.Delete(Server.MapPath(t.Image5));
                         }
-                        catch { }
+                       
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file5.FileName);
                     file5.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -358,11 +373,11 @@ namespace ShopKA.Controllers
         {
             MyDB DB = new MyDB();
             var t = DB.ProductTs.SingleOrDefault(j => j.ID == ID);
-            try
+            if (System.IO.File.Exists(Server.MapPath(t.Image)) == true)
             {
                 System.IO.File.Delete(Server.MapPath(t.Image));
             }
-            catch { }
+            
             DBIO.deleteProductT(ID);
             List<Producer> i = DBIO.getallProducer_ProductT(ID);
             foreach (var item3 in i)
@@ -405,11 +420,11 @@ namespace ShopKA.Controllers
                 a.Image = a.Image;
                 if (a.Image != null)
                 {
-                    try
-                    {
+                     if (System.IO.File.Exists(Server.MapPath(a.Image)) == true) { 
+           
                         System.IO.File.Delete(Server.MapPath(a.Image));
                     }
-                    catch { }
+                    
                 }
                 if (file1 != null && file1.ContentLength > 0)
                 {
@@ -1132,11 +1147,11 @@ namespace ShopKA.Controllers
                 b.Banner = a.Banner;
                 if (b.Banner != null)
                 {
-                    try
+                    if (System.IO.File.Exists(Server.MapPath(b.Banner)) == true)
                     {
                         System.IO.File.Delete(Server.MapPath(b.Banner));
                     }
-                    catch { }
+                    
                 }
                 if (file1 != null && file1.ContentLength > 0)
                 {
@@ -1204,11 +1219,11 @@ namespace ShopKA.Controllers
                 }
             }
             var a = DB.ProductTSales.SingleOrDefault(i => i.ProductTID == ID);
-            try
+            if (System.IO.File.Exists(Server.MapPath(a.Banner)) == true)
             {
                 System.IO.File.Delete(Server.MapPath(a.Banner));
             }
-            catch { }
+            
             DB.ProductTSales.Remove(a);
             DB.SaveChanges();
             var E = DBIO.getallProductT();

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="Haha-Web.config Connection String" description="Haha Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5104.site4now.net;Initial Catalog=db_a74306_shopka2;User Id=db_a74306_shopka2_admin;Password=thptnd6039262" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\KhoaAnhProject\\ShopOnline\\ShopKA\\ShopKA\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Haha']/@connectionString" />
+  </parameter>
+</parameters>

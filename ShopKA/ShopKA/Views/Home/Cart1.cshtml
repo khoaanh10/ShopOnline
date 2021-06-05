@@ -20,16 +20,17 @@
                             <!--====== Row ======-->
                             <tr>
                                 <td>
+                                    <div class="form-check">
+                                        @if (item.checkSTT == true)
+                                        {<input class="checkSTT" type="checkbox" data_value=@item.ID id="check" checked>}
+                                        else
+                                        { <input class="checkSTT" type="checkbox" data_value=@item.ID id="check">}
+
+                                    </div>
+                                </td>
+                                <td>
                                     <div class="table-p__box">
-                                        <div class="form-check">
-                                            @if (item.checkSTT == true)
-                                            {<input class="checkSTT" type="checkbox" data_value=@item.ID id="check" checked>}
-                                            else
-                                            { <input class="checkSTT" type="checkbox" data_value=@item.ID id="check">}
-                                            <label class="form-check-label" for="check">
-                                                &nbsp;&nbsp;&nbsp;
-                                            </label>
-                                        </div>
+                                       
                                         <div class="table-p__img-wrap">
 
                                             <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">

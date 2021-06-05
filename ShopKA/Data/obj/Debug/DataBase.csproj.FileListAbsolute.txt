@@ -196,3 +196,4 @@ E:\KhoaAnhTool\ShopKA\Data\obj\Debug\DataBase.csproj.CoreCompileInputs.cache
 E:\KhoaAnhTool\ShopKA\Data\obj\Debug\DataBase.csproj.CopyComplete
 E:\KhoaAnhTool\ShopKA\Data\obj\Debug\Data.dll
 E:\KhoaAnhTool\ShopKA\Data\obj\Debug\Data.pdb
+E:\KhoaAnhProject\ShopOnline\ShopKA\Data\obj\Debug\DataBase.csprojAssemblyReference.cache

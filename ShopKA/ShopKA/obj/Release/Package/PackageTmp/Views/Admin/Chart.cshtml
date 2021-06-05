@@ -330,10 +330,15 @@
             }
         });
     $('#type').on('change', function () {
+        run_waitMe('#chartinsert');
+        run_waitMe('#chartinsert2');
+        run_waitMe('#chartinsert3');
         var type = $('option:selected', '#type').attr('typeselect');
 
         if (type == "day") {
+            
             $('#select_content').html($('#day').html());
+            
             $.ajax({
                 type: 'POST',
                 data: {},
@@ -382,10 +387,23 @@
                     stop_waitMe('#chartinsert2');
                 }
             });
+            $.ajax({
+                type: 'POST',
+                data: {},
+                url: '/Admin/Chart4',
+                success: function (ketqua) {
+                    $('#chartinsert3').html(ketqua);
+                    stop_waitMe('#chartinsert3');
+                }
+            });
            
         }
     });
     function daystart() {
+        run_waitMe('#chartinsert');
+        run_waitMe('#chartinsert2');
+        run_waitMe('#chartinsert3');
+        run_waitMe('#enddayt');
         var daystart = $('#daystart').val();
 
         var dayend = $('#dayend').val();
@@ -406,7 +424,7 @@
             url: '/Admin/Day',
             success: function (ketqua) {
                 $('#enddayt').html(ketqua);
-
+                stop_waitMe('#enddayt');
             }
         });
         $.ajax({
@@ -438,10 +456,14 @@
         });
     };
     function dayend() {
+        run_waitMe('#chartinsert');
+        run_waitMe('#chartinsert2');
+        run_waitMe('#chartinsert3');
+        
         var daystart = $('#daystart').val();
-        console.log(daystart);
+        
         var dayend = $('#dayend').val();
-        console.log(dayend);
+        
         $.ajax({
             type: 'POST',
             data: { daystart: daystart, dayend: dayend },
@@ -471,6 +493,10 @@
         });
     };
     $('#startmonth').on('change', function () {
+        run_waitMe('#chartinsert');
+        run_waitMe('#chartinsert2');
+        run_waitMe('#chartinsert3');
+        run_waitMe('#endmonth');
         var startmonth = $('option:selected', '#startmonth').attr('month');
         var startyear = $('option:selected', '#startmonth').attr('year');
         var check = 0;
@@ -491,16 +517,13 @@
             url: '/Admin/Month',
             success: function (ketqua) {
                 $('#endmonth').html(ketqua);
-
+                stop_waitMe('#endmonth');
             }
         });
 
 
 
-        run_waitMe('#chartinsert');
-        run_waitMe('#chartinsert2');
-        run_waitMe('#chartinsert3');
-
+       
 
         $.ajax({
             type: 'POST',
@@ -572,6 +595,11 @@
 
     });
     function startmonth2() {
+
+        run_waitMe('#chartinsert');
+        run_waitMe('#chartinsert2');
+        run_waitMe('#chartinsert3');
+        run_waitMe('#endmonth2');
         var startmonth = $('option:selected', '#startmonth2').attr('month');
         var startyear = $('option:selected', '#startmonth2').attr('year');
         var check = 0;
@@ -592,15 +620,12 @@
             url: '/Admin/Month',
             success: function (ketqua) {
                 $('#endmonth2').html(ketqua);
-
+                stop_waitMe('#endmonth2');
             }
         });
 
 
 
-        run_waitMe('#chartinsert');
-        run_waitMe('#chartinsert2');
-        run_waitMe('#chartinsert3');
 
 
         $.ajax({
