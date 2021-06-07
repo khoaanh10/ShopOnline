@@ -421,7 +421,7 @@
                                                 <div class="product-m__hover">
                                                     <div class="product-m__preview-description">
 
-                                                        <span>@item.Note</span>
+                                                        <span>@(item.Note==null?item.Note:item.Note.Length>300?item.Note.Substring(1,300)+"...":item.Note)</span>
                                                     </div>
                                                     @if (Session["SS"] != null)
                                                     {
@@ -583,7 +583,7 @@
                                 </div>
                                 <div class="u-s-m-b-15">
 
-                                    <span class="pd-detail__preview-desc">@item.Product.Note</span>
+                                    <span class="pd-detail__preview-desc">@(item.Product.Note==null? item.Product.Note: item.Product.Note.Length>300?item.Product.Note.Substring(0,300)+"...": item.Product.Note )</span>
                                 </div>
                                 @if ((UserLogin)(Session["SS"]) != null)
                                 {

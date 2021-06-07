@@ -39,7 +39,7 @@
 
                                             <span class="table-p__name">
 
-                                                <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@DBIO.getProduct_Cart(item).ProductName</a>
+                                                <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@(DBIO.getProduct_Cart(item).ProductName.Length>40?DBIO.getProduct_Cart(item).ProductName.Substring(0,40)+"...":DBIO.getProduct_Cart(item).ProductName)</a>
                                             </span>
 
                                             <span class="table-p__category">

@@ -1192,7 +1192,7 @@
                                 </div>
                                 <div class="u-s-m-b-15">
 
-                                    <span class="pd-detail__preview-desc">@item.Product.Note</span>
+                                    <span class="pd-detail__preview-desc">@(item.Product.Note==null? item.Product.Note: item.Product.Note.Length>300?item.Product.Note.Substring(0,300)+"...": item.Product.Note )</span>
                                 </div>
                                 @if ((UserLogin)(Session["SS"]) != null)
                                 {
@@ -1360,7 +1360,7 @@
                                 <div>&nbsp;</div>
                                 <div class="success__info-wrap">
 
-                                    <span class="success__name">@item.Product.ProductName - @DBIO.getallColor(item.Product.ID).First().ColorName</span>
+                                    <span class="success__name">@(item.Product.ProductName.Length>20? item.Product.ProductName.Substring(0,20)+"...": item.Product.ProductName) - @DBIO.getallColor(item.Product.ID).First().ColorName</span>
 
                                     <span class="success__quantity">Số lượng: 1</span>
 

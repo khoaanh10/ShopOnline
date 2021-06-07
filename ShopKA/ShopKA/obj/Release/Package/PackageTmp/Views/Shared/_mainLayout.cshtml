@@ -785,7 +785,7 @@
 
                                                                         <span class="mini-product__name">
 
-                                                                            <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><p class="mini-product__quantity" style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
+                                                                            <a href="product-detail.html" >@(DBIO.getProduct_Cart(item).ProductName.Length>30?DBIO.getProduct_Cart(item).ProductName.Substring(0,30)+"...":DBIO.getProduct_Cart(item).ProductName)</a><p class="mini-product__quantity" style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
                                                                         </span>
 
                                                                         <span class="mini-product__quantity">@item.Quantity x</span>
