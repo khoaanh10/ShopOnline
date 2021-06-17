@@ -553,6 +553,8 @@
 
                                                     <span class="js-menu-toggle"></span>
                                                     <ul style="width:200px">
+                                                        @if (ss == null)
+                                                        {
                                                         <li>
 
                                                             <a href=@Url.Action("Register", "User")>Đăng ký / Chưa có tài khoản</a>
@@ -561,10 +563,18 @@
 
                                                             <a href=@Url.Action("Login", "User")>Đăng nhập / Đã có tài khoản</a>
                                                         </li>
+
                                                         <li>
 
                                                             <a href=@Url.Action("ForgetPass", "User")>Quên mật khẩu</a>
-                                                        </li>
+                                                        </li>}
+                                                        else { 
+                                                    <li>
+
+                                                        <a href=@Url.Action("EditPassWord", "User")>Đổi mật khẩu</a>
+                                                    </li>
+                                                        }
+
                                                     </ul>
                                                     <!--====== End - Dropdown ======-->
                                                 </li>
