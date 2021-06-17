@@ -162,7 +162,7 @@
                         </div>
                         <div class="u-s-m-b-15">
 
-                            <span class="pd-detail__preview-desc">@Model.Note</span>
+                            <span class="pd-detail__preview-desc">@(Model.Note == null ? Model.Note:Model.Note.Length>400?Model.Note.Substring(0,400)+"...":Model.Note)</span>
                         </div>
                         @if ((UserLogin)(Session["SS"]) != null)
                         {
@@ -355,8 +355,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Cấu hình phần cứng</td>
-                                                    <td>@Model.Configuration</td>
-                                                </tr>
+                                                    <td>
+                                                        @foreach (string item in Model.Configuration.Replace(" -","\n").Split('\n'))
+                                                        {
+                                                           
+                                                            <p>- @item</p>
+                                                        }
+                                                    </td></tr>
                                                 <tr>
                                                     <td>Số lượng</td>
                                                     <td>@DBIO.CountColor(Model.ID)</td>
@@ -879,7 +884,7 @@
                                 </div>
                                 <div class="u-s-m-b-15">
 
-                                    <span class="pd-detail__preview-desc">@item.Note</span>
+                                    <span class="pd-detail__preview-desc">@(item.Note==null? item.Note: item.Note.Length>300?item.Note.Substring(0,300)+"...": item.Note )</span>
                                 </div>
                                 @if ((UserLogin)(Session["SS"]) != null)
                                 {

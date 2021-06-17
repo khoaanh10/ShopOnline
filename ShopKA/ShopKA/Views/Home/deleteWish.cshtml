@@ -21,7 +21,7 @@
 
                     <span class="w-r__name">
 
-                        <a href="/Home/ProductDetail?ID=@item.ProductID">@DBIO.get1Product(item.ProductID).ProductName</a>
+                        <a href="/Home/ProductDetail?ID=@item.ProductID">@(DBIO.get1Product(item.ProductID).ProductName.Length>40?DBIO.get1Product(item.ProductID).ProductName.Substring(0,40)+"...":DBIO.get1Product(item.ProductID).ProductName)</a>
                     </span>
 
                     <span class="w-r__category">

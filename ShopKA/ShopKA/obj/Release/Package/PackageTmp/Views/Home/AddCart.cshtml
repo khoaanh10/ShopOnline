@@ -11,14 +11,12 @@
         { Money = Money + b * item.Quantity; }<!--====== Card for mini cart ======-->
                         <div class="card-mini-product">
                             <div class="mini-product">
-                                <div class="form-check">
+                                <div class="form-check" style="margin-right:20px">
                                     @if (item.checkSTT == true)
                                     {<input class="checkSTT2" type="checkbox" data_value=@item.ID id="check" checked>}
                                     else
                                     { <input class="checkSTT2" type="checkbox" data_value=@item.ID id="check">}
-                                    <label class="form-check-label" for="check">
-                                        &nbsp;&nbsp;&nbsp;
-                                    </label>
+                                    
                                 </div>
                                 <div class="mini-product__image-wrapper">
 
@@ -33,7 +31,7 @@
 
                                     <span class="mini-product__name">
 
-                                        <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@DBIO.getProduct_Cart(item).ProductName</a><p style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
+                                        <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@(DBIO.getProduct_Cart(item).ProductName.Length>30?DBIO.getProduct_Cart(item).ProductName.Substring(0,30)+"...":DBIO.getProduct_Cart(item).ProductName)</a><p style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
                                     </span>
 
                                     <span class="mini-product__quantity">@item.Quantity x</span>

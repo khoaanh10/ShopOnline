@@ -61,14 +61,14 @@
                                     <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
                                         @Html.LabelFor(model => model.SaleTimeStart, htmlAttributes: new { @class = "gl-label" })
 
-                                        @Html.EditorFor(model => model.SaleTimeStart, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @type = "date" } })
+                                        @Html.EditorFor(model => model.SaleTimeStart, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @type = "date",@Value= String.Format("{0:yyyy-MM-dd}", Sale.SaleTimeStart) } })
                                         @Html.ValidationMessageFor(model => model.SaleTimeStart, "", new { @class = "text-danger" })
 
                                     </div>
                                     <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
                                         @Html.LabelFor(model => model.SaleTimeEnd, htmlAttributes: new { @class = "gl-label" })
 
-                                        @Html.EditorFor(model => model.SaleTimeEnd, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @type = "date" } })
+                                        @Html.EditorFor(model => model.SaleTimeEnd, new { htmlAttributes = new { onfocus = "(this.type='date')", onblur = "(this.type='text')", @class = "input-text input-text--primary-style", @type = "date" ,@Value= String.Format("{0:yyyy-MM-dd}", Sale.SaleTimeEnd) } })
                                         @Html.ValidationMessageFor(model => model.SaleTimeEnd, "", new { @class = "text-danger" })
 
                                     </div>

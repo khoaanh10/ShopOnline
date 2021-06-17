@@ -1,4 +1,5 @@
 ﻿@model List<DataBase.Color>
+    @using ShopKA.Models
 @{
     ViewBag.Title = "Thuộc tính sản phẩm";
     Layout = "~/Views/Shared/_Aminlayout.cshtml";
@@ -11,7 +12,9 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Tên SP: @ViewBag.TT.ProductName</h6>
+        <a class="btn btn-info btn-sm btn-circle" href="/Admin/DetailNSX/@ViewBag.TT.ProducerID">←</a>
+        <h6 class="m-0 font-weight-bold text-primary" style="display:inline-block">Tên SP: @ViewBag.TT.ProductName</h6>
+        <a class="btn btn-info btn-sm btn-circle" style="display:inline-block;float:right" href="/Admin/Index">⇇</a>
         <hr />
         <a href="@Url.Action("addColor","Admin",new { ID2 = ViewBag.TT.ID })" ," class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
             <i class="fas fa-download fa-sm text-white-50"></i> Thêm Màu - Cấu hình

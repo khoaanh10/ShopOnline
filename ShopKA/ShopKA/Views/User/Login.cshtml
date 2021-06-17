@@ -1,9 +1,11 @@
 ﻿@model DataBase.UserLogin
+@using reCAPTCHA.MVC
+
 @{
     ViewBag.Title = "Đăng nhập";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
 }
-
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 <div class="app-content">
 
     <!--====== Section 1 ======-->
@@ -21,7 +23,7 @@
                             </li>
                             <li class="is-marked">
 
-                                <a >Đăng nhập</a>
+                                <a>Đăng nhập</a>
                             </li>
                         </ul>
                     </div>
@@ -31,7 +33,7 @@
     </div>
     @if (ViewBag.tb == true)
     {
-    <div class = "text-danger" style = "color:green;font-size:180%;" ><p style="text-align:center;">Đăng kí thành công. Xin mời đăng nhập</p></div>}
+        <div class="text-danger" style="color:green;font-size:180%;"><p style="text-align:center;">Đăng kí thành công. Xin mời đăng nhập</p></div>}
     <!--====== End - Section 1 ======-->
     <!--====== Section 2 ======-->
     <div class="u-s-p-b-60">
@@ -73,7 +75,7 @@
                                     <div class="gl-s-api">
                                         <div class="u-s-m-b-15">
 
-                                            <button class="gl-s-api__btn gl-s-api__btn--fb" type="button">
+                                            <button class="gl-s-api__btn gl-s-api__btn--fb" type="button" onclick="window.location.href = '/User/LoginFB'">
                                                 <i class="fab fa-facebook-f"></i>
 
                                                 <span>Đăng nhập với Facebook</span>
@@ -95,19 +97,23 @@
                                     <div class="u-s-m-b-30">
                                         @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "gl-label" })
 
-                                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
+                                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "input-text input-text--primary-style" ,@id= "username"} })
                                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger", @style = "color:red;" })
                                     </div>
                                     <div class="u-s-m-b-30">
                                         @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "gl-label" })
 
-                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @type = "password" } })
+                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input-text input-text--primary-style",@id="password", @type = "password" } })
                                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", @style = "color:red;" })
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        @Html.Recaptcha()
+                                        @Html.ValidationMessage("ReCaptcha")
                                     </div>
                                     <div class="gl-inline">
                                         <div class="u-s-m-b-30">
 
-                                            <button class="btn btn--e-transparent-brand-b-2" type="submit">ĐĂNG NHẬP</button>
+                                            <button class="btn btn--e-transparent-brand-b-2" id="login" type="submit">ĐĂNG NHẬP</button>
                                         </div>
                                         <div class="u-s-m-b-30">
 
@@ -119,15 +125,15 @@
                                         <!--====== Check Box ======-->
                                         <div class="check-box">
 
-                                            <input type="checkbox" id="remember-me">
+                                            <input type="checkbox" value="yes" id="remember_me">
                                             <div class="check-box__state check-box__state--primary">
 
-                                                <label class="check-box__label" for="remember-me">Nhớ mật khẩu</label>
+                                                <label class="check-box__label" for="remember_me">Nhớ mật khẩu</label>
                                             </div>
                                         </div>
                                         <!--====== End - Check Box ======-->
                                     </div>}
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,4 +143,33 @@
     </div>
     <!--====== End - Section 2 ======-->
 </div>
+<script>
+    $(function () {
+
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            $('#username').val(localStorage.usrname);
+            $('#password').val(localStorage.pass);
+        } else {
+            $('#remember_me').removeAttr('checked');
+            $('#username').val('');
+            $('#password').val('');
+        }
+
+        $('#remember_me,#login').click(function () {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.usrname = $('#username').val();
+                localStorage.pass = $('#password').val();
+                localStorage.chkbx = $('#remember_me').val();
+            } else {
+                localStorage.usrname = '';
+                localStorage.pass = '';
+                localStorage.chkbx = '';
+            }
+        });
+    });
+
+</script>
 

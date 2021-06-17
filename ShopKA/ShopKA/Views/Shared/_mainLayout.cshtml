@@ -54,7 +54,7 @@
 
                         <a class="main-logo" href="~/Home/Index">
 
-                            <img src="~/Asset/images/logsdfso.png" alt="">
+                            <img src="~/Asset/images/logo/your-logo.png" alt="">
                         </a>
                         <!--====== End - Main Logo ======-->
                         <!--====== Search Form ======-->
@@ -553,6 +553,8 @@
 
                                                     <span class="js-menu-toggle"></span>
                                                     <ul style="width:200px">
+                                                        @if (ss == null)
+                                                        {
                                                         <li>
 
                                                             <a href=@Url.Action("Register", "User")>Đăng ký / Chưa có tài khoản</a>
@@ -561,10 +563,18 @@
 
                                                             <a href=@Url.Action("Login", "User")>Đăng nhập / Đã có tài khoản</a>
                                                         </li>
+
                                                         <li>
 
                                                             <a href=@Url.Action("ForgetPass", "User")>Quên mật khẩu</a>
-                                                        </li>
+                                                        </li>}
+                                                        else { 
+                                                    <li>
+
+                                                        <a href=@Url.Action("EditPassWord", "User")>Đổi mật khẩu</a>
+                                                    </li>
+                                                        }
+
                                                     </ul>
                                                     <!--====== End - Dropdown ======-->
                                                 </li>
@@ -765,14 +775,12 @@
                                                             { Money = Money + b * item.Quantity; }<!--====== Card for mini cart ======-->
                                                             <div class="card-mini-product">
                                                                 <div class="mini-product">
-                                                                    <div class="form-check">
+                                                                    <div class="form-check" style="margin-right:20px">
                                                                         @if (item.checkSTT == true)
                                                                         {<input class="checkSTT2" type="checkbox" data_value=@item.ID id="check" checked>}
                                                                         else
                                                                         { <input class="checkSTT2" type="checkbox" data_value=@item.ID id="check">}
-                                                                        <label class="form-check-label" for="check">
-                                                                            &nbsp;&nbsp;&nbsp;
-                                                                        </label>
+                                                                        
                                                                     </div>
                                                                     <div class="mini-product__image-wrapper">
 
@@ -787,7 +795,7 @@
 
                                                                         <span class="mini-product__name">
 
-                                                                            <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><p class="mini-product__quantity" style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
+                                                                            <a href="product-detail.html" >@(DBIO.getProduct_Cart(item).ProductName.Length>30?DBIO.getProduct_Cart(item).ProductName.Substring(0,30)+"...":DBIO.getProduct_Cart(item).ProductName)</a><p class="mini-product__quantity" style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">  @DBIO.getColor_Cart(item).ColorName</p>
                                                                         </span>
 
                                                                         <span class="mini-product__quantity">@item.Quantity x</span>

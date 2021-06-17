@@ -17,7 +17,7 @@
             int b = (int)(item.Price - r);
             float Sale = (item.Sale * 100);
             <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="product-m">
+                <div class="product-m wish-@item.ID">
                     <div class="product-m__thumb">
                         @if (Sale != 0)
                         {
@@ -98,7 +98,7 @@
                         <div class="product-m__hover">
                             <div class="product-m__preview-description">
 
-                                <span>@item.Note</span>
+                                <span>@(item.Note==null?item.Note:item.Note.Length>300?item.Note.Substring(1,300)+"...":item.Note)</span>
                             </div>
                             @if (Session["SS"] != null)
                             {
@@ -202,8 +202,8 @@ else
                         </span>
                         <div class="product-m__hover">
                             <div class="product-m__preview-description">
-
-                                <span>@item.Note</span>
+                                <div>&nbsp;&nbsp;</div>
+                                <span>@(item.Note==null?item.Note:item.Note.Length>400?item.Note.Substring(1,400)+"...":item.Note)</span>
                             </div>
                             @if (Session["SS"] != null)
                             {
@@ -319,14 +319,21 @@ else
 
 
         var ID = $(this).attr('data_value');
+        run_waitMesm('.wish-' + ID);
         $.ajax({
             type: 'POST',
             data: { ID: ID },
             url: '/Home/addWishList',
             success: function (ketqua) {
-                alert("Đã thêm vào yêu thích");
+                stop_waitMe('.wish-' + ID);
+
 
             }
+        })
+        $.iaoAlert({
+            msg: "Đã thêm vào yêu thích",
+            type: "success",
+            mode: "light",
         })
     });
 </script>

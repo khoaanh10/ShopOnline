@@ -24,11 +24,11 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a>
+                                <a href="/">Trang chủ</a>
                             </li>
                             <li class="is-marked">
 
-                                <a href="checkout.html">Checkout</a>
+                                <a>Tạo đơn hàng</a>
                             </li>
                         </ul>
                     </div>
@@ -57,12 +57,12 @@
                                 <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
                                     <div class="c-f u-s-m-b-16">
 
-                                        <span class="gl-text u-s-m-b-16">Nhập mã ngay</span>
+                                       
                                         <form class="c-f__form">
                                             <div class="u-s-m-b-16">
                                                 <div class="u-s-m-b-15">
 
-                                                    <label for="coupon"></label>
+                                                   
 
                                                     <input class="input-text input-text--primary-style" type="text" id="code" placeholder="Mã khuyến mãi">
                                                 </div>
@@ -97,11 +97,62 @@
 
                             <!--====== Order Summary ======-->
                             <div class="o-summary" id="listpd">
-                                <div class="o-summary__section u-s-m-b-30">
-                                    <div class="o-summary__item-wrap gl-scroll" id="checkoutPD">
-                                       <div id="SLSP" data_value=@cart.Sum(i=>i.Quantity)></div>
-                                        @{int dem = 0;}
-                                        @foreach (var item in cart)
+                                <div class="o-summary__section u-s-m-b-30" id="checkoutPD">
+                                    @if (cart.Count > 1)
+                                    {
+                                        <div class="o-summary__item-wrap gl-scroll" >
+                                            <div id="SLSP" data_value=@cart.Sum(i => i.Quantity)></div>
+                                            @{int dem = 0;}
+                                            @foreach (var item in cart)
+                                            {
+                                                dem = dem + 1;
+                                                string ID = "ID" + dem.ToString();
+
+                                                var r = DBIO.getProduct_Cart(item).Price * DBIO.getProduct_Cart(item).Sale;
+                                                int b = (int)(DBIO.getProduct_Cart(item).Price - r);
+                                                float Sale = (DBIO.getProduct_Cart(item).Sale * 100);
+                                                Money = Money + b * item.Quantity;
+                                                
+                                                <div class="o-card" @(item==cart.Last()?"style=margin-bottom:0px":"")>
+                                                    <div class="o-card__flex">
+                                                        <div class="o-card__img-wrap">
+
+                                                            <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
+                                                        </div>
+                                                        <div class="o-card__info-wrap">
+
+                                                            <span class="mini-product__name">
+
+                                                                <a href="product-detail.html">@DBIO.getProduct_Cart(item).ProductName</a><span class="mini-product__quantity">  @DBIO.getColor_Cart(item).ColorName</span>
+                                                            </span>
+
+
+                                                            <span class="o-card__quantity">Số lượng x @item.Quantity</span>
+
+                                                            <div class="o-card__price">
+                                                                @String.Format("{0:0,0}", @b) đ
+
+                                                                @if (Sale != 0)
+                                                                {<span class="pd-detail__discount">(@Sale  % OFF)</span><span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.getProduct_Cart(item).Price) đ</span>}
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <a class="deletePD1 far fa-trash-alt" data_value=@item.ID></a>
+
+                                                </div>
+                                                <p id=@ID data_value=@item.ID></p>}
+                                            <div id="dem1" data_value=@dem></div>
+
+
+                                        </div>}
+                                    else
+                                    {int dem = 0;
+                                        <div id="SLSP" data_value=@cart.Sum(i => i.Quantity)></div>
+                                        
+                                        foreach (var item in cart)
                                         {
                                             dem = dem + 1;
                                             string ID = "ID" + dem.ToString();
@@ -110,11 +161,11 @@
                                             int b = (int)(DBIO.getProduct_Cart(item).Price - r);
                                             float Sale = (DBIO.getProduct_Cart(item).Sale * 100);
                                             Money = Money + b * item.Quantity;
-                                            <div class="o-card">
+                                            <div class="o-card" style="margin-bottom:0px">
                                                 <div class="o-card__flex">
                                                     <div class="o-card__img-wrap">
 
-                                                        <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image  alt="">
+                                                        <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
                                                     </div>
                                                     <div class="o-card__info-wrap">
 
@@ -124,25 +175,25 @@
                                                         </span>
 
 
-                                                        <span class="o-card__quantity" >Số lượng x @item.Quantity</span>
+                                                        <span class="o-card__quantity">Số lượng x @item.Quantity</span>
 
                                                         <div class="o-card__price">
                                                             @String.Format("{0:0,0}", @b) đ
 
                                                             @if (Sale != 0)
                                                             {<span class="pd-detail__discount">(@Sale  % OFF)</span><span class="product-o__discount">@String.Format("{0:0,0}", @DBIO.getProduct_Cart(item).Price) đ</span>}
+
+
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <a class="deletePD1 far fa-trash-alt" data_value=@item.ID></a>
                                                 
+
                                             </div>
                                             <p id=@ID data_value=@item.ID></p>}
                                         <div id="dem1" data_value=@dem></div>
-                                           
-
-                                    </div>
+                                    }
                                 </div>
                                 <div class="o-summary__section u-s-m-b-30" id="shipandbill">
                                     <div class="o-summary__box">

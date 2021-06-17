@@ -2,12 +2,13 @@
 @using ShopKA.Models
 @{
     MyDB DB = new MyDB();
+    DateTime now = DateTime.UtcNow.AddHours(7);
     var SellPD = DB.SellDates.ToList();
     int Pending = DB.Orders.Count(i => i.Status == 0);
     int numsellPD = SellPD.Sum(i => i.Quantity);
-    int Earn = SellPD.Where(i=>i.DateSell.Month==DateTime.Now.Month).Sum(i => i.Quantity * i.Price);
+    int Earn = SellPD.Where(i=>i.DateSell.Month==now.Month).Sum(i => i.Quantity * i.Price);
     DateTime Start = new DateTime(2021, 4, 1);
-    int AVGEarn = (int)(SellPD.Where(i => i.DateSell.Month < DateTime.Now.Month | i.DateSell.Year < i.DateSell.Year).Sum(i => i.Quantity * i.Price) / ((DateTime.Now.Month - Start.Month) + 12 * (DateTime.Now.Year - Start.Year)));
+    int AVGEarn = (int)(SellPD.Where(i => i.DateSell.Month < now.Month | i.DateSell.Year < i.DateSell.Year).Sum(i => i.Quantity * i.Price) / ((now.Month - Start.Month) + 12 * (now.Year - Start.Year)));
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -56,9 +57,9 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="/Admin">
+                <a class="nav-link" href="/Admin/Chart">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Tất cả SP</span>
+                    <span>Thống kê doanh thu</span>
                 </a>
             </li>
 

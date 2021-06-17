@@ -1,4 +1,5 @@
 ﻿@model DataBase.User
+@using reCAPTCHA.MVC
 @{
     ViewBag.Title = "Đăng ký";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
@@ -21,7 +22,7 @@
                             </li>
                             <li class="is-marked">
 
-                                <a >Đăng kí</a>
+                                <a>Đăng kí</a>
                             </li>
                         </ul>
                     </div>
@@ -39,7 +40,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section__text-wrap">
-                            <h1 class="section__heading u-c-secondary">CREATE AN ACCOUNT</h1>
+                            <h1 class="section__heading u-c-secondary">TẠO MỘT TÀI KHOẢN</h1>
                         </div>
                     </div>
                 </div>
@@ -53,7 +54,7 @@
                     <div class="col-lg-6 col-md-8 u-s-m-b-30">
                         <div class="l-f-o">
                             <div class="l-f-o__pad-box">
-                                <h1 class="gl-h1">PERSONAL INFORMATION</h1>
+                                <h1 class="gl-h1">THÔNG TIN CÁ NHÂN</h1>
                                 @using (Html.BeginForm("Register", "User", FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
@@ -61,10 +62,10 @@
                                     <div class="gl-s-api">
                                         <div class="u-s-m-b-15">
 
-                                            <button class="gl-s-api__btn gl-s-api__btn--fb" type="button">
+                                            <button class="gl-s-api__btn gl-s-api__btn--fb" type="button" onclick="window.location.href = '/User/LoginFB'">
                                                 <i class="fab fa-facebook-f"></i>
 
-                                                <span>Signup with Facebook</span>
+                                                <span>Đăng kí với Facebook</span>
                                             </button>
                                         </div>
                                         <div class="u-s-m-b-30">
@@ -72,7 +73,7 @@
                                             <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button">
                                                 <i class="fab fa-google"></i>
 
-                                                <span>Signup with Google</span>
+                                                <span>Đăng kí với Google</span>
                                             </button>
                                         </div>
                                     </div>
@@ -82,7 +83,7 @@
                                         @Html.LabelFor(model => model.Fullname, htmlAttributes: new { @class = "gl-label" })
 
                                         @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "input-text input-text--primary-style" } })
-                                        @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger",@style="color:red;" })
+                                        @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger", @style = "color:red;" })
 
                                     </div>
 
@@ -93,12 +94,12 @@
 
                                             <span class="gl-label">Ngày sinh</span>
                                             <div class="gl-dob">
-                                                
+
                                                 <select class="select-box select-box--primary-style" name="day">
                                                     <option selected value="1">Ngày 1</option>
                                                     @for (var i = 2; i < 32; i++)
                                                     {
-                                                        
+
                                                         <option value="@i">Ngày @i</option>
                                                     }
                                                 </select>
@@ -135,7 +136,7 @@
                                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "gl-label" })
 
                                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @type = "email" } })
-                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger",@style="color:red;" })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", @style = "color:red;" })
                                     </div>
                                     <div class="u-s-m-b-30">
                                         @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "gl-label" })
@@ -147,7 +148,7 @@
                                         @Html.LabelFor(model => model.Password1, htmlAttributes: new { @class = "gl-label" })
 
                                         @Html.EditorFor(model => model.Password1, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @type = "password" } })
-                                        @Html.ValidationMessageFor(model => model.Password1, "", new { @class = "text-danger" , @style = "color:red;" })
+                                        @Html.ValidationMessageFor(model => model.Password1, "", new { @class = "text-danger", @style = "color:red;" })
                                     </div>
                                     <div class="u-s-m-b-30">
                                         @Html.LabelFor(model => model.Password2, htmlAttributes: new { @class = "gl-label" })
@@ -155,15 +156,19 @@
                                         @Html.EditorFor(model => model.Password2, new { htmlAttributes = new { @class = "input-text input-text--primary-style", @type = "password" } })
                                         @Html.ValidationMessageFor(model => model.Password2, "", new { @class = "text-danger", @style = "color:red;" })
                                     </div>
-                                    <div class="u-s-m-b-15">
-
-                                        <button class="btn btn--e-transparent-brand-b-2" type="submit">ĐĂNG KÍ</button>
+                                    <div class="u-s-m-b-30">
+                                        @Html.Recaptcha()
+                                        @Html.ValidationMessage("ReCaptcha")
                                     </div>
+                                        <div class="u-s-m-b-15">
 
-                                    <a class="gl-link" href="#">Quay lại cửa hàng</a>
-                                }
-                            </div>
-                        </div>
+                                            <button class="btn btn--e-transparent-brand-b-2" type="submit">ĐĂNG KÍ</button>
+                                        </div>
+
+                                        <a class="gl-link" href="#">Quay lại cửa hàng</a>
+                                        }
+                                    </div>
+                                </div>
                     </div>
                 </div>
             </div>

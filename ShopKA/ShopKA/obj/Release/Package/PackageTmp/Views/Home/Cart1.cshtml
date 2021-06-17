@@ -3,10 +3,10 @@
 
 <script src="~/Asset/js/app.js"></script>
 <link rel="stylesheet" href="~/Asset/css/app.css">
-@using (Ajax.BeginForm("UpdateCart", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "Pricetotal", InsertionMode = InsertionMode.Replace }))
+@using (Ajax.BeginForm("UpdateCart", "Home", new AjaxOptions { HttpMethod = "POST", OnBegin = "run_waitMe('#Pricetotal')", OnComplete = "updateCart()", UpdateTargetId = "Pricetotal", InsertionMode = InsertionMode.Replace }))
 {
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30" style="max-height:450px;overflow-x:scroll">
+        <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30" style="max-height:450px;overflow-y:scroll">
             <div class="table-responsive">
                 <table class="table-p">
                     <tbody>
@@ -20,16 +20,17 @@
                             <!--====== Row ======-->
                             <tr>
                                 <td>
+                                    <div class="form-check">
+                                        @if (item.checkSTT == true)
+                                        {<input class="checkSTT" type="checkbox" data_value=@item.ID id="check" checked>}
+                                        else
+                                        { <input class="checkSTT" type="checkbox" data_value=@item.ID id="check">}
+
+                                    </div>
+                                </td>
+                                <td>
                                     <div class="table-p__box">
-                                        <div class="form-check">
-                                            @if (item.checkSTT == true)
-                                            {<input class="checkSTT" type="checkbox" data_value=@item.ID id="check" checked>}
-                                            else
-                                            { <input class="checkSTT" type="checkbox" data_value=@item.ID id="check">}
-                                            <label class="form-check-label" for="check">
-                                                &nbsp;&nbsp;&nbsp;
-                                            </label>
-                                        </div>
+                                       
                                         <div class="table-p__img-wrap">
 
                                             <img class="u-img-fluid" src=@DBIO.getProduct_Cart(item).Image alt="">
@@ -38,7 +39,7 @@
 
                                             <span class="table-p__name">
 
-                                                <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@DBIO.getProduct_Cart(item).ProductName</a>
+                                                <a href=@Url.Action("ProductDetail","Home",new { ID=@DBIO.getProduct_Cart(item).ID })>@(DBIO.getProduct_Cart(item).ProductName.Length>40?DBIO.getProduct_Cart(item).ProductName.Substring(0,40)+"...":DBIO.getProduct_Cart(item).ProductName)</a>
                                             </span>
 
                                             <span class="table-p__category">
@@ -243,8 +244,14 @@
 
     });
    
-    $('#updatecart').on('click', function () {
-        alert("Đã cập nhật giỏ hàng");
+    function updateCart() {
+        stop_waitMe('#Pricetotal');
+        run_waitMe('#cartmini');
+        $.iaoAlert({
+            msg: "Đã cập nhật giỏ hàng",
+            type: "success",
+            mode: "light",
+        })
         $.ajax({
             type: 'POST',
             data: {},
@@ -259,10 +266,7 @@
 
 
 
-
-
-
-    });
+    };
 
     $('#clearcart').on('click', function () {
 

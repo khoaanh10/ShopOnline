@@ -15,7 +15,7 @@ namespace DataBase
         public int ID { get; set; }
         [Display(Name = "Tên đăng nhập")]
         [Required(ErrorMessage = "Vui lòng nhập Tên đăng nhập")]
-        [StringLength(20,MinimumLength =5,ErrorMessage ="Tên đănng nhập từ 5-20 kí tự")]
+        [StringLength(200,MinimumLength =5,ErrorMessage ="Tên đănng nhập từ 5-20 kí tự")]
         public string Username { get; set; }
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Vui lòng nhập Email")]

@@ -12,18 +12,18 @@ using Color = DataBase.Color;
 
 namespace ShopKA.Controllers
 {
-    
+
     [Authorize(Roles = "0")]
     public class AdminController : Controller
     {
-       
-        
-            MyDB DB = new MyDB();
+
+
+        MyDB DB = new MyDB();
         // GET: Admin
-        
+
         public ActionResult Index()
         {
-            
+
             var C = DBIO.getallProduct().OrderByDescending(i => i.ID).ToList();
 
 
@@ -123,15 +123,29 @@ namespace ShopKA.Controllers
                 }
             }
             var a = DB.Products.SingleOrDefault(i => i.ID == ID);
-            try
+
+            if (System.IO.File.Exists(Server.MapPath(a.Image)) == true)
             {
                 System.IO.File.Delete(Server.MapPath(a.Image));
+            }
+            if (System.IO.File.Exists(Server.MapPath(a.Image2)) == true)
+            {
                 System.IO.File.Delete(Server.MapPath(a.Image2));
+            }
+            if (System.IO.File.Exists(Server.MapPath(a.Image3)) == true)
+            {
                 System.IO.File.Delete(Server.MapPath(a.Image3));
+            }
+            if (System.IO.File.Exists(Server.MapPath(a.Image4)) == true)
+            {
                 System.IO.File.Delete(Server.MapPath(a.Image4));
+            }
+            if (System.IO.File.Exists(Server.MapPath(a.Image5)) == true)
+            {
                 System.IO.File.Delete(Server.MapPath(a.Image5));
             }
-            catch { }
+
+
             DBIO.DeleteProduct(ID);
             return RedirectToAction("Index", "Admin");
         }
@@ -149,7 +163,7 @@ namespace ShopKA.Controllers
         {
             if (ModelState.IsValid & a.ProducerID != 0)
             {
-               a.Image = null;
+                a.Image = null;
                 a.Image2 = null;
                 a.Image3 = null;
                 a.Image4 = null;
@@ -157,14 +171,14 @@ namespace ShopKA.Controllers
                 var t = DB.Products.SingleOrDefault(i => i.ID == a.ID);
                 if (file1 != null && file1.ContentLength > 0)
                 {
-                    if(t.Image!=null)
+                    if (t.Image != null)
                     {
-                        try
+                        if (System.IO.File.Exists(Server.MapPath(t.Image)) == true)
                         {
                             System.IO.File.Delete(Server.MapPath(t.Image));
                         }
-                        catch { }
-                    }    
+                       
+                    }
                     string fname = a.ID.ToString() + Path.GetFileName(file1.FileName);
                     file1.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
                     a.Image = "/Image/" + fname;
@@ -173,11 +187,11 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image2 != null)
                     {
-                        try
+                        if (System.IO.File.Exists(Server.MapPath(t.Image2)) == true)
                         {
                             System.IO.File.Delete(Server.MapPath(t.Image2));
                         }
-                        catch { }
+                       
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file2.FileName);
                     file2.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -187,11 +201,11 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image3 != null)
                     {
-                        try
+                        if (System.IO.File.Exists(Server.MapPath(t.Image3)) == true)
                         {
                             System.IO.File.Delete(Server.MapPath(t.Image3));
                         }
-                        catch { }
+                        
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file3.FileName);
                     file3.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -201,11 +215,12 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image4 != null)
                     {
-                        try
-                        {
+                        if (System.IO.File.Exists(Server.MapPath(t.Image4)) == true)
+                        
+                            {
                             System.IO.File.Delete(Server.MapPath(t.Image4));
                         }
-                        catch { }
+                        
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file4.FileName);
                     file4.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -215,11 +230,11 @@ namespace ShopKA.Controllers
                 {
                     if (t.Image5 != null)
                     {
-                        try
+                        if (System.IO.File.Exists(Server.MapPath(t.Image5)) == true)
                         {
                             System.IO.File.Delete(Server.MapPath(t.Image5));
                         }
-                        catch { }
+                       
                     }
                     string fname = a.ID.ToString() + Path.GetFileName(file5.FileName);
                     file5.SaveAs(Path.Combine(Server.MapPath("~/Image/"), fname));
@@ -334,7 +349,7 @@ namespace ShopKA.Controllers
             if (ModelState.IsValid)
             {
                 a.Image = null;
-                
+
                 if (file1 != null && file1.ContentLength > 0)
                 {
                     string fname = "PT" + a.ID + Path.GetFileName(file1.FileName);
@@ -358,11 +373,11 @@ namespace ShopKA.Controllers
         {
             MyDB DB = new MyDB();
             var t = DB.ProductTs.SingleOrDefault(j => j.ID == ID);
-            try
+            if (System.IO.File.Exists(Server.MapPath(t.Image)) == true)
             {
                 System.IO.File.Delete(Server.MapPath(t.Image));
             }
-            catch { }
+            
             DBIO.deleteProductT(ID);
             List<Producer> i = DBIO.getallProducer_ProductT(ID);
             foreach (var item3 in i)
@@ -403,14 +418,14 @@ namespace ShopKA.Controllers
             if (ModelState.IsValid)
             {
                 a.Image = a.Image;
-                if(a.Image!=null)
+                if (a.Image != null)
                 {
-                    try
-                    {
+                     if (System.IO.File.Exists(Server.MapPath(a.Image)) == true) { 
+           
                         System.IO.File.Delete(Server.MapPath(a.Image));
                     }
-                    catch { }
-                }    
+                    
+                }
                 if (file1 != null && file1.ContentLength > 0)
                 {
                     string fname = "PT" + a.ID + Path.GetFileName(file1.FileName);
@@ -593,7 +608,7 @@ namespace ShopKA.Controllers
                         A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE=0  ").ToList();
                     }
                 }
-                else if(status=="trueandfalse")
+                else if (status == "trueandfalse")
                 {
                     if (sell == 1)
                     {
@@ -607,7 +622,7 @@ namespace ShopKA.Controllers
                     {
                         A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE SALE=0  ").ToList();
                     }
-                }    
+                }
                 else
                 {
                     A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE LAUNCH='FALSE' ORDER BY ID DESC").ToList();
@@ -646,7 +661,7 @@ namespace ShopKA.Controllers
                         A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE STATUS='FALSE' AND LAUNCH='TRUE' AND SALE=0 AND PRODUCERID='" + ProducerID + "' ").ToList();
                     }
                 }
-                else if(status=="trueandfalse")
+                else if (status == "trueandfalse")
                 {
                     if (sell == 1)
                     {
@@ -660,7 +675,7 @@ namespace ShopKA.Controllers
                     {
                         A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE SALE=0 AND PRODUCERID='" + ProducerID + "' ").ToList();
                     }
-                }    
+                }
                 else
                 {
                     A = DB.Database.SqlQuery<Product>("SELECT * FROM PRODUCTS WHERE LAUNCH='FALSE' AND PRODUCERID='" + ProducerID + "' ORDER BY ID DESC").ToList();
@@ -877,7 +892,7 @@ namespace ShopKA.Controllers
                     foreach (var item in DBIO.getallPDOrder(A.ID))
                     {
                         var C = DB.Colors.SingleOrDefault(i => i.ID == item.ColorID);
-                        
+
                         if (C != null)
                         {
                             if (DB.Products.SingleOrDefault(i => i.ID == C.ProductID) != null)
@@ -926,19 +941,19 @@ namespace ShopKA.Controllers
                             }
                             SellDate E = new SellDate();
 
-                            
-                            
+
+
                             E.BuyName = DBIO.get1User_ID(A.UserID).Username;
                             E.DateSell = DateTime.UtcNow.AddHours(7);
                             E.Price = item.Price - (int)(A.Maximum >= item.Price * A.SalePrice ? item.Price * A.SalePrice : (A.Maximum / DBIO.getallPDOrder(A.ID).Sum(i => i.Quantity)));
-                            if(A.SalePrice>0)
+                            if (A.SalePrice > 0)
                             {
                                 E.Voucher = "(Voucher giảm " + A.SalePrice * 100 + "% giá trị đơn hàng, tối đa: " + A.Maximum + "đ)";
-                            } 
-                            else 
+                            }
+                            else
                             {
                                 E.Voucher = "";
-                            }    
+                            }
                             E.Quantity = item.Quantity;
                             E.SellPDID = F.ID;
                             DB.SellDates.Add(E);
@@ -983,7 +998,7 @@ namespace ShopKA.Controllers
                 {
                     DateTime a = new DateTime(DateTime.UtcNow.AddHours(7).Year, (DateTime.UtcNow.AddHours(7).Month - date) + 1, 1);
                     ViewBag.time = a;
-                    var A = DBIO.getallSellPD().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= a)==true).ToList();
+                    var A = DBIO.getallSellPD().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= a) == true).ToList();
 
                     return View(A);
                 }
@@ -991,13 +1006,13 @@ namespace ShopKA.Controllers
                 {
                     DateTime a = new DateTime(DateTime.UtcNow.AddHours(7).Year - 1, (12 - date + DateTime.UtcNow.AddHours(7).Month) + 1, 1);
                     ViewBag.time = a;
-                    var A = DBIO.getallSellPD().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= a)==true).ToList();
+                    var A = DBIO.getallSellPD().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= a) == true).ToList();
 
                     return View(A);
                 }
-            }   
-           
-            
+            }
+
+
         }
 
         public ActionResult SellDate(int ID)
@@ -1006,15 +1021,15 @@ namespace ShopKA.Controllers
             ViewBag.ID = ID;
             return View(A);
         }
-        public ActionResult SellDate1(int ID,int date)
+        public ActionResult SellDate1(int ID, int date)
         {
-            if(date==0)
+            if (date == 0)
             {
-                
+
                 var A = DBIO.getallSellDate(ID);
 
                 return View(A);
-            }    
+            }
             if (DateTime.UtcNow.AddHours(7).Month >= date)
             {
                 DateTime a = new DateTime(DateTime.UtcNow.AddHours(7).Year, (DateTime.UtcNow.AddHours(7).Month - date) + 1, 1);
@@ -1130,14 +1145,14 @@ namespace ShopKA.Controllers
                 b.Title = a.Title;
                 b.Content = a.Content;
                 b.Banner = a.Banner;
-                if(b.Banner!=null)
+                if (b.Banner != null)
                 {
-                    try
+                    if (System.IO.File.Exists(Server.MapPath(b.Banner)) == true)
                     {
                         System.IO.File.Delete(Server.MapPath(b.Banner));
                     }
-                    catch { }
-                }    
+                    
+                }
                 if (file1 != null && file1.ContentLength > 0)
                 {
                     string fname = "Banner" + a.ProductTID + Path.GetFileName(file1.FileName);
@@ -1204,11 +1219,11 @@ namespace ShopKA.Controllers
                 }
             }
             var a = DB.ProductTSales.SingleOrDefault(i => i.ProductTID == ID);
-            try
+            if (System.IO.File.Exists(Server.MapPath(a.Banner)) == true)
             {
                 System.IO.File.Delete(Server.MapPath(a.Banner));
             }
-            catch { }
+            
             DB.ProductTSales.Remove(a);
             DB.SaveChanges();
             var E = DBIO.getallProductT();
@@ -1280,7 +1295,471 @@ namespace ShopKA.Controllers
             DB.SaveChanges();
             var A = DB.Vouchers.ToList();
             return View(A);
-                
+
         }
+
+        public ActionResult Chart()
+        {
+            DateTime Now = DateTime.UtcNow.AddHours(7);
+            DateTime Start = new DateTime(2021, 4, 1);
+            ViewData["StartSell"] = Start;
+            if (DateTime.UtcNow.AddHours(7).AddMonths(-12) > Start)
+            {
+                Start = DateTime.UtcNow.AddHours(7).AddMonths(-12);
+            }
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            var SellPD = DB.SellProducts.ToList().Where(i=>DBIO.getallSellDate(i.ID).Any(j=>j.DateSell>=Start&j.DateSell<= Now) ==true);
+            List<string> month = new List<string>();
+            List<long> Earn = new List<long>();
+            List<string> TypePD = new List<string>();
+            List<float> percent = new List<float>();
+            float sum2;
+            for (DateTime i = Start; i <= DateTime.UtcNow.AddHours(7); i = i.AddMonths(1))
+            {
+
+                string text = "T" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                month.Add(text);
+
+                Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+
+
+            }
+            float sum = Earn.Sum();
+            foreach (var item in DBIO.getallProductT())
+            {
+                TypePD.Add(DBIO.RemoveUnicode(item.ProducTName));
+                sum2 = 0;
+                foreach(var item2 in SellPD.Where(i=>DBIO.getProductT_colorID(i.ColorID)!=null).Where(i=>DBIO.getProductT_colorID(i.ColorID).ID == item.ID))
+                {
+                    sum2 = sum2 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= Now).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum2/sum*100,1));
+                
+            }
+            float sum3 = 0;
+            if(SellPD.Any(i => DBIO.getProductT_colorID(i.ColorID) == null)==true)
+            {
+                TypePD.Add("Khac");
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) == null))
+                    {
+                    sum3 = sum3 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= Now).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum3 / sum * 100, 1));
+            }    
+
+            ViewData["type"] = TypePD;
+            ViewData["percent"] = percent;
+            ViewData["start"] = Start;
+            ViewData["end"] = DateTime.UtcNow.AddHours(7);
+            ViewData["month"] = month;
+            ViewData["Earn"] = Earn;
+            return View();
+        }
+
+        public ActionResult Chart2(int startmonth=0, int startyear=0, int endmonth=0, int endyear=0)
+        {
+            DateTime Start = new DateTime();
+            DateTime End = new DateTime();
+            if (startmonth != 0)
+            {
+                Start = new DateTime(startyear, startmonth, 1);
+
+                End = new DateTime(endyear, endmonth, 30);
+                if (endyear == DateTime.UtcNow.AddHours(7).Year & endmonth == DateTime.UtcNow.AddHours(7).Month)
+                {
+                    End = DateTime.UtcNow.AddHours(7);
+                }
+            }
+            else
+            {
+                DateTime StartSell = new DateTime(2021, 4, 1);
+                Start = DateTime.UtcNow.AddHours(7).AddMonths(-12)>StartSell?DateTime.UtcNow.AddHours(7).AddMonths(-12):StartSell;
+                End = DateTime.UtcNow.AddHours(7);
+               
+            }
+            
+
+
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            List<string> month = new List<string>();
+            List<long> Earn = new List<long>();
+
+
+
+            for (DateTime i = Start; i <= End; i = i.AddMonths(1))
+            {
+
+                string text = "T" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                month.Add(text);
+                Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+
+            }
+
+            ViewData["month"] = month;
+            ViewData["Earn"] = Earn;
+            return View();
+        }
+
+        public ActionResult Chart3(int startmonth = 0, int startyear = 0, int endmonth = 0, int endyear = 0)
+        {
+            DateTime Start = new DateTime();
+            DateTime End = new DateTime();
+            if (startmonth != 0)
+            {
+                Start = new DateTime(startyear, startmonth, 1);
+
+                End = new DateTime(endyear, endmonth, 30);
+                if (endyear == DateTime.UtcNow.AddHours(7).Year & endmonth == DateTime.UtcNow.AddHours(7).Month)
+                {
+                    End = DateTime.UtcNow.AddHours(7);
+                }
+            }
+            else
+            {
+                DateTime StartSell = new DateTime(2021, 4, 1);
+                Start = DateTime.UtcNow.AddHours(7).AddMonths(-12) > StartSell ? DateTime.UtcNow.AddHours(7).AddMonths(-12) : StartSell;
+                End = DateTime.UtcNow.AddHours(7);
+
+            }
+
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            List<string> month = new List<string>();
+            List<long> Earn = new List<long>();
+
+
+
+            for (DateTime i = Start; i <= End; i = i.AddMonths(1))
+            {
+
+                string text = "T" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                month.Add(text);
+                Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+
+            }
+
+            ViewData["month"] = month;
+            ViewData["Earn"] = Earn;
+            return View();
+        }
+        public ActionResult Chart4(int startmonth = 0, int startyear = 0, int endmonth = 0, int endyear = 0)
+        {
+            DateTime Start = new DateTime();
+            DateTime End = new DateTime();
+            
+            if (startmonth != 0)
+            {
+                Start = new DateTime(startyear, startmonth, 1);
+
+                End = new DateTime(endyear, endmonth, 30);
+                if (endyear == DateTime.UtcNow.AddHours(7).Year & endmonth == DateTime.UtcNow.AddHours(7).Month)
+                {
+                    End = DateTime.UtcNow.AddHours(7);
+                }
+            }
+            else
+            {
+                DateTime StartSell = new DateTime(2021, 4, 1);
+                Start = DateTime.UtcNow.AddHours(7).AddMonths(-12) > StartSell ? DateTime.UtcNow.AddHours(7).AddMonths(-12) : StartSell;
+                End = DateTime.UtcNow.AddHours(7);
+
+            }
+            var SellPD = DB.SellProducts.ToList().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= Start & j.DateSell <= End) == true);
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            
+
+            List<string> TypePD = new List<string>();
+            List<float> percent = new List<float>();
+            float sum = 0;
+            for (DateTime i = Start; i <= End; i = i.AddMonths(1))
+            {
+
+                sum = sum + Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity);
+
+             
+
+            }
+            float sum2;
+            foreach (var item in DBIO.getallProductT())
+            {
+                TypePD.Add(DBIO.RemoveUnicode(item.ProducTName));
+                sum2 = 0;
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) != null).Where(i => DBIO.getProductT_colorID(i.ColorID).ID == item.ID))
+                {
+                    sum2 = sum2 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum2 / sum * 100, 1));
+
+            }
+            float sum3 = 0;
+            if (SellPD.Any(i => DBIO.getProductT_colorID(i.ColorID) == null) == true)
+            {
+                TypePD.Add("Khac");
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) == null))
+                {
+                    sum3 = sum3 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum3 / sum * 100, 1));
+            }
+
+            ViewData["type"] = TypePD;
+            ViewData["percent"] = percent;
+            return View();
+        }
+        public ActionResult Month(int startmonth, int startyear, int endmonth, int endyear, int check)
+        {
+            if (check == 0)
+            {
+                ViewBag.End = new DateTime(endyear, endmonth, 1);
+            }
+            else
+            {
+                ViewBag.End = DateTime.UtcNow.AddHours(7);
+            }
+
+            ViewBag.Start = new DateTime(startyear, startmonth, 1);
+            return View();
+        }
+
+        public ActionResult Day(string startday, string endday, int check)
+        {
+            if (check == 0)
+            {
+                ViewBag.End = DateTime.ParseExact(endday, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); 
+            }
+            else
+            {
+                ViewBag.End = DateTime.UtcNow.AddHours(7);
+            }
+
+            ViewBag.Start = DateTime.ParseExact(startday, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); 
+            return View();
+        }
+        public ActionResult ChartDay(string daystart=null,string dayend=null)
+        {
+            DateTime Now = DateTime.UtcNow.AddHours(7);
+            DateTime Start = new DateTime(2021, 4, 1);
+            DateTime End = DateTime.UtcNow.AddHours(7);
+            if (dayend != null)
+            {
+                End = DateTime.ParseExact(dayend, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            }
+            if (daystart!=null)
+            {
+                Start = DateTime.ParseExact(daystart, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); 
+            }    
+            else if (DateTime.UtcNow.AddHours(7).AddDays(-30) > Start)
+            {
+                Start = DateTime.UtcNow.AddHours(7).AddDays(-30);
+            }
+            
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            List<string> month = new List<string>();
+            List<long> Earn = new List<long>();
+
+
+            if (dayend == null)
+            {
+                for (DateTime i = Start; i <= DateTime.UtcNow.AddHours(7); i = i.AddDays(1))
+                {
+
+                    string text = i.Day.ToString() + "-" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                    month.Add(text);
+                    Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month&j.DateSell.Day==i.Day&j.DateSell.Year==i.Year).Sum(j => j.Price * j.Quantity));
+
+                }
+            }
+            else
+            {
+                for (DateTime i = Start; i <= DateTime.ParseExact(dayend, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); i = i.AddDays(1))
+                {
+
+                    string text = i.Day.ToString() + "-" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                    month.Add(text);
+                    Earn.Add(Sell.Where(j=>j.DateSell.Month == i.Month & j.DateSell.Day == i.Day & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+
+                }
+            }
+          
+            ViewData["month"] = month;
+            ViewData["Earn"] = Earn;
+            return View("Chart2");
+        }
+
+        public ActionResult ChartDay2(string daystart = null, string dayend = null)
+        {
+            DateTime Now = DateTime.UtcNow.AddHours(7);
+            DateTime Start = new DateTime(2021, 4, 1);
+            if (daystart != null)
+            {
+                Start = DateTime.ParseExact(daystart, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); ;
+            }
+            else if (DateTime.UtcNow.AddHours(7).AddDays(-30) > Start)
+            {
+                Start = DateTime.UtcNow.AddHours(7).AddDays(-30);
+            }
+
+            var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            List<string> month = new List<string>();
+            List<long> Earn = new List<long>();
+
+
+            if (dayend == null)
+            {
+                for (DateTime i = Start; i <= DateTime.UtcNow.AddHours(7); i = i.AddDays(1))
+                {
+
+                    string text = i.Day.ToString() + "-" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                    month.Add(text);
+                    Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Day == i.Day & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+
+                }
+            }
+            else
+            {
+                for (DateTime i = Start; i <= DateTime.ParseExact(dayend, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); i = i.AddDays(1))
+                {
+
+                    string text = i.Day.ToString() + "-" + i.Month.ToString() + " - " + i.Year.ToString().Substring(2);
+
+                    month.Add(text);
+                    Earn.Add(Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Day == i.Day & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity));
+
+                }
+            }
+
+            ViewData["month"] = month;
+            ViewData["Earn"] = Earn;
+            return View("Chart3");
+        }
+
+        public ActionResult ChartDay3(string daystart = null, string dayend = null)
+        {
+            DateTime Now = DateTime.UtcNow.AddHours(7);
+            DateTime Start = new DateTime(2021, 4, 1);
+            DateTime End = DateTime.UtcNow.AddHours(7);
+            if(dayend != null)
+            {
+                End = DateTime.ParseExact(dayend, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            }
+            if (daystart != null)
+            {
+                Start = DateTime.ParseExact(daystart, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); ;
+            }
+            else if (DateTime.UtcNow.AddHours(7).AddDays(-30) > Start)
+            {
+                Start = DateTime.UtcNow.AddHours(7).AddDays(-30);
+            }
+            var SellPD = DB.SellProducts.ToList().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= Start & j.DateSell <= End) == true);
+               var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+
+
+               List<string> TypePD = new List<string>();
+               List<float> percent = new List<float>();
+
+            float sum = 0;
+            if (dayend == null)
+            {
+                for (DateTime i = Start; i <= DateTime.UtcNow.AddHours(7); i = i.AddDays(1))
+                {
+
+                   
+                    sum= sum + Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Day == i.Day & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity);
+
+                }
+            }
+            else
+            {
+                for (DateTime i = Start; i <= DateTime.ParseExact(dayend, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture); i = i.AddDays(1))
+                {
+
+                    sum = sum + Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Day == i.Day & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity);
+
+                }
+            }
+            float sum2;
+            foreach (var item in DBIO.getallProductT())
+            {
+                TypePD.Add(DBIO.RemoveUnicode(item.ProducTName));
+                sum2 = 0;
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) != null).Where(i => DBIO.getProductT_colorID(i.ColorID).ID == item.ID))
+                {
+                    sum2 = sum2 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum2 / sum * 100, 1));
+
+            }
+            float sum3 = 0;
+            if (SellPD.Any(i => DBIO.getProductT_colorID(i.ColorID) == null) == true)
+            {
+                TypePD.Add("Khac");
+                foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) == null))
+                {
+                    sum3 = sum3 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+                }
+                percent.Add((float)Math.Round(sum3 / sum * 100, 1));
+            }
+
+            ViewData["type"] = TypePD;
+            ViewData["percent"] = percent;
+            return View("Chart4");
+        }
+
+         //var SellPD = DB.SellProducts.ToList().Where(i => DBIO.getallSellDate(i.ID).Any(j => j.DateSell >= Start & j.DateSell <= End) == true);
+         //   var Sell = DB.SellDates.Where(i => i.DateSell >= Start).ToList();
+            
+
+         //   List<string> TypePD = new List<string>();
+         //   List<float> percent = new List<float>();
+         //   float sum = 0;
+         //   for (DateTime i = Start; i <= End; i = i.AddMonths(1))
+         //   {
+
+         //       sum = sum + Sell.Where(j => j.DateSell.Month == i.Month & j.DateSell.Year == i.Year).Sum(j => j.Price * j.Quantity);
+
+             
+
+         //   }
+         //   float sum2;
+         //   foreach (var item in DBIO.getallProductT())
+         //   {
+         //       TypePD.Add(DBIO.RemoveUnicode(item.ProducTName));
+         //       sum2 = 0;
+         //       foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) != null).Where(i => DBIO.getProductT_colorID(i.ColorID).ID == item.ID))
+         //       {
+         //           sum2 = sum2 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+         //       }
+         //       percent.Add((float)Math.Round(sum2 / sum * 100, 1));
+
+         //   }
+         //   float sum3 = 0;
+         //   if (SellPD.Any(i => DBIO.getProductT_colorID(i.ColorID) == null) == true)
+         //   {
+         //       TypePD.Add("Khac");
+         //       foreach (var item2 in SellPD.Where(i => DBIO.getProductT_colorID(i.ColorID) == null))
+         //       {
+         //           sum3 = sum3 + DBIO.getallSellDate(item2.ID).Where(j => j.DateSell >= Start & j.DateSell <= End).Sum(j => j.Price * j.Quantity);
+         //       }
+         //       percent.Add((float)Math.Round(sum3 / sum * 100, 1));
+         //   }
+
+         //   ViewData["type"] = TypePD;
+         //   ViewData["percent"] = percent;
+         //   return View();
     }
-    }
+}

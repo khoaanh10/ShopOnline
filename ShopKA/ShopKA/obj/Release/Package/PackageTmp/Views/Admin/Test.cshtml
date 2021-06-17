@@ -66,7 +66,7 @@
                                     @Html.EditorFor(model => model.OrderSale, new { @type = "hidden", @Value = 0 })
                                     @Html.EditorFor(model => model.ShipSale, new { @type = "hidden", @Value = 0 })
                                     @Html.EditorFor(model => model.Type, new { @type = "hidden", @Value = true })
-                                    @Html.EditorFor(model => model.Start, new { @type = "hidden", @Value = DateTime.Now })
+                                    @Html.EditorFor(model => model.Start, new { @type = "hidden", @Value = DateTime.UtcNow.AddHours(7) })
                                     <div class="u-s-m-b-30" style="margin-bottom:1.875rem;">
                                         @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "gl-label" })
 
